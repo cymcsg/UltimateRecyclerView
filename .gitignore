@@ -1,0 +1,42 @@
+# Android generated
+bin/
+gen/
+
+# Ant
+build.xml
+local.properties
+
+# Maven
+target/
+pom.xml.*
+release.properties
+
+# Eclipse
+.classpath
+.project
+.externalToolBuilders/
+.apt_generated/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+output/
+.gitignore.orig
+.project.bak
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.core.runtime.prefs
+.settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.jdt.launching.prefs
+.settings/
+.properties
+
+
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
