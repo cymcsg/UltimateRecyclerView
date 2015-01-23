@@ -90,4 +90,20 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
                     R.id.textview);
         }
     }
+
+    public void insert(String string, int position) {
+        stringList.add(position, string);
+        notifyItemInserted(position);
+    }
+
+    public void remove(int position) {
+        stringList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void clear() {
+        int size = stringList.size();
+        stringList.clear();
+        notifyItemRangeRemoved(0, size);
+    }
 }
