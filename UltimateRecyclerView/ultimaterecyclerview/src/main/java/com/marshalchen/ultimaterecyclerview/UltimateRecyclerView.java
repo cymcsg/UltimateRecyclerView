@@ -67,7 +67,7 @@ public class UltimateRecyclerView extends FrameLayout {
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
 
-                    int lastVisibleItemPosition = -1;
+                  //  int lastVisibleItemPosition = -1;
                     if (layoutManagerType == null) {
                         if (layoutManager instanceof LinearLayoutManager) {
                             layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
@@ -96,17 +96,7 @@ public class UltimateRecyclerView extends FrameLayout {
                             lastVisibleItemPosition = findMax(lastPositions);
                             break;
                     }
-                    Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
-                    if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
-                            (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
-                        Logs.d("loading more~~~~");
-                        isLoadingMore = true;
-                        if (onLoadMoreListener != null) {
-                            isLoadingMore = false;
-                            // mMoreProgress.setVisibility(View.VISIBLE);
-                            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), ITEM_LEFT_TO_LOAD_MORE, lastVisibleItemPosition);
-                        }
-                    }
+
 
 //                    if (((totalItemCount - lastVisibleItemPosition) <= ITEM_LEFT_TO_LOAD_MORE ||
 //                            (totalItemCount - lastVisibleItemPosition) == 0 && totalItemCount > visibleItemCount)
@@ -127,6 +117,20 @@ public class UltimateRecyclerView extends FrameLayout {
                     super.onScrollStateChanged(recyclerView, newState);
                     currentScrollState = newState;
                     Logs.d("state---" + currentScrollState);
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
+                    if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
+                            (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
+                        Logs.d("loading more~~~~");
+                        isLoadingMore = true;
+                        if (onLoadMoreListener != null) {
+                            isLoadingMore = false;
+                            // mMoreProgress.setVisibility(View.VISIBLE);
+                            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), ITEM_LEFT_TO_LOAD_MORE, lastVisibleItemPosition);
+                        }
+                    }
 
                 }
             };

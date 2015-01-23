@@ -58,12 +58,15 @@ public class MainActivity extends ActionBarActivity {
         });
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
-            public void loadMore(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+            public void loadMore(int overallItemsCount, int itemsBeforeMore, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         Logs.d("load more");
-                        simpleRecyclerViewAdapter.insert("More things", 0);
+                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        linearLayoutManager.scrollToPosition(maxLastVisiblePosition + 1);
                     }
                 }, 1000);
             }
