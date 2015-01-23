@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by cym on 15-1-20.
  */
-public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecyclerViewAdapter.ViewHolder> {
+public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<String> stringList;
 
     public SimpleRecyclerViewAdapter(List<String> stringList) {
@@ -39,12 +41,35 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
      * @see #onBindViewHolder(android.support.v7.widget.RecyclerView.ViewHolder, int)
      */
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
+                .inflate(R.layout.bottom_progressbar, parent, false);
+        if (viewType == 1) return new ProgressBarViewHolder(v);
+        else {
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
 
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    }
+
+
+    /**
+     * Return the view type of the item at <code>position</code> for the purposes
+     * of view recycling.
+     * <p/>
+     * <p>The default implementation of this method returns 0, making the assumption of
+     * a single view type for the adapter. Unlike ListView adapters, types need not
+     * be contiguous. Consider using id resources to uniquely identify item view types.
+     *
+     * @param position position to query
+     * @return integer value identifying the type of the view needed to represent the item at
+     * <code>position</code>. Type codes need not be contiguous.
+     */
+    @Override
+    public int getItemViewType(int position) {
+        if (position == stringList.size() - 1) return 1;
+        else
+            return super.getItemViewType(position);
     }
 
     /**
@@ -65,8 +90,9 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
      * @param position The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textViewSample.setText(stringList.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position < stringList.size() - 1)
+            ((ViewHolder) holder).textViewSample.setText(stringList.get(position));
     }
 
     /**
@@ -79,15 +105,39 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<SimpleRecycl
         return stringList.size();
     }
 
+    class ProgressBarViewHolder extends RecyclerView.ViewHolder {
+
+        TextView textViewSample;
+        ImageView imageViewSample;
+        ProgressBar progressBarSample;
+
+        public ProgressBarViewHolder(View itemView) {
+            super(itemView);
+
+            textViewSample = (TextView) itemView.findViewById(
+                    R.id.textview);
+            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
+            textViewSample.setVisibility(View.GONE);
+            imageViewSample.setVisibility(View.GONE);
+        }
+
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewSample;
+        ImageView imageViewSample;
+        ProgressBar progressBarSample;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
+            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
+            progressBarSample.setVisibility(View.GONE);
         }
     }
 
