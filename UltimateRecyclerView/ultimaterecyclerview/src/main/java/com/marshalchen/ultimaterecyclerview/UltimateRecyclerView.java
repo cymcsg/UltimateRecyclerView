@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -22,7 +23,8 @@ public class UltimateRecyclerView extends FrameLayout {
     protected RecyclerView.OnScrollListener mOnScrollListener;
     protected LAYOUT_MANAGER_TYPE layoutManagerType;
     private boolean isLoadingMore = false;
-    protected int ITEM_LEFT_TO_LOAD_MORE = 1;
+    protected int ITEM_LEFT_TO_LOAD_MORE = 10;
+    private int currentScrollState = 0;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -59,6 +61,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
+                    Logs.d("scroll-----" + dx + "    " + dy);
 
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
@@ -93,27 +96,44 @@ public class UltimateRecyclerView extends FrameLayout {
                             lastVisibleItemPosition = findMax(lastPositions);
                             break;
                     }
-
-                    if (((totalItemCount - lastVisibleItemPosition) <= ITEM_LEFT_TO_LOAD_MORE ||
-                            (totalItemCount - lastVisibleItemPosition) == 0 && totalItemCount > visibleItemCount)
-                            && !isLoadingMore) {
-
+                    Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
+                    if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
+                            (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
+                        Logs.d("loading more~~~~");
                         isLoadingMore = true;
                         if (onLoadMoreListener != null) {
+                            isLoadingMore = false;
                             // mMoreProgress.setVisibility(View.VISIBLE);
                             onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), ITEM_LEFT_TO_LOAD_MORE, lastVisibleItemPosition);
                         }
                     }
+
+//                    if (((totalItemCount - lastVisibleItemPosition) <= ITEM_LEFT_TO_LOAD_MORE ||
+//                            (totalItemCount - lastVisibleItemPosition) == 0 && totalItemCount > visibleItemCount)
+//                            && !isLoadingMore) {
+//
+//                        isLoadingMore = true;
+//                        if (onLoadMoreListener != null) {
+//                            isLoadingMore = false;
+//                            // mMoreProgress.setVisibility(View.VISIBLE);
+//                            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), ITEM_LEFT_TO_LOAD_MORE, lastVisibleItemPosition);
+//                        }
+//                    }
 
                 }
 
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
+                    currentScrollState = newState;
+                    Logs.d("state---" + currentScrollState);
 
                 }
             };
+            mRecyclerView.setOnScrollListener(mOnScrollListener);
         }
+
+
     }
 
 
@@ -156,33 +176,43 @@ public class UltimateRecyclerView extends FrameLayout {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
                 super.onItemRangeChanged(positionStart, itemCount);
-                //  update();
+                update();
             }
 
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                // update();
+                update();
             }
 
             @Override
             public void onItemRangeRemoved(int positionStart, int itemCount) {
                 super.onItemRangeRemoved(positionStart, itemCount);
-                //  update();
+                update();
             }
 
             @Override
             public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-                //update();
+                update();
             }
 
             @Override
             public void onChanged() {
                 super.onChanged();
-                //update();
+                update();
             }
 
+            private void update() {
+                //   mProgress.setVisibility(View.GONE);
+                isLoadingMore = false;
+                mSwipeRefreshLayout.setRefreshing(false);
+//                if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
+//                    mEmpty.setVisibility(View.VISIBLE);
+//                } else if (mEmptyId != 0) {
+//                    mEmpty.setVisibility(View.GONE);
+//                }
+            }
 
         });
     }
