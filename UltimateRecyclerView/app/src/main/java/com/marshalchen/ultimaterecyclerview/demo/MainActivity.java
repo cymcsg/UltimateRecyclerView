@@ -19,8 +19,9 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleRecyclerViewAdapter simpleRecyclerViewAdapter = null;
+    SimpleAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
+    int moreNum = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleRecyclerViewAdapter(stringList);
+        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
 
         stringList.add("111");
         stringList.add("aaa");
@@ -62,10 +63,10 @@ public class MainActivity extends ActionBarActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Logs.d("load more");
-                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        Logs.d("load more  " + simpleRecyclerViewAdapter.getAdapterItemCount() + "   " + maxLastVisiblePosition);
+                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         linearLayoutManager.scrollToPosition(maxLastVisiblePosition + 1);
                     }
                 }, 1000);

@@ -67,7 +67,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     @Override
     public int getItemViewType(int position) {
-        if (position == stringList.size() - 1) return 1;
+        if (position == stringList.size()) return 1;
         else
             return super.getItemViewType(position);
     }
@@ -91,7 +91,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position < stringList.size() - 1)
+        if (position < stringList.size())
             ((ViewHolder) holder).textViewSample.setText(stringList.get(position));
     }
 
@@ -102,7 +102,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     @Override
     public int getItemCount() {
-        return stringList.size();
+        return stringList.size() + 1;
     }
 
     class ProgressBarViewHolder extends RecyclerView.ViewHolder {

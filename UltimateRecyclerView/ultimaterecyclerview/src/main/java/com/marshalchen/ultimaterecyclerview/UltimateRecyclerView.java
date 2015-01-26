@@ -61,12 +61,9 @@ public class UltimateRecyclerView extends FrameLayout {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    Logs.d("scroll-----" + dx + "    " + dy);
-
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
-
                   //  int lastVisibleItemPosition = -1;
                     if (layoutManagerType == null) {
                         if (layoutManager instanceof LinearLayoutManager) {
@@ -116,11 +113,10 @@ public class UltimateRecyclerView extends FrameLayout {
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     currentScrollState = newState;
-                    Logs.d("state---" + currentScrollState);
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
-                    Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
+              //      Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
                     if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
                             (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
                         Logs.d("loading more~~~~");
