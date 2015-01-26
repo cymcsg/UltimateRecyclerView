@@ -43,7 +43,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.bottom_progressbar, parent, false);
+                .inflate(R.layout.recycler_view_adapter, parent, false);
         if (viewType == 1) return new ProgressBarViewHolder(v);
         else {
             ViewHolder vh = new ViewHolder(v);

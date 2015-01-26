@@ -10,13 +10,16 @@
         android:id="@+id/textview" />
 
     <ImageView
-        android:layout_marginLeft="40dp"
-        android:layout_toRightOf="@id/textview"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageview"
         android:src="@drawable/test" />
+
     <ProgressBar
-        android:layout_width="wrap_content" android:id="@+id/progressbar"
-        android:layout_height="wrap_content" android:layout_centerHorizontal="true"/>
+        android:layout_width="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

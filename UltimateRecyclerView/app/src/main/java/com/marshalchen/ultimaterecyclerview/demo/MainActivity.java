@@ -63,9 +63,9 @@ public class MainActivity extends ActionBarActivity {
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         Logs.d("load more");
-                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
-                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
-                        simpleRecyclerViewAdapter.insert("More things  " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
+                        simpleRecyclerViewAdapter.insert("More " + System.currentTimeMillis(), simpleRecyclerViewAdapter.getItemCount());
                         linearLayoutManager.scrollToPosition(maxLastVisiblePosition + 1);
                     }
                 }, 1000);
