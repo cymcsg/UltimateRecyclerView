@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
+
 /**
  * Created by cym on 15-1-20.
  */
@@ -132,11 +134,38 @@ public class UltimateRecyclerView extends FrameLayout {
                 }
             };
             mRecyclerView.setOnScrollListener(mOnScrollListener);
+
         }
 
 
     }
 
+
+    public void addItemDividerDecoration(Context context) {
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
+        mRecyclerView.addItemDecoration(itemDecoration);
+    }
+    /**
+     * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views.
+     * <p>Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</p>
+     *
+     * @param itemDecoration Decoration to add
+     */
+    public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        mRecyclerView.addItemDecoration(itemDecoration);
+    }
+
+    /**
+     * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views.
+     * <p>Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</p>
+     *
+     * @param itemDecoration Decoration to add
+     * @param index          Position in the decoration chain to insert this decoration at. If this value is negative the decoration will be added at the end.
+     */
+    public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration, int index) {
+        mRecyclerView.addItemDecoration(itemDecoration, index);
+    }
 
     /**
      * Set the listener when refresh is triggered and enable the SwipeRefreshLayout
