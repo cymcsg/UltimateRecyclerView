@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -64,7 +65,7 @@ public class UltimateRecyclerView extends FrameLayout {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
-                  //  int lastVisibleItemPosition = -1;
+                    //  int lastVisibleItemPosition = -1;
                     if (layoutManagerType == null) {
                         if (layoutManager instanceof LinearLayoutManager) {
                             layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
@@ -116,7 +117,7 @@ public class UltimateRecyclerView extends FrameLayout {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
-              //      Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
+                    //      Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
                     if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
                             (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
                         Logs.d("loading more~~~~");
@@ -230,6 +231,9 @@ public class UltimateRecyclerView extends FrameLayout {
         mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
+    public void enableSwipeRefresh(boolean isSwipeRefresh) {
+        mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
+    }
 
     private void initAttrs() {
 
