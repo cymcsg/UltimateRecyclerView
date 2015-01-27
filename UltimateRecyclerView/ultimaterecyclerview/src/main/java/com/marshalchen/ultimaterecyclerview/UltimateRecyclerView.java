@@ -146,6 +146,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
         mRecyclerView.addItemDecoration(itemDecoration);
     }
+
     /**
      * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views.
      * <p>Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</p>
@@ -165,6 +166,34 @@ public class UltimateRecyclerView extends FrameLayout {
      */
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration, int index) {
         mRecyclerView.addItemDecoration(itemDecoration, index);
+    }
+
+    /**
+     * Sets the {@link RecyclerView.ItemAnimator} that will handle animations involving changes
+     * to the items in this RecyclerView. By default, RecyclerView instantiates and
+     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}. Whether item animations are
+     * enabled for the RecyclerView depends on the ItemAnimator and whether
+     * the LayoutManager {@link android.support.v7.widget.RecyclerView.LayoutManager#supportsPredictiveItemAnimations()
+     * supports item animations}.
+     *
+     * @param animator The ItemAnimator being set. If null, no animations will occur
+     *                 when changes occur to the items in this RecyclerView.
+     */
+    public void setItemAnimator(RecyclerView.ItemAnimator animator) {
+        mRecyclerView.setItemAnimator(animator);
+    }
+
+    /**
+     * Gets the current ItemAnimator for this RecyclerView. A null return value
+     * indicates that there is no animator and that item changes will happen without
+     * any animations. By default, RecyclerView instantiates and
+     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}.
+     *
+     * @return ItemAnimator The current ItemAnimator. If null, no animations will occur
+     * when changes occur to the items in this RecyclerView.
+     */
+    public RecyclerView.ItemAnimator getItemAnimator() {
+        return mRecyclerView.getItemAnimator();
     }
 
     /**
