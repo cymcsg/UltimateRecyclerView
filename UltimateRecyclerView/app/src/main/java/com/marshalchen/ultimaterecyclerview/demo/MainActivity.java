@@ -5,12 +5,19 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
@@ -72,28 +85,104 @@ public class MainActivity extends ActionBarActivity {
                 }, 1000);
             }
         });
+
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> spinnerAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        for (Type type : Type.values()) {
+            spinnerAdapter.add(type.getTitle());
+        }
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Logs.d("selected---" + Type.values()[position].getTitle());
+                ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
+                ultimateRecyclerView.getItemAnimator().setAddDuration(300);
+                ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleRecyclerViewAdapter.insert("newly added item", 1);
+            }
+        });
+
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleRecyclerViewAdapter.remove(1);
+            }
+        });
     }
 
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    enum Type {
+        FadeIn("FadeIn", new FadeInAnimator()),
+        FadeInDown("FadeInDown", new FadeInDownAnimator()),
+        FadeInUp("FadeInUp", new FadeInUpAnimator()),
+        FadeInLeft("FadeInLeft", new FadeInLeftAnimator()),
+        FadeInRight("FadeInRight", new FadeInRightAnimator()),
+        Landing("Landing", new LandingAnimator()),
+        ScaleIn("ScaleIn", new ScaleInAnimator()),
+        ScaleInTop("ScaleInTop", new ScaleInTopAnimator()),
+        ScaleInBottom("ScaleInBottom", new ScaleInBottomAnimator()),
+        ScaleInLeft("ScaleInLeft", new ScaleInLeftAnimator()),
+        ScaleInRight("ScaleInRight", new ScaleInRightAnimator()),
+        FlipInTopX("FlipInTopX", new FlipInTopXAnimator()),
+        FlipInBottomX("FlipInBottomX", new FlipInBottomXAnimator()),
+        FlipInLeftY("FlipInLeftY", new FlipInLeftYAnimator()),
+        FlipInRightY("FlipInRightY", new FlipInRightYAnimator()),
+        SlideInLeft("SlideInLeft", new SlideInLeftAnimator()),
+        SlideInRight("SlideInRight", new SlideInRightAnimator()),
+        SlideInDown("SlideInDown", new SlideInDownAnimator()),
+        SlideInUp("SlideInUp", new SlideInUpAnimator()),
+        OvershootInRight("OvershootInRight", new OvershootInRightAnimator()),
+        OvershootInLeft("OvershootInLeft", new OvershootInLeftAnimator());
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        private String mTitle;
+        private BaseItemAnimator mAnimator;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Type(String title, BaseItemAnimator animator) {
+            mTitle = title;
+            mAnimator = animator;
         }
 
-        return super.onOptionsItemSelected(item);
+        public BaseItemAnimator getAnimator() {
+            return mAnimator;
+        }
+
+        public String getTitle() {
+            return mTitle;
+        }
     }
 }
