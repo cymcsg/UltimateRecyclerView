@@ -11,7 +11,17 @@ Notice that UltimateRecyclerView is a project under development,please ``do not`
 
 ![ultimate_recyclerview](http://blog.marshalchen.com/images/ultimate_recyclerview.gif)
 
-###More feature:
+###Upcoming features:
+* Swipe to dismiss
+* More animations
+* Custom views in loading more
+* Colorful style of SwipeRefreshLayout
+* ...
+
+If you have some good idea, please mention us.My email is cymcsg # gmail.com
+
+####Welcome to fork.
+
 
 
 ###Thanks
