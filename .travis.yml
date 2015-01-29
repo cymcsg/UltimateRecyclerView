@@ -16,7 +16,8 @@ env:
 
 before_install:
     # Making sure gradlew has executable permissions
-    - chmod +x gradlew
+    - cd UltimateRecyclerView
+    - chmod a+x gradlew
 
 android:
   components:
@@ -35,5 +36,5 @@ android:
      - 'android-sdk-license-.+'
 
 script:
-  cd UltimateRecyclerView
+
   ./gradlew build
