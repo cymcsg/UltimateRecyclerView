@@ -1,5 +1,8 @@
 # UltimateRecyclerView
+[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with refreshing,loading more,animation and many other features.You can use it ```just like RecyclerView```.

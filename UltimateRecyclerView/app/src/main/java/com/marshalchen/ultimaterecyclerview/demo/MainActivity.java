@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity {
                 }, 1000);
             }
         });
+       // setSwipe();
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -123,7 +124,15 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-//
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
+    //
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.

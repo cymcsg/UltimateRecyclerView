@@ -19,41 +19,18 @@ package com.marshalchen.ultimaterecyclerview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.ListActivity;
+import android.app.ListFragment;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-/**
- * A {@link android.view.View.OnTouchListener} that makes any {@link android.view.View} dismissable when the
- * user swipes (drags her finger) horizontally across the view.
- *
- * <p><em>For {@link android.widget.ListView} list items that don't manage their own touch events
- * (i.e. you're using
- * {@link android.widget.ListView#setOnItemClickListener(android.widget.AdapterView.OnItemClickListener)}
- * or an equivalent listener on {@link android.app.ListActivity} or
- * {@link android.app.ListFragment}, use {@link SwipeDismissListViewTouchListener} instead.</em></p>
- *
- * <p>Example usage:</p>
- *
- * <pre>
- * view.setOnTouchListener(new SwipeDismissTouchListener(
- *         view,
- *         null, // Optional token/cookie object
- *         new SwipeDismissTouchListener.OnDismissCallback() {
- *             public void onDismiss(View view, Object token) {
- *                 parent.removeView(view);
- *             }
- *         }));
- * </pre>
- *
- * <p>This class Requires API level 12 or later due to use of {@link
- * android.view.ViewPropertyAnimator}.</p>
- *
- * @see SwipeDismissListViewTouchListener
- */
-public class SwipeDismissItemTouchListener implements View.OnTouchListener {
+
+public class SwipeDismissTouchListener implements View.OnTouchListener {
     // Cached ViewConfiguration and system-wide constant values
     private int mSlop;
     private int mMinFlingVelocity;
@@ -75,7 +52,7 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
     private float mTranslationX;
 
     /**
-     * The callback interface used by {@link com.marshalchen.ultimaterecyclerview.SwipeDismissItemTouchListener} to inform its client
+     * The callback interface used by {@link com.marshalchen.ultimaterecyclerview.SwipeDismissTouchListener} to inform its client
      * about a successful dismissal of the view for which it was created.
      */
     public interface DismissCallbacks {
@@ -96,12 +73,12 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
     /**
      * Constructs a new swipe-to-dismiss touch listener for the given view.
      *
-     * @param view     The view to make dismissable.
-     * @param token    An optional token/cookie object to be passed through to the callback.
+     * @param view      The view to make dismissable.
+     * @param token     An optional token/cookie object to be passed through to the callback.
      * @param callbacks The callback to trigger when the user has indicated that she would like to
-     *                 dismiss this view.
+     *                  dismiss this view.
      */
-    public SwipeDismissItemTouchListener(View view, Object token, DismissCallbacks callbacks) {
+    public SwipeDismissTouchListener(View view, Object token, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(view.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -131,7 +108,7 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
                     mVelocityTracker = VelocityTracker.obtain();
                     mVelocityTracker.addMovement(motionEvent);
                 }
-                return false;
+                return true;
             }
 
             case MotionEvent.ACTION_UP: {
@@ -157,6 +134,7 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
                     dismiss = (velocityX < 0) == (deltaX < 0);
                     dismissRight = mVelocityTracker.getXVelocity() > 0;
                 }
+                Logs.d("up----" + dismiss + "    " + dismissRight);
                 if (dismiss) {
                     // dismiss
                     mView.animate()
@@ -245,7 +223,7 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
         // Animate the dismissed view to zero-height and then fire the dismiss callback.
         // This triggers layout on each animation frame; in the future we may want to do something
         // smarter and more performant.
-
+        Logs.d("performDismiss");
         final ViewGroup.LayoutParams lp = mView.getLayoutParams();
         final int originalHeight = mView.getHeight();
 
@@ -267,7 +245,10 @@ public class SwipeDismissItemTouchListener implements View.OnTouchListener {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 lp.height = (Integer) valueAnimator.getAnimatedValue();
+                Logs.d("height---" + lp.height);
+                // if (lp.height > 100)
                 mView.setLayoutParams(lp);
+                mView.setVisibility(View.GONE);
             }
         });
 

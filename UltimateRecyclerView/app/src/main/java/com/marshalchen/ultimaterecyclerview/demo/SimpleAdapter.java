@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.Logs;
+import com.marshalchen.ultimaterecyclerview.SwipeDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
         notifyItemRangeRemoved(0, size);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
@@ -72,7 +73,20 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Object token) {
+                    Logs.d("can dismiss");
+                    return true;
+                }
 
+                @Override
+                public void onDismiss(View view, Object token) {
+                    Logs.d("dismiss");
+                    remove(getPosition());
+
+                }
+            }));
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
