@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.Logs;
+import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
@@ -85,8 +87,23 @@ public class MainActivity extends ActionBarActivity {
                 }, 1000);
             }
         });
-       // setSwipe();
+        // setSwipe();
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(ultimateRecyclerView.mRecyclerView, new SwipeToDismissTouchListener.DismissCallbacks() {
+            @Override
+            public SwipeToDismissTouchListener.SwipeDirection canDismiss(int position) {
+                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
+            }
 
+            @Override
+            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
+                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
+//                    adapter.removeItem(data.position);
+//                    adapter.notifyItemRemoved(data.position);
+                    Logs.d("data-----" + data.position + "    " + data.toString());
+                    simpleRecyclerViewAdapter.remove(data.position);
+                }
+            }
+        }));
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -123,7 +140,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
 
 
     @Override

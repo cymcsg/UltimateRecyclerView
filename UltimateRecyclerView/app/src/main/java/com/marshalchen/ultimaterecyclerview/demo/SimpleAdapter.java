@@ -52,6 +52,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
             System.out.print(s + "   ");
         notifyItemInserted(position);
         notifyItemChanged(position + 1);
+        notifyItemChanged(position);
     }
 
     public void remove(int position) {
@@ -65,7 +66,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
         notifyItemRangeRemoved(0, size);
     }
 
-     class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
@@ -73,20 +74,20 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
-                @Override
-                public boolean canDismiss(Object token) {
-                    Logs.d("can dismiss");
-                    return true;
-                }
-
-                @Override
-                public void onDismiss(View view, Object token) {
-                    Logs.d("dismiss");
-                    remove(getPosition());
-
-                }
-            }));
+//            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
+//                @Override
+//                public boolean canDismiss(Object token) {
+//                    Logs.d("can dismiss");
+//                    return true;
+//                }
+//
+//                @Override
+//                public void onDismiss(View view, Object token) {
+//                   // Logs.d("dismiss");
+//                    remove(getPosition());
+//
+//                }
+//            }));
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
