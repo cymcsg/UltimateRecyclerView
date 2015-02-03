@@ -36,7 +36,7 @@ import java.util.List;
  * {@code
  * swipeToDismissTouchListener = new SwipeToDismissTouchListener(recyclerView, new SwipeToDismissTouchListener.DismissCallbacks() {
  *           @Override
- *          public SwipeToDismissTouchListener.SwipeDirection canDismiss(int position) {
+ *          public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
  *              return SwipeToDismissTouchListener.SwipeDirection.RIGHT;
  *          }
  *           @Override
@@ -150,7 +150,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         mSwipeView = mRecyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
         if (mSwipeView == null) return false;
         int pos = mRecyclerView.getChildPosition(mSwipeView);
-        mAllowedSwipeDirection = mCallbacks.canDismiss(pos);
+        mAllowedSwipeDirection = mCallbacks.dismissDirection(pos);
         if (mAllowedSwipeDirection != SwipeDirection.NONE) {
 
             mVelocityTracker = VelocityTracker.obtain();
@@ -298,7 +298,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
 
 
     public interface DismissCallbacks {
-        SwipeDirection canDismiss(int position);
+        SwipeDirection dismissDirection(int position);
 
         void onDismiss(RecyclerView view, List<PendingDismissData> dismissData);
     }

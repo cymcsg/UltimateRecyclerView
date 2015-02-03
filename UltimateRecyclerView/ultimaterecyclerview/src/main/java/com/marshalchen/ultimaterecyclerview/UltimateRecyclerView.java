@@ -19,7 +19,7 @@ import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
  * Created by cym on 15-1-20.
  */
 public class UltimateRecyclerView extends FrameLayout {
-   public  RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private OnLoadMoreListener onLoadMoreListener;
     private int lastVisibleItemPosition;
@@ -150,6 +150,10 @@ public class UltimateRecyclerView extends FrameLayout {
 //        });
     }
 
+
+    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
+        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks));
+    }
 
     public void addItemDividerDecoration(Context context) {
         RecyclerView.ItemDecoration itemDecoration =
