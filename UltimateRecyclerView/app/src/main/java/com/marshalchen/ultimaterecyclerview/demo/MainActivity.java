@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -88,22 +85,21 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         // setSwipe();
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(ultimateRecyclerView.mRecyclerView, new SwipeToDismissTouchListener.DismissCallbacks() {
+        ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
-            public SwipeToDismissTouchListener.SwipeDirection canDismiss(int position) {
+            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
                 return SwipeToDismissTouchListener.SwipeDirection.BOTH;
             }
 
             @Override
             public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
                 for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-//                    adapter.removeItem(data.position);
-//                    adapter.notifyItemRemoved(data.position);
                     Logs.d("data-----" + data.position + "    " + data.toString());
                     simpleRecyclerViewAdapter.remove(data.position);
                 }
             }
-        }));
+        });
+
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =

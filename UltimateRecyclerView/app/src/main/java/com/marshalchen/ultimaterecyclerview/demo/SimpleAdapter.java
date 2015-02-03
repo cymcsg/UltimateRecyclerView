@@ -52,7 +52,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
             System.out.print(s + "   ");
         notifyItemInserted(position);
         notifyItemChanged(position + 1);
-        notifyItemChanged(position);
+        // notifyItemChanged(position);
     }
 
     public void remove(int position) {
