@@ -67,6 +67,19 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 //    public abstract void insert(int position);
 
 
+    public void toggleSelection(int pos) {
+        notifyItemChanged(pos);
+    }
+
+
+    public void clearSelection(int pos) {
+        notifyItemChanged(pos);
+    }
+
+    public void clearSelections() {
+        notifyDataSetChanged();
+    }
+
     class ProgressBarViewHolder extends RecyclerView.ViewHolder {
         public ProgressBarViewHolder(View itemView) {
             super(itemView);
