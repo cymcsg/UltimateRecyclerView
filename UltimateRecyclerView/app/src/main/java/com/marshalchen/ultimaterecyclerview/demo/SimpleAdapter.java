@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.SwipeDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,8 +30,11 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position < stringList.size())
+        if (position < stringList.size()) {
             ((ViewHolder) holder).textViewSample.setText(stringList.get(position));
+            // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
+        }
+
     }
 
     @Override
@@ -46,25 +52,37 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
 
     public void insert(String string, int position) {
-        stringList.add(position, string);
-        System.out.print("  insert:   ");
-        for (String s : stringList)
-            System.out.print(s + "   ");
-        notifyItemInserted(position);
-        notifyItemChanged(position + 1);
-        // notifyItemChanged(position);
+        insert(stringList, string, position);
     }
 
     public void remove(int position) {
-        stringList.remove(position);
-        notifyItemRemoved(position);
+        remove(stringList, position);
     }
 
     public void clear() {
-        int size = stringList.size();
-        stringList.clear();
-        notifyItemRangeRemoved(0, size);
+        clear(stringList);
     }
+
+    @Override
+    public void toggleSelection(int pos) {
+        super.toggleSelection(pos);
+    }
+
+    @Override
+    public void setSelected(int pos) {
+        super.setSelected(pos);
+    }
+
+    @Override
+    public void clearSelection(int pos) {
+        super.clearSelection(pos);
+    }
+
+
+    public void swapPositions(int from, int to) {
+        swapPositions(stringList, from, to);
+    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

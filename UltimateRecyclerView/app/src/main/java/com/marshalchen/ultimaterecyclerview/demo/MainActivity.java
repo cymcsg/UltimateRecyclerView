@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -22,19 +27,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
+    private ActionMode actionMode;
+    DragDropTouchListener dragDropTouchListener;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -101,6 +109,44 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
+        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
+            @Override
+            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
+                simpleRecyclerViewAdapter.swapPositions(from, to);
+                simpleRecyclerViewAdapter.clearSelection(from);
+                simpleRecyclerViewAdapter.notifyItemChanged(to);
+                if (actionMode != null) actionMode.finish();
+                Logs.d("switch----");
+            }
+
+            @Override
+            protected void onItemDrop(RecyclerView recyclerView, int position) {
+                Logs.d("drop----");
+                ultimateRecyclerView.enableSwipeRefresh(true);
+            }
+        };
+
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
+                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
+                    @Override
+                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
+                        Logs.d("onItemClick()");
+                        if (actionMode != null) {
+                            toggleSelection(position);
+                        }
+                    }
+
+                    @Override
+                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
+                        Logs.d("", "onItemLongClick()");
+                        toolbar.startActionMode(MainActivity.this);
+                        toggleSelection(position);
+                        dragDropTouchListener.startDrag();
+                        ultimateRecyclerView.enableSwipeRefresh(false);
+                    }
+                }));
+
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -137,6 +183,10 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private void toggleSelection(int position) {
+        simpleRecyclerViewAdapter.toggleSelection(position);
+        actionMode.setTitle("Selected " + "1");
+    }
 
     @Override
     protected void onDestroy() {
@@ -144,13 +194,61 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
+
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        Logs.d("actionmode---" + (mode == null));
+        mode.getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+        //  return false;
+    }
+
+    /**
+     * Called to refresh an action mode's action menu whenever it is invalidated.
+     *
+     * @param mode ActionMode being prepared
+     * @param menu Menu used to populate action buttons
+     * @return true if the menu or action mode was updated, false otherwise.
+     */
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        // swipeToDismissTouchListener.setEnabled(false);
+        this.actionMode = mode;
+        return false;
+    }
+
+    /**
+     * Called to report a user click on an action button.
+     *
+     * @param mode The current ActionMode
+     * @param item The item that was clicked
+     * @return true if this callback handled the event, false if the standard MenuItem
+     * invocation should continue.
+     */
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        return false;
+    }
+
+    /**
+     * Called when an action mode is about to be exited and destroyed.
+     *
+     * @param mode The current ActionMode being destroyed
+     */
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        this.actionMode = null;
+    }
+
+
     //
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 //
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
