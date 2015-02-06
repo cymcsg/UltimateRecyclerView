@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by cym on 15-1-20.
  */
@@ -76,8 +79,31 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemChanged(pos);
     }
 
-    public void clearSelections() {
-        notifyDataSetChanged();
+    public void setSelected(int pos) {
+        notifyItemChanged(pos);
+    }
+
+
+
+    public void swapPositions(List<?> list, int from, int to) {
+        Collections.swap(list, from, to);
+    }
+
+    public <T> void insert(List<T> list, T object, int position) {
+        list.add(position, object);
+        notifyItemInserted(position);
+        notifyItemChanged(position + 1);
+    }
+
+    public void remove(List<?> list,int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void clear(List<?> list) {
+        int size = list.size();
+        list.clear();
+        notifyItemRangeRemoved(0, size);
     }
 
     class ProgressBarViewHolder extends RecyclerView.ViewHolder {
