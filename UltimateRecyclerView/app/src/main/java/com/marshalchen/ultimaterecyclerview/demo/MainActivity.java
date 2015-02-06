@@ -92,7 +92,30 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }, 1000);
             }
         });
-        // setSwipe();
+
+
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
+                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
+                    @Override
+                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
+                        Logs.d("onItemClick()");
+                        if (actionMode != null) {
+                            toggleSelection(position);
+                        }
+                    }
+
+                    @Override
+                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
+                        Logs.d("onItemLongClick()");
+                        toolbar.startActionMode(MainActivity.this);
+                        toggleSelection(position);
+                        dragDropTouchListener.startDrag();
+                        ultimateRecyclerView.enableSwipeRefresh(false);
+                    }
+                }));
+
+
+
         ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
             public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
@@ -127,25 +150,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         };
 
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
-                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
-                    @Override
-                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("onItemClick()");
-                        if (actionMode != null) {
-                            toggleSelection(position);
-                        }
-                    }
 
-                    @Override
-                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("", "onItemLongClick()");
-                        toolbar.startActionMode(MainActivity.this);
-                        toggleSelection(position);
-                        dragDropTouchListener.startDrag();
-                        ultimateRecyclerView.enableSwipeRefresh(false);
-                    }
-                }));
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -218,24 +223,13 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         return false;
     }
 
-    /**
-     * Called to report a user click on an action button.
-     *
-     * @param mode The current ActionMode
-     * @param item The item that was clicked
-     * @return true if this callback handled the event, false if the standard MenuItem
-     * invocation should continue.
-     */
+
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         return false;
     }
 
-    /**
-     * Called when an action mode is about to be exited and destroyed.
-     *
-     * @param mode The current ActionMode being destroyed
-     */
+
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         this.actionMode = null;
