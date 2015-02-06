@@ -115,7 +115,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }));
 
 
-
         ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
             public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
@@ -148,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 ultimateRecyclerView.enableSwipeRefresh(true);
             }
         };
-
+        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 
 
