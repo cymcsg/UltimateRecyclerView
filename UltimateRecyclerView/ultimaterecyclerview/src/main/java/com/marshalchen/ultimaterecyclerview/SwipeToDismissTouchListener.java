@@ -143,8 +143,9 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
     }
 
     private boolean down(MotionEvent motionEvent) {
-        if (mPaused) return false;
 
+        if (mPaused) return false;
+        mCallbacks.onTouchDown();
         mDownX = motionEvent.getRawX();
         mDownY = motionEvent.getRawY();
         mSwipeView = mRecyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
@@ -277,6 +278,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }
+        mCallbacks.onResetMotion();
         mTranslationX = 0;
         mDownX = 0;
         mDownY = 0;
@@ -301,6 +303,9 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         SwipeDirection dismissDirection(int position);
 
         void onDismiss(RecyclerView view, List<PendingDismissData> dismissData);
+
+        void onResetMotion();
+        void onTouchDown();
     }
 
 
