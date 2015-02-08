@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +8,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.Logs;
-import com.marshalchen.ultimaterecyclerview.SwipeDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by cym on 15-1-26.
- */
+
 public class SimpleAdapter extends UltimateViewAdapter {
     private List<String> stringList;
 

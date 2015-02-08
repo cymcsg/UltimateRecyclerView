@@ -145,7 +145,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
     private boolean down(MotionEvent motionEvent) {
 
         if (mPaused) return false;
-        mCallbacks.onTouchDown();
+
         mDownX = motionEvent.getRawX();
         mDownY = motionEvent.getRawY();
         mSwipeView = mRecyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
@@ -264,6 +264,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         }
 
         if (mSwiping) {
+            mCallbacks.onTouchDown();
             mTranslationX = deltaX;
             mSwipeView.setTranslationX(deltaX - mSwipingSlop);
             mSwipeView.setAlpha(Math.max(0f, Math.min(1f,

@@ -35,7 +35,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
     int moreNum = 100;
     private ActionMode actionMode;
     DragDropTouchListener dragDropTouchListener;
+    ItemTouchListenerAdapter itemTouchListenerAdapter;
     Toolbar toolbar;
+    boolean isDrag = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,27 +96,30 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
+        itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
                     public void onItemClick(RecyclerView parent, View clickedView, int position) {
                         Logs.d("onItemClick()");
-                        if (actionMode != null) {
+                        if (actionMode != null && isDrag) {
                             toggleSelection(position);
                         }
                     }
 
                     @Override
                     public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("onItemLongClick()");
-                        toolbar.startActionMode(MainActivity.this);
-                        toggleSelection(position);
-                        dragDropTouchListener.startDrag();
-                        ultimateRecyclerView.enableSwipeRefresh(false);
-                    }
-                }));
+                        Logs.d("onItemLongClick()"+isDrag);
+                        if (isDrag) {
+                            Logs.d("onItemLongClick()"+isDrag);
+                            toolbar.startActionMode(MainActivity.this);
+                            toggleSelection(position);
+                            dragDropTouchListener.startDrag();
+                            ultimateRecyclerView.enableSwipeRefresh(false);
+                        }
 
+                    }
+                });
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
 
         ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
@@ -127,6 +133,20 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                     Logs.d("data-----" + data.position + "    " + data.toString());
                     simpleRecyclerViewAdapter.remove(data.position);
                 }
+            }
+
+            @Override
+            public void onResetMotion() {
+                isDrag = true;
+                Logs.d("touchdown=---"+isDrag);
+            }
+
+            @Override
+            public void onTouchDown() {
+                isDrag = false;
+                Logs.d("touchdown=---"+isDrag);
+                //  ultimateRecyclerView.mRecyclerView.removeOnItemTouchListener(itemTouchListenerAdapter);
+
             }
         });
 
