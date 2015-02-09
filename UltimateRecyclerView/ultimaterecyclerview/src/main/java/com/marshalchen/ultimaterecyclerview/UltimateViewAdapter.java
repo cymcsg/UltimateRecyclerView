@@ -13,29 +13,33 @@ import java.util.List;
  */
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private View customLoadMoreView = null;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.bottom_progressbar, parent, false);
-        if (viewType == 1) return new ProgressBarViewHolder(v);
+        if (viewType == 1) {
+            Logs.d("custom load more view   "+(customLoadMoreView==null));
+            if (customLoadMoreView == null) {
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.bottom_progressbar, parent, false);
+                return new ProgressBarViewHolder(v);
+            } else {
+                return new ProgressBarViewHolder(customLoadMoreView);
+            }
+        }
+
+
         return onCreateViewHolder(parent);
 
     }
 
+    public void setCustomLoadMoreView(View view) {
+        customLoadMoreView = view;
+    }
+
     public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
 
-    /**
-     * Return the view type of the item at <code>position</code> for the purposes
-     * of view recycling.
-     * <p/>
-     * <p>The default implementation of this method returns 0, making the assumption of
-     * a single view type for the adapter. Unlike ListView adapters, types need not
-     * be contiguous. Consider using id resources to uniquely identify item view types.
-     *
-     * @param position position to query
-     * @return integer value identifying the type of the view needed to represent the item at
-     * <code>position</code>. Type codes need not be contiguous.
-     */
+
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
@@ -84,7 +88,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-
     public void swapPositions(List<?> list, int from, int to) {
         Collections.swap(list, from, to);
     }
@@ -95,7 +98,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemChanged(position + 1);
     }
 
-    public void remove(List<?> list,int position) {
+    public void remove(List<?> list, int position) {
         list.remove(position);
         notifyItemRemoved(position);
     }
