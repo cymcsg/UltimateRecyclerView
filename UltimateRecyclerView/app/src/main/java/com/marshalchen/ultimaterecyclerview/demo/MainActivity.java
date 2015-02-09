@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +55,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
         simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
+                .inflate(R.layout.custom_bottom_progressbar, null));
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
@@ -138,13 +140,11 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onResetMotion() {
                 isDrag = true;
-                Logs.d("touchdown=---"+isDrag);
             }
 
             @Override
             public void onTouchDown() {
                 isDrag = false;
-                Logs.d("touchdown=---"+isDrag);
                 //  ultimateRecyclerView.mRecyclerView.removeOnItemTouchListener(itemTouchListenerAdapter);
 
             }
