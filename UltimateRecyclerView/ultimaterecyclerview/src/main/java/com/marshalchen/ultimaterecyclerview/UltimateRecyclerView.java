@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,9 +16,7 @@ import android.widget.FrameLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 
-/**
- * Created by cym on 15-1-20.
- */
+
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -28,6 +27,12 @@ public class UltimateRecyclerView extends FrameLayout {
     private boolean isLoadingMore = false;
     protected int ITEM_LEFT_TO_LOAD_MORE = 10;
     private int currentScrollState = 0;
+    protected int mPadding;
+    protected int mPaddingTop;
+    protected int mPaddingBottom;
+    protected int mPaddingLeft;
+    protected int mPaddingRight;
+    protected boolean mClipToPadding;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -36,11 +41,13 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public UltimateRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAttrs(attrs);
         initViews();
     }
 
     public UltimateRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttrs(attrs);
         initViews();
     }
 
@@ -48,6 +55,8 @@ public class UltimateRecyclerView extends FrameLayout {
 //        View v = LayoutInflater.from(getContext()).inflate(R.layout.ultimate_recycler_view_layout, this);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
+
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setEnabled(false);
@@ -57,7 +66,6 @@ public class UltimateRecyclerView extends FrameLayout {
                 android.R.color.holo_red_light);
 
         if (mRecyclerView != null) {
-            //  mRecyclerView.setClipToPadding(mClipToPadding);
             mOnScrollListener = new RecyclerView.OnScrollListener() {
                 private int[] lastPositions;
 
@@ -134,7 +142,12 @@ public class UltimateRecyclerView extends FrameLayout {
                 }
             };
             mRecyclerView.setOnScrollListener(mOnScrollListener);
-
+            mRecyclerView.setClipToPadding(mClipToPadding);
+            if (mPadding != -1.1f) {
+                mRecyclerView.setPadding(mPadding, mPadding, mPadding, mPadding);
+            } else {
+                mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
+            }
         }
 
 //        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -150,6 +163,21 @@ public class UltimateRecyclerView extends FrameLayout {
 //        });
     }
 
+    protected void initAttrs(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.UltimateRecyclerview);
+
+        try {
+            mPadding = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPadding, -1.1f);
+            mPaddingTop = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingTop, 0.0f);
+            mPaddingBottom = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingBottom, 0.0f);
+            mPaddingLeft = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingLeft, 0.0f);
+            mPaddingRight = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingRight, 0.0f);
+            mClipToPadding = typedArray.getBoolean(R.styleable.UltimateRecyclerview_recyclerviewClipToPadding, false);
+        } finally {
+
+            typedArray.recycle();
+        }
+    }
 
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
         mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks));
@@ -307,9 +335,6 @@ public class UltimateRecyclerView extends FrameLayout {
         mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
     }
 
-    private void initAttrs() {
-
-    }
 
     private void setOnMoreListener() {
 
