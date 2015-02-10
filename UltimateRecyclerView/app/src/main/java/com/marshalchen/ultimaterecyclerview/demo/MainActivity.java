@@ -68,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+        ultimateRecyclerView.enableLoadmore();
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,11 +85,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         });
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
-            public void loadMore(int overallItemsCount, int itemsBeforeMore, final int maxLastVisiblePosition) {
+            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Logs.d("load more  " + simpleRecyclerViewAdapter.getAdapterItemCount() + "   " + maxLastVisiblePosition);
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
