@@ -8,15 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 
-
+/**
+ * UltimateRecyclerView is a recyclerview which contains the function of swipe to dismiss,animations,drag drop etc.
+ */
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -25,7 +25,6 @@ public class UltimateRecyclerView extends FrameLayout {
     protected RecyclerView.OnScrollListener mOnScrollListener;
     protected LAYOUT_MANAGER_TYPE layoutManagerType;
     private boolean isLoadingMore = false;
-    protected int ITEM_LEFT_TO_LOAD_MORE = 10;
     private int currentScrollState = 0;
     protected int mPadding;
     protected int mPaddingTop;
@@ -52,7 +51,6 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
     private void initViews() {
-//        View v = LayoutInflater.from(getContext()).inflate(R.layout.ultimate_recycler_view_layout, this);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
 
@@ -149,11 +147,9 @@ public class UltimateRecyclerView extends FrameLayout {
                 //      Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
                 if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
                         (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
-                    Logs.d("loading more~~~~");
                     isLoadingMore = true;
                     if (onLoadMoreListener != null) {
                         isLoadingMore = false;
-                        // mMoreProgress.setVisibility(View.VISIBLE);
                         onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     }
                 }
@@ -317,7 +313,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public interface OnLoadMoreListener {
 
-        public void loadMore(int itemsCount,int maxLastVisiblePosition);
+        public void loadMore(int itemsCount, int maxLastVisiblePosition);
     }
 
     public static enum LAYOUT_MANAGER_TYPE {

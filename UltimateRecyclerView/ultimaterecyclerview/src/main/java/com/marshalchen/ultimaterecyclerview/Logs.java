@@ -3,8 +3,7 @@ package com.marshalchen.ultimaterecyclerview;
 import android.util.Log;
 
 /**
- * A useful log class to help you auto add Tag and easy to disable log
- * You can simply use Logs instead of Log
+ * Only for debug
  */
 public final class Logs {
     private static boolean sIsLogEnabled = true;

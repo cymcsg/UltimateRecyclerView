@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by cym on 15-1-20.
+ * An abstract adapter which can be extended for Recyclerview
  */
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -18,7 +18,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
-            Logs.d("custom load more view   "+(customLoadMoreView==null));
             if (customLoadMoreView == null) {
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.bottom_progressbar, parent, false);
