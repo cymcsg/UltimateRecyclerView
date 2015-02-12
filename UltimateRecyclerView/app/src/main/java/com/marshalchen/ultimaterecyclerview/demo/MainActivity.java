@@ -1,5 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -110,9 +111,9 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
                     @Override
                     public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("onItemLongClick()"+isDrag);
+                        Logs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
-                            Logs.d("onItemLongClick()"+isDrag);
+                            Logs.d("onItemLongClick()" + isDrag);
                             toolbar.startActionMode(MainActivity.this);
                             toggleSelection(position);
                             dragDropTouchListener.startDrag();
@@ -262,21 +263,23 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SwipeBottomActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     enum Type {
         FadeIn("FadeIn", new FadeInAnimator()),
