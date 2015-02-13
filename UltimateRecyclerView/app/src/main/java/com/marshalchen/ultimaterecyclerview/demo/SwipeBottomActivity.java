@@ -1,61 +1,34 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SwipeBottomRecyclerViewAdapter;
+import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class SwipeBottomActivity extends ActionBarActivity  {
+/**
+ * A activity which can be swiped to show bottom view with default horizontal divider item decoration.
+ */
+public class SwipeBottomActivity extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     Toolbar toolbar;
-
 
 
     @Override
@@ -130,7 +103,15 @@ public class SwipeBottomActivity extends ActionBarActivity  {
                 }, 1000);
             }
         });
-
+        Paint paint = new Paint();
+        paint.setStrokeWidth(5);
+        paint.setColor(Color.BLUE);
+        paint.setAntiAlias(true);
+        paint.setPathEffect(new DashPathEffect(new float[]{25.0f, 25.0f}, 0));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            ultimateRecyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        ultimateRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).paint(paint).build());
 
     }
 

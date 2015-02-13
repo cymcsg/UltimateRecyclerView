@@ -1,6 +1,9 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +27,7 @@ import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,6 +210,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 simpleRecyclerViewAdapter.remove(1);
             }
         });
+
+        ultimateRecyclerView.addItemDecoration(
+                new HorizontalDividerItemDecoration.Builder(this).build());
+
     }
 
     private void toggleSelection(int position) {
