@@ -137,7 +137,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
                 for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    Logs.d("data-----" + data.position + "    " + data.toString());
                     simpleRecyclerViewAdapter.remove(data.position);
                 }
             }
@@ -150,7 +149,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onTouchDown() {
                 isDrag = false;
-                //  ultimateRecyclerView.mRecyclerView.removeOnItemTouchListener(itemTouchListenerAdapter);
 
             }
         });
@@ -211,8 +209,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-        ultimateRecyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(this).build());
+//        ultimateRecyclerView.addItemDecoration(
+//                new HorizontalDividerItemDecoration.Builder(this).build());
 
     }
 

@@ -53,8 +53,6 @@ public class UltimateRecyclerView extends FrameLayout {
     private void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
-
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setEnabled(false);
@@ -92,10 +90,17 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
+    /**
+     * Set a swipe-to-dismiss OnItemTouchListener for RecyclerView
+     * @param dismissCallbacks
+     */
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
         mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks));
     }
 
+    /**
+     * Enable loading more of the recyclerview
+     */
     public void enableLoadmore() {
         mOnScrollListener = new RecyclerView.OnScrollListener() {
             private int[] lastPositions;
