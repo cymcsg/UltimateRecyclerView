@@ -23,7 +23,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position < stringList.size()) {
+        if (position < stringList.size() && position != 0) {
             ((ViewHolder) holder).textViewSample.setText(stringList.get(position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
         }
