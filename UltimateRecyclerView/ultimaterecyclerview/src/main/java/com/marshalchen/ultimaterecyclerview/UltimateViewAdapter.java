@@ -125,7 +125,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     private CustomRelativeWrapper mHeader;
     private int mTotalYScrolled;
     private final float SCROLL_MULTIPLIER = 0.5f;
-
+    private OnParallaxScroll mParallaxScroll;
     public void setParallaxHeader(View header, RecyclerView view) {
         // mRecyclerView = view;
         mHeader = new CustomRelativeWrapper(header.getContext());
@@ -143,7 +143,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         });
     }
 
-
+    public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
+        mParallaxScroll = parallaxScroll;
+        mParallaxScroll.onParallaxScroll(0, 0, mHeader);
+    }
     public void translateHeader(float of) {
         float ofCalculated = of * SCROLL_MULTIPLIER;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -155,12 +158,21 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             mHeader.startAnimation(anim);
         }
         mHeader.setClipY(Math.round(ofCalculated));
-//        if (mParallaxScroll != null) {
-////            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
-////            mParallaxScroll.onParallaxScroll(left, of, mHeader);
-//        }
+        if (mParallaxScroll != null) {
+            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
+            mParallaxScroll.onParallaxScroll(left, of, mHeader);
+        }
     }
-
+    public interface OnParallaxScroll {
+        /**
+         * Event triggered when the parallax is being scrolled.
+         *
+         * @param percentage
+         * @param offset
+         * @param parallax
+         */
+        void onParallaxScroll(float percentage, float offset, View parallax);
+    }
     static class CustomRelativeWrapper extends RelativeLayout {
 
         private int mOffset;
