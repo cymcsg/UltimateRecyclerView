@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +23,7 @@ import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
 
@@ -71,7 +73,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
-
+        simpleRecyclerViewAdapter.setOnParallaxScroll(new UltimateViewAdapter.OnParallaxScroll() {
+            @Override
+            public void onParallaxScroll(float percentage, float offset, View parallax) {
+                Drawable c = toolbar.getBackground();
+                c.setAlpha(Math.round(127 + percentage * 128));
+                toolbar.setBackgroundDrawable(c);
+            }
+        });
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
