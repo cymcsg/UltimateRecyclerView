@@ -1,9 +1,15 @@
 package com.marshalchen.ultimaterecyclerview;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +20,11 @@ import java.util.List;
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private View customLoadMoreView = null;
+//    private View customHeaderView = null;
+//
+//    public void setCustomHeaderView(View customHeaderView) {
+//        this.customHeaderView = customHeaderView;
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,6 +36,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             } else {
                 return new ProgressBarViewHolder(customLoadMoreView);
             }
+        } else if (viewType == 2) {
+            if (mHeader != null) return new ProgressBarViewHolder(mHeader);
         }
 
 
@@ -43,7 +56,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
             return 1;
-        } else
+        } else if (position == 0) return 2;
+        else
             return super.getItemViewType(position);
     }
 
@@ -106,6 +120,65 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         int size = list.size();
         list.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    private CustomRelativeWrapper mHeader;
+    private int mTotalYScrolled;
+    private final float SCROLL_MULTIPLIER = 0.5f;
+
+    public void setParallaxHeader(View header, RecyclerView view) {
+        // mRecyclerView = view;
+        mHeader = new CustomRelativeWrapper(header.getContext());
+        mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        view.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (mHeader != null) {
+                    mTotalYScrolled += dy;
+                    translateHeader(mTotalYScrolled);
+                }
+            }
+        });
+    }
+
+
+    public void translateHeader(float of) {
+        float ofCalculated = of * SCROLL_MULTIPLIER;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mHeader.setTranslationY(ofCalculated);
+        } else {
+            TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
+            anim.setFillAfter(true);
+            anim.setDuration(0);
+            mHeader.startAnimation(anim);
+        }
+        mHeader.setClipY(Math.round(ofCalculated));
+//        if (mParallaxScroll != null) {
+////            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
+////            mParallaxScroll.onParallaxScroll(left, of, mHeader);
+//        }
+    }
+
+    static class CustomRelativeWrapper extends RelativeLayout {
+
+        private int mOffset;
+
+        public CustomRelativeWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void dispatchDraw(Canvas canvas) {
+            canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
+            super.dispatchDraw(canvas);
+        }
+
+        public void setClipY(int offset) {
+            mOffset = offset;
+            invalidate();
+        }
     }
 
     class ProgressBarViewHolder extends RecyclerView.ViewHolder {
