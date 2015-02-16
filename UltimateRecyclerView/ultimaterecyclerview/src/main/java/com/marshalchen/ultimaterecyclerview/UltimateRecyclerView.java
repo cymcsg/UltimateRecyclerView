@@ -38,6 +38,7 @@ public class UltimateRecyclerView extends FrameLayout {
     protected int mPaddingLeft;
     protected int mPaddingRight;
     protected boolean mClipToPadding;
+    private UltimateViewAdapter mAdapter;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -260,9 +261,10 @@ public class UltimateRecyclerView extends FrameLayout {
 
 
     public void setAdapter(RecyclerView.Adapter adapter) {
-        mRecyclerView.setAdapter(adapter);
+        mAdapter=(UltimateViewAdapter)adapter;
+        mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setRefreshing(false);
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
                 super.onItemRangeChanged(positionStart, itemCount);
@@ -340,8 +342,8 @@ public class UltimateRecyclerView extends FrameLayout {
         return max;
     }
 
-    public static CustomRelativeWrapper mHeader;
-    public static int mTotalYScrolled;
+    CustomRelativeWrapper mHeader;
+    int mTotalYScrolled;
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
 
@@ -360,6 +362,7 @@ public class UltimateRecyclerView extends FrameLayout {
 //                }
 //            }
 //        });
+        mAdapter.setmView(mHeader);
     }
 
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {

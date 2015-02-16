@@ -21,6 +21,12 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     private View customLoadMoreView = null;
 
+    public void setmView(UltimateRecyclerView.CustomRelativeWrapper mView) {
+        this.mView = mView;
+    }
+
+    private UltimateRecyclerView.CustomRelativeWrapper mView = null;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -33,8 +39,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
                 return new ProgressBarViewHolder(customLoadMoreView);
             }
         } else if (viewType == VIEW_TYPES.HEADER) {
-            if (UltimateRecyclerView.mHeader != null)
-                return new ProgressBarViewHolder(UltimateRecyclerView.mHeader);
+            if (mView!= null)
+                return new ProgressBarViewHolder(mView);
         }
 
 
