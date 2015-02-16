@@ -72,15 +72,18 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
-        simpleRecyclerViewAdapter.setOnParallaxScroll(new UltimateViewAdapter.OnParallaxScroll() {
-            @Override
-            public void onParallaxScroll(float percentage, float offset, View parallax) {
-                Drawable c = toolbar.getBackground();
-                c.setAlpha(Math.round(127 + percentage * 128));
-                toolbar.setBackgroundDrawable(c);
-            }
-        });
+
+        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
+    //    simpleRecyclerViewAdapter.setParallaxHeader(getLayoutInflater().inflate(R.layout.custom_bottom_progressbar, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
+
+//        simpleRecyclerViewAdapter.setOnParallaxScroll(new UltimateViewAdapter.OnParallaxScroll() {
+//            @Override
+//            public void onParallaxScroll(float percentage, float offset, View parallax) {
+//                Drawable c = toolbar.getBackground();
+//                c.setAlpha(Math.round(127 + percentage * 128));
+//                toolbar.setBackgroundDrawable(c);
+//            }
+//        });
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
