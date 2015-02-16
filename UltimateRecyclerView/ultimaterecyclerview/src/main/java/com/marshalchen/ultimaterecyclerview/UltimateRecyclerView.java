@@ -2,6 +2,9 @@ package com.marshalchen.ultimaterecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +13,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 
@@ -92,6 +98,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Set a swipe-to-dismiss OnItemTouchListener for RecyclerView
+     *
      * @param dismissCallbacks
      */
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
@@ -108,6 +115,10 @@ public class UltimateRecyclerView extends FrameLayout {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (mHeader != null) {
+                    mTotalYScrolled += dy;
+                    translateHeader(mTotalYScrolled);
+                }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
@@ -247,14 +258,7 @@ public class UltimateRecyclerView extends FrameLayout {
         mRecyclerView.setLayoutManager(manager);
     }
 
-    /**
-     * Set the adapter to the recycler
-     * Automatically hide the progressbar
-     * Set the refresh to false
-     * If adapter is empty, then the emptyview is shown
-     *
-     * @param adapter
-     */
+
     public void setAdapter(RecyclerView.Adapter adapter) {
         mRecyclerView.setAdapter(adapter);
         mSwipeRefreshLayout.setRefreshing(false);
@@ -335,4 +339,74 @@ public class UltimateRecyclerView extends FrameLayout {
         }
         return max;
     }
+
+    public static CustomRelativeWrapper mHeader;
+    public static int mTotalYScrolled;
+    private final float SCROLL_MULTIPLIER = 0.5f;
+    private OnParallaxScroll mParallaxScroll;
+
+    public void setParallaxHeader(View header, RecyclerView view) {
+        // mRecyclerView = view;
+        mHeader = new CustomRelativeWrapper(header.getContext());
+        mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        view.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (mHeader != null) {
+//                    mTotalYScrolled += dy;
+//                    translateHeader(mTotalYScrolled);
+//                }
+//            }
+//        });
+    }
+
+    public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
+        mParallaxScroll = parallaxScroll;
+        mParallaxScroll.onParallaxScroll(0, 0, mHeader);
+    }
+
+    public void translateHeader(float of) {
+        float ofCalculated = of * SCROLL_MULTIPLIER;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            //Logs.d("ofCalculated    " + ofCalculated+"   "+mHeader.getHeight());
+            mHeader.setTranslationY(ofCalculated);
+        } else {
+            TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
+            anim.setFillAfter(true);
+            anim.setDuration(0);
+            mHeader.startAnimation(anim);
+        }
+        mHeader.setClipY(Math.round(ofCalculated));
+        if (mParallaxScroll != null) {
+            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
+            mParallaxScroll.onParallaxScroll(left, of, mHeader);
+        }
+    }
+
+    public interface OnParallaxScroll {
+        void onParallaxScroll(float percentage, float offset, View parallax);
+    }
+
+    public static class CustomRelativeWrapper extends RelativeLayout {
+
+        private int mOffset;
+
+        public CustomRelativeWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void dispatchDraw(Canvas canvas) {
+            canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
+            super.dispatchDraw(canvas);
+        }
+
+        public void setClipY(int offset) {
+            mOffset = offset;
+            invalidate();
+        }
+    }
+
 }
