@@ -1,15 +1,9 @@
 package com.marshalchen.ultimaterecyclerview;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
-import android.widget.RelativeLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +15,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     private View customLoadMoreView = null;
 
-    public void setmView(UltimateRecyclerView.CustomRelativeWrapper mView) {
-        this.mView = mView;
+    public void setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) {
+        this.customHeaderView = customHeaderView;
     }
 
-    private UltimateRecyclerView.CustomRelativeWrapper mView = null;
+    private UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,8 +33,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
                 return new ProgressBarViewHolder(customLoadMoreView);
             }
         } else if (viewType == VIEW_TYPES.HEADER) {
-            if (mView!= null)
-                return new ProgressBarViewHolder(mView);
+            if (customHeaderView != null)
+                return new ProgressBarViewHolder(customHeaderView);
         }
 
 
