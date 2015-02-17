@@ -73,8 +73,6 @@ public class SwipeBottomActivity extends ActionBarActivity {
                 "Card 13",
                 "Card 14"};
         ultimateRecyclerView.setAdapter(new SwipeBottomRecyclerViewAdapter(mDemoDataSet));
-
-        ultimateRecyclerView.enableLoadmore();
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,20 +83,6 @@ public class SwipeBottomActivity extends ActionBarActivity {
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
-                    }
-                }, 1000);
-            }
-        });
-        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        linearLayoutManager.scrollToPosition(maxLastVisiblePosition + 1);
                     }
                 }, 1000);
             }

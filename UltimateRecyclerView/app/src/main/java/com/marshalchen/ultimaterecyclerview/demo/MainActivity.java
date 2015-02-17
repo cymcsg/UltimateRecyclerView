@@ -74,16 +74,15 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.enableLoadmore();
 
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
-    //    simpleRecyclerViewAdapter.setParallaxHeader(getLayoutInflater().inflate(R.layout.custom_bottom_progressbar, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
+        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+            @Override
+            public void onParallaxScroll(float percentage, float offset, View parallax) {
+                Drawable c = toolbar.getBackground();
+                c.setAlpha(Math.round(127 + percentage * 128));
+                toolbar.setBackgroundDrawable(c);
+            }
+        });
 
-//        simpleRecyclerViewAdapter.setOnParallaxScroll(new UltimateViewAdapter.OnParallaxScroll() {
-//            @Override
-//            public void onParallaxScroll(float percentage, float offset, View parallax) {
-//                Drawable c = toolbar.getBackground();
-//                c.setAlpha(Math.round(127 + percentage * 128));
-//                toolbar.setBackgroundDrawable(c);
-//            }
-//        });
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -107,7 +106,9 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        linearLayoutManager.scrollToPosition(maxLastVisiblePosition + 1);
+                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
+                     //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+
                     }
                 }, 1000);
             }
@@ -289,7 +290,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, TestActivity.class);
+            Intent intent = new Intent(this, SwipeBottomActivity.class);
             startActivity(intent);
             return true;
         }
