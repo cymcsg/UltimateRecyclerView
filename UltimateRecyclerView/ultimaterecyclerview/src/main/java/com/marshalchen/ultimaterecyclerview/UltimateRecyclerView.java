@@ -174,6 +174,9 @@ public class UltimateRecyclerView extends FrameLayout {
             }
         };
         mRecyclerView.setOnScrollListener(mOnScrollListener);
+        if (mAdapter.getCustomLoadMoreView() == null)
+            mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
+                    .inflate(R.layout.bottom_progressbar, null));
     }
 
     public void setOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) {
@@ -260,11 +263,58 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
-        mAdapter=(UltimateViewAdapter)adapter;
+    public void setAdapter(UltimateViewAdapter adapter) {
+        mAdapter = adapter;
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                super.onItemRangeChanged(positionStart, itemCount);
+                update();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                update();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                update();
+            }
+
+            @Override
+            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+                update();
+            }
+
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                update();
+            }
+
+            private void update() {
+                isLoadingMore = false;
+                mSwipeRefreshLayout.setRefreshing(false);
+//
+            }
+
+        });
+    }
+
+    /**
+     * @param adapter
+     * @deprecated Short for some ui effects
+     */
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        mRecyclerView.setAdapter(adapter);
+        mSwipeRefreshLayout.setRefreshing(false);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
                 super.onItemRangeChanged(positionStart, itemCount);

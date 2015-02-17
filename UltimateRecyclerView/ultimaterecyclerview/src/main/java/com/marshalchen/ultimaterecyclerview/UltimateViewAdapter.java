@@ -13,6 +13,7 @@ import java.util.List;
  */
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
     private View customLoadMoreView = null;
 
     public void setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) {
@@ -25,13 +26,13 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            if (customLoadMoreView == null) {
-                View v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.bottom_progressbar, parent, false);
-                return new ProgressBarViewHolder(v);
-            } else {
-                return new ProgressBarViewHolder(customLoadMoreView);
-            }
+//            if (customLoadMoreView == null) {
+//                View v = LayoutInflater.from(parent.getContext())
+//                        .inflate(R.layout.bottom_progressbar, parent, false);
+//                return new ProgressBarViewHolder(v);
+//            } else {
+            return new ProgressBarViewHolder(customLoadMoreView);
+            //   }
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
                 return new ProgressBarViewHolder(customHeaderView);
@@ -46,6 +47,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         customLoadMoreView = view;
     }
 
+    public View getCustomLoadMoreView() {
+        return customLoadMoreView;
+    }
+
     public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
 
 
@@ -53,7 +58,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
             return VIEW_TYPES.FOOTER;
-        } else if (position == 0) {
+        } else if (position == 0 && customHeaderView != null) {
             return VIEW_TYPES.HEADER;
         } else
             return VIEW_TYPES.NORMAL;
@@ -67,6 +72,9 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      */
     @Override
     public int getItemCount() {
+        int headerOrFooter = 0;
+        if (customHeaderView != null) headerOrFooter++;
+
         return getAdapterItemCount() + 1;
     }
 
