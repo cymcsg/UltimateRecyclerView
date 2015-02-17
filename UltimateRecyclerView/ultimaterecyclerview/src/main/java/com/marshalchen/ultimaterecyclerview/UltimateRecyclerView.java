@@ -352,17 +352,8 @@ public class UltimateRecyclerView extends FrameLayout {
         mHeader = new CustomRelativeWrapper(header.getContext());
         mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        view.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if (mHeader != null) {
-//                    mTotalYScrolled += dy;
-//                    translateHeader(mTotalYScrolled);
-//                }
-//            }
-//        });
-        mAdapter.setmView(mHeader);
+
+        mAdapter.setCustomHeaderView(mHeader);
     }
 
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
