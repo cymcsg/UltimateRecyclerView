@@ -20,7 +20,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         this.customHeaderView = customHeaderView;
     }
 
-    private UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
+    protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
