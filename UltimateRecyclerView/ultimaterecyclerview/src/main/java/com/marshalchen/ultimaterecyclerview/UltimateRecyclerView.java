@@ -248,6 +248,10 @@ public class UltimateRecyclerView extends FrameLayout {
         mSwipeRefreshLayout.setOnRefreshListener(listener);
     }
 
+    /**
+     * Set the load more listener of recyclerview
+     * @param onLoadMoreListener
+     */
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
     }
@@ -262,7 +266,10 @@ public class UltimateRecyclerView extends FrameLayout {
         mRecyclerView.setLayoutManager(manager);
     }
 
-
+    /**
+     * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview
+     * @param adapter
+     */
     public void setAdapter(UltimateViewAdapter adapter) {
         mAdapter = adapter;
         mRecyclerView.setAdapter(mAdapter);
@@ -367,6 +374,12 @@ public class UltimateRecyclerView extends FrameLayout {
         mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
+
+    /**
+     * Enable or disable the SwipeRefreshLayout.
+     * Default is false
+     * @param isSwipeRefresh
+     */
     public void enableSwipeRefresh(boolean isSwipeRefresh) {
         mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
     }
@@ -392,8 +405,8 @@ public class UltimateRecyclerView extends FrameLayout {
         return max;
     }
 
-    CustomRelativeWrapper mHeader;
-    int mTotalYScrolled;
+    private CustomRelativeWrapper mHeader;
+    private int mTotalYScrolled;
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
 
@@ -411,7 +424,7 @@ public class UltimateRecyclerView extends FrameLayout {
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
     }
 
-    public void translateHeader(float of) {
+    private void translateHeader(float of) {
         float ofCalculated = of * SCROLL_MULTIPLIER;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             //Logs.d("ofCalculated    " + ofCalculated+"   "+mHeader.getHeight());
@@ -433,6 +446,9 @@ public class UltimateRecyclerView extends FrameLayout {
         void onParallaxScroll(float percentage, float offset, View parallax);
     }
 
+    /**
+     * Custom layout for the Parallax Header.
+     */
     public static class CustomRelativeWrapper extends RelativeLayout {
 
         private int mOffset;
