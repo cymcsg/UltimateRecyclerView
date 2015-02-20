@@ -16,6 +16,9 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     private View customLoadMoreView = null;
 
+    /**
+     * Set the header view of the adapter.
+     */
     public void setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) {
         this.customHeaderView = customHeaderView;
     }
