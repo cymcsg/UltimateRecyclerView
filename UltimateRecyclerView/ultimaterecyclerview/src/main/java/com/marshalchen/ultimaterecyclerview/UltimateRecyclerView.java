@@ -410,8 +410,11 @@ public class UltimateRecyclerView extends FrameLayout {
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
 
-    public void setParallaxHeader(View header, RecyclerView view) {
-        // mRecyclerView = view;
+    /**
+     * Set the parallax header of the recyclerview
+     * @param header
+     */
+    public void setParallaxHeader(View header) {
         mHeader = new CustomRelativeWrapper(header.getContext());
         mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -419,6 +422,10 @@ public class UltimateRecyclerView extends FrameLayout {
         mAdapter.setCustomHeaderView(mHeader);
     }
 
+    /**
+     * Set the on scroll method of parallax header
+     * @param parallaxScroll
+     */
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
         mParallaxScroll = parallaxScroll;
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
