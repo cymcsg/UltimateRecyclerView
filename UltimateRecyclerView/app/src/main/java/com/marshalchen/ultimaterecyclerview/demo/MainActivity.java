@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.enableLoadmore();
 
-        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false), ultimateRecyclerView.mRecyclerView);
+        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
             public void onParallaxScroll(float percentage, float offset, View parallax) {
