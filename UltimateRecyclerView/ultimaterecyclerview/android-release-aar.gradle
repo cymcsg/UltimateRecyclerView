@@ -50,5 +50,5 @@ generateRelease.dependsOn(zipRelease)
 
 artifacts {
     archives androidSourcesJar
-    archives androidJavadocsJar
+    //archives androidJavadocsJar
 }
