@@ -78,7 +78,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         int headerOrFooter = 0;
         if (customHeaderView != null) headerOrFooter++;
 
-        return getAdapterItemCount() + 1;
+        return getAdapterItemCount() + headerOrFooter;
     }
 
     /**
@@ -88,12 +88,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      */
     public abstract int getAdapterItemCount();
 
-//    public void insertItem(int position) {
-//        insert(position);
-//        notifyItemInserted(position);
-//    }
-//
-//    public abstract void insert(int position);
+
 
 
     public void toggleSelection(int pos) {
