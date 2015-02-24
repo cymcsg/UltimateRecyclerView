@@ -109,6 +109,14 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         Collections.swap(list, from, to);
     }
 
+
+    /**
+     * Insert a item to the list of the adapter
+     * @param list
+     * @param object
+     * @param position
+     * @param <T>
+     */
     public <T> void insert(List<T> list, T object, int position) {
         if (customHeaderView != null && position == 0)
             position++;
@@ -117,88 +125,26 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         //  notifyItemChanged(position + 1);
     }
 
+    /**
+     * Remove a item of  the list of the adapter
+     * @param list
+     * @param position
+     */
     public void remove(List<?> list, int position) {
         list.remove(position);
         notifyItemRemoved(position);
     }
 
+    /**
+     * Clear the list of the adapter
+     * @param list
+     */
     public void clear(List<?> list) {
         int size = list.size();
         list.clear();
         notifyItemRangeRemoved(0, size);
     }
 
-//    private UltimateRecyclerView.CustomRelativeWrapper mHeader;
-
-    //    private int mTotalYScrolled;
-////    private final float SCROLL_MULTIPLIER = 0.5f;
-////    private OnParallaxScroll mParallaxScroll;
-////
-//    public void setParallaxHeader(View header, RecyclerView view) {
-//        // mRecyclerView = view;
-//        mHeader = new UltimateRecyclerView.CustomRelativeWrapper(header.getContext());
-//        mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//        mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        view.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if (mHeader != null) {
-//                    Logs.d("mHeader height---"+mHeader.getHeight()+"  "+mHeader.getWidth());
-//
-//                    UltimateRecyclerView.mTotalYScrolled += dy;
-//                    translateHeader(UltimateRecyclerView.mTotalYScrolled);
-//                }
-//            }
-//        });
-//    }
-
-    //
-//    public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
-//        mParallaxScroll = parallaxScroll;
-//        mParallaxScroll.onParallaxScroll(0, 0, mHeader);
-//    }
-//
-//    public void translateHeader(float of) {
-//        float ofCalculated = of * 0.5f;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//            mHeader.setTranslationY(ofCalculated);
-//        } else {
-//            TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
-//            anim.setFillAfter(true);
-//            anim.setDuration(0);
-//            mHeader.startAnimation(anim);
-//        }
-//        mHeader.setClipY(Math.round(ofCalculated));
-////        if (mParallaxScroll != null) {
-////            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
-////            mParallaxScroll.onParallaxScroll(left, of, mHeader);
-////        }
-//    }
-//
-//    public interface OnParallaxScroll {
-//        void onParallaxScroll(float percentage, float offset, View parallax);
-//    }
-//
-//    static class CustomRelativeWrapper extends RelativeLayout {
-//
-//        private int mOffset;
-//
-//        public CustomRelativeWrapper(Context context) {
-//            super(context);
-//        }
-//
-//        @Override
-//        protected void dispatchDraw(Canvas canvas) {
-//            canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
-//            super.dispatchDraw(canvas);
-//        }
-//
-//        public void setClipY(int offset) {
-//            mOffset = offset;
-//            invalidate();
-//        }
-//    }
 
     class ProgressBarViewHolder extends RecyclerView.ViewHolder {
         public ProgressBarViewHolder(View itemView) {
