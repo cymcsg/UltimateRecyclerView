@@ -59,7 +59,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
+        if (position == getItemCount() - 1 && customLoadMoreView != null) {
             return VIEW_TYPES.FOOTER;
         } else if (position == 0 && customHeaderView != null) {
             return VIEW_TYPES.HEADER;
@@ -77,7 +77,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public int getItemCount() {
         int headerOrFooter = 0;
         if (customHeaderView != null) headerOrFooter++;
-
+        if (customLoadMoreView != null) headerOrFooter++;
         return getAdapterItemCount() + headerOrFooter;
     }
 
@@ -87,8 +87,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      * @return The number of items in the bound adapter
      */
     public abstract int getAdapterItemCount();
-
-
 
 
     public void toggleSelection(int pos) {
@@ -112,21 +110,22 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Insert a item to the list of the adapter
+     *
      * @param list
      * @param object
      * @param position
      * @param <T>
      */
     public <T> void insert(List<T> list, T object, int position) {
-        if (customHeaderView != null && position == 0)
-            position++;
         list.add(position, object);
+        if (customHeaderView != null) position++;
         notifyItemInserted(position);
         //  notifyItemChanged(position + 1);
     }
 
     /**
      * Remove a item of  the list of the adapter
+     *
      * @param list
      * @param position
      */
@@ -137,6 +136,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Clear the list of the adapter
+     *
      * @param list
      */
     public void clear(List<?> list) {
