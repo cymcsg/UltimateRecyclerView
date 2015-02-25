@@ -58,8 +58,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
         simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-//        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-//                .inflate(R.layout.custom_bottom_progressbar, null));
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
+                .inflate(R.layout.custom_bottom_progressbar, null));
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
@@ -73,15 +73,15 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.enableLoadmore();
 
-//        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-//        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
-//            @Override
-//            public void onParallaxScroll(float percentage, float offset, View parallax) {
-//                Drawable c = toolbar.getBackground();
-//                c.setAlpha(Math.round(127 + percentage * 128));
-//                toolbar.setBackgroundDrawable(c);
-//            }
-//        });
+        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+            @Override
+            public void onParallaxScroll(float percentage, float offset, View parallax) {
+                Drawable c = toolbar.getBackground();
+                c.setAlpha(Math.round(127 + percentage * 128));
+                toolbar.setBackgroundDrawable(c);
+            }
+        });
 
         ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
