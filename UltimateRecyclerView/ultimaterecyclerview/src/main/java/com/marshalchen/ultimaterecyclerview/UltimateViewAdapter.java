@@ -27,7 +27,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         if (viewType == VIEW_TYPES.FOOTER) {
 //            if (customLoadMoreView == null) {
 //                View v = LayoutInflater.from(parent.getContext())
@@ -46,6 +45,9 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     }
 
+
+    public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
+
     public void setCustomLoadMoreView(View view) {
         customLoadMoreView = view;
     }
@@ -53,9 +55,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public View getCustomLoadMoreView() {
         return customLoadMoreView;
     }
-
-    public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
-
 
     @Override
     public int getItemViewType(int position) {
@@ -130,7 +129,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      * @param position
      */
     public void remove(List<?> list, int position) {
-        list.remove(position);
+        list.remove(customHeaderView != null ? position - 1 : position);
         notifyItemRemoved(position);
     }
 
