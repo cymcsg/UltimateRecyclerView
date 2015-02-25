@@ -77,7 +77,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
             }
         }
-
+        setDefaultScrollListener();
 
     }
 
@@ -104,6 +104,21 @@ public class UltimateRecyclerView extends FrameLayout {
      */
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
         mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks));
+    }
+
+    void setDefaultScrollListener() {
+        mOnScrollListener= new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (mHeader != null) {
+                    mTotalYScrolled += dy;
+                    translateHeader(mTotalYScrolled);
+                }
+            }
+        };
+        mRecyclerView.setOnScrollListener(mOnScrollListener);
     }
 
     /**
@@ -250,6 +265,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Set the load more listener of recyclerview
+     *
      * @param onLoadMoreListener
      */
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
@@ -268,6 +284,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview
+     *
      * @param adapter
      */
     public void setAdapter(UltimateViewAdapter adapter) {
@@ -378,6 +395,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Enable or disable the SwipeRefreshLayout.
      * Default is false
+     *
      * @param isSwipeRefresh
      */
     public void enableSwipeRefresh(boolean isSwipeRefresh) {
@@ -412,6 +430,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Set the parallax header of the recyclerview
+     *
      * @param header
      */
     public void setParallaxHeader(View header) {
@@ -424,6 +443,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Set the on scroll method of parallax header
+     *
      * @param parallaxScroll
      */
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
