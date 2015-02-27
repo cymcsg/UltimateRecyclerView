@@ -40,3 +40,5 @@ build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
+manifest-merger-release-report.txt
+*.apk
