@@ -103,6 +103,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
 
     public void swapPositions(List<?> list, int from, int to) {
+        if (customHeaderView != null) {
+            from--;
+            to--;
+        }
         Collections.swap(list, from, to);
     }
 
