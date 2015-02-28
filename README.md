@@ -20,7 +20,10 @@ Notice that UltimateRecyclerView is a project under development.
 * Drag and drop
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
-* 
+
+
+
+
 ###Upcoming features:
 * More animations
 * Colorful style of Swipe to refresh
@@ -36,6 +39,14 @@ If you have some good idea, please mention us.My email is cymcsg # gmail.com
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
 
+
+###Sample
+
+You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
+
+[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
+
+> Notice that it might not be the latest version
 
 ###Quick Setup（Basic Usage）
 ######1.Integration
