@@ -23,6 +23,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         this.customHeaderView = customHeaderView;
     }
 
+    public UltimateRecyclerView.CustomRelativeWrapper getCustomHeaderView() {
+        return customHeaderView;
+    }
+
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override

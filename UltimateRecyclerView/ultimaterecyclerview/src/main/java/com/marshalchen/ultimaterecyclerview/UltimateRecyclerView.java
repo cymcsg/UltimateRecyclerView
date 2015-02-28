@@ -103,11 +103,18 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param dismissCallbacks
      */
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
-        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks));
+        int[] notToDismiss=null;
+        if (mAdapter.getCustomHeaderView() != null) {
+            notToDismiss = new int[]{
+                    0
+            };
+        }
+
+        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks, notToDismiss));
     }
 
     void setDefaultScrollListener() {
-        mOnScrollListener= new RecyclerView.OnScrollListener() {
+        mOnScrollListener = new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

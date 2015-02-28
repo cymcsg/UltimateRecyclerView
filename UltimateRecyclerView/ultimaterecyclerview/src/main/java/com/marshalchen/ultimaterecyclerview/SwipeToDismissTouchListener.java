@@ -76,6 +76,8 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
     private SwipeDirection mAllowedSwipeDirection = SwipeDirection.NONE;
 
 
+    private int[] notToDismissPositionArray;
+
     /**
      * Constructs a new swipe-to-dismiss OnItemTouchListener for RecyclerView
      *
@@ -92,6 +94,33 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         mRecyclerView = recyclerView;
         mCallbacks = callbacks;
     }
+
+    /**
+     * Constructs a new swipe-to-dismiss OnItemTouchListener for RecyclerView
+     *
+     * @param recyclerView RecyclerView
+     * @param callbacks    The callback to trigger when the user has indicated that she would like to
+     *                     dismiss this view.
+     */
+    public SwipeToDismissTouchListener(RecyclerView recyclerView, DismissCallbacks callbacks, int[] notToDismiss) {
+        ViewConfiguration vc = ViewConfiguration.get(recyclerView.getContext());
+        mSlop = vc.getScaledTouchSlop();
+        mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 4;
+        mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
+        mAnimationTime = recyclerView.getContext().getResources().getInteger(android.R.integer.config_shortAnimTime);
+        mRecyclerView = recyclerView;
+        mCallbacks = callbacks;
+        notToDismissPositionArray = notToDismiss;
+    }
+
+    public int[] getNotToDismissPositionArray() {
+        return notToDismissPositionArray;
+    }
+
+    public void setNotToDismissPositionArray(int[] notToDismissPositionArray) {
+        this.notToDismissPositionArray = notToDismissPositionArray;
+    }
+
 
     public void setEnabled(boolean enabled) {
         mPaused = !enabled;
@@ -151,6 +180,11 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         mSwipeView = mRecyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
         if (mSwipeView == null) return false;
         int pos = mRecyclerView.getChildPosition(mSwipeView);
+        if (notToDismissPositionArray != null && notToDismissPositionArray.length > 0) {
+            for (int notToDismiss : notToDismissPositionArray) {
+                if (pos == notToDismiss) return false;
+            }
+        }
         mAllowedSwipeDirection = mCallbacks.dismissDirection(pos);
         if (mAllowedSwipeDirection != SwipeDirection.NONE) {
 
@@ -306,6 +340,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         void onDismiss(RecyclerView view, List<PendingDismissData> dismissData);
 
         void onResetMotion();
+
         void onTouchDown();
     }
 
