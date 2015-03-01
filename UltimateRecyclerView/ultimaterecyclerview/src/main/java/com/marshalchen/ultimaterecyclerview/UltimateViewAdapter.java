@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,18 +31,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
-//            if (customLoadMoreView == null) {
-//                View v = LayoutInflater.from(parent.getContext())
-//                        .inflate(R.layout.bottom_progressbar, parent, false);
-//                return new ProgressBarViewHolder(v);
-//            } else {
-            return new ProgressBarViewHolder(customLoadMoreView);
-            //   }
+            return new SimpleViewHolder(customLoadMoreView);
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
-                return new ProgressBarViewHolder(customHeaderView);
+                return new SimpleViewHolder(customHeaderView);
         }
-
 
         return onCreateViewHolder(parent);
 
@@ -52,8 +44,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
 
-    public void setCustomLoadMoreView(View view) {
-        customLoadMoreView = view;
+    public void setCustomLoadMoreView(View customview) {
+        customLoadMoreView = customview;
     }
 
     public View getCustomLoadMoreView() {
@@ -105,7 +97,12 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemChanged(pos);
     }
 
-
+    /**
+     * Swap the item of list
+     * @param list
+     * @param from
+     * @param to
+     */
     public void swapPositions(List<?> list, int from, int to) {
         if (customHeaderView != null) {
             from--;
@@ -153,8 +150,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    class ProgressBarViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBarViewHolder(View itemView) {
+    class SimpleViewHolder extends RecyclerView.ViewHolder {
+        public SimpleViewHolder(View itemView) {
             super(itemView);
         }
 
