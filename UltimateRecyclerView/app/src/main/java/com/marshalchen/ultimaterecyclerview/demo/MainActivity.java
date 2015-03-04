@@ -16,16 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.Logs;
+import com.marshalchen.ultimaterecyclerview.ScrollState;
+import com.marshalchen.ultimaterecyclerview.ScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,13 +113,38 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-                     //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
 
                     }
                 }, 1000);
             }
         });
+        ultimateRecyclerView.setScrollViewCallbacks(new ScrollViewCallbacks() {
+            @Override
+            public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 
+            }
+
+            @Override
+            public void onDownMotionEvent() {
+
+            }
+
+            @Override
+            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+                if (scrollState == ScrollState.DOWN) {
+                    Logs.d("scroll down");
+                    showToolbar(toolbar);
+                } else if (scrollState == ScrollState.UP) {
+                    Logs.d("scroll UP");
+                    hideToolbar(toolbar);
+                } else if (scrollState == ScrollState.STOP) {
+                    Logs.d("scroll STOP");
+                } else {
+                    Logs.d("other--");
+                }
+            }
+        });
         itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
@@ -336,5 +367,37 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         public String getTitle() {
             return mTitle;
         }
+    }
+
+
+    private void showToolbar(Toolbar mToolbar) {
+        moveToolbar(mToolbar, 0);
+    }
+
+    private void hideToolbar(Toolbar mToolbar) {
+        moveToolbar(mToolbar, -mToolbar.getHeight());
+    }
+
+    private void moveToolbar(final Toolbar mToolbar, float toTranslationY) {
+        if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mToolbar), toTranslationY).setDuration(200);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float translationY = (float) animation.getAnimatedValue();
+                ViewHelper.setTranslationY(mToolbar, translationY);
+                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
+                ((View) ultimateRecyclerView).requestLayout();
+            }
+        });
+        animator.start();
+    }
+
+    protected int getScreenHeight() {
+        return findViewById(android.R.id.content).getHeight();
     }
 }
