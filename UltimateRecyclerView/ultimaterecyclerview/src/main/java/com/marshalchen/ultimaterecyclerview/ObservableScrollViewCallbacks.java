@@ -19,7 +19,7 @@ package com.marshalchen.ultimaterecyclerview;
 /**
  * Callbacks for Scrollable widgets.
  */
-public interface ScrollViewCallbacks {
+public interface ObservableScrollViewCallbacks {
     /**
      * Called when the scroll change events occurred.
      * This won't be called just after the view is laid out, so if you'd like to
@@ -40,7 +40,7 @@ public interface ScrollViewCallbacks {
     /**
      * Called when the dragging ended or canceled.
      *
-     * @param scrollState state to indicate the scroll direction
+     * @param observableScrollState state to indicate the scroll direction
      */
-    public void onUpOrCancelMotionEvent(ScrollState scrollState);
+    public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState);
 }
