@@ -24,7 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
-import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 /**
@@ -46,8 +45,8 @@ public class UltimateRecyclerView extends FrameLayout {
     protected int mPaddingRight;
     protected boolean mClipToPadding;
     private UltimateViewAdapter mAdapter;
-    private ScrollState mScrollState;
-    private ScrollViewCallbacks mCallbacks;
+    private ObservableScrollState mObservableScrollState;
+    private ObservableScrollViewCallbacks mCallbacks;
     private SparseIntArray mChildrenHeights = new SparseIntArray();
     // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
@@ -257,12 +256,12 @@ public class UltimateRecyclerView extends FrameLayout {
 
                             if (mPrevScrollY < mScrollY) {
                                 //down
-                                mScrollState = ScrollState.UP;
+                                mObservableScrollState = ObservableScrollState.UP;
                             } else if (mScrollY < mPrevScrollY) {
                                 //up
-                                mScrollState = ScrollState.DOWN;
+                                mObservableScrollState = ObservableScrollState.DOWN;
                             } else {
-                                mScrollState = ScrollState.STOP;
+                                mObservableScrollState = ObservableScrollState.STOP;
                             }
                             mPrevScrollY = mScrollY;
                         }
@@ -597,7 +596,7 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
-    public void setScrollViewCallbacks(ScrollViewCallbacks listener) {
+    public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
 
@@ -753,7 +752,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 case MotionEvent.ACTION_CANCEL:
                     mIntercepted = false;
                     mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState);
                     break;
             }
         }
@@ -769,7 +768,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 case MotionEvent.ACTION_CANCEL:
                     mIntercepted = false;
                     mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState);
                     break;
             }
         }
