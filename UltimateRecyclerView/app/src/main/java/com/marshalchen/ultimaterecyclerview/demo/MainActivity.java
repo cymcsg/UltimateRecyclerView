@@ -16,18 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.Logs;
-import com.marshalchen.ultimaterecyclerview.ScrollState;
-import com.marshalchen.ultimaterecyclerview.ScrollViewCallbacks;
+import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
+import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -119,7 +117,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }, 1000);
             }
         });
-        ultimateRecyclerView.setScrollViewCallbacks(new ScrollViewCallbacks() {
+        ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 
@@ -131,14 +129,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
 
             @Override
-            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-                if (scrollState == ScrollState.DOWN) {
+            public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
+                if (observableScrollState == ObservableScrollState.DOWN) {
                     Logs.d("scroll down");
                     showToolbar(toolbar);
-                } else if (scrollState == ScrollState.UP) {
+                } else if (observableScrollState == ObservableScrollState.UP) {
                     Logs.d("scroll UP");
                     hideToolbar(toolbar);
-                } else if (scrollState == ScrollState.STOP) {
+                } else if (observableScrollState == ObservableScrollState.STOP) {
                     Logs.d("scroll STOP");
                 } else {
                     Logs.d("other--");
