@@ -132,10 +132,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
                     Logs.d("scroll down");
-                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
+                     ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
+                   // getSupportActionBar().show();
+                   // ultimateRecyclerView.floatingActionButton.hide(false);
                 } else if (observableScrollState == ObservableScrollState.UP) {
                     Logs.d("scroll UP");
-                    ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
+                      ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
+                  //  getSupportActionBar().hide();
+                  //  ultimateRecyclerView.floatingActionButton.hide(true);
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                     Logs.d("scroll STOP");
                 } else {
@@ -265,6 +269,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
 
     }
+
     public int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();
     }
