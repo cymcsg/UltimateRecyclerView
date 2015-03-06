@@ -132,10 +132,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
                     Logs.d("scroll down");
-                    showToolbar(toolbar);
+                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.UP) {
                     Logs.d("scroll UP");
-                    hideToolbar(toolbar);
+                    ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                     Logs.d("scroll STOP");
                 } else {
@@ -265,7 +265,9 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
 
     }
-
+    public int getScreenHeight() {
+        return findViewById(android.R.id.content).getHeight();
+    }
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -368,34 +370,4 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
     }
 
 
-    private void showToolbar(Toolbar mToolbar) {
-        moveToolbar(mToolbar, 0);
-    }
-
-    private void hideToolbar(Toolbar mToolbar) {
-        moveToolbar(mToolbar, -mToolbar.getHeight());
-    }
-
-    private void moveToolbar(final Toolbar mToolbar, float toTranslationY) {
-        if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
-            return;
-        }
-        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mToolbar), toTranslationY).setDuration(200);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float translationY = (float) animation.getAnimatedValue();
-                ViewHelper.setTranslationY(mToolbar, translationY);
-                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
-                lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
-                ((View) ultimateRecyclerView).requestLayout();
-            }
-        });
-        animator.start();
-    }
-
-    protected int getScreenHeight() {
-        return findViewById(android.R.id.content).getHeight();
-    }
 }
