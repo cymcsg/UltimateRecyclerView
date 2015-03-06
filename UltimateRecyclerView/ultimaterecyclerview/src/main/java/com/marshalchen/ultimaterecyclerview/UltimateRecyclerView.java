@@ -21,9 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 /**
@@ -781,6 +783,34 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public boolean toolbarIsHidden(Toolbar mToolbar) {
         return ViewHelper.getTranslationY(mToolbar) == -mToolbar.getHeight();
+    }
+
+
+    public void showToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, 0);
+    }
+
+    public void hideToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, -mToolbar.getHeight());
+    }
+
+    protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
+        if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mToolbar), toTranslationY).setDuration(200);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float translationY = (float) animation.getAnimatedValue();
+                ViewHelper.setTranslationY(mToolbar, translationY);
+                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                lp.height = (int) -translationY + screenheight - lp.topMargin;
+                ((View) ultimateRecyclerView).requestLayout();
+            }
+        });
+        animator.start();
     }
 
 
