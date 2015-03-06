@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
+import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -34,6 +35,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    public AddFloatingActionButton floatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
     private int lastVisibleItemPosition;
     protected RecyclerView.OnScrollListener mOnScrollListener;
@@ -99,6 +101,8 @@ public class UltimateRecyclerView extends FrameLayout {
                 mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
             }
         }
+        floatingActionButton=(AddFloatingActionButton)view.findViewById(R.id.floatingButton);
+
         setDefaultScrollListener();
 
     }
@@ -812,7 +816,6 @@ public class UltimateRecyclerView extends FrameLayout {
         });
         animator.start();
     }
-
 
 
 }
