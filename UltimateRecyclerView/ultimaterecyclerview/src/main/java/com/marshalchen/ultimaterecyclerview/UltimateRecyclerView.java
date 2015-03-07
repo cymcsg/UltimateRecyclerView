@@ -101,7 +101,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
             }
         }
-        floatingActionButton=(AddFloatingActionButton)view.findViewById(R.id.floatingButton);
+        floatingActionButton = (AddFloatingActionButton) view.findViewById(R.id.floatingButton);
 
         setDefaultScrollListener();
 
@@ -792,10 +792,12 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public void showToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, 0);
+        floatingActionButton.hide(false);
     }
 
     public void hideToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, -mToolbar.getHeight());
+        floatingActionButton.hide(true);
     }
 
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
@@ -809,8 +811,8 @@ public class UltimateRecyclerView extends FrameLayout {
                 float translationY = (float) animation.getAnimatedValue();
                 ViewHelper.setTranslationY(mToolbar, translationY);
                 ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
-               // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
-                MarginLayoutParams layoutParams=(MarginLayoutParams)((View) ultimateRecyclerView).getLayoutParams();
+                // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;
                 ((View) ultimateRecyclerView).requestLayout();
             }
