@@ -5,21 +5,27 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.marshalchen.ultimaterecyclerview.Logs;
 import com.marshalchen.ultimaterecyclerview.R;
+import com.nineoldandroids.view.ViewHelper;
 
 
 public class FloatingActionsMenu extends ViewGroup {
@@ -75,6 +81,14 @@ public class FloatingActionsMenu extends ViewGroup {
                 }
             }
         }
+        WindowManager mWindowManager = (WindowManager)
+                context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = mWindowManager.getDefaultDisplay();
+        Point size = new Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(size);
+            mYHidden = size.y;
+        } else mYHidden = display.getHeight();
 
         createAddButton(context);
     }
@@ -241,6 +255,10 @@ public class FloatingActionsMenu extends ViewGroup {
             bottomY = childY - mButtonSpacing;
             bottomX = childX - mButtonSpacing;
         }
+
+        if (mYDisplayed == -1) {
+            mYDisplayed = ViewHelper.getY(this);
+        }
     }
 
     @Override
@@ -403,4 +421,31 @@ public class FloatingActionsMenu extends ViewGroup {
             }
         };
     }
+
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+    private boolean mHidden = false;
+    /**
+     * The FAB button's Y position when it is displayed.
+     */
+    private float mYDisplayed = -1;
+    /**
+     * The FAB button's Y position when it is hidden.
+     */
+    private float mYHidden = -1;
+
+    public void hide(boolean hide) {
+        // If the hidden state is being updated
+        if (mHidden != hide) {
+
+            // Store the new hidden state
+            mHidden = hide;
+
+            // Animate the FAB to it's new Y position
+            com.nineoldandroids.animation.ObjectAnimator animator = com.nineoldandroids.animation.ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
+            animator.setInterpolator(mInterpolator);
+            animator.start();
+        }
+    }
+
+
 }
