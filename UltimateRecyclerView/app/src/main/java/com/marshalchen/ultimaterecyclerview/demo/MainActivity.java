@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-      //  ultimateRecyclerView.enableLoadmore();
+        ultimateRecyclerView.enableLoadmore();
 
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
