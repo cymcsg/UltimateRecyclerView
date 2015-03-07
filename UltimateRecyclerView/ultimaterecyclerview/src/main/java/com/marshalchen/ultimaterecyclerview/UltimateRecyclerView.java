@@ -809,8 +809,9 @@ public class UltimateRecyclerView extends FrameLayout {
                 float translationY = (float) animation.getAnimatedValue();
                 ViewHelper.setTranslationY(mToolbar, translationY);
                 ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
-                lp.height = (int) -translationY + screenheight - lp.topMargin;
+               // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                MarginLayoutParams layoutParams=(MarginLayoutParams)((View) ultimateRecyclerView).getLayoutParams();
+                layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;
                 ((View) ultimateRecyclerView).requestLayout();
             }
         });
