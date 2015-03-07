@@ -15,18 +15,39 @@
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
 
-    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/floatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right|bottom"
-        fab:plusIconColor="#808080"
-        fab:colorNormal="#ffffff"
+        fab:addButtonColorNormal="#ffffff"
+        fab:addButtonColorPressed="#f1f1f1"
+        fab:addButtonPlusIconColor="#808080"
         fab:colorPressed="#f1f1f1"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"  />
+        android:layout_marginBottom="15dp">
+        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|bottom"
+            fab:plusIconColor="#808080"
+            fab:colorNormal="#ffffff"
+          />
+
+        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:colorNormal="#ff5f9a"
+            fab:colorPressed="#ec407a"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+
+    </com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu>
+
+
 
 
 </RelativeLayout>
