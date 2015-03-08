@@ -62,8 +62,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
         simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
+
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
@@ -75,7 +74,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+
         ultimateRecyclerView.enableLoadmore();
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
+                .inflate(R.layout.custom_bottom_progressbar, null));
 
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
@@ -131,19 +133,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
-                    Logs.d("scroll down");
                      ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
-                   // getSupportActionBar().show();
-                   // ultimateRecyclerView.floatingActionButton.hide(false);
                 } else if (observableScrollState == ObservableScrollState.UP) {
-                    Logs.d("scroll UP");
                       ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
-                  //  getSupportActionBar().hide();
-                  //  ultimateRecyclerView.floatingActionButton.hide(true);
                 } else if (observableScrollState == ObservableScrollState.STOP) {
-                    Logs.d("scroll STOP");
-                } else {
-                    Logs.d("other--");
                 }
             }
         });
