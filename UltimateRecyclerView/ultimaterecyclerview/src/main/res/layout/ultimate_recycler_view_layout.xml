@@ -36,14 +36,12 @@
             fab:colorNormal="#ffffff"
           />
 
-        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu
+        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            fab:icon="@drawable/floating_action_button_ic_fab_star"
             fab:colorNormal="#ff5f9a"
-            fab:colorPressed="#ec407a"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"/>
+            fab:colorPressed="#ec407a"/>
 
     </com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu>
 
