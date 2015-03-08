@@ -207,6 +207,10 @@ Showing and hiding toolbar and floating button:
 * Another kind of swipe[ScrollableItemList](https://github.com/rohaanhamid/ScrollableItemList)
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
+* Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+
+If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
+
 
 
 License
