@@ -20,6 +20,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Drag and drop
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
+* Showing or hiding toolbar and floating button when scrolling
 
 
 
@@ -38,6 +39,8 @@ If you have some good idea, please mention us.My email is cymcsg # gmail.com
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/b93b542a517f7c32a72010813c82fdd9c2b97857/ultimaterecyclerview/ultimate_recyclerview4.gif)
+
 
 
 ###Sample
@@ -56,7 +59,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.1.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.2.0'
 }
 ```
 
@@ -167,7 +170,27 @@ Animations:
   ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
  ```
         
-        
+Showing and hiding toolbar and floating button:
+
+```java
+  ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
+            @Override
+            public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {           
+             }
+            @Override
+            public void onDownMotionEvent() {
+            }
+            @Override
+            public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
+                if (observableScrollState == ObservableScrollState.DOWN) {
+                     ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
+                } else if (observableScrollState == ObservableScrollState.UP) {
+                      ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
+                } else if (observableScrollState == ObservableScrollState.STOP) {
+                }
+            }
+        });        
+ ```
 ####If you want to see more details,you can check the demo.
 
 
