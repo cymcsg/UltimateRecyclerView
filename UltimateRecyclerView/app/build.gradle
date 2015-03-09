@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 15
+        minSdkVersion 8
         targetSdkVersion 21
         versionCode 3
         versionName "1.0.2"
@@ -30,5 +30,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.+'
    // compile(name:'ultimaterecyclerview', ext:'aar')
     compile project(':ultimaterecyclerview')
-   // compile 'com.marshalchen.ultimaterecyclerview:library:0.1.0'
+   // compile 'com.marshalchen.ultimaterecyclerview:library:0.2.1'
 }
