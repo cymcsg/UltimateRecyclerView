@@ -5,7 +5,7 @@
 
 
 ###Description
-UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations and many other features.You can use it ```just like RecyclerView```.
+UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
 Notice that UltimateRecyclerView is a project under development.
 
@@ -33,6 +33,9 @@ Notice that UltimateRecyclerView is a project under development.
 If you have some good idea, please mention us.My email is cymcsg # gmail.com
 
 ####Welcome to fork.
+
+###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
+
 
 ###Screenshot
 
