@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.2.1
+###Version:0.2.2
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -10,6 +10,8 @@
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+
+Android 2.2+ support
 
 Notice that UltimateRecyclerView is a project under development.
 

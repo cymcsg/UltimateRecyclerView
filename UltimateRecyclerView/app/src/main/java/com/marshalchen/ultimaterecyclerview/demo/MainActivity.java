@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
@@ -28,8 +27,6 @@ import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,13 +130,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
-                     ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView,getScreenHeight());
+                    ultimateRecyclerView.showToolbarAndFAB(toolbar, ultimateRecyclerView, getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.UP) {
-                      ultimateRecyclerView.hideToolbar(toolbar,ultimateRecyclerView,getScreenHeight());
+                    ultimateRecyclerView.hideToolbarAndFAB(toolbar, ultimateRecyclerView, getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                 }
             }
         });
+        ultimateRecyclerView.displayFloatingActionMenu(true);
         itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
