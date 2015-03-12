@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 12
         targetSdkVersion 21
         versionCode 2
         versionName "1.0"
@@ -23,7 +23,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.nineoldandroids:library:2.4.0'
 }
@@ -31,6 +31,6 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.2.1'
+    PUBLISH_VERSION = '0.2.2'
 }
 apply from: 'android-release-aar.gradle'
