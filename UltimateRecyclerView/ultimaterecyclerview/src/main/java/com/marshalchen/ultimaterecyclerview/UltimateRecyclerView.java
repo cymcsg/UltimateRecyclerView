@@ -21,11 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton;
+import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -36,7 +35,12 @@ import com.nineoldandroids.view.ViewHelper;
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    public FloatingActionsMenu floatingActionButton;
+
+
+    protected FloatingActionsMenu floatingActionMenu;
+
+
+    protected FloatingActionButton floatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
     private int lastVisibleItemPosition;
     protected RecyclerView.OnScrollListener mOnScrollListener;
@@ -102,8 +106,8 @@ public class UltimateRecyclerView extends FrameLayout {
                 mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
             }
         }
-        floatingActionButton = (FloatingActionsMenu) view.findViewById(R.id.floatingButton);
-
+        floatingActionMenu = (FloatingActionsMenu) view.findViewById(R.id.floatingActionMenu);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
         setDefaultScrollListener();
 
     }
@@ -305,6 +309,7 @@ public class UltimateRecyclerView extends FrameLayout {
                     mPrevScrollY = mScrollY;
                 }
             }
+
         }
     }
 
@@ -798,14 +803,24 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
+    public void showToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        showToolbar(mToolbar, ultimateRecyclerView, screenHeight);
+        showFloatingActionButton();
+        showFloatingActionMenu();
+    }
+
+    public void hideToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        hideToolbar(mToolbar, ultimateRecyclerView, screenHeight);
+        hideFloatingActionMenu();
+        hideFloatingActionButton();
+    }
+
     public void showToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, 0);
-        floatingActionButton.hide(false);
     }
 
     public void hideToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, -mToolbar.getHeight());
-        floatingActionButton.hide(true);
     }
 
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
@@ -829,4 +844,43 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
+    public FloatingActionButton getFloatingActionButton() {
+        return floatingActionButton;
+    }
+
+    public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+        this.floatingActionButton = floatingActionButton;
+    }
+
+    public FloatingActionsMenu getFloatingActionMenu() {
+        return floatingActionMenu;
+    }
+
+    public void setFloatingActionMenu(FloatingActionsMenu floatingActionMenu) {
+        this.floatingActionMenu = floatingActionMenu;
+    }
+
+    public void showFloatingActionMenu() {
+        floatingActionMenu.hide(false);
+    }
+
+    public void hideFloatingActionMenu() {
+        floatingActionMenu.hide(true);
+    }
+
+    public void showFloatingActionButton() {
+        floatingActionButton.hide(false);
+    }
+
+    public void hideFloatingActionButton() {
+        floatingActionButton.hide(true);
+    }
+
+    public void displayFloatingActionMenu(boolean b) {
+        floatingActionMenu.setVisibility(b ? VISIBLE : INVISIBLE);
+    }
+
+    public void displayFloatingActionButton(boolean b) {
+        floatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
+    }
 }
