@@ -33,6 +33,7 @@ Notice that UltimateRecyclerView is a project under development.
 ###Upcoming features:
 * More animations
 * Colorful style of Swipe to refresh
+* Sticky headers(with some colorful effect)
 * ...
 
 If you have some good idea, please mention us.My email is cymcsg # gmail.com
