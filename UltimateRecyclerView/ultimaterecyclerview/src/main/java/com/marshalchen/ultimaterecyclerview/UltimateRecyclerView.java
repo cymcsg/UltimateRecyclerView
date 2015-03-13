@@ -35,11 +35,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
-
     protected FloatingActionsMenu floatingActionMenu;
-
-
     protected FloatingActionButton floatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
     private int lastVisibleItemPosition;
@@ -217,7 +213,6 @@ public class UltimateRecyclerView extends FrameLayout {
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
-                //      Logs.d("count---" + totalItemCount + "   " + lastVisibleItemPosition + "   " + visibleItemCount + "   state   " + currentScrollState + "   " + RecyclerView.SCROLL_STATE_IDLE);
                 if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
                         (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
                     isLoadingMore = true;
