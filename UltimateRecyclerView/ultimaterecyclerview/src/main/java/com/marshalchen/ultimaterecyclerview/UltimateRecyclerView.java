@@ -318,6 +318,24 @@ public class UltimateRecyclerView extends FrameLayout {
         mRecyclerView.addItemDecoration(itemDecoration);
     }
 
+
+    /**
+     * Swaps the current adapter with the provided one. It is similar to
+     * {@link #setAdapter(UltimateViewAdapter)} but assumes existing adapter and the new adapter uses the same
+     * ViewHolder and does not clear the RecycledViewPool.
+     * <p/>
+     * Note that it still calls onAdapterChanged callbacks.
+     *
+     * @param adapter                       The new adapter to set, or null to set no adapter.
+     * @param removeAndRecycleExistingViews If set to true, RecyclerView will recycle all existing
+     *                                      Views. If adapters have stable ids and/or you want to
+     *                                      animate the disappearing views, you may prefer to set
+     *                                      this to false.
+     */
+    public void swapAdapter(UltimateViewAdapter adapter, boolean removeAndRecycleExistingViews) {
+        mRecyclerView.swapAdapter(adapter, removeAndRecycleExistingViews);
+    }
+
     /**
      * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views.
      * <p>Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</p>
@@ -394,6 +412,14 @@ public class UltimateRecyclerView extends FrameLayout {
      */
     public void setLayoutManager(RecyclerView.LayoutManager manager) {
         mRecyclerView.setLayoutManager(manager);
+    }
+
+    /**
+     * Get the adapter of UltimateRecyclerview
+     * @return
+     */
+    public RecyclerView.Adapter getAdapter() {
+        return mRecyclerView.getAdapter();
     }
 
     /**
