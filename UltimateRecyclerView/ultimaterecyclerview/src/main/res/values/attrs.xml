@@ -36,6 +36,7 @@
         <attr name="recyclerviewPaddingBottom" format="dimension"/>
         <attr name="recyclerviewPaddingLeft" format="dimension"/>
         <attr name="recyclerviewPaddingRight" format="dimension"/>
+        <attr name="recyclerviewEmptyView" format="reference"/>
 
     </declare-styleable>
 

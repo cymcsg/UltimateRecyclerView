@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -65,6 +66,11 @@ public class UltimateRecyclerView extends FrameLayout {
     private boolean mDragging;
     private boolean mIntercepted;
 
+
+    protected ViewStub mEmpty;
+    protected View mEmptyView;
+    protected int mEmptyId;
+
     public UltimateRecyclerView(Context context) {
         super(context);
         initViews();
@@ -106,6 +112,11 @@ public class UltimateRecyclerView extends FrameLayout {
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
         setDefaultScrollListener();
 
+        mEmpty = (ViewStub) view.findViewById(R.id.emptyview);
+        mEmpty.setLayoutResource(mEmptyId);
+        if (mEmptyId != 0)
+            mEmptyView = mEmpty.inflate();
+        mEmpty.setVisibility(View.GONE);
     }
 
     protected void initAttrs(AttributeSet attrs) {
@@ -118,6 +129,8 @@ public class UltimateRecyclerView extends FrameLayout {
             mPaddingLeft = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingLeft, 0.0f);
             mPaddingRight = (int) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingRight, 0.0f);
             mClipToPadding = typedArray.getBoolean(R.styleable.UltimateRecyclerview_recyclerviewClipToPadding, false);
+            mEmptyId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewEmptyView, 0);
+
         } finally {
 
             typedArray.recycle();
@@ -416,6 +429,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     /**
      * Get the adapter of UltimateRecyclerview
+     *
      * @return
      */
     public RecyclerView.Adapter getAdapter() {
@@ -466,9 +480,29 @@ public class UltimateRecyclerView extends FrameLayout {
                 isLoadingMore = false;
                 mSwipeRefreshLayout.setRefreshing(false);
 //
+                if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
+                    mEmpty.setVisibility(View.VISIBLE);
+                } else if (mEmptyId != 0) {
+                    mEmpty.setVisibility(View.GONE);
+                }
+                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomHeaderView() != null
+                        && mAdapter.getCustomHeaderView().getVisibility() == View.GONE) {
+                    mAdapter.getCustomHeaderView().setVisibility(View.VISIBLE);
+                }
+                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomLoadMoreView() != null
+                        && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
+                    mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+                }
             }
 
         });
+        if ((adapter == null || adapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
+            mEmpty.setVisibility(View.VISIBLE);
+        }
+//        if (adapter == null || adapter.getAdapterItemCount() == 0) {
+//            mAdapter.getCustomHeaderView().setVisibility(View.GONE);
+//            mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
+//        }
     }
 
     /**
@@ -904,4 +938,6 @@ public class UltimateRecyclerView extends FrameLayout {
     public void displayFloatingActionButton(boolean b) {
         floatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
     }
+
+
 }
