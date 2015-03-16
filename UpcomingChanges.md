@@ -3,6 +3,7 @@
 * add some colorful styles of  `swipe to refresh`
 * add swapAdapter() ,getAdapter() etc.
 * add swipe to refresh at the bottom
+* Custom FAB style
 
 ###Other changes:
 * More animations
