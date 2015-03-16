@@ -31,7 +31,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
-            return new SimpleViewHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = new SimpleViewHolder(customLoadMoreView);
+            if (getAdapterItemCount() == 0)
+                viewHolder.itemView.setVisibility(View.GONE);
+            return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
                 return new SimpleViewHolder(customHeaderView);
@@ -99,6 +102,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Swap the item of list
+     *
      * @param list
      * @param from
      * @param to
