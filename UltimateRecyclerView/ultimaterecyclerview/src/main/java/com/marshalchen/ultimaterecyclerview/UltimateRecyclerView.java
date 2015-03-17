@@ -71,6 +71,8 @@ public class UltimateRecyclerView extends FrameLayout {
     protected View mEmptyView;
     protected int mEmptyId;
 
+    public int showLoadMoreItemNum = 3;
+
     public UltimateRecyclerView(Context context) {
         super(context);
         initViews();
@@ -485,13 +487,16 @@ public class UltimateRecyclerView extends FrameLayout {
                 } else if (mEmptyId != 0) {
                     mEmpty.setVisibility(View.GONE);
                 }
-                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomHeaderView() != null
-                        && mAdapter.getCustomHeaderView().getVisibility() == View.GONE) {
-                    mAdapter.getCustomHeaderView().setVisibility(View.VISIBLE);
-                }
-                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomLoadMoreView() != null
+//                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomHeaderView() != null
+//                        && mAdapter.getCustomHeaderView().getVisibility() == View.GONE) {
+//                    mAdapter.getCustomHeaderView().setVisibility(View.VISIBLE);
+//                }
+                if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null
                         && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
                     mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+                }
+                if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null) {
+                    mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
                 }
             }
 
