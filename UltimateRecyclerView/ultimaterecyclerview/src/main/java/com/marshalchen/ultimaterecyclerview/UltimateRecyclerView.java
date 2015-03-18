@@ -879,13 +879,15 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public void showToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         showToolbar(mToolbar, ultimateRecyclerView, screenHeight);
-        showFloatingActionButton();
+        showDefaultFloatingActionButton();
         showFloatingActionMenu();
+        showFloatingActionButton();
     }
 
     public void hideToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         hideToolbar(mToolbar, ultimateRecyclerView, screenHeight);
         hideFloatingActionMenu();
+        hideDefaultFloatingActionButton();
         hideFloatingActionButton();
     }
 
@@ -944,10 +946,19 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
     public void showFloatingActionButton() {
-        defaultFloatingActionButton.hide(false);
+        if (mFloatingButtonView != null)
+            ((FloatingActionButton) mFloatingButtonView).hide(false);
     }
 
     public void hideFloatingActionButton() {
+        if (mFloatingButtonView != null) ((FloatingActionButton) mFloatingButtonView).hide(true);
+    }
+
+    public void showDefaultFloatingActionButton() {
+        defaultFloatingActionButton.hide(false);
+    }
+
+    public void hideDefaultFloatingActionButton() {
         defaultFloatingActionButton.hide(true);
     }
 
