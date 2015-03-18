@@ -964,7 +964,7 @@ public class UltimateRecyclerView extends FrameLayout {
             mFloatingButtonView.setVisibility(b ? VISIBLE : INVISIBLE);
     }
 
-    public void displayFloatingActionButton(boolean b) {
+    public void displayDefaultFloatingActionButton(boolean b) {
         defaultFloatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
     }
 
