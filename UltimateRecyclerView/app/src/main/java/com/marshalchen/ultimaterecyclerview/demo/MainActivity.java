@@ -139,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }
             }
         });
-        ultimateRecyclerView.displayCustomFloatingActionView(true);
+
         itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
