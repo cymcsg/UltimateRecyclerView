@@ -16,7 +16,7 @@
     </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
 
     <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/defaultFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -26,37 +26,16 @@
         android:visibility="gone"
         fab:plusIconColor="#808080"
         fab:colorNormal="#ffffff" />
-
-    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/floatingActionMenu"
+    <ViewStub
+        android:id="@+id/floatingActionViewStub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:addButtonColorNormal="#ffffff"
-        fab:addButtonColorPressed="#f1f1f1"
-        fab:addButtonPlusIconColor="#808080"
-        fab:colorPressed="#f1f1f1"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
-        android:visibility="gone">
+        android:visibility="gone"/>
 
-        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right|bottom"
-            fab:plusIconColor="#808080"
-            fab:colorNormal="#ffffff" />
-
-        <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:icon="@drawable/floating_action_button_ic_fab_star"
-            fab:colorNormal="#ff5f9a"
-            fab:colorPressed="#ec407a" />
-
-    </com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu>
 
     <ViewStub
         android:id="@+id/emptyview"
