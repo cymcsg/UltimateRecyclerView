@@ -876,19 +876,16 @@ public class UltimateRecyclerView extends FrameLayout {
         return ViewHelper.getTranslationY(mToolbar) == -mToolbar.getHeight();
     }
 
-
+    @Deprecated
     public void showToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         showToolbar(mToolbar, ultimateRecyclerView, screenHeight);
         showDefaultFloatingActionButton();
-        showFloatingActionMenu();
-        showFloatingActionButton();
     }
 
+    @Deprecated
     public void hideToolbarAndFAB(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
         hideToolbar(mToolbar, ultimateRecyclerView, screenHeight);
-        hideFloatingActionMenu();
         hideDefaultFloatingActionButton();
-        hideFloatingActionButton();
     }
 
     public void showToolbar(Toolbar mToolbar, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
