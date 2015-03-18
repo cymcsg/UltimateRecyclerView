@@ -130,9 +130,11 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
-                    ultimateRecyclerView.showToolbarAndFAB(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.showFloatingActionMenu();
                 } else if (observableScrollState == ObservableScrollState.UP) {
-                    ultimateRecyclerView.hideToolbarAndFAB(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.hideFloatingActionMenu();
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                 }
             }
