@@ -50,5 +50,6 @@
         android:id="@+id/ultimate_recycler_view"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewPadding="2dp"
-        android:layout_marginTop="?attr/actionBarSize"></com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
+        app:recyclerviewScrollbars="vertical"
+        android:layout_marginTop="?attr/actionBarSize" />
 </FrameLayout>

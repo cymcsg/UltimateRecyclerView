@@ -26,6 +26,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
+* Set scrollbars of RecyclerView
 
 
 
@@ -199,6 +200,19 @@ Showing and hiding toolbar and floating button:
             }
         });        
  ```
+
+ Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
+ Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ultimate_recycler_view"
+        app:recyclerviewClipToPadding="true"
+        app:recyclerviewPadding="2dp"
+        app:recyclerviewScrollbars="vertical" />
+```
+
 ####If you want to see more details,you can check the demo.
 
 

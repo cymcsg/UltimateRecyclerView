@@ -36,7 +36,11 @@
         <attr name="recyclerviewPaddingBottom" format="dimension"/>
         <attr name="recyclerviewPaddingLeft" format="dimension"/>
         <attr name="recyclerviewPaddingRight" format="dimension"/>
-
+        <attr name="recyclerviewScrollbars" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="2"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="AddFloatingActionButton">
