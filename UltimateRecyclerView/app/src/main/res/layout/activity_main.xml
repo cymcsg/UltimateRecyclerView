@@ -51,5 +51,5 @@
         app:recyclerviewClipToPadding="true"
         app:recyclerviewPadding="2dp"
         app:recyclerviewScrollbars="vertical"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        android:layout_marginTop="?attr/actionBarSize" />
 </FrameLayout>
