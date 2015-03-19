@@ -30,6 +30,8 @@ import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActi
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
+
 /**
  * UltimateRecyclerView is a recyclerview which contains the function of swipe to dismiss,animations,drag drop etc.
  */
@@ -75,6 +77,8 @@ public class UltimateRecyclerView extends FrameLayout {
     protected int mFloatingButtonId;
 
     public int showLoadMoreItemNum = 3;
+
+    public PtrFrameLayout mPtrFrameLayout;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -133,6 +137,13 @@ public class UltimateRecyclerView extends FrameLayout {
             mFloatingButtonView.setVisibility(View.VISIBLE);
         }
 
+        mPtrFrameLayout = (PtrFrameLayout) findViewById(R.id.store_house_ptr_frame);
+        mPtrFrameLayout.setResistance(1.7f);
+        mPtrFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
+        mPtrFrameLayout.setDurationToClose(200);
+        mPtrFrameLayout.setDurationToCloseHeader(1000);
+        mPtrFrameLayout.setPullToRefresh(false);
+        mPtrFrameLayout.setKeepHeaderWhenRefresh(true);
     }
 
     protected void initAttrs(AttributeSet attrs) {
@@ -420,7 +431,7 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param listener
      */
     public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
-        mSwipeRefreshLayout.setEnabled(true);
+        //mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setOnRefreshListener(listener);
     }
 
@@ -592,7 +603,7 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param isSwipeRefresh
      */
     public void enableSwipeRefresh(boolean isSwipeRefresh) {
-        mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
+       // mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
     }
 
 
