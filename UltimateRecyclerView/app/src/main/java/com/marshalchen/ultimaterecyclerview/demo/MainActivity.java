@@ -31,6 +31,11 @@ import com.marshalchen.ultimaterecyclerview.animators.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
+
 
 public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
 
@@ -248,6 +253,36 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
 //        ultimateRecyclerView.addItemDecoration(
 //                new HorizontalDividerItemDecoration.Builder(this).build());
+
+        final StoreHouseHeader header = new StoreHouseHeader(this);
+        //   header.setPadding(0, 15, 0, 0);
+
+        header.initWithString("Marshal Chen");
+        //  header.initWithStringArray(R.array.akta);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
+
+        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
+                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
+                Logs.d("canbepull----" + canbePullDown);
+                return canbePullDown;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                    }
+                }, 1800);
+            }
+        });
 
     }
 
