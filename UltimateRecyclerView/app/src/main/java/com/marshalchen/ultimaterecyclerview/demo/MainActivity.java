@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-        ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -163,7 +163,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                             toolbar.startActionMode(MainActivity.this);
                             toggleSelection(position);
                             dragDropTouchListener.startDrag();
-                            ultimateRecyclerView.enableSwipeRefresh(false);
+                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
                         }
 
                     }
@@ -209,7 +209,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             @Override
             protected void onItemDrop(RecyclerView recyclerView, int position) {
                 Logs.d("drop----");
-                ultimateRecyclerView.enableSwipeRefresh(true);
+                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
             }
         };
         dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
@@ -254,35 +254,35 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 //        ultimateRecyclerView.addItemDecoration(
 //                new HorizontalDividerItemDecoration.Builder(this).build());
 
-        final StoreHouseHeader header = new StoreHouseHeader(this);
-        //   header.setPadding(0, 15, 0, 0);
-
-        header.initWithString("Marshal Chen");
-        //  header.initWithStringArray(R.array.akta);
-        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-
-        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-                Logs.d("canbepull----" + canbePullDown);
-                return canbePullDown;
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                    }
-                }, 1800);
-            }
-        });
+//        ultimateRecyclerView.setCustomSwipeToRefresh();
+//        final StoreHouseHeader header = new StoreHouseHeader(this);
+//        //   header.setPadding(0, 15, 0, 0);
+//
+//        header.initWithString("Marshal Chen");
+//        //  header.initWithStringArray(R.array.akta);
+//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
+//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
+//
+//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+//            @Override
+//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
+//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
+//                return canbePullDown;
+//            }
+//
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+//                ptrFrameLayout.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+//                        //   ultimateRecyclerView.scrollBy(0, -50);
+//                        linearLayoutManager.scrollToPosition(0);
+//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+//                    }
+//                }, 1800);
+//            }
+//        });
 
     }
 
