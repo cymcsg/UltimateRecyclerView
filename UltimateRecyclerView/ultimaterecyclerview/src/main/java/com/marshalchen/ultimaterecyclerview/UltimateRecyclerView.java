@@ -37,7 +37,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  */
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     protected FloatingActionButton defaultFloatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
     private int lastVisibleItemPosition;
@@ -78,6 +78,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public int showLoadMoreItemNum = 3;
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
     public PtrFrameLayout mPtrFrameLayout;
 
     public UltimateRecyclerView(Context context) {
@@ -97,16 +98,13 @@ public class UltimateRecyclerView extends FrameLayout {
         initViews();
     }
 
+
     private void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setEnabled(false);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
 
         if (mRecyclerView != null) {
 
@@ -137,6 +135,10 @@ public class UltimateRecyclerView extends FrameLayout {
             mFloatingButtonView.setVisibility(View.VISIBLE);
         }
 
+
+    }
+
+    public void setCustomSwipeToRefresh(){
         mPtrFrameLayout = (PtrFrameLayout) findViewById(R.id.store_house_ptr_frame);
         mPtrFrameLayout.setResistance(1.7f);
         mPtrFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
@@ -430,8 +432,13 @@ public class UltimateRecyclerView extends FrameLayout {
      *
      * @param listener
      */
-    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
-        //mSwipeRefreshLayout.setEnabled(true);
+    public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         mSwipeRefreshLayout.setOnRefreshListener(listener);
     }
 
@@ -602,8 +609,8 @@ public class UltimateRecyclerView extends FrameLayout {
      *
      * @param isSwipeRefresh
      */
-    public void enableSwipeRefresh(boolean isSwipeRefresh) {
-       // mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
+    public void enableDefaultSwipeRefresh(boolean isSwipeRefresh) {
+        mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
     }
 
 
