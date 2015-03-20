@@ -1,11 +1,9 @@
 ###Upcoming changes in 0.3.0:
-[*] add a empty view when the adapter do not have data
+- [x] add a empty view when the adapter do not have data
+- [ ] add some colorful styles of  `swipe to refresh`
+- [x] add swapAdapter() ,getAdapter() etc.
+- [x] Custom FAB style
 
-[] add some colorful styles of  `swipe to refresh`
-
-[*] add swapAdapter() ,getAdapter() etc.
-
-[*] Custom FAB style
 
 ###Other changes:
 * More animations
