@@ -9,7 +9,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_height="fill_parent">
 
-        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        <in.srain.cube.views.ptr.PtrFrameLayout
             android:id="@+id/store_house_ptr_frame"
             xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+        </in.srain.cube.views.ptr.PtrFrameLayout>
     </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
 
     <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
