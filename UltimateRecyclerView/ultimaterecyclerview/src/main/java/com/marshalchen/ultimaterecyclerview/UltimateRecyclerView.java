@@ -80,7 +80,7 @@ public class UltimateRecyclerView extends FrameLayout {
     public int showLoadMoreItemNum = 3;
 
     VerticalSwipeRefreshLayout mSwipeRefreshLayout;
-    public PtrFrameLayout mPtrFrameLayout;
+
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -100,7 +100,7 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
-    private void initViews() {
+    protected void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
@@ -139,15 +139,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     }
 
-    public void setCustomSwipeToRefresh(){
-        mPtrFrameLayout = (PtrFrameLayout) findViewById(R.id.store_house_ptr_frame);
-        mPtrFrameLayout.setResistance(1.7f);
-        mPtrFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
-        mPtrFrameLayout.setDurationToClose(200);
-        mPtrFrameLayout.setDurationToCloseHeader(1000);
-        mPtrFrameLayout.setPullToRefresh(false);
-        mPtrFrameLayout.setKeepHeaderWhenRefresh(true);
-    }
+
 
     protected void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.UltimateRecyclerview);
