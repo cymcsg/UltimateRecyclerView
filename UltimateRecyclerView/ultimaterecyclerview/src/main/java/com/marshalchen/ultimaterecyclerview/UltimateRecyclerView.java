@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
+import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -78,7 +79,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     public int showLoadMoreItemNum = 3;
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    VerticalSwipeRefreshLayout mSwipeRefreshLayout;
     public PtrFrameLayout mPtrFrameLayout;
 
     public UltimateRecyclerView(Context context) {
@@ -103,7 +104,7 @@ public class UltimateRecyclerView extends FrameLayout {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setEnabled(false);
 
         if (mRecyclerView != null) {
