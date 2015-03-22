@@ -140,7 +140,6 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
-
     protected void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.UltimateRecyclerview);
 
@@ -426,6 +425,7 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param listener
      */
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+
         mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -471,7 +471,8 @@ public class UltimateRecyclerView extends FrameLayout {
     public void setAdapter(UltimateViewAdapter adapter) {
         mAdapter = adapter;
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
@@ -505,7 +506,8 @@ public class UltimateRecyclerView extends FrameLayout {
 
             private void update() {
                 isLoadingMore = false;
-                mSwipeRefreshLayout.setRefreshing(false);
+                if (mSwipeRefreshLayout != null)
+                    mSwipeRefreshLayout.setRefreshing(false);
 //
                 if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
                     mEmpty.setVisibility(View.VISIBLE);
@@ -541,7 +543,8 @@ public class UltimateRecyclerView extends FrameLayout {
      */
     public void setAdapter(RecyclerView.Adapter adapter) {
         mRecyclerView.setAdapter(adapter);
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(false);
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
@@ -575,7 +578,8 @@ public class UltimateRecyclerView extends FrameLayout {
 
             private void update() {
                 isLoadingMore = false;
-                mSwipeRefreshLayout.setRefreshing(false);
+                if (mSwipeRefreshLayout != null)
+                    mSwipeRefreshLayout.setRefreshing(false);
 //
             }
 
@@ -592,7 +596,8 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param refreshing
      */
     public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
 
@@ -603,7 +608,8 @@ public class UltimateRecyclerView extends FrameLayout {
      * @param isSwipeRefresh
      */
     public void enableDefaultSwipeRefresh(boolean isSwipeRefresh) {
-        mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setEnabled(isSwipeRefresh);
     }
 
 

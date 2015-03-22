@@ -37,8 +37,7 @@ public class CustomUltimateRecyclerview extends UltimateRecyclerView {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.custom_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
-        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setEnabled(false);
+        mSwipeRefreshLayout = null;
 
         if (mRecyclerView != null) {
 

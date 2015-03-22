@@ -55,9 +55,5 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-    <com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout
-        android:layout_width="fill_parent"
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_height="fill_parent">
-</com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
+
 </RelativeLayout>
