@@ -52,5 +52,6 @@
         app:recyclerviewPadding="2dp"
         app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewFloatingActionView="@layout/floating_view"
-        android:layout_marginTop="?attr/actionBarSize"></com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
+        app:recyclerviewScrollbars="vertical"
+        android:layout_marginTop="?attr/actionBarSize" />
 </FrameLayout>
