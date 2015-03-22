@@ -81,6 +81,12 @@ public class UltimateRecyclerView extends FrameLayout {
 
     VerticalSwipeRefreshLayout mSwipeRefreshLayout;
 
+    // added by Sevan Joe to support scrollbars
+    private static final int SCROLLBARS_NONE = 0;
+    private static final int SCROLLBARS_VERTICAL = 1;
+    private static final int SCROLLBARS_HORIZONTAL = 2;
+    private int mScrollbarsStyle;
+
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -105,6 +111,7 @@ public class UltimateRecyclerView extends FrameLayout {
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
         mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        setScrollbars();
         mSwipeRefreshLayout.setEnabled(false);
 
         if (mRecyclerView != null) {
@@ -139,6 +146,23 @@ public class UltimateRecyclerView extends FrameLayout {
 
     }
 
+    private void setScrollbars() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        switch (mScrollbarsStyle) {
+            case SCROLLBARS_VERTICAL:
+                mSwipeRefreshLayout.removeView(mRecyclerView);
+                View verticalView = inflater.inflate(R.layout.vertical_recycler_view, mSwipeRefreshLayout, true);
+                mRecyclerView = (RecyclerView) verticalView.findViewById(R.id.ultimate_list);
+                break;
+            case SCROLLBARS_HORIZONTAL:
+                mSwipeRefreshLayout.removeView(mRecyclerView);
+                View horizontalView = inflater.inflate(R.layout.horizontal_recycler_view, mSwipeRefreshLayout, true);
+                mRecyclerView = (RecyclerView) horizontalView.findViewById(R.id.ultimate_list);
+                break;
+            default:
+                break;
+        }
+    }
 
     protected void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.UltimateRecyclerview);
@@ -152,6 +176,7 @@ public class UltimateRecyclerView extends FrameLayout {
             mClipToPadding = typedArray.getBoolean(R.styleable.UltimateRecyclerview_recyclerviewClipToPadding, false);
             mEmptyId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewEmptyView, 0);
             mFloatingButtonId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewFloatingActionView, 0);
+            mScrollbarsStyle = typedArray.getInt(R.styleable.UltimateRecyclerview_recyclerviewScrollbars, SCROLLBARS_NONE);
         } finally {
 
             typedArray.recycle();
