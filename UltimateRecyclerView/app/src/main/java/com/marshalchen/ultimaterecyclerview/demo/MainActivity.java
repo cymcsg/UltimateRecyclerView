@@ -31,11 +31,6 @@ import com.marshalchen.ultimaterecyclerview.animators.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
-
 
 public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
 
@@ -353,8 +348,12 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_bottom) {
             Intent intent = new Intent(this, SwipeBottomActivity.class);
+            startActivity(intent);
+            return true;
+        }else if (id==R.id.action_custom){
+            Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
             startActivity(intent);
             return true;
         }
