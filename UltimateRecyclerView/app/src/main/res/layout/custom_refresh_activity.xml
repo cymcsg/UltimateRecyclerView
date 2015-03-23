@@ -44,14 +44,13 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
+        android:id="@+id/custom_ultimate_recycler_view"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewPadding="2dp"
         app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewFloatingActionView="@layout/floating_view"
-        app:recyclerviewScrollbars="vertical"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"></com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview>
 </FrameLayout>

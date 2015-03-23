@@ -22,7 +22,12 @@
         <activity
             android:name=".SwipeBottomActivity"
             android:label="@string/app_name"></activity>
-
+        <activity
+            android:name=".DefaultSwipeRefreshActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".CustomSwipeToRefreshRefreshActivity"
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>
