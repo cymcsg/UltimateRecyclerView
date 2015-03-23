@@ -1,9 +1,10 @@
 ###Upcoming changes in 0.3.0:
 - [x] add a empty view when the adapter do not have data
-- [ ] add some colorful styles of  `swipe to refresh`
+- [x] add some colorful styles of  `swipe to refresh`
 - [x] add swapAdapter() ,getAdapter() etc.
 - [x] Custom FAB style
-
+- [x] add support for scrollbars of RecyclerView
+- [ ] add sticky header like instagram
 
 ###Other changes:
 * More animations
@@ -11,7 +12,6 @@
 * setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 * trigger to bring the item back when swipe to dismiss
 * add swipe to refresh at the bottom
-* add support for scrollbars of RecyclerView
 * etc...  
 
 Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
