@@ -35,9 +35,14 @@ Notice that UltimateRecyclerView is a project under development.
 * Colorful style of Swipe to refresh
 * ...
 
-If you have some good idea, please mention us.My email is cymcsg # gmail.com
 
-####Welcome to fork.
+[Upcoming changes in UltiamteRecyclerview 0.3.0](UpcomingChanges.md):
+
+
+
+If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
+
+####Welcome to fork and pull request.
 
 ###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
