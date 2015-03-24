@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +56,9 @@ import java.util.List;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
+import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 
 public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity implements ActionMode.Callback {
@@ -262,6 +265,11 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 //                new HorizontalDividerItemDecoration.Builder(this).build());
 
         ultimateRecyclerView.setCustomSwipeToRefresh();
+        refreshingString();
+
+    }
+
+    void refreshingString() {
         final StoreHouseHeader header = new StoreHouseHeader(this);
         //   header.setPadding(0, 15, 0, 0);
 
@@ -269,7 +277,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
         //  header.initWithStringArray(R.array.akta);
         ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-
+        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
         ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
@@ -286,11 +294,116 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                        changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
                     }
                 }, 1800);
             }
         });
 
+    }
+
+    Handler changeHeaderHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    refreshingStringArray();
+                    break;
+                case 1:
+                    refreshingString();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+    };
+    private int mLoadTime = 0;
+
+    void refreshingStringArray() {
+
+
+        final StoreHouseHeader header = new StoreHouseHeader(this);
+        header.setPadding(0, 15, 0, 0);
+
+        // using string array from resource xml file
+        header.initWithStringArray(R.array.storehouse);
+
+        ultimateRecyclerView.mPtrFrameLayout.setDurationToCloseHeader(1500);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
+        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+//        ultimateRecyclerView.mPtrFrameLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+//            }
+//        }, 100);
+
+        // change header after loaded
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(new PtrUIHandler() {
+
+
+            @Override
+            public void onUIReset(PtrFrameLayout frame) {
+                mLoadTime++;
+                if (mLoadTime % 2 == 0) {
+                    header.setScale(1);
+                    header.initWithStringArray(R.array.storehouse);
+                } else {
+                    header.setScale(0.5f);
+                    header.initWithStringArray(R.array.akta);
+                }
+            }
+
+            @Override
+            public void onUIRefreshPrepare(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIRefreshBegin(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIRefreshComplete(PtrFrameLayout frame) {
+
+            }
+
+            @Override
+            public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
+
+            }
+        });
+
+        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return true;
+            }
+
+            @Override
+            public void onRefreshBegin(final PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // frame.refreshComplete();
+                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                        if (mLoadTime % 2 == 0)
+                            changeHeaderHandler.sendEmptyMessageDelayed(1, 500);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     private void toggleSelection(int position) {
