@@ -289,6 +289,12 @@ public class UltimateRecyclerView extends FrameLayout {
                     .inflate(R.layout.bottom_progressbar, null));
     }
 
+    public void disableLoadmore() {
+        setDefaultScrollListener();
+        mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
+                .inflate(R.layout.empty_progressbar, null));
+    }
+
 
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
         if (mCallbacks != null) {
