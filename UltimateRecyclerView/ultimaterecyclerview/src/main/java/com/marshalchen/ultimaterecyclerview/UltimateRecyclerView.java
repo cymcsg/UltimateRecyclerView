@@ -880,12 +880,6 @@ public class UltimateRecyclerView extends FrameLayout {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-                    // Whether or not motion events are consumed by children,
-                    // flag initializations which are related to ACTION_DOWN events should be executed.
-                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
-                    // passed to parent (this view), the flags will be invalid.
-                    // Also, applications might implement initialization codes to onDownMotionEvent,
-                    // so call it here.
                     mFirstScroll = mDragging = true;
                     mCallbacks.onDownMotionEvent();
                     break;

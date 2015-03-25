@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,6 +56,8 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
+import in.srain.cube.views.ptr.header.MaterialHeader;
+import in.srain.cube.views.ptr.header.RentalsSunHeaderView;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
@@ -265,18 +266,19 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 //                new HorizontalDividerItemDecoration.Builder(this).build());
 
         ultimateRecyclerView.setCustomSwipeToRefresh();
+        // refreshingMaterial();
         refreshingString();
-
     }
 
     void refreshingString() {
-        final StoreHouseHeader header = new StoreHouseHeader(this);
+        storeHouseHeader = new StoreHouseHeader(this);
         //   header.setPadding(0, 15, 0, 0);
 
-        header.initWithString("Marshal Chen");
+        storeHouseHeader.initWithString("Marshal Chen");
         //  header.initWithStringArray(R.array.akta);
-        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(storeHouseHeader);
         ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
         ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
@@ -302,6 +304,74 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 
     }
 
+
+    void refreshingRental() {
+        rentalsSunHeaderView = new RentalsSunHeaderView(this);
+        rentalsSunHeaderView.setUp(ultimateRecyclerView.mPtrFrameLayout);
+
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(rentalsSunHeaderView);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(rentalsSunHeaderView);
+        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
+                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
+                return canbePullDown;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                        changeHeaderHandler.sendEmptyMessageDelayed(3, 500);
+                    }
+                }, 1800);
+            }
+        });
+
+    }
+
+    void refreshingMaterial() {
+        materialHeader = new MaterialHeader(this);
+        int[] colors = getResources().getIntArray(R.array.google_colors);
+        materialHeader.setColorSchemeColors(colors);
+        materialHeader.setLayoutParams(new PtrFrameLayout.LayoutParams(-1, -2));
+        materialHeader.setPadding(0, 15, 0, 10);
+        materialHeader.setPtrFrameLayout(ultimateRecyclerView.mPtrFrameLayout);
+        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(materialHeader);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(materialHeader);
+
+        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return true;
+            }
+
+            @Override
+            public void onRefreshBegin(final PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                     //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
+                    }
+                }, 1800);
+            }
+        });
+    }
+
     Handler changeHeaderHandler = new Handler() {
 
         @Override
@@ -312,11 +382,14 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                     refreshingStringArray();
                     break;
                 case 1:
+                  //  refreshingMaterial();
                     refreshingString();
                     break;
                 case 2:
+                    // refreshingString();
                     break;
                 case 3:
+                    refreshingString();
                     break;
                 case 4:
                     break;
@@ -324,19 +397,23 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
         }
     };
     private int mLoadTime = 0;
+    StoreHouseHeader storeHouseHeader;
+    MaterialHeader materialHeader;
+    RentalsSunHeaderView rentalsSunHeaderView;
 
     void refreshingStringArray() {
-
-
-        final StoreHouseHeader header = new StoreHouseHeader(this);
-        header.setPadding(0, 15, 0, 0);
+        storeHouseHeader = new StoreHouseHeader(this);
+        storeHouseHeader.setPadding(0, 15, 0, 0);
 
         // using string array from resource xml file
-        header.initWithStringArray(R.array.storehouse);
+        storeHouseHeader.initWithStringArray(R.array.storehouse);
 
         ultimateRecyclerView.mPtrFrameLayout.setDurationToCloseHeader(1500);
-        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(storeHouseHeader);
+
+
         ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
 //        ultimateRecyclerView.mPtrFrameLayout.postDelayed(new Runnable() {
 //            @Override
@@ -353,11 +430,11 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
             public void onUIReset(PtrFrameLayout frame) {
                 mLoadTime++;
                 if (mLoadTime % 2 == 0) {
-                    header.setScale(1);
-                    header.initWithStringArray(R.array.storehouse);
+                    storeHouseHeader.setScale(1);
+                    storeHouseHeader.initWithStringArray(R.array.storehouse);
                 } else {
-                    header.setScale(0.5f);
-                    header.initWithStringArray(R.array.akta);
+                    storeHouseHeader.setScale(0.5f);
+                    storeHouseHeader.initWithStringArray(R.array.akta);
                 }
             }
 

@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.2.2
+###Version:0.3.0
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -28,6 +28,13 @@ Notice that UltimateRecyclerView is a project under development.
 * Showing or hiding toolbar and floating button when scrolling
 
 
+
+###Changes in 0.3.0:
+- [x] add a empty view when the adapter do not have data
+- [x] add some colorful styles of  `swipe to refresh`
+- [x] add swapAdapter() ,getAdapter() etc.
+- [x] Custom FAB style
+- [x] add support for scrollbars of RecyclerView
 
 
 ###Upcoming features:
@@ -204,6 +211,21 @@ Showing and hiding toolbar and floating button:
             }
         });        
  ```
+ 
+Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
+
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ultimate_recycler_view"
+        app:recyclerviewClipToPadding="true"
+        app:recyclerviewPadding="2dp"
+        app:recyclerviewScrollbars="vertical" />                
+```
+Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
+
+
 ####If you want to see more details,you can check the demo.
 
 
