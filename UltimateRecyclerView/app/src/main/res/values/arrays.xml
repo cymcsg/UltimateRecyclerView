@@ -37,4 +37,16 @@
         <item>0,7,12,0,</item>
     </string-array>
 
+    <integer-array name="google_colors">
+        <item>@color/red</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+    </integer-array>
+
+    <color name="red">#FFC93437</color>
+    <color name="blue">#FF375BF1</color>
+    <color name="yellow">#FFF7D23E</color>
+    <color name="green">#FF34A350</color>
+
 </resources>
