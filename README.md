@@ -39,11 +39,11 @@ Notice that UltimateRecyclerView is a project under development.
 
 ###Upcoming features:
 * More animations
-* Colorful style of Swipe to refresh
+* Add sticky header like instagram
 * ...
 
 
-[Upcoming changes in UltiamteRecyclerview 0.3.0](UpcomingChanges.md):
+[Upcoming changes in UltiamteRecyclerview 0.4.0](UpcomingChanges.md):
 
 
 
@@ -212,15 +212,33 @@ Showing and hiding toolbar and floating button:
         });        
  ```
  
+Show empty view when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+app:recyclerviewEmptyView="@layout/empty_view"/>
+```
+
+Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+ app:recyclerviewFloatingActionView="@layout/floating_view"/>
+```
+
+Set custom colorful style of pull to refresh:
+```xml
+ <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
+ .../>
+``` 
+Using CustomUltimateRecyclerview instead of UltimateRecyclerView 
+``ultimateRecyclerView.setCustomSwipeToRefresh();``
+
+
 Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
 
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
-        app:recyclerviewClipToPadding="true"
-        app:recyclerviewPadding="2dp"
         app:recyclerviewScrollbars="vertical" />                
 ```
 Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
@@ -243,6 +261,7 @@ Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED*
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+* Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
