@@ -2,12 +2,10 @@
 - [ ] add sticky header like instagram
 - [ ] New recyclerview v22
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
-- [x] Custom FAB style
-- [x] add support for scrollbars of RecyclerView
+- [ ] trigger to bring the item back when swipe to dismiss
 
 ###Other changes:
 * More animations
-* trigger to bring the item back when swipe to dismiss
 * add swipe to refresh at the bottom
 * etc...  
 
