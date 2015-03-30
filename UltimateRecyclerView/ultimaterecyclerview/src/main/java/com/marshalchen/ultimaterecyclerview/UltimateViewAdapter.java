@@ -30,6 +30,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         if (viewType == VIEW_TYPES.FOOTER) {
             RecyclerView.ViewHolder viewHolder = new SimpleViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
@@ -38,6 +39,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
                 return new SimpleViewHolder(customHeaderView);
+        }else if (viewType==VIEW_TYPES.CHANGED_FOOTER){
+            RecyclerView.ViewHolder viewHolder = new SimpleViewHolder(customLoadMoreView);
+            if (getAdapterItemCount() == 0)
+                viewHolder.itemView.setVisibility(View.GONE);
+            return viewHolder;
         }
 
         return onCreateViewHolder(parent);
@@ -50,15 +56,26 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public void setCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
     }
-
+    public void swipeCustomLoadMoreView(View customview) {
+        customLoadMoreView = customview;
+        isLoadMoreChanged=true;
+    }
     public View getCustomLoadMoreView() {
         return customLoadMoreView;
     }
 
+    public boolean isLoadMoreChanged = false;
+
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1 && customLoadMoreView != null) {
-            return VIEW_TYPES.FOOTER;
+            if (isLoadMoreChanged) {
+                return VIEW_TYPES.CHANGED_FOOTER;
+            } else {
+                return VIEW_TYPES.FOOTER;
+            }
+
+
         } else if (position == 0 && customHeaderView != null) {
             return VIEW_TYPES.HEADER;
         } else
@@ -165,6 +182,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         public static final int NORMAL = 0;
         public static final int HEADER = 1;
         public static final int FOOTER = 2;
+        public static final int CHANGED_FOOTER = 3;
     }
 
 

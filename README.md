@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.2.2
+###Version:0.3.0
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -29,14 +29,21 @@ Notice that UltimateRecyclerView is a project under development.
 
 
 
+###Changes in 0.3.0:
+- [x] add a empty view when the adapter do not have data
+- [x] add some colorful styles of  `swipe to refresh`
+- [x] add swapAdapter() ,getAdapter() etc.
+- [x] Custom FAB style
+- [x] add support for scrollbars of RecyclerView
+
 
 ###Upcoming features:
 * More animations
-* Colorful style of Swipe to refresh
+* Add sticky header like instagram
 * ...
 
 
-[Upcoming changes in UltiamteRecyclerview 0.3.0](UpcomingChanges.md):
+[Upcoming changes in UltiamteRecyclerview 0.4.0](UpcomingChanges.md):
 
 
 
@@ -72,7 +79,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.2.2'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
 }
 ```
 
@@ -204,6 +211,39 @@ Showing and hiding toolbar and floating button:
             }
         });        
  ```
+ 
+Show empty view when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+app:recyclerviewEmptyView="@layout/empty_view"/>
+```
+
+Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+ app:recyclerviewFloatingActionView="@layout/floating_view"/>
+```
+
+Set custom colorful style of pull to refresh:
+```xml
+ <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
+ .../>
+``` 
+Using CustomUltimateRecyclerview instead of UltimateRecyclerView 
+``ultimateRecyclerView.setCustomSwipeToRefresh();``
+
+
+Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
+
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        app:recyclerviewScrollbars="vertical" />                
+```
+Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
+
+
 ####If you want to see more details,you can check the demo.
 
 
@@ -221,6 +261,7 @@ Showing and hiding toolbar and floating button:
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+* Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
