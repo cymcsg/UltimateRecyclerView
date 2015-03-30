@@ -266,8 +266,10 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 //                new HorizontalDividerItemDecoration.Builder(this).build());
 
         ultimateRecyclerView.setCustomSwipeToRefresh();
+
         // refreshingMaterial();
         refreshingString();
+
     }
 
     void refreshingString() {
