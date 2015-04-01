@@ -31,8 +31,6 @@ import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActi
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-import in.srain.cube.views.ptr.PtrFrameLayout;
-
 /**
  * UltimateRecyclerView is a recyclerview which contains the function of swipe to dismiss,animations,drag drop etc.
  */
@@ -899,7 +897,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Logs.d("mCallbacks   " + (mCallbacks == null));
+        URLogs.d("mCallbacks   " + (mCallbacks == null));
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
