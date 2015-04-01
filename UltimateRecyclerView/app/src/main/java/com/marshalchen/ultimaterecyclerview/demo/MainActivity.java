@@ -20,7 +20,7 @@ import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.Logs;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
                     public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("onItemClick()");
+                        URLogs.d("onItemClick()");
                         if (actionMode != null && isDrag) {
                             toggleSelection(position);
                         }
@@ -155,9 +155,9 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
                     @Override
                     public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        Logs.d("onItemLongClick()" + isDrag);
+                        URLogs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
-                            Logs.d("onItemLongClick()" + isDrag);
+                            URLogs.d("onItemLongClick()" + isDrag);
                             toolbar.startActionMode(MainActivity.this);
                             toggleSelection(position);
                             dragDropTouchListener.startDrag();
@@ -201,12 +201,12 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 simpleRecyclerViewAdapter.clearSelection(from);
                 simpleRecyclerViewAdapter.notifyItemChanged(to);
                 if (actionMode != null) actionMode.finish();
-                Logs.d("switch----");
+                URLogs.d("switch----");
             }
 
             @Override
             protected void onItemDrop(RecyclerView recyclerView, int position) {
-                Logs.d("drop----");
+                URLogs.d("drop----");
                 ultimateRecyclerView.enableDefaultSwipeRefresh(true);
             }
         };
@@ -224,7 +224,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Logs.d("selected---" + Type.values()[position].getTitle());
+                URLogs.d("selected---" + Type.values()[position].getTitle());
                 ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
                 ultimateRecyclerView.getItemAnimator().setAddDuration(300);
                 ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
@@ -302,7 +302,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        Logs.d("actionmode---" + (mode == null));
+        URLogs.d("actionmode---" + (mode == null));
         mode.getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
         //  return false;
