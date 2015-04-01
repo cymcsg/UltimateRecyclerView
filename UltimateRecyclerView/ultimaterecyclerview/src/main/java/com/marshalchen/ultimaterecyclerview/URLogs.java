@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Only for debug
  */
-public final class Logs {
+public final class URLogs {
     private static boolean sIsLogEnabled = true;
 
     private static String sApplicationTag = "Chen";
@@ -248,7 +248,7 @@ public final class Logs {
      * @param sIsLogEnabled
      */
     public static void setsIsLogEnabled(boolean sIsLogEnabled) {
-        Logs.sIsLogEnabled = sIsLogEnabled;
+        URLogs.sIsLogEnabled = sIsLogEnabled;
     }
 
 
@@ -257,7 +257,7 @@ public final class Logs {
     }
 
     public static void setsApplicationTag(String sApplicationTag) {
-        Logs.sApplicationTag = sApplicationTag;
+        URLogs.sApplicationTag = sApplicationTag;
     }
 
     public static String getTagContentPrint() {
