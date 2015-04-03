@@ -53,9 +53,18 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
 
+    /**
+     * Using a custom LoadMoreView
+     * @param customview
+     */
     public void setCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
     }
+
+    /**
+     * Changing the loadmore view
+     * @param customview
+     */
     public void swipeCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
         isLoadMoreChanged=true;
