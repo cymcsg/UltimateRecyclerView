@@ -96,6 +96,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
+//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
