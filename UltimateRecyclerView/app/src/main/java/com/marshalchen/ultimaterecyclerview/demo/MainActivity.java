@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
 
         stringList.add("111");
         stringList.add("aaa");
@@ -68,6 +67,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         stringList.add("55");
         stringList.add("66");
         stringList.add("11771");
+        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
+
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
