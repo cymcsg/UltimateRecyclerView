@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private View customLoadMoreView = null;
+    protected View customLoadMoreView = null;
 
     /**
      * Set the header view of the adapter.
@@ -33,20 +33,20 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new SimpleViewHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
-                return new SimpleViewHolder(customHeaderView);
+                return new UltimateRecyclerviewViewHolder(customHeaderView);
         }else if (viewType==VIEW_TYPES.CHANGED_FOOTER){
-            RecyclerView.ViewHolder viewHolder = new SimpleViewHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
         }else if (viewType==VIEW_TYPES.STICKY_HEADER){
-            return new SimpleViewHolder(LayoutInflater.from(parent.getContext())
+            return new UltimateRecyclerviewViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.stick_header_item, parent, false));
         }
 
@@ -55,7 +55,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent);
+    public abstract UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent);
 
     /**
      * Using a custom LoadMoreView
@@ -184,14 +184,14 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    class SimpleViewHolder extends RecyclerView.ViewHolder {
-        public SimpleViewHolder(View itemView) {
+   protected class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
+        public UltimateRecyclerviewViewHolder(View itemView) {
             super(itemView);
         }
 
     }
 
-    private class VIEW_TYPES {
+    protected class VIEW_TYPES {
         public static final int NORMAL = 0;
         public static final int HEADER = 1;
         public static final int FOOTER = 2;
