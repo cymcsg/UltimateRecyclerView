@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.tonicartos.superslim.GridSLM;
 import com.tonicartos.superslim.LayoutManager;
@@ -40,7 +41,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 //            }
             mItems.add(new LineItem(stringList.get(i), false, sectionManager, sectionFirstPosition));
         }
-        Logs.d("mitem--" + mItems.size());
+        URLogs.d("mitem--" + mItems.size());
     }
 
 
