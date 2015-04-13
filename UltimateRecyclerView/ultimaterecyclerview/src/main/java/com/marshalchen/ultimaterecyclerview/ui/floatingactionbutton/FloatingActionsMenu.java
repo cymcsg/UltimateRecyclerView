@@ -23,7 +23,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
-import com.marshalchen.ultimaterecyclerview.Logs;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.R;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -222,7 +222,7 @@ public class FloatingActionsMenu extends ViewGroup {
             if (!isHorizontal)
                 child.layout(0, childY, child.getMeasuredWidth(), childY + child.getMeasuredHeight());
             else {
-                Logs.d("num---" + child.getMeasuredWidth() + "   " + child.getMeasuredHeight() + "   " + childX + "   " + childY);
+                URLogs.d("num---" + child.getMeasuredWidth() + "   " + child.getMeasuredHeight() + "   " + childX + "   " + childY);
                 child.layout(childX, 0,
                         childX + child.getMeasuredWidth(), child.getMeasuredHeight());
             }
