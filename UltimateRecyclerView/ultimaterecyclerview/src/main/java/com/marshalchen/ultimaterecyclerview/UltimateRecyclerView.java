@@ -31,8 +31,6 @@ import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActi
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-import in.srain.cube.views.ptr.PtrFrameLayout;
-
 /**
  * UltimateRecyclerView is a recyclerview which contains the function of swipe to dismiss,animations,drag drop etc.
  */
@@ -190,7 +188,7 @@ public class UltimateRecyclerView extends FrameLayout {
      */
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
         int[] notToDismiss = null;
-        if (mAdapter.getCustomHeaderView() != null) {
+        if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
             notToDismiss = new int[]{
                     0
             };
@@ -284,7 +282,7 @@ public class UltimateRecyclerView extends FrameLayout {
             }
         };
         mRecyclerView.setOnScrollListener(mOnScrollListener);
-        if (mAdapter.getCustomLoadMoreView() == null)
+        if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
     }
@@ -504,61 +502,64 @@ public class UltimateRecyclerView extends FrameLayout {
         mRecyclerView.setAdapter(mAdapter);
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setRefreshing(false);
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeChanged(int positionStart, int itemCount) {
-                super.onItemRangeChanged(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                super.onItemRangeRemoved(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-                super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-                update();
-            }
-
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                update();
-            }
-
-            private void update() {
-                isLoadingMore = false;
-                if (mSwipeRefreshLayout != null)
-                    mSwipeRefreshLayout.setRefreshing(false);
-//
-                if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
-                    mEmpty.setVisibility(View.VISIBLE);
-                } else if (mEmptyId != 0) {
-                    mEmpty.setVisibility(View.GONE);
+        if (mAdapter != null)
+            mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeChanged(int positionStart, int itemCount) {
+                    super.onItemRangeChanged(positionStart, itemCount);
+                    update();
                 }
+
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    update();
+                }
+
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    super.onItemRangeRemoved(positionStart, itemCount);
+                    update();
+                }
+
+                @Override
+                public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                    super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+                    update();
+                }
+
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                    update();
+                }
+
+                private void update() {
+                    isLoadingMore = false;
+                    if (mSwipeRefreshLayout != null)
+                        mSwipeRefreshLayout.setRefreshing(false);
+//
+                    if (mAdapter == null)
+                        return;
+                    if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
+                        mEmpty.setVisibility(View.VISIBLE);
+                    } else if (mEmptyId != 0) {
+                        mEmpty.setVisibility(View.GONE);
+                    }
 //                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomHeaderView() != null
 //                        && mAdapter.getCustomHeaderView().getVisibility() == View.GONE) {
 //                    mAdapter.getCustomHeaderView().setVisibility(View.VISIBLE);
 //                }
-                if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null
-                        && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
-                    mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+                    if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null
+                            && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
+                        mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+                    }
+                    if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null) {
+                        mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
+                    }
                 }
-                if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null) {
-                    mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
-                }
-            }
 
-        });
+            });
         if ((adapter == null || adapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
             mEmpty.setVisibility(View.VISIBLE);
         }
@@ -678,8 +679,8 @@ public class UltimateRecyclerView extends FrameLayout {
         mHeader = new CustomRelativeWrapper(header.getContext());
         mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        mAdapter.setCustomHeaderView(mHeader);
+        if (mAdapter != null)
+            mAdapter.setCustomHeaderView(mHeader);
     }
 
     /**
@@ -896,7 +897,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Logs.d("mCallbacks   " + (mCallbacks == null));
+        URLogs.d("mCallbacks   " + (mCallbacks == null));
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
