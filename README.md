@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.0
+###Version:0.3.1
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -27,6 +27,8 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
+* scrollbars
+* Colorful styles of ``swipe to refresh``
 
 
 
