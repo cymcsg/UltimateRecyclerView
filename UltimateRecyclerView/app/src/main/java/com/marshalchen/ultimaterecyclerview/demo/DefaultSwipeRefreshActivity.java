@@ -2,10 +2,10 @@ package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,13 +26,35 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
+
+
+public class DefaultSwipeRefreshActivity extends ActionBarActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
@@ -58,6 +80,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
+        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
 
         stringList.add("111");
         stringList.add("aaa");
@@ -67,8 +90,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         stringList.add("55");
         stringList.add("66");
         stringList.add("11771");
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
@@ -97,8 +118,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
@@ -158,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         URLogs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
                             URLogs.d("onItemLongClick()" + isDrag);
-                            toolbar.startActionMode(MainActivity.this);
+                            toolbar.startActionMode(DefaultSwipeRefreshActivity.this);
                             toggleSelection(position);
                             dragDropTouchListener.startDrag();
                             ultimateRecyclerView.enableDefaultSwipeRefresh(false);
@@ -252,35 +271,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 //        ultimateRecyclerView.addItemDecoration(
 //                new HorizontalDividerItemDecoration.Builder(this).build());
 
-//        ultimateRecyclerView.setCustomSwipeToRefresh();
-//        final StoreHouseHeader header = new StoreHouseHeader(this);
-//        //   header.setPadding(0, 15, 0, 0);
-//
-//        header.initWithString("Marshal Chen");
-//        //  header.initWithStringArray(R.array.akta);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                    }
-//                }, 1800);
-//            }
-//        });
+
 
     }
 
@@ -353,10 +344,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_bottom) {
             Intent intent = new Intent(this, SwipeBottomActivity.class);
-            startActivity(intent);
-            return true;
-        }else if (id==R.id.action_custom){
-            Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
             startActivity(intent);
             return true;
         }

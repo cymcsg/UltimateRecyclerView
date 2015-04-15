@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.2.1
+###Version:0.3.0
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -7,9 +7,11 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+#####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+
 
 Notice that UltimateRecyclerView is a project under development.
 
@@ -28,21 +30,33 @@ Notice that UltimateRecyclerView is a project under development.
 
 
 
+###Changes in 0.3.0:
+- [x] add a empty view when the adapter do not have data
+- [x] add some colorful styles of  `swipe to refresh`
+- [x] add swapAdapter() ,getAdapter() etc.
+- [x] Custom FAB style
+- [x] add support for scrollbars of RecyclerView
+
 
 ###Upcoming features:
 * More animations
-* Colorful style of Swipe to refresh
+* Add sticky header like instagram
 * ...
 
-If you have some good idea, please mention us.My email is cymcsg # gmail.com
 
-####Welcome to fork.
+[Upcoming changes in UltiamteRecyclerview 0.4.0](UpcomingChanges.md):
+
+
+
+If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
+
+####Welcome to fork and pull request.
 
 ###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 
 ###Screenshot
-
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/0bed76fcdecb604afab39df9ce1a509af4b6f995/ultimaterecyclerview/ultimate_recyclerview6.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
@@ -66,7 +80,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.2.1'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
 }
 ```
 
@@ -198,6 +212,39 @@ Showing and hiding toolbar and floating button:
             }
         });        
  ```
+ 
+Show empty view when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+app:recyclerviewEmptyView="@layout/empty_view"/>
+```
+
+Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+...
+ app:recyclerviewFloatingActionView="@layout/floating_view"/>
+```
+
+Set custom colorful style of pull to refresh:
+```xml
+ <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
+ .../>
+``` 
+Using CustomUltimateRecyclerview instead of UltimateRecyclerView 
+``ultimateRecyclerView.setCustomSwipeToRefresh();``
+
+
+Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
+
+```xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        app:recyclerviewScrollbars="vertical" />                
+```
+Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
+
+
 ####If you want to see more details,you can check the demo.
 
 
@@ -215,6 +262,7 @@ Showing and hiding toolbar and floating button:
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+* Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
