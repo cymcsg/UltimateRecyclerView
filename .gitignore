@@ -38,6 +38,12 @@ output/
 .gradle
 build/
 
+# key info:
+ultimateandroid.jks
+keystore.properties
+gradleinfo.properties
+
+
 # Ignore Gradle GUI config
 gradle-app.setting
 manifest-merger-release-report.txt
