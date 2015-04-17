@@ -232,10 +232,10 @@ public class UltimateRecyclerView extends FrameLayout {
                 int totalItemCount = layoutManager.getItemCount();
                 //  int lastVisibleItemPosition = -1;
                 if (layoutManagerType == null) {
-                    if (layoutManager instanceof LinearLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
-                    } else if (layoutManager instanceof GridLayoutManager) {
+                    if (layoutManager instanceof GridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
+                    } else if (layoutManager instanceof LinearLayoutManager) {
+                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
                     } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID;
                     } else {
@@ -245,10 +245,8 @@ public class UltimateRecyclerView extends FrameLayout {
 
                 switch (layoutManagerType) {
                     case LINEAR:
-                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                        break;
                     case GRID:
-                        lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                         break;
                     case STAGGERED_GRID:
                         StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
