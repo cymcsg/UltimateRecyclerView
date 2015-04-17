@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -86,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 toolbar.setBackgroundDrawable(c);
             }
         });
-
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
