@@ -103,6 +103,9 @@ public class UltimateRecyclerView extends FrameLayout {
         initViews();
     }
 
+    public void setRecylerViewBackgroundColor(int color) {
+        mRecyclerView.setBackgroundColor(color);
+    }
 
     protected void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
