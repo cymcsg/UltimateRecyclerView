@@ -466,6 +466,15 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
     /**
+     * Set the color resources used in the progress animation from color resources. The first color will also be the color of the bar that grows in response to a user swipe gesture.
+
+     * @param colors
+     */
+    public void setDefaultSwipeToRefreshColorScheme(int... colors ){
+        mSwipeRefreshLayout.setColorSchemeColors(colors);
+    }
+
+    /**
      * Set the load more listener of recyclerview
      *
      * @param onLoadMoreListener
