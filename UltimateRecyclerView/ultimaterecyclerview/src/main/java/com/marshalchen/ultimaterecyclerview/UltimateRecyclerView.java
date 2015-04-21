@@ -193,8 +193,9 @@ public class UltimateRecyclerView extends FrameLayout {
      *
      * @param dismissCallbacks
      */
-    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
+    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) throws NullPointerException {
         int[] notToDismiss = null;
+        if (mAdapter == null) throw new NullPointerException();
         if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
             notToDismiss = new int[]{
                     0
@@ -461,7 +462,7 @@ public class UltimateRecyclerView extends FrameLayout {
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
 
         mSwipeRefreshLayout.setEnabled(true);
-        URLogs.d("default---"+(defaultSwipeToDismissColors==null));
+        URLogs.d("default---" + (defaultSwipeToDismissColors == null));
         if (defaultSwipeToDismissColors != null && defaultSwipeToDismissColors.length > 0) {
             mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors);
         } else {
