@@ -32,12 +32,14 @@ Notice that UltimateRecyclerView is a project under development.
 
 
 
-###Changes in 0.3.0:
+###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
 - [x] add some colorful styles of  `swipe to refresh`
 - [x] add swapAdapter() ,getAdapter() etc.
 - [x] Custom FAB style
 - [x] add support for scrollbars of RecyclerView
+- [x] set background color of recyclerview
+- [x] set default swipe to dismiss color
 
 
 ###Upcoming features:
