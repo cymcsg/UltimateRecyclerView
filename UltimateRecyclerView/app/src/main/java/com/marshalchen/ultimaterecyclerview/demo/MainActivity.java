@@ -204,11 +204,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
             @Override
             protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                simpleRecyclerViewAdapter.swapPositions(from, to);
-                simpleRecyclerViewAdapter.clearSelection(from);
-                simpleRecyclerViewAdapter.notifyItemChanged(to);
-                if (actionMode != null) actionMode.finish();
-                URLogs.d("switch----");
+                if (from > 0 && to > 0) {
+                    simpleRecyclerViewAdapter.swapPositions(from, to);
+                    simpleRecyclerViewAdapter.clearSelection(from);
+                    simpleRecyclerViewAdapter.notifyItemChanged(to);
+                    if (actionMode != null) actionMode.finish();
+                    URLogs.d("switch----");
+                }
+
             }
 
             @Override
@@ -362,7 +365,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             Intent intent = new Intent(this, SwipeBottomActivity.class);
             startActivity(intent);
             return true;
-        }else if (id==R.id.action_custom){
+        } else if (id == R.id.action_custom) {
             Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
             startActivity(intent);
             return true;
