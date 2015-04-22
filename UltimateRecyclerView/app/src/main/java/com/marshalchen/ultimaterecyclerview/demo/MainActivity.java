@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -86,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 toolbar.setBackgroundDrawable(c);
             }
         });
-
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -119,6 +120,12 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }, 1000);
             }
         });
+
+//        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
+//                getResources().getColor(android.R.color.holo_green_light),
+//                getResources().getColor(android.R.color.holo_orange_light),
+//                getResources().getColor(android.R.color.holo_red_light));
+
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -197,11 +204,14 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
             @Override
             protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                simpleRecyclerViewAdapter.swapPositions(from, to);
-                simpleRecyclerViewAdapter.clearSelection(from);
-                simpleRecyclerViewAdapter.notifyItemChanged(to);
-                if (actionMode != null) actionMode.finish();
-                URLogs.d("switch----");
+                if (from > 0 && to > 0) {
+                    simpleRecyclerViewAdapter.swapPositions(from, to);
+                    simpleRecyclerViewAdapter.clearSelection(from);
+                    simpleRecyclerViewAdapter.notifyItemChanged(to);
+                    if (actionMode != null) actionMode.finish();
+                    URLogs.d("switch----");
+                }
+
             }
 
             @Override
@@ -355,7 +365,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             Intent intent = new Intent(this, SwipeBottomActivity.class);
             startActivity(intent);
             return true;
-        }else if (id==R.id.action_custom){
+        } else if (id == R.id.action_custom) {
             Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
             startActivity(intent);
             return true;

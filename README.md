@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.0
+###Version:0.3.1
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -27,15 +27,19 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
+* scrollbars
+* Colorful styles of ``swipe to refresh``
 
 
 
-###Changes in 0.3.0:
+###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
 - [x] add some colorful styles of  `swipe to refresh`
 - [x] add swapAdapter() ,getAdapter() etc.
 - [x] Custom FAB style
 - [x] add support for scrollbars of RecyclerView
+- [x] add method set background color of recyclerview
+- [x] add method to set default swipe to dismiss color
 
 
 ###Upcoming features:

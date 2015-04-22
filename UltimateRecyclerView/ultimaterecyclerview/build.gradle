@@ -33,6 +33,6 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.3.1'
+    PUBLISH_VERSION = '0.3.2'
 }
 apply from: 'android-release-aar.gradle'

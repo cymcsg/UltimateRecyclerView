@@ -43,6 +43,7 @@
             <enum name="vertical" value="1" />
             <enum name="horizontal" value="2" />
         </attr>
+        <attr name="recyclerviewDefaultSwipeColor" format="reference"></attr>
     </declare-styleable>
 
     <declare-styleable name="AddFloatingActionButton">

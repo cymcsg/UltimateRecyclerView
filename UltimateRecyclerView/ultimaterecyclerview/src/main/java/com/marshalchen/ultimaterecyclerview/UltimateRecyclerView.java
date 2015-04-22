@@ -74,7 +74,7 @@ public class UltimateRecyclerView extends FrameLayout {
     protected ViewStub mFloatingButtonViewStub;
     protected View mFloatingButtonView;
     protected int mFloatingButtonId;
-
+    protected int[] defaultSwipeToDismissColors = null;
     public int showLoadMoreItemNum = 3;
 
     VerticalSwipeRefreshLayout mSwipeRefreshLayout;
@@ -103,6 +103,9 @@ public class UltimateRecyclerView extends FrameLayout {
         initViews();
     }
 
+    public void setRecylerViewBackgroundColor(int color) {
+        mRecyclerView.setBackgroundColor(color);
+    }
 
     protected void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -175,6 +178,10 @@ public class UltimateRecyclerView extends FrameLayout {
             mEmptyId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewEmptyView, 0);
             mFloatingButtonId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewFloatingActionView, 0);
             mScrollbarsStyle = typedArray.getInt(R.styleable.UltimateRecyclerview_recyclerviewScrollbars, SCROLLBARS_NONE);
+            int colorList = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewDefaultSwipeColor, 0);
+            if (colorList != 0) {
+                defaultSwipeToDismissColors = getResources().getIntArray(colorList);
+            }
         } finally {
 
             typedArray.recycle();
@@ -186,8 +193,9 @@ public class UltimateRecyclerView extends FrameLayout {
      *
      * @param dismissCallbacks
      */
-    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) {
+    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) throws NullPointerException {
         int[] notToDismiss = null;
+        if (mAdapter == null) throw new NullPointerException();
         if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
             notToDismiss = new int[]{
                     0
@@ -232,10 +240,10 @@ public class UltimateRecyclerView extends FrameLayout {
                 int totalItemCount = layoutManager.getItemCount();
                 //  int lastVisibleItemPosition = -1;
                 if (layoutManagerType == null) {
-                    if (layoutManager instanceof LinearLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
-                    } else if (layoutManager instanceof GridLayoutManager) {
+                    if (layoutManager instanceof GridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
+                    } else if (layoutManager instanceof LinearLayoutManager) {
+                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
                     } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID;
                     } else {
@@ -245,10 +253,8 @@ public class UltimateRecyclerView extends FrameLayout {
 
                 switch (layoutManagerType) {
                     case LINEAR:
-                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                        break;
                     case GRID:
-                        lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                         break;
                     case STAGGERED_GRID:
                         StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
@@ -456,12 +462,27 @@ public class UltimateRecyclerView extends FrameLayout {
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
 
         mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        URLogs.d("default---" + (defaultSwipeToDismissColors == null));
+        if (defaultSwipeToDismissColors != null && defaultSwipeToDismissColors.length > 0) {
+            mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors);
+        } else {
+            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
+        }
 
         mSwipeRefreshLayout.setOnRefreshListener(listener);
+    }
+
+    /**
+     * Set the color resources used in the progress animation from color resources. The first color will also be the color of the bar that grows in response to a user swipe gesture.
+     *
+     * @param colors
+     */
+    public void setDefaultSwipeToRefreshColorScheme(int... colors) {
+        mSwipeRefreshLayout.setColorSchemeColors(colors);
     }
 
     /**
