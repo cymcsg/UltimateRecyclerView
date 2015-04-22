@@ -5,8 +5,8 @@
 - [ ] trigger to bring the item back when swipe to dismiss
 - [ ] auto judge loadmore or header in adatper
 - [ ] swipe position judge
-- [x] set background color of recyclerview
-- [x] set default swipe to dismiss color
+- [x] add method to set background color of recyclerview
+- [x] add method to set default swipe to dismiss color
 - [ ] add loading state of URV
 
 

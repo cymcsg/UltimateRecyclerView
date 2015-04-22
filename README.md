@@ -38,8 +38,8 @@ Notice that UltimateRecyclerView is a project under development.
 - [x] add swapAdapter() ,getAdapter() etc.
 - [x] Custom FAB style
 - [x] add support for scrollbars of RecyclerView
-- [x] set background color of recyclerview
-- [x] set default swipe to dismiss color
+- [x] add method set background color of recyclerview
+- [x] add method to set default swipe to dismiss color
 
 
 ###Upcoming features:
