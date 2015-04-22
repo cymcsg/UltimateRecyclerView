@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.1
+###Version:0.3.2
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
