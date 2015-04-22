@@ -35,4 +35,5 @@ ext {
     PUBLISH_ARTIFACT_ID = 'library'
     PUBLISH_VERSION = '0.3.2'
 }
-apply from: 'android-release-aar.gradle'
+//apply from: 'android-release-aar.gradle'
+apply from: 'maven-push.gradle'
