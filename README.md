@@ -84,7 +84,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.2'
 }
 ```
 
