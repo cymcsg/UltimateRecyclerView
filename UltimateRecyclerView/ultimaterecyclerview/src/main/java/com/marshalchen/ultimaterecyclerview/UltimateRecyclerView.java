@@ -77,7 +77,7 @@ public class UltimateRecyclerView extends FrameLayout {
     protected int[] defaultSwipeToDismissColors = null;
     public int showLoadMoreItemNum = 3;
 
-    VerticalSwipeRefreshLayout mSwipeRefreshLayout;
+    public VerticalSwipeRefreshLayout mSwipeRefreshLayout;
 
     // added by Sevan Joe to support scrollbars
     private static final int SCROLLBARS_NONE = 0;
