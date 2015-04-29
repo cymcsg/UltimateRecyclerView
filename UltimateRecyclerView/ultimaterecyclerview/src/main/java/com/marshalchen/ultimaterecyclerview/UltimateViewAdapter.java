@@ -45,10 +45,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
-        }else if (viewType==VIEW_TYPES.STICKY_HEADER){
-            return new UltimateRecyclerviewViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.stick_header_item, parent, false));
         }
+//        else if (viewType==VIEW_TYPES.STICKY_HEADER){
+//            return new UltimateRecyclerviewViewHolder(LayoutInflater.from(parent.getContext())
+//                    .inflate(R.layout.stick_header_item, parent, false));
+//        }
 
         return onCreateViewHolder(parent);
 
@@ -196,7 +197,6 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         public static final int HEADER = 1;
         public static final int FOOTER = 2;
         public static final int CHANGED_FOOTER = 3;
-        public static final int STICKY_HEADER = 4;
     }
 
 

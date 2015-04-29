@@ -2,16 +2,11 @@
 <TextView
     android:id="@+id/text"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="start"
     android:padding="16dip"
     android:textDirection="locale"
     android:textSize="24sp"
-    app:slm_headerDisplay="inline|sticky"
-    app:slm_isHeader="true"
-    app:slm_section_headerMarginStart="56dip"
     android:text="Header Item"
     /><!--app:slm_headerEndMargin="56dip"-->
