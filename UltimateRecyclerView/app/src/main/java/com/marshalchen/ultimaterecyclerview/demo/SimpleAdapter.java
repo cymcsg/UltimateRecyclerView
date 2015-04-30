@@ -100,16 +100,16 @@ public class SimpleAdapter extends UltimateViewAdapter {
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         TextView textView = (TextView) viewHolder.itemView;
         textView.setText(String.valueOf(getItem(position).charAt(0)));
-        viewHolder.itemView.setBackgroundColor(getRandomColor());
+        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
 
     }
-
-    private int getRandomColor() {
-        SecureRandom rgen = new SecureRandom();
-        return Color.HSVToColor(150, new float[]{
-                rgen.nextInt(359), 1, 1
-        });
-    }
+//
+//    private int getRandomColor() {
+//        SecureRandom rgen = new SecureRandom();
+//        return Color.HSVToColor(150, new float[]{
+//                rgen.nextInt(359), 1, 1
+//        });
+//    }
 
 
     class ViewHolder extends UltimateRecyclerviewViewHolder {
