@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 2
         versionName "1.0"
@@ -27,7 +27,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'in.srain.cube:ultra-ptr:1.0.8@aar'
-    compile 'com.tonicartos:superslim:0.4.10'
+    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.0@aar'
 }
 
 ext {

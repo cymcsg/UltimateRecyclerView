@@ -9,4 +9,4 @@
     android:textDirection="locale"
     android:textSize="24sp"
     android:text="Header Item"
-    /><!--app:slm_headerEndMargin="56dip"-->
+    />

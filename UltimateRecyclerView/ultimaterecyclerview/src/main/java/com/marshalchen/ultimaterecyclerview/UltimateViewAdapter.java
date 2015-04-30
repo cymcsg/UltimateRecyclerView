@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
 import java.util.Collections;
 import java.util.List;
 
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
 
 
     protected View customLoadMoreView = null;
