@@ -1,5 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 
@@ -77,6 +79,38 @@ public class SimpleAdapter extends UltimateViewAdapter {
         swapPositions(stringList, from, to);
     }
 
+    @Override
+    public long getHeaderId(int position) {
+        if (position == 0) {
+            return -1;
+        } else {
+            return getItem(position).charAt(0);
+        }
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.stick_header_item, viewGroup, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        TextView textView = (TextView) viewHolder.itemView;
+        textView.setText(String.valueOf(getItem(position).charAt(0)));
+        viewHolder.itemView.setBackgroundColor(getRandomColor());
+
+    }
+
+    private int getRandomColor() {
+        SecureRandom rgen = new SecureRandom();
+        return Color.HSVToColor(150, new float[]{
+                rgen.nextInt(359), 1, 1
+        });
+    }
+
 
     class ViewHolder extends UltimateRecyclerviewViewHolder {
 
@@ -106,6 +140,14 @@ public class SimpleAdapter extends UltimateViewAdapter {
             progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
             progressBarSample.setVisibility(View.GONE);
         }
+    }
+
+    public String getItem(int position) {
+        if (customHeaderView != null)
+            position--;
+        if (position < stringList.size())
+            return stringList.get(position);
+        else return "";
     }
 
 }

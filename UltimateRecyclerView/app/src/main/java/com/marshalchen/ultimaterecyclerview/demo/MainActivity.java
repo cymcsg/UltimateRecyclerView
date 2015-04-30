@@ -28,6 +28,7 @@ import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,9 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+
+        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+        ultimateRecyclerView.addItemDecoration(headersDecor);
 
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
