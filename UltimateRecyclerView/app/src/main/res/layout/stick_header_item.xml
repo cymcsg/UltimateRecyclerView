@@ -3,9 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.marshalchen.ultimaterecyclerview.demo.modules.CircularImageView
         android:id="@+id/stick_img"
         android:layout_width="48dp"
+        android:layout_marginLeft="20dp"
         android:layout_height="48dp" android:layout_centerVertical="true"/>
 
     <TextView
