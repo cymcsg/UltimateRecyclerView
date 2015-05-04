@@ -562,6 +562,7 @@ public class UltimateRecyclerView extends FrameLayout {
 //
                     if (mAdapter == null)
                         return;
+
                     if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
                         mEmpty.setVisibility(View.VISIBLE);
                     } else if (mEmptyId != 0) {
@@ -581,7 +582,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 }
 
             });
-        if ((adapter == null || adapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
+        if ((adapter == null || mAdapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
             mEmpty.setVisibility(View.VISIBLE);
         }
 //        if (adapter == null || adapter.getAdapterItemCount() == 0) {
