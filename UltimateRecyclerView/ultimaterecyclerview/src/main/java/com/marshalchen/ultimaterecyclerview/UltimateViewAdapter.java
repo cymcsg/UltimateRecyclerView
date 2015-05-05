@@ -43,7 +43,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
                 return new UltimateRecyclerviewViewHolder(customHeaderView);
-        }else if (viewType==VIEW_TYPES.CHANGED_FOOTER){
+        } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
             RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
@@ -63,6 +63,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Using a custom LoadMoreView
+     *
      * @param customview
      */
     public void setCustomLoadMoreView(View customview) {
@@ -71,12 +72,14 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Changing the loadmore view
+     *
      * @param customview
      */
     public void swipeCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
-        isLoadMoreChanged=true;
+        isLoadMoreChanged = true;
     }
+
     public View getCustomLoadMoreView() {
         return customLoadMoreView;
     }
@@ -187,8 +190,15 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemRangeRemoved(0, size);
     }
 
+    @Override
+    public long getHeaderId(int position) {
+        if (customHeaderView != null && position == 0) return -1;
+        return generateHeaderId(position);
+    }
 
-   protected class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
+    public abstract long generateHeaderId(int position);
+
+    protected class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
         public UltimateRecyclerviewViewHolder(View itemView) {
             super(itemView);
         }

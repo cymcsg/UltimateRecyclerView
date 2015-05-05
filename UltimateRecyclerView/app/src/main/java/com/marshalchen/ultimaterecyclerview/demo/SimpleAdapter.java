@@ -79,13 +79,10 @@ public class SimpleAdapter extends UltimateViewAdapter {
         swapPositions(stringList, from, to);
     }
 
+
     @Override
-    public long getHeaderId(int position) {
-        if (position == 0) {
-            return -1;
-        } else {
-            return getItem(position).charAt(0);
-        }
+    public long generateHeaderId(int position) {
+        return getItem(position).charAt(0);
     }
 
     @Override
