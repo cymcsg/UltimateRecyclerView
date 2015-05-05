@@ -222,6 +222,13 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
     /**
+     * Inform the UltimateRecycleView that you have done loading items.
+     */
+    public void doneLoading() {
+        isLoadingMore = false;
+    }
+
+    /**
      * Enable loading more of the recyclerview
      */
     public void enableLoadmore() {
@@ -278,9 +285,9 @@ public class UltimateRecyclerView extends FrameLayout {
                 int totalItemCount = layoutManager.getItemCount();
                 if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
                         (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
-                    isLoadingMore = true;
+
                     if (onLoadMoreListener != null) {
-                        isLoadingMore = false;
+                        isLoadingMore = true;
                         onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     }
                 }
