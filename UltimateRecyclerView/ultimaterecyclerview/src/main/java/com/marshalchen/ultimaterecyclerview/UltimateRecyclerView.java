@@ -43,7 +43,6 @@ public class UltimateRecyclerView extends FrameLayout {
     protected RecyclerView.OnScrollListener mOnScrollListener;
     protected LAYOUT_MANAGER_TYPE layoutManagerType;
     private boolean isLoadingMore = false;
-    private int currentScrollState = 0;
     protected int mPadding;
     protected int mPaddingTop;
     protected int mPaddingBottom;
@@ -85,6 +84,11 @@ public class UltimateRecyclerView extends FrameLayout {
     private static final int SCROLLBARS_HORIZONTAL = 2;
     private int mScrollbarsStyle;
 
+
+    private int mVisibleItemCount = 0;
+    private int mTotalItemCount = 0;
+    private int previousTotal = 0;
+    private int mFirstVisibleItem;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -236,9 +240,9 @@ public class UltimateRecyclerView extends FrameLayout {
                     translateHeader(mTotalYScrolled);
                 }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                //  int lastVisibleItemPosition = -1;
+                mVisibleItemCount = layoutManager.getChildCount();
+                mTotalItemCount = layoutManager.getItemCount();
+
                 if (layoutManagerType == null) {
                     if (layoutManager instanceof GridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
@@ -255,6 +259,7 @@ public class UltimateRecyclerView extends FrameLayout {
                     case LINEAR:
                     case GRID:
                         lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                        mFirstVisibleItem = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
                         break;
                     case STAGGERED_GRID:
                         StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
@@ -263,29 +268,30 @@ public class UltimateRecyclerView extends FrameLayout {
 
                         staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                         lastVisibleItemPosition = findMax(lastPositions);
+
+                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                        mFirstVisibleItem = findMin(lastPositions);
                         break;
                 }
+
+                if (isLoadingMore) {
+                    if (mTotalItemCount > previousTotal) {
+                        isLoadingMore = false;
+                        previousTotal = mTotalItemCount;
+                    }
+                }
+
+                if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount)
+                        <= mFirstVisibleItem ) {
+                    onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
+                    isLoadingMore = true;
+                    previousTotal = mTotalItemCount;
+                }
+
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
 
             }
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                currentScrollState = newState;
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE &&
-                        (lastVisibleItemPosition) >= totalItemCount - 1) && !isLoadingMore) {
-                    isLoadingMore = true;
-                    if (onLoadMoreListener != null) {
-                        isLoadingMore = false;
-                        onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
-                    }
-                }
-
-            }
         };
         mRecyclerView.setOnScrollListener(mOnScrollListener);
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
@@ -685,6 +691,16 @@ public class UltimateRecyclerView extends FrameLayout {
         }
         return max;
     }
+
+    private int findMin(int[] lastPositions) {
+        int min = Integer.MAX_VALUE;
+        for (int value : lastPositions) {
+            if (value != RecyclerView.NO_POSITION && value < min)
+                min = value;
+        }
+        return min;
+    }
+
 
     private CustomRelativeWrapper mHeader;
     private int mTotalYScrolled;
