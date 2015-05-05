@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
                         //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-                        ultimateRecyclerView.doneLoading
+                        ultimateRecyclerView.doneLoading();
                     }
                 }, 1000);
             }
