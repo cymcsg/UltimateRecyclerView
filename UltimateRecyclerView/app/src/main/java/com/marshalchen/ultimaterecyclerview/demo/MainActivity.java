@@ -3,14 +3,13 @@ package com.marshalchen.ultimaterecyclerview.demo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,33 +21,13 @@ import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.*;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
@@ -132,7 +111,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-                Log.d("More", "more called");
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
@@ -141,8 +119,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
                         //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-                        ultimateRecyclerView.doneLoading();
-
+                        ultimateRecyclerView.doneLoading
                     }
                 }, 1000);
             }
