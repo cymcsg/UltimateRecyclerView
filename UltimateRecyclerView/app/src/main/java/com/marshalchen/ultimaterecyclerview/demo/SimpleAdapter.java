@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 import java.security.SecureRandom;
@@ -82,7 +83,10 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public long generateHeaderId(int position) {
-        return getItem(position).charAt(0);
+        URLogs.d("position--" + position + "   " + getItem(position));
+        if (getItem(position).length() > 0)
+            return getItem(position).charAt(0);
+        else return -1;
     }
 
     @Override
