@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
-    int moreNum = 100;
+    int moreNum = 2;
     private ActionMode actionMode;
     DragDropTouchListener dragDropTouchListener;
     ItemTouchListenerAdapter itemTouchListenerAdapter;
@@ -98,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        simpleRecyclerViewAdapter.insert(moreNum+++ "  Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
