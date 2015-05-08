@@ -193,6 +193,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public long getHeaderId(int position) {
         if (customHeaderView != null && position == 0) return -1;
+        if (customLoadMoreView!=null&&position>=getItemCount()-1) return -1;
         if (getAdapterItemCount() > 0)
             return generateHeaderId(position);
         else return -1;
