@@ -468,7 +468,6 @@ public class UltimateRecyclerView extends FrameLayout {
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
 
         mSwipeRefreshLayout.setEnabled(true);
-        URLogs.d("default---" + (defaultSwipeToDismissColors == null));
         if (defaultSwipeToDismissColors != null && defaultSwipeToDismissColors.length > 0) {
             mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors);
         } else {
@@ -935,7 +934,6 @@ public class UltimateRecyclerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        URLogs.d("mCallbacks   " + (mCallbacks == null));
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
