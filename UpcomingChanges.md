@@ -1,5 +1,6 @@
 ###Upcoming changes in 0.4.0:
 - [ ] add sticky header like instagram
+- [ ] change an other sticky header for optimising
 - [ ] New recyclerview v22
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 - [ ] trigger to bring the item back when swipe to dismiss
