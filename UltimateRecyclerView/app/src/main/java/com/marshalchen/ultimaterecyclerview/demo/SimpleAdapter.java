@@ -102,7 +102,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
         TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.stick_text);
         textView.setText(String.valueOf(getItem(position).charAt(0)));
-        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
+//        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
+        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AAffffff"));
         ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.stick_img);
 
         SecureRandom imgGen = new SecureRandom();
