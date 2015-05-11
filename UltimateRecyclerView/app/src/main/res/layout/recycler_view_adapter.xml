@@ -16,11 +16,11 @@
         android:layout_below="@id/textview"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:id="@+id/imageview"
-        android:src="@drawable/test_back2" />
+        android:src="@drawable/test_back4" />
 
     <ProgressBar
         android:layout_width="wrap_content"
