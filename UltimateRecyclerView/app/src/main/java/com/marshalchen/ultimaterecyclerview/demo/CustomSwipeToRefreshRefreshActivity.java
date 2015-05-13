@@ -65,7 +65,7 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
 public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity implements ActionMode.Callback {
 
     CustomUltimateRecyclerview ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    SimpleScaleInAnimationAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     private ActionMode actionMode;
@@ -88,7 +88,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
         ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
+        simpleRecyclerViewAdapter = new SimpleScaleInAnimationAdapter(stringList);
 
         stringList.add("111");
         stringList.add("aaa");
