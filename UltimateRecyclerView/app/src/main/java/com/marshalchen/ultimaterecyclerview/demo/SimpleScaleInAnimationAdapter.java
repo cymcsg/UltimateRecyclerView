@@ -21,15 +21,15 @@ import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAnimationAdapter extends UltimateViewAdapter {
+public class SimpleScaleInAnimationAdapter extends UltimateViewAdapter {
     private List<String> stringList;
 
-    public SimpleAnimationAdapter(List<String> stringList) {
+    public SimpleScaleInAnimationAdapter(List<String> stringList) {
         this.stringList = stringList;
     }
     private int mDuration = 300;
     private Interpolator mInterpolator = new LinearInterpolator();
-    private int mLastPosition = -1;
+    private int mLastPosition = 5;
 
     private boolean isFirstOnly = true;
 
