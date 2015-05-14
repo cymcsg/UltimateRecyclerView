@@ -41,7 +41,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
         }
         if (!isFirstOnly || position > mLastPosition) {
-            for (Animator anim : getAnimators(holder.itemView,"ScaleIn")) {
+            for (Animator anim : getAnimators(holder.itemView,AnimationType.ScaleIn)) {
                 anim.setDuration(mDuration).start();
                 anim.setInterpolator(mInterpolator);
             }
@@ -52,28 +52,35 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
 
     }
 
+    enum AnimationType{
+        AlphaIn,
+        SlideInBottom,
+        ScaleIn,
+        SlideInLeft,
+        SlideInRight,
+    }
     protected Animator[] getAnimators(View view) {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
         return new ObjectAnimator[]{scaleX, scaleY};
     }
 
-    protected Animator[] getAnimators(View view,String type) {
-        if (type.equals("ScaleIn")){
+    protected Animator[] getAnimators(View view,AnimationType type) {
+        if (type==AnimationType.ScaleIn){
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
             return new ObjectAnimator[]{scaleX, scaleY};
-        }else if (type.equals("AlphaIn")){
+        }else if (type==AnimationType.AlphaIn){
             return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", .5f, 1f)};
-        }else if (type.equals("SlideInBottom")){
+        }else if (type==AnimationType.SlideInBottom){
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
             };
-        }else if (type.equals("SlideInLeft")){
+        }else if (type==AnimationType.SlideInLeft){
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
             };
-        }else if (type.equals("SlideInRight")){
+        }else if (type==AnimationType.SlideInRight){
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
             };
