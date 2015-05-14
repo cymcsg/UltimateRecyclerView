@@ -21,10 +21,10 @@ import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleScaleInAnimationAdapter extends UltimateViewAdapter {
+public class SimpleAnimationAdapter extends UltimateViewAdapter {
     private List<String> stringList;
 
-    public SimpleScaleInAnimationAdapter(List<String> stringList) {
+    public SimpleAnimationAdapter(List<String> stringList) {
         this.stringList = stringList;
     }
     private int mDuration = 300;
