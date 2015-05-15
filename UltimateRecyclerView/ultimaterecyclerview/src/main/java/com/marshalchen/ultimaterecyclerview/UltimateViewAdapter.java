@@ -1,5 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -215,5 +217,36 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         public static final int CHANGED_FOOTER = 3;
     }
 
+    protected enum AnimationType{
+        AlphaIn,
+        SlideInBottom,
+        ScaleIn,
+        SlideInLeft,
+        SlideInRight,
+    }
+
+
+    protected Animator[] getAnimators(View view,AnimationType type) {
+        if (type==AnimationType.ScaleIn){
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
+            return new ObjectAnimator[]{scaleX, scaleY};
+        }else if (type==AnimationType.AlphaIn){
+            return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", .5f, 1f)};
+        }else if (type==AnimationType.SlideInBottom){
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
+            };
+        }else if (type==AnimationType.SlideInLeft){
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
+            };
+        }else if (type==AnimationType.SlideInRight){
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
+            };
+        }
+        return null;
+    }
 
 }

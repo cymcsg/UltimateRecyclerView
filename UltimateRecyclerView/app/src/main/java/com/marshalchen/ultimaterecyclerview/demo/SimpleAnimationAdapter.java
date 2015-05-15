@@ -29,7 +29,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
     }
     private int mDuration = 300;
     private Interpolator mInterpolator = new LinearInterpolator();
-    private int mLastPosition = 2;
+    private int mLastPosition = 5;
 
     private boolean isFirstOnly = true;
 
@@ -52,41 +52,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
 
     }
 
-    enum AnimationType{
-        AlphaIn,
-        SlideInBottom,
-        ScaleIn,
-        SlideInLeft,
-        SlideInRight,
-    }
-    protected Animator[] getAnimators(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
-        return new ObjectAnimator[]{scaleX, scaleY};
-    }
 
-    protected Animator[] getAnimators(View view,AnimationType type) {
-        if (type==AnimationType.ScaleIn){
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
-            return new ObjectAnimator[]{scaleX, scaleY};
-        }else if (type==AnimationType.AlphaIn){
-            return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", .5f, 1f)};
-        }else if (type==AnimationType.SlideInBottom){
-            return new Animator[]{
-                    ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
-            };
-        }else if (type==AnimationType.SlideInLeft){
-            return new Animator[]{
-                    ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
-            };
-        }else if (type==AnimationType.SlideInRight){
-            return new Animator[]{
-                    ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
-            };
-        }
-       return null;
-    }
     @Override
     public int getAdapterItemCount() {
         return stringList.size();
