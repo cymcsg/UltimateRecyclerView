@@ -10,6 +10,7 @@
 - [x] add method to set default swipe to dismiss color
 - [ ] add loading state of URV
 - [ ] make ``swapAdapter`` more intelligent 
+- [ ] support different layout in UltimateViewAdapter
 
 
 
