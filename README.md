@@ -10,7 +10,7 @@
 #####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
-UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
 
 Notice that UltimateRecyclerView is a project under development.
@@ -29,6 +29,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Showing or hiding toolbar and floating button when scrolling
 * scrollbars
 * Colorful styles of ``swipe to refresh``
+* sticky header like instagram
 
 
 
@@ -44,7 +45,8 @@ Notice that UltimateRecyclerView is a project under development.
 
 ###Upcoming features:
 * More animations
-* Add sticky header like instagram
+* Support different layout
+* Optimise UltimateViewAdapter
 * ...
 
 
