@@ -250,6 +250,30 @@ Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml 
 ```
 Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
 
+Add sticky header:
+
+In MainActivity:
+```java
+   StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+  ultimateRecyclerView.addItemDecoration(headersDecor);
+```
+
+In the adapter:
+```java
+ @Override
+    public long generateHeaderId(int position) {
+        if (getItem(position).length() > 0)
+            return getItem(position).charAt(0);
+        else return -1;
+    }
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.stick_header_item, viewGroup, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+```
 
 ####If you want to see more details,you can check the demo.
 
