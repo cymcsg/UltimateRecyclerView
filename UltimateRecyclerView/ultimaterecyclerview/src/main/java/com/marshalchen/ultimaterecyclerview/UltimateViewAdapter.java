@@ -202,7 +202,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public abstract long generateHeaderId(int position);
 
-    public class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
+    public static class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
         public UltimateRecyclerviewViewHolder(View itemView) {
             super(itemView);
         }

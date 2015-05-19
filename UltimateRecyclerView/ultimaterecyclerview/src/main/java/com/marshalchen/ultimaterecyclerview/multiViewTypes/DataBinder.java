@@ -3,6 +3,8 @@ package com.marshalchen.ultimaterecyclerview.multiViewTypes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
+
 /**
  * Class for binding view and data
  *
@@ -10,9 +12,9 @@ import android.view.ViewGroup;
  */
 abstract public class DataBinder<T extends RecyclerView.ViewHolder> {
 
-    private DataBindAdapter mDataBindAdapter;
+    private UltimateDifferentViewTypeAdapter mDataBindAdapter;
 
-    public DataBinder(DataBindAdapter dataBindAdapter) {
+    public DataBinder(UltimateDifferentViewTypeAdapter dataBindAdapter) {
         mDataBindAdapter = dataBindAdapter;
     }
 

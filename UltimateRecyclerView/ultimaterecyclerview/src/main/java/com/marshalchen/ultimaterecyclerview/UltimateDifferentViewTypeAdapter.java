@@ -1,16 +1,29 @@
-package com.marshalchen.ultimaterecyclerview.multiViewTypes;
+package com.marshalchen.ultimaterecyclerview;
 
+
+import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+
+import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Adapter class for managing data binders by mapping enum view type and data binder
- *
- * Created by yqritc on 2015/03/25.
+ * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class EnumMapBindAdapter<E extends Enum<E>> extends DataBindAdapter {
-
+public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>>  extends UltimateViewAdapter {
     private Map<E, DataBinder> mBinderMap = new HashMap<>();
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return getDataBinder(viewType).newViewHolder(parent);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        int binderPosition = getBinderPosition(position);
+        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
+    }
 
     @Override
     public int getItemCount() {
@@ -26,12 +39,10 @@ public abstract class EnumMapBindAdapter<E extends Enum<E>> extends DataBindAdap
         return getEnumFromPosition(position).ordinal();
     }
 
-    @Override
     public <T extends DataBinder> T getDataBinder(int viewType) {
         return getDataBinder(getEnumFromOrdinal(viewType));
     }
 
-    @Override
     public int getPosition(DataBinder binder, int binderPosition) {
         E targetViewType = getEnumFromBinder(binder);
         for (int i = 0; i < getItemCount(); i++) {
@@ -45,7 +56,6 @@ public abstract class EnumMapBindAdapter<E extends Enum<E>> extends DataBindAdap
         return getItemCount();
     }
 
-    @Override
     public int getBinderPosition(int position) {
         E targetViewType = getEnumFromPosition(position);
         int binderPosition = -1;
@@ -61,26 +71,44 @@ public abstract class EnumMapBindAdapter<E extends Enum<E>> extends DataBindAdap
         return binderPosition;
     }
 
-    @Override
     public void notifyBinderItemRangeChanged(DataBinder binder, int positionStart, int itemCount) {
         for (int i = positionStart; i <= itemCount; i++) {
             notifyItemChanged(getPosition(binder, i));
         }
     }
 
-    @Override
     public void notifyBinderItemRangeInserted(DataBinder binder, int positionStart, int itemCount) {
         for (int i = positionStart; i <= itemCount; i++) {
             notifyItemInserted(getPosition(binder, i));
         }
     }
 
-    @Override
     public void notifyBinderItemRangeRemoved(DataBinder binder, int positionStart, int itemCount) {
         for (int i = positionStart; i <= itemCount; i++) {
             notifyItemRemoved(getPosition(binder, i));
         }
     }
+
+    public void notifyBinderItemChanged(DataBinder binder, int binderPosition) {
+        notifyItemChanged(getPosition(binder, binderPosition));
+    }
+
+
+    public void notifyBinderItemInserted(DataBinder binder, int binderPosition) {
+        notifyItemInserted(getPosition(binder, binderPosition));
+    }
+
+    public void notifyBinderItemMoved(DataBinder binder, int fromPosition, int toPosition) {
+        notifyItemMoved(getPosition(binder, fromPosition), getPosition(binder, toPosition));
+    }
+
+
+    public void notifyBinderItemRemoved(DataBinder binder, int binderPosition) {
+        notifyItemRemoved(getPosition(binder, binderPosition));
+    }
+
+
+
 
     public abstract E getEnumFromPosition(int position);
 
