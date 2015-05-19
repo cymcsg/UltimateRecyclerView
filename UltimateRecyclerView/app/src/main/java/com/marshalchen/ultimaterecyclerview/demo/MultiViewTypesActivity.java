@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.demo.modules.SwipeBottomRecyclerViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.modules.MultiViewTypesRecyclerViewAdapter;
 import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * A activity which can be swiped to show bottom view with default horizontal divider item decoration.
  */
-public class SwipeBottomActivity extends ActionBarActivity {
+public class MultiViewTypesActivity extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
@@ -72,7 +72,7 @@ public class SwipeBottomActivity extends ActionBarActivity {
                 "Card 12",
                 "Card 13",
                 "Card 14"};
-        ultimateRecyclerView.setAdapter(new SwipeBottomRecyclerViewAdapter(stringList));
+        ultimateRecyclerView.setAdapter(new MultiViewTypesRecyclerViewAdapter(stringList));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

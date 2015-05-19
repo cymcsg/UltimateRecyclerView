@@ -14,7 +14,7 @@ import com.marshalchen.ultimaterecyclerview.demo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwipeBottomRecyclerViewAdapter extends UltimateDifferentViewTypeAdapter {
+public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewTypeAdapter {
     private List<String> mDataset;
 
     private enum SwipedState {
@@ -38,7 +38,7 @@ public class SwipeBottomRecyclerViewAdapter extends UltimateDifferentViewTypeAda
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SwipeBottomRecyclerViewAdapter(List<String> dataSet) {
+    public MultiViewTypesRecyclerViewAdapter(List<String> dataSet) {
         mDataset = dataSet;
         mItemSwipedStates = new ArrayList<>();
         for (int i = 0; i < dataSet.size(); i++) {

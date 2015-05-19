@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_bottom" android:title="SwipeBottomActivity"
+    <item android:id="@+id/action_bottom" android:title="MultiViewType"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_custom" android:title="CustomRefreshActivity"
         android:orderInCategory="100" app:showAsAction="never" />

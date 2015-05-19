@@ -365,7 +365,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_bottom) {
-            Intent intent = new Intent(this, SwipeBottomActivity.class);
+            Intent intent = new Intent(this, MultiViewTypesActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_custom) {
