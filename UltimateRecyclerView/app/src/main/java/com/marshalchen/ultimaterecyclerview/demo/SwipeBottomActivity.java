@@ -72,7 +72,7 @@ public class SwipeBottomActivity extends ActionBarActivity {
                 "Card 12",
                 "Card 13",
                 "Card 14"};
-        ultimateRecyclerView.setAdapter(new SwipeBottomRecyclerViewAdapter(mDemoDataSet));
+        ultimateRecyclerView.setAdapter(new SwipeBottomRecyclerViewAdapter(stringList));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
