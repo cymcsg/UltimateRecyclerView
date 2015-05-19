@@ -3,38 +3,65 @@ package com.marshalchen.ultimaterecyclerview.demo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.*;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by hesk on 19/5/15.
+ */
 
-public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
+public class AdEmbededList extends ActionBarActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
@@ -61,12 +88,20 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
 
-        stringList.add("111");
+        stringList.add("1141");
         stringList.add("aaa");
         stringList.add("222");
         stringList.add("4r4");
-        stringList.add("5rg5");
-        stringList.add("6e6");
+        stringList.add("1141");
+        stringList.add("aaa");
+        stringList.add("222");
+        stringList.add("4r4");
+        stringList.add("1161");
+        stringList.add("aaa");
+        stringList.add("22362");
+        stringList.add("4r4");
+        stringList.add("5r22g5");
+        stringList.add("653e6");
         stringList.add("4gg4");
         stringList.add("55");
         stringList.add("6gg6");
@@ -76,27 +111,18 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         stringList.add("66");
         stringList.add("11771");
         simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-
+        // simpleRecyclerViewAdapter.setAdBanner(createAd(), 2);
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
 
-        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
-        ultimateRecyclerView.addItemDecoration(headersDecor);
+        simpleRecyclerViewAdapter.setAdBanner(createAd(), 4);
+
 
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
 
-        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
-            @Override
-            public void onParallaxScroll(float percentage, float offset, View parallax) {
-                Drawable c = toolbar.getBackground();
-                c.setAlpha(Math.round(127 + percentage * 128));
-                toolbar.setBackgroundDrawable(c);
-            }
-        });
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -104,10 +130,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-                        ultimateRecyclerView.setRefreshing(false);
+                        //    simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        //    ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                        //    linearLayoutManager.scrollToPosition(0);
 //                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
 //                        simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
@@ -130,11 +156,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 }, 1000);
             }
         });
-
-//        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
-//                getResources().getColor(android.R.color.holo_green_light),
-//                getResources().getColor(android.R.color.holo_orange_light),
-//                getResources().getColor(android.R.color.holo_red_light));
 
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
@@ -175,63 +196,15 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         URLogs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
                             URLogs.d("onItemLongClick()" + isDrag);
-                            toolbar.startActionMode(MainActivity.this);
+                            toolbar.startActionMode(AdEmbededList.this);
                             toggleSelection(position);
-                            dragDropTouchListener.startDrag();
+
                             ultimateRecyclerView.enableDefaultSwipeRefresh(false);
                         }
 
                     }
                 });
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
-
-        ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
-            @Override
-            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
-            }
-
-            @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    simpleRecyclerViewAdapter.remove(data.position);
-                }
-            }
-
-            @Override
-            public void onResetMotion() {
-                isDrag = true;
-            }
-
-            @Override
-            public void onTouchDown() {
-                isDrag = false;
-
-            }
-        });
-
-
-        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
-            @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                if (from > 0 && to > 0) {
-                    simpleRecyclerViewAdapter.swapPositions(from, to);
-                    simpleRecyclerViewAdapter.clearSelection(from);
-                    simpleRecyclerViewAdapter.notifyItemChanged(to);
-                    if (actionMode != null) actionMode.finish();
-                    URLogs.d("switch----");
-                }
-
-            }
-
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                URLogs.d("drop----");
-                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -269,39 +242,21 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-//        ultimateRecyclerView.addItemDecoration(
-//                new HorizontalDividerItemDecoration.Builder(this).build());
+    }
 
-//        ultimateRecyclerView.setCustomSwipeToRefresh();
-//        final StoreHouseHeader header = new StoreHouseHeader(this);
-//        //   header.setPadding(0, 15, 0, 0);
-//
-//        header.initWithString("Marshal Chen");
-//        //  header.initWithStringArray(R.array.akta);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                    }
-//                }, 1800);
-//            }
-//        });
+    private AdView createAd() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
+        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        // Optionally populate the ad request builder.
+        adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+        // Start loading the ad.
+        mAdView.loadAd(adRequestBuilder.build());
+        return mAdView;
     }
 
     private void toggleSelection(int position) {
@@ -312,8 +267,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
     }
 
     public int getScreenHeight() {
@@ -325,7 +278,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         URLogs.d("actionmode---" + (mode == null));
         mode.getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-        //  return false;
     }
 
     /**
@@ -377,10 +329,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             return true;
         } else if (id == R.id.action_custom) {
             Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_admob) {
-            Intent intent = new Intent(this, AdEmbededList.class);
             startActivity(intent);
             return true;
         }
