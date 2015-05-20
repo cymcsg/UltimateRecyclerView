@@ -1,4 +1,4 @@
-# AdvancedUltimateRecyclerView
+#UltimateRecyclerView
 ###Version:0.3.3
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
@@ -7,8 +7,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-#####Original Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
-#####Master Project website:[UltimateRecyclerView](https://github.com/HKMOpen/UltimateRecyclerView)
+#####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
@@ -213,7 +212,75 @@ dependencies {
 
 ####Admob implementation
 ![ultimate_recyclerview](https://raw.githubusercontent.com/HKMOpen/UltimateRecyclerView/master/demo/adbanner.gif)
+```java
 
+ private AdView createadmob() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        mAdView.setAdUnitId("__GOOGLE_AD_UNIT__ID__");
+        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+        if (admob_test_mode)
+            // Optionally populate the ad request builder.
+            adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+        // Start loading the ad.
+        mAdView.loadAd(adRequestBuilder.build());
+        return mAdView;
+    }
+    
+   
+```   
+  wokring example 1 implementation of Admob banner with static Adview 
+   ...oncreate
+   ```java     
+   
+     /**
+         * wokring example 1 implementation of Admob banner with static Adview
+         */
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList);
+        
+``` 
+working example 2 with multiple called Adviews        
+```java        
+        /**
+         * working example 2 with multiple called Adviews
+         */
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList, new AdmobAdapter.AdviewListener() {
+            @Override
+            public AdView onGenerateAdview() {
+                return createadmob();
+            }
+        });
+        
+      
+      
+      
+        
+        
+    
+```
+
+On List update
+
+```java
+
+                stringList.add("a55");
+                stringList.add("a66");
+                stringList.add("a11771");
+                stringList.add("g33");
+                stringList.add("gb44");
+                stringList.add("n55");
+                stringList.add("n66");
+                stringList.add("e11771");
+
+
+                simpleRecyclerViewAdapter.notifyDataSetChanged();
+                
+```
 
 Show empty view when the adapter is null:
 ```xml
