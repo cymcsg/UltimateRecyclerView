@@ -59,14 +59,6 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 ###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 
-###Screenshot
-
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
-
-
-
-
-
 ###Sample
 
 You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
@@ -106,6 +98,7 @@ dependencies {
 
 
 #### Set ParallaxHeader:
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
