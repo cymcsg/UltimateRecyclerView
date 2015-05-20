@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
@@ -74,6 +75,7 @@ public class TestAbMob extends ActionBarActivity {
     Toolbar toolbar;
     boolean isDrag = true;
 
+    private boolean admob_test_mode = false;
 
     private AdView createadmob() {
         AdView mAdView = new AdView(this);
@@ -83,8 +85,11 @@ public class TestAbMob extends ActionBarActivity {
 
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-        // Optionally populate the ad request builder.
-        adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+        if (admob_test_mode)
+            // Optionally populate the ad request builder.
+            adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
         return mAdView;
@@ -214,9 +219,18 @@ public class TestAbMob extends ActionBarActivity {
         stringList.add("e11771");
 
         /**
-         * implementation of Admob banner
+         * wokring example 1 implementation of Admob banner with static Adview
          */
-        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList);
+        //  simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList);
+        /**
+         * working example 2 with multiple called Adviews
+         */
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList, new AdmobAdapter.AdviewListener() {
+            @Override
+            public AdView onGenerateAdview() {
+                return createadmob();
+            }
+        });
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -231,7 +245,6 @@ public class TestAbMob extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //simpleRecyclerViewAdapter.insert("newly added item", 1);
-
 
 
                 stringList.add("a55");

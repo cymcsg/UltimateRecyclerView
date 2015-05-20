@@ -25,6 +25,10 @@ public class admobdfpadapter extends AdmobAdapter {
         super(v, false, e, f);
     }
 
+    public admobdfpadapter(AdView v, int e, List<String> f, AdviewListener listener) {
+        super(v, false, e, f, listener);
+    }
+
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
