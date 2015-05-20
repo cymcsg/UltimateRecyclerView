@@ -1,8 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_bottom" android:title="SwipeBottomActivity"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_custom" android:title="CustomRefreshActivity"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_bottom"
+        android:orderInCategory="100"
+        android:title="SwipeBottomActivity"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_custom"
+        android:orderInCategory="100"
+        android:title="CustomRefreshActivity"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_admob"
+        android:orderInCategory="100"
+        android:title="Ad DFP"
+        app:showAsAction="never" />
 </menu>

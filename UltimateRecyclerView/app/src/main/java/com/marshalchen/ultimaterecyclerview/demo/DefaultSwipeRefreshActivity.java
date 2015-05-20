@@ -132,8 +132,7 @@ public class DefaultSwipeRefreshActivity extends ActionBarActivity implements Ac
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
                         // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-
+                        // linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
                     }
                 }, 1000);
             }

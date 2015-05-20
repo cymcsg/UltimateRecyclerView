@@ -183,7 +183,6 @@ public class UltimateRecyclerView extends FrameLayout {
                 defaultSwipeToDismissColors = getResources().getIntArray(colorList);
             }
         } finally {
-
             typedArray.recycle();
         }
     }
@@ -197,9 +196,7 @@ public class UltimateRecyclerView extends FrameLayout {
         int[] notToDismiss = null;
         if (mAdapter == null) throw new NullPointerException();
         if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
-            notToDismiss = new int[]{
-                    0
-            };
+            notToDismiss = new int[]{0};
         }
 
         mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks, notToDismiss));
@@ -457,7 +454,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the listener when refresh is triggered and enable the SwipeRefreshLayout
      *
-     * @param listener
+     * @param listener the refresh listener
      */
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
 
@@ -466,7 +463,8 @@ public class UltimateRecyclerView extends FrameLayout {
         if (defaultSwipeToDismissColors != null && defaultSwipeToDismissColors.length > 0) {
             mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors);
         } else {
-            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
@@ -479,7 +477,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the color resources used in the progress animation from color resources. The first color will also be the color of the bar that grows in response to a user swipe gesture.
      *
-     * @param colors
+     * @param colors the color scheme
      */
     public void setDefaultSwipeToRefreshColorScheme(int... colors) {
         mSwipeRefreshLayout.setColorSchemeColors(colors);
@@ -488,7 +486,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the load more listener of recyclerview
      *
-     * @param onLoadMoreListener
+     * @param onLoadMoreListener the load more listener
      */
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
@@ -498,7 +496,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the layout manager to the recycler
      *
-     * @param manager
+     * @param manager the layout manager
      */
     public void setLayoutManager(RecyclerView.LayoutManager manager) {
         mRecyclerView.setLayoutManager(manager);
@@ -507,7 +505,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Get the adapter of UltimateRecyclerview
      *
-     * @return
+     * @return The stored adapter object
      */
     public RecyclerView.Adapter getAdapter() {
         return mRecyclerView.getAdapter();
@@ -516,7 +514,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview
      *
-     * @param adapter
+     * @param adapter the adapter as the main engine
      */
     public void setAdapter(UltimateViewAdapter adapter) {
         mAdapter = adapter;
@@ -591,7 +589,7 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
     /**
-     * @param adapter
+     * @param adapter the adapter of the engine
      * @deprecated Short for some ui effects
      */
     public void setAdapter(RecyclerView.Adapter adapter) {
@@ -633,7 +631,6 @@ public class UltimateRecyclerView extends FrameLayout {
                 isLoadingMore = false;
                 if (mSwipeRefreshLayout != null)
                     mSwipeRefreshLayout.setRefreshing(false);
-//
             }
 
         });
@@ -667,7 +664,6 @@ public class UltimateRecyclerView extends FrameLayout {
 
 
     public interface OnLoadMoreListener {
-
         public void loadMore(int itemsCount, int maxLastVisiblePosition);
     }
 
@@ -694,7 +690,7 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the parallax header of the recyclerview
      *
-     * @param header
+     * @param header the header on the list view
      */
     public void setParallaxHeader(View header) {
         mHeader = new CustomRelativeWrapper(header.getContext());
@@ -707,13 +703,18 @@ public class UltimateRecyclerView extends FrameLayout {
     /**
      * Set the on scroll method of parallax header
      *
-     * @param parallaxScroll
+     * @param parallaxScroll the parallax scroll object
      */
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
         mParallaxScroll = parallaxScroll;
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
     }
 
+    /**
+     * the calculation of movement and offset of the scroll view
+     *
+     * @param of the scroll factor to be multiply
+     */
     private void translateHeader(float of) {
         float ofCalculated = of * SCROLL_MULTIPLIER;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -759,6 +760,11 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
+    /**
+     * hook up the scroll view callback
+     *
+     * @param listener the listener object
+     */
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
