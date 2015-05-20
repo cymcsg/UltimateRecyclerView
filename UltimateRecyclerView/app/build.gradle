@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '22.0.1'
+    buildToolsVersion '22.0.0'
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
@@ -34,4 +34,5 @@ dependencies {
     // compile(name:'ultimaterecyclerview', ext:'aar')
     compile project(':ultimaterecyclerview')
     // compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
+    compile 'com.google.android.gms:play-services:7.3.0'
 }
