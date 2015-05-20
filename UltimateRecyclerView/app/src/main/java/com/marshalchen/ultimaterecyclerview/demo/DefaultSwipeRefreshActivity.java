@@ -343,7 +343,7 @@ public class DefaultSwipeRefreshActivity extends ActionBarActivity implements Ac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_bottom) {
-            Intent intent = new Intent(this, SwipeBottomActivity.class);
+            Intent intent = new Intent(this, MultiViewTypesActivity.class);
             startActivity(intent);
             return true;
         }

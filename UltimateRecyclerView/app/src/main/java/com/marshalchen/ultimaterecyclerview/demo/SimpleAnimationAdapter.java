@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
         }
         if (!isFirstOnly || position > mLastPosition) {
-            for (Animator anim : getAnimators(holder.itemView,AnimationType.ScaleIn)) {
+            for (Animator anim : getAnimators(holder.itemView, AdapterAnimationType.ScaleIn)) {
                 anim.setDuration(mDuration).start();
                 anim.setInterpolator(mInterpolator);
             }

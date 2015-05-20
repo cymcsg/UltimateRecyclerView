@@ -10,7 +10,7 @@
 #####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
-UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
 
 Notice that UltimateRecyclerView is a project under development.
@@ -29,6 +29,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Showing or hiding toolbar and floating button when scrolling
 * scrollbars
 * Colorful styles of ``swipe to refresh``
+* sticky header like instagram
 
 
 
@@ -44,7 +45,8 @@ Notice that UltimateRecyclerView is a project under development.
 
 ###Upcoming features:
 * More animations
-* Add sticky header like instagram
+* Support different layout
+* Optimise UltimateViewAdapter
 * ...
 
 
@@ -248,6 +250,30 @@ Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml 
 ```
 Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
 
+Add sticky header:
+
+In MainActivity:
+```java
+   StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+  ultimateRecyclerView.addItemDecoration(headersDecor);
+```
+
+In the adapter:
+```java
+ @Override
+    public long generateHeaderId(int position) {
+        if (getItem(position).length() > 0)
+            return getItem(position).charAt(0);
+        else return -1;
+    }
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.stick_header_item, viewGroup, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+```
 
 ####If you want to see more details,you can check the demo.
 
