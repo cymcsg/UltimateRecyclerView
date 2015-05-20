@@ -1,5 +1,5 @@
-# UltimateRecyclerView
-###Version:0.3.2
+# AdvancedUltimateRecyclerView
+###Version:0.3.3
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -7,7 +7,8 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-#####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
+#####Original Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
+#####Master Project website:[UltimateRecyclerView](https://github.com/HKMOpen/UltimateRecyclerView)
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
@@ -56,7 +57,7 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 
 ####Welcome to fork and pull request.
 
-###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
+###If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 
 ###Sample
@@ -179,7 +180,7 @@ dependencies {
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 ```
 
-Animations:
+#### Animations:
 
 ```java
   ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
