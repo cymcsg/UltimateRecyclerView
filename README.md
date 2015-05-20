@@ -62,12 +62,10 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 ###Screenshot
 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
 
 
-####Admob implementation
-![](demo/adbanner.gif)
+
+
 
 ###Sample
 
@@ -77,8 +75,8 @@ You can clone the project and compile it yourself (it includes a sample), or you
 
 > Notice that it might not be the latest version
 
-###Quick Setup（Basic Usage）
-######1.Integration
+##Quick Setup（Basic Usage）
+###1.Integration
 ```groovy
 repositories {
         jcenter()
@@ -89,7 +87,7 @@ dependencies {
 }
 ```
 
-#####2.Usage:
+###2.Usage:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:layout_width="fill_parent"
@@ -99,15 +97,15 @@ dependencies {
         app:recyclerviewPadding="2dp">
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
-#####3.Features:  
-Loading more:
+###3.Features:
+####Loading more:
 
 ```java 
   ultimateRecyclerView.enableLoadmore();
 ```
 
 
-Set ParallaxHeader:
+#### Set ParallaxHeader:
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
@@ -122,7 +120,7 @@ Set ParallaxHeader:
 ```
 
 
-####Set swipe to refresh:
+#### Set swipe to refresh:
    ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/0bed76fcdecb604afab39df9ce1a509af4b6f995/ultimaterecyclerview/ultimate_recyclerview6.gif)
 ```java
  ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,8 +139,8 @@ Set ParallaxHeader:
         });
 ```
 
-Set swipe to dismiss:
-
+#### Set swipe to dismiss:
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
 ```java
   ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
@@ -166,7 +164,7 @@ Set swipe to dismiss:
         });
  ```
  
- Drag and drop:
+#### Drag and drop:
  
  ```java
     dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
@@ -217,7 +215,12 @@ Animations:
             }
         });        
  ```
- 
+
+
+####Admob implementation
+![admob](demo/adbanner.gif)
+
+
 Show empty view when the adapter is null:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
