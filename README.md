@@ -66,7 +66,8 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/b93b542a517f7c32a72010813c82fdd9c2b97857/ultimaterecyclerview/ultimate_recyclerview4.gif)
 
-
+####Admob implementation
+![](demo/adbanner.gif)
 
 ###Sample
 
