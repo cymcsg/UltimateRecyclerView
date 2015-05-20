@@ -1,5 +1,5 @@
-# UltimateRecyclerView
-###Version:0.3.2
+#UltimateRecyclerView
+###Version:0.3.3
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -10,7 +10,7 @@
 #####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
-UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
 
 Notice that UltimateRecyclerView is a project under development.
@@ -29,7 +29,6 @@ Notice that UltimateRecyclerView is a project under development.
 * Showing or hiding toolbar and floating button when scrolling
 * scrollbars
 * Colorful styles of ``swipe to refresh``
-* sticky header like instagram
 
 
 
@@ -45,8 +44,7 @@ Notice that UltimateRecyclerView is a project under development.
 
 ###Upcoming features:
 * More animations
-* Support different layout
-* Optimise UltimateViewAdapter
+* Add sticky header like instagram
 * ...
 
 
@@ -58,16 +56,7 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 
 ####Welcome to fork and pull request.
 
-###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
-
-###Screenshot
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/0bed76fcdecb604afab39df9ce1a509af4b6f995/ultimaterecyclerview/ultimate_recyclerview6.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/b93b542a517f7c32a72010813c82fdd9c2b97857/ultimaterecyclerview/ultimate_recyclerview4.gif)
-
+###If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 
 ###Sample
@@ -78,19 +67,19 @@ You can clone the project and compile it yourself (it includes a sample), or you
 
 > Notice that it might not be the latest version
 
-###Quick Setup（Basic Usage）
-######1.Integration
+##Quick Setup（Basic Usage）
+###1.Integration
 ```groovy
 repositories {
         jcenter()
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.2'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
 }
 ```
 
-#####2.Usage:
+###2.Usage:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:layout_width="fill_parent"
@@ -100,15 +89,16 @@ dependencies {
         app:recyclerviewPadding="2dp">
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
-#####3.Features:  
-Loading more:
+###3.Features:
+####Loading more:
 
 ```java 
   ultimateRecyclerView.enableLoadmore();
 ```
 
 
-Set ParallaxHeader:
+#### Set ParallaxHeader:
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
@@ -123,8 +113,8 @@ Set ParallaxHeader:
 ```
 
 
-Set swipe to refresh:
-
+#### Set swipe to refresh:
+   ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/0bed76fcdecb604afab39df9ce1a509af4b6f995/ultimaterecyclerview/ultimate_recyclerview6.gif)
 ```java
  ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -142,8 +132,8 @@ Set swipe to refresh:
         });
 ```
 
-Set swipe to dismiss:
-
+#### Set swipe to dismiss:
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
 ```java
   ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
             @Override
@@ -167,7 +157,7 @@ Set swipe to dismiss:
         });
  ```
  
- Drag and drop:
+#### Drag and drop:
  
  ```java
     dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
@@ -189,7 +179,7 @@ Set swipe to dismiss:
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 ```
 
-Animations:
+#### Animations:
 
 ```java
   ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
@@ -197,8 +187,8 @@ Animations:
   ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
  ```
         
-Showing and hiding toolbar and floating button:
-
+####Showing and hiding toolbar and floating button:
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/b93b542a517f7c32a72010813c82fdd9c2b97857/ultimaterecyclerview/ultimate_recyclerview4.gif)
 ```java
   ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
@@ -218,7 +208,80 @@ Showing and hiding toolbar and floating button:
             }
         });        
  ```
- 
+
+
+####Admob implementation
+![ultimate_recyclerview](https://raw.githubusercontent.com/HKMOpen/UltimateRecyclerView/master/demo/adbanner.gif)
+```java
+
+ private AdView createadmob() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        mAdView.setAdUnitId("__GOOGLE_AD_UNIT__ID__");
+        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+        if (admob_test_mode)
+            // Optionally populate the ad request builder.
+            adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+        // Start loading the ad.
+        mAdView.loadAd(adRequestBuilder.build());
+        return mAdView;
+    }
+    
+   
+```   
+  wokring example 1 implementation of Admob banner with static Adview 
+   ...oncreate
+   ```java     
+   
+     /**
+         * wokring example 1 implementation of Admob banner with static Adview
+         */
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList);
+        
+``` 
+working example 2 with multiple called Adviews        
+```java        
+        /**
+         * working example 2 with multiple called Adviews
+         */
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList, new AdmobAdapter.AdviewListener() {
+            @Override
+            public AdView onGenerateAdview() {
+                return createadmob();
+            }
+        });
+        
+      
+      
+      
+        
+        
+    
+```
+
+On List update
+
+```java
+
+                stringList.add("a55");
+                stringList.add("a66");
+                stringList.add("a11771");
+                stringList.add("g33");
+                stringList.add("gb44");
+                stringList.add("n55");
+                stringList.add("n66");
+                stringList.add("e11771");
+
+
+                simpleRecyclerViewAdapter.notifyDataSetChanged();
+                
+```
+
 Show empty view when the adapter is null:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
@@ -250,30 +313,6 @@ Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml 
 ```
 Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
 
-Add sticky header:
-
-In MainActivity:
-```java
-   StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
-  ultimateRecyclerView.addItemDecoration(headersDecor);
-```
-
-In the adapter:
-```java
- @Override
-    public long generateHeaderId(int position) {
-        if (getItem(position).length() > 0)
-            return getItem(position).charAt(0);
-        else return -1;
-    }
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.stick_header_item, viewGroup, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
-    }
-```
 
 ####If you want to see more details,you can check the demo.
 
@@ -293,7 +332,6 @@ In the adapter:
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
-* Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
