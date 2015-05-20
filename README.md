@@ -212,7 +212,7 @@ dependencies {
 
 
 ####Admob implementation
-![admob](https://raw.githubusercontent.com/HKMOpen/UltimateRecyclerView/master/demo/adbanner.gif)
+![ultimate_recyclerview](https://raw.githubusercontent.com/HKMOpen/UltimateRecyclerView/master/demo/adbanner.gif)
 
 
 Show empty view when the adapter is null:
