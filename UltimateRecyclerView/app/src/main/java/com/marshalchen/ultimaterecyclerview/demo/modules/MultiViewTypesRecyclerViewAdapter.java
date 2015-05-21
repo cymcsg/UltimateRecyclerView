@@ -142,6 +142,11 @@ public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewType
 
     }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }
+
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {

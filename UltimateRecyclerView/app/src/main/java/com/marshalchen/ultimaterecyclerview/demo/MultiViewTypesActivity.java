@@ -49,12 +49,12 @@ public class MultiViewTypesActivity extends ActionBarActivity {
                 .inflate(R.layout.custom_bottom_progressbar, null));
         stringList.add("111");
         stringList.add("aaa");
-//        stringList.add("222");
-//        stringList.add("33");
-//        stringList.add("44");
-//        stringList.add("55");
-//        stringList.add("66");
-//        stringList.add("11771");
+        stringList.add("222");
+        stringList.add("33");
+        stringList.add("44");
+        stringList.add("55");
+        stringList.add("66");
+        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         // ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
@@ -65,7 +65,7 @@ public class MultiViewTypesActivity extends ActionBarActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -73,6 +73,27 @@ public class MultiViewTypesActivity extends ActionBarActivity {
                 }, 1000);
             }
         });
+
+//        ultimateRecyclerView.enableLoadmore();
+//        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
+//                .inflate(R.layout.custom_bottom_progressbar, null));
+//
+//        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+//            @Override
+//            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    public void run() {
+//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+//                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
+//                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+//
+//                    }
+//                }, 1000);
+//            }
+//        });
         Paint paint = new Paint();
         paint.setStrokeWidth(5);
         paint.setColor(Color.BLUE);
