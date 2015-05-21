@@ -5,14 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>>  extends UltimateViewAdapter {
+public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extends UltimateViewAdapter {
     private Map<E, DataBinder> mBinderMap = new HashMap<>();
+
+    protected class VIEW_TYPES extends UltimateViewAdapter.VIEW_TYPES {
+        public static final int MULTI_VIEWS = 5;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,7 +41,13 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>>  exten
 
     @Override
     public int getItemViewType(int position) {
-        return getEnumFromPosition(position).ordinal();
+        int type = super.getItemViewType(position);
+        if (type == VIEW_TYPES.NORMAL) {
+            return getEnumFromPosition(position).ordinal();
+        } else {
+            return type;
+        }
+
     }
 
     public <T extends DataBinder> T getDataBinder(int viewType) {
@@ -106,8 +117,6 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>>  exten
     public void notifyBinderItemRemoved(DataBinder binder, int binderPosition) {
         notifyItemRemoved(getPosition(binder, binderPosition));
     }
-
-
 
 
     public abstract E getEnumFromPosition(int position);
