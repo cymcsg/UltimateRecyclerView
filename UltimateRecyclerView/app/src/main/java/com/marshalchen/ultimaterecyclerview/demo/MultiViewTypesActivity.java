@@ -25,7 +25,7 @@ import java.util.List;
 public class MultiViewTypesActivity extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    MultiViewTypesRecyclerViewAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     Toolbar toolbar;
@@ -44,35 +44,21 @@ public class MultiViewTypesActivity extends ActionBarActivity {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
+        simpleRecyclerViewAdapter = new MultiViewTypesRecyclerViewAdapter(stringList);
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
         stringList.add("111");
         stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
+//        stringList.add("222");
+//        stringList.add("33");
+//        stringList.add("44");
+//        stringList.add("55");
+//        stringList.add("66");
+//        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         // ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-        String[] mDemoDataSet = {"Card 1",
-                "Card 2",
-                "Card 3",
-                "Card 4",
-                "Card 5",
-                "Card 6",
-                "Card 7",
-                "Card 8",
-                "Card 9",
-                "Card 10",
-                "Card 11",
-                "Card 12",
-                "Card 13",
-                "Card 14"};
-        ultimateRecyclerView.setAdapter(new MultiViewTypesRecyclerViewAdapter(stringList));
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

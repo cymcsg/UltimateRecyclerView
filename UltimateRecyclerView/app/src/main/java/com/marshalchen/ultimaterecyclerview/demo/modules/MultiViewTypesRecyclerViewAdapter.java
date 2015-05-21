@@ -51,6 +51,15 @@ public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewType
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(dataSet);
     }
 
+    public void insert(String string, int position) {
+        insert(mDataset, string, position);
+    }
+
+    public void remove(int position) {
+        remove(mDataset, position);
+    }
+
+
 //    // Create new views (invoked by the layout manager)
 //    @Override
 //    public ViewHolder onCreateViewHolder(ViewGroup parent,
