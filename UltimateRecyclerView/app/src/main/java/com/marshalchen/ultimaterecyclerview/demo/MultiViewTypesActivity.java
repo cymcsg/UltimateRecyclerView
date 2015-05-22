@@ -50,11 +50,11 @@ public class MultiViewTypesActivity extends ActionBarActivity {
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
+//        stringList.add("33");
+//        stringList.add("44");
+//        stringList.add("55");
+//        stringList.add("66");
+//        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         // ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
@@ -65,7 +65,7 @@ public class MultiViewTypesActivity extends ActionBarActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);

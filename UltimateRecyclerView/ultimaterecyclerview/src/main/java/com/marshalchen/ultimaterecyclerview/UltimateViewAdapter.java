@@ -165,7 +165,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
-        notifyItemInserted(position);
+        //     notifyItemInserted(position);
+        notifyDataSetChanged();
         //  notifyItemChanged(position + 1);
     }
 
@@ -194,7 +195,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public long getHeaderId(int position) {
         if (customHeaderView != null && position == 0) return -1;
-        if (customLoadMoreView!=null&&position>=getItemCount()-1) return -1;
+        if (customLoadMoreView != null && position >= getItemCount() - 1) return -1;
         if (getAdapterItemCount() > 0)
             return generateHeaderId(position);
         else return -1;
@@ -225,22 +226,22 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    protected Animator[] getAnimators(View view,AdapterAnimationType type) {
-        if (type== AdapterAnimationType.ScaleIn){
+    protected Animator[] getAnimators(View view, AdapterAnimationType type) {
+        if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
             return new ObjectAnimator[]{scaleX, scaleY};
-        }else if (type== AdapterAnimationType.AlphaIn){
+        } else if (type == AdapterAnimationType.AlphaIn) {
             return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", .5f, 1f)};
-        }else if (type== AdapterAnimationType.SlideInBottom){
+        } else if (type == AdapterAnimationType.SlideInBottom) {
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
             };
-        }else if (type== AdapterAnimationType.SlideInLeft){
+        } else if (type == AdapterAnimationType.SlideInLeft) {
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
             };
-        }else if (type== AdapterAnimationType.SlideInRight){
+        } else if (type == AdapterAnimationType.SlideInRight) {
             return new Animator[]{
                     ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
             };
