@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * JJHESK HKM. MIT LICENSE
  * {@link {https://github.com/jjhesk/MaterialTabsAdavanced/blob/master/LICENSE.md}}
  */
-public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateViewAdapter {
+public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateViewAdapter.UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
     public interface AdviewListener<Adv extends ViewGroup> {
         Adv onGenerateAdview();
     }
@@ -75,6 +76,26 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateVie
         list = L;
     }
 
+    /**
+     * the layout id for the normal data
+     *
+     * @return the ID
+     */
+    protected abstract int getNormalLayoutResId();
+
+    /**
+     * create a new view holder for data binding
+     *
+     * @param mview the view layout with resource initialized
+     * @return the view type
+     */
+    protected abstract V newViewHolder(View mview);
+
+    @Override
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
+        return newViewHolder(v);
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
