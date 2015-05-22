@@ -77,7 +77,16 @@ public abstract class listFragment<E, adapter extends UltimateViewAdapter> exten
      *
      * @return the adapter to be used
      */
-    protected abstract adapter getAdapter();
+    protected abstract adapter newAdapter();
+
+    /**
+     * the existing adapter from the fragment
+     *
+     * @return the pointer of the adapter
+     */
+    protected adapter adapterPointer() {
+        return madapter;
+    }
 
     /**
      * You can fill nothing here if you do not think there is features you want to do on to this
@@ -111,7 +120,7 @@ public abstract class listFragment<E, adapter extends UltimateViewAdapter> exten
     @Override
     public void onViewCreated(View v, Bundle b) {
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        madapter = getAdapter();
+        madapter = newAdapter();
         pager = (UltimateRecyclerView) v.findViewById(getListViewId());
         configUltimateRecyclerView(pager);
         additional_init();
