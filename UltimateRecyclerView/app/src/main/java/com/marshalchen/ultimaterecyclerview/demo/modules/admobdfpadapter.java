@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 
 import java.util.List;
@@ -21,6 +22,23 @@ import java.util.List;
  * Created by hesk on 20/5/15.
  */
 public class admobdfpadapter extends AdmobAdapter {
+
+    class ViewHolder extends UltimateRecyclerviewViewHolder {
+
+        TextView textViewSample;
+        ImageView imageViewSample;
+        ProgressBar progressBarSample;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            textViewSample = (TextView) itemView.findViewById(
+                    R.id.textview);
+            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
+            progressBarSample.setVisibility(View.GONE);
+        }
+    }
+
     public admobdfpadapter(AdView v, int e, List<String> f) {
         super(v, false, e, f);
     }
@@ -31,11 +49,13 @@ public class admobdfpadapter extends AdmobAdapter {
 
 
     @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    protected int getNormalLayoutResId() {
+        return R.layout.recycler_view_adapter;
+    }
+
+    @Override
+    protected ViewHolder newViewHolder(View mview) {
+        return new ViewHolder(mview);
     }
 
     /**
@@ -61,7 +81,7 @@ public class admobdfpadapter extends AdmobAdapter {
      * Called by RecyclerView to display the data at the specified position. This method
      * should update the contents of the {@link ViewHolder#itemView} to reflect the item at
      * the given position.
-     * <p/>
+     *
      * Note that unlike {@link ListView}, RecyclerView will not call this
      * method again if the position of the item changes in the data set unless the item itself
      * is invalidated or the new position cannot be determined. For this reason, you should only
@@ -78,23 +98,6 @@ public class admobdfpadapter extends AdmobAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (onActionToBindData(position, list)) {
             ((ViewHolder) holder).textViewSample.setText((String) list.get(getDataArrayPosition(position)));
-        }
-    }
-
-
-    class ViewHolder extends UltimateRecyclerviewViewHolder {
-
-        TextView textViewSample;
-        ImageView imageViewSample;
-        ProgressBar progressBarSample;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            textViewSample = (TextView) itemView.findViewById(
-                    R.id.textview);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
         }
     }
 
