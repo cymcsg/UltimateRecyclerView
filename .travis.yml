@@ -22,11 +22,13 @@ before_install:
 android:
   components:
     # We are using the latest revision of Android SDK Tools
-    - platform-tools
-    - tools
+
+    - android-22
     # The BuildTools version we are using for our project
     - build-tools-22.0.1
-
+    
+    - platform-tools
+    - tools
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
