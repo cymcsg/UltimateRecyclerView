@@ -51,9 +51,9 @@ public class MultiViewTypesActivity extends ActionBarActivity {
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
-//        stringList.add("33");
-//        stringList.add("44");
-//        stringList.add("55");
+        stringList.add("33");
+        stringList.add("44");
+        stringList.add("55");
 //        stringList.add("66");
 //        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);

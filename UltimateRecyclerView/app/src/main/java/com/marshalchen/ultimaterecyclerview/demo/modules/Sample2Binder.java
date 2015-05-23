@@ -18,8 +18,10 @@ import java.util.List;
  * Created by cym on 15/5/18.
  */
 public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
-    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter) {
+    private List<String> mList;
+    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter,List<String> mList) {
         super(dataBindAdapter);
+        this.mList=mList;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
 
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
-        holder.mTitleText.setText("Sample type 2");
+        holder.mTitleText.setText("Sample type 2   "+mList.get(position));
     }
 
     @Override

@@ -12,26 +12,28 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
 
+import java.util.List;
+
 /**
  * Created by cym on 15/5/18.
  */
 public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
-    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter) {
+    List<String> dataSet;
+    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter,List<String> dataSet) {
         super(dataBindAdapter);
+        this.dataSet=dataSet;
     }
 
     @Override
     public ViewHolder newViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.simple_binder1, parent, false);
-        URLogs.d("bindViewHolderbindViewHolder");
         return new ViewHolder(view);
     }
 
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
-        URLogs.d("bindViewHolderbindViewHolder   "+position);
-        holder.mTitleText.setText("Sample bindViewHolder 1");
+        holder.mTitleText.setText("Sample1Binder   "+dataSet.get(position));
 
     }
 
