@@ -130,7 +130,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     dismiss = (velocityX < 0) == (deltaX < 0);
                     dismissRight = mVelocityTracker.getXVelocity() > 0;
                 }
-                URLogs.d("up----" + dismiss + "    " + dismissRight);
                 if (dismiss) {
                     // dismiss
                     mView.animate()

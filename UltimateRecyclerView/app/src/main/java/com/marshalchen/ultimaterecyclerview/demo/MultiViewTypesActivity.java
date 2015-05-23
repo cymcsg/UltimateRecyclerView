@@ -12,8 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.demo.modules.SwipeBottomRecyclerViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.modules.MultiViewTypesRecyclerViewAdapter;
 import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ import java.util.List;
 /**
  * A activity which can be swiped to show bottom view with default horizontal divider item decoration.
  */
-public class SwipeBottomActivity extends ActionBarActivity {
+public class MultiViewTypesActivity extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    MultiViewTypesRecyclerViewAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     Toolbar toolbar;
@@ -44,7 +45,7 @@ public class SwipeBottomActivity extends ActionBarActivity {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
+        simpleRecyclerViewAdapter = new MultiViewTypesRecyclerViewAdapter(stringList);
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
         stringList.add("111");
@@ -53,26 +54,12 @@ public class SwipeBottomActivity extends ActionBarActivity {
         stringList.add("33");
         stringList.add("44");
         stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
+//        stringList.add("66");
+//        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         // ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-        String[] mDemoDataSet = {"Card 1",
-                "Card 2",
-                "Card 3",
-                "Card 4",
-                "Card 5",
-                "Card 6",
-                "Card 7",
-                "Card 8",
-                "Card 9",
-                "Card 10",
-                "Card 11",
-                "Card 12",
-                "Card 13",
-                "Card 14"};
-        ultimateRecyclerView.setAdapter(new SwipeBottomRecyclerViewAdapter(mDemoDataSet));
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -87,6 +74,7 @@ public class SwipeBottomActivity extends ActionBarActivity {
                 }, 1000);
             }
         });
+
         Paint paint = new Paint();
         paint.setStrokeWidth(5);
         paint.setColor(Color.BLUE);

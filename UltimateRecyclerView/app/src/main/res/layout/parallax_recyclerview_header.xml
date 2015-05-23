@@ -4,7 +4,8 @@
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/test_back2"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_back3"
         android:adjustViewBounds="true" />
 </RelativeLayout>

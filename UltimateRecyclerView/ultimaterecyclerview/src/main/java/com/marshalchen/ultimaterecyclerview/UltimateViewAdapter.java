@@ -1,7 +1,8 @@
 package com.marshalchen.ultimaterecyclerview;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,7 +44,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
                 return new UltimateRecyclerviewViewHolder(customHeaderView);
-        }else if (viewType==VIEW_TYPES.CHANGED_FOOTER){
+        } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
             RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
@@ -63,6 +64,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Using a custom LoadMoreView
+     *
      * @param customview
      */
     public void setCustomLoadMoreView(View customview) {
@@ -71,12 +73,14 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Changing the loadmore view
+     *
      * @param customview
      */
     public void swipeCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
-        isLoadMoreChanged=true;
+        isLoadMoreChanged = true;
     }
+
     public View getCustomLoadMoreView() {
         return customLoadMoreView;
     }
@@ -161,7 +165,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
-        notifyItemInserted(position);
+        //     notifyItemInserted(position);
+        notifyDataSetChanged();
         //  notifyItemChanged(position + 1);
     }
 
@@ -187,8 +192,18 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemRangeRemoved(0, size);
     }
 
+    @Override
+    public long getHeaderId(int position) {
+        if (customHeaderView != null && position == 0) return -1;
+        if (customLoadMoreView != null && position >= getItemCount() - 1) return -1;
+        if (getAdapterItemCount() > 0)
+            return generateHeaderId(position);
+        else return -1;
+    }
 
-   protected class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
+    public abstract long generateHeaderId(int position);
+
+    public static class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder {
         public UltimateRecyclerviewViewHolder(View itemView) {
             super(itemView);
         }
@@ -202,5 +217,36 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         public static final int CHANGED_FOOTER = 3;
     }
 
+    protected enum AdapterAnimationType {
+        AlphaIn,
+        SlideInBottom,
+        ScaleIn,
+        SlideInLeft,
+        SlideInRight,
+    }
+
+
+    protected Animator[] getAnimators(View view, AdapterAnimationType type) {
+        if (type == AdapterAnimationType.ScaleIn) {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
+            return new ObjectAnimator[]{scaleX, scaleY};
+        } else if (type == AdapterAnimationType.AlphaIn) {
+            return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", .5f, 1f)};
+        } else if (type == AdapterAnimationType.SlideInBottom) {
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
+            };
+        } else if (type == AdapterAnimationType.SlideInLeft) {
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
+            };
+        } else if (type == AdapterAnimationType.SlideInRight) {
+            return new Animator[]{
+                    ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
+            };
+        }
+        return null;
+    }
 
 }

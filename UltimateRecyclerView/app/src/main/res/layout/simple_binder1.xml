@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title_type1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Type 1"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"/>
+
+    <ImageView
+        android:id="@+id/image_type1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" android:src="@drawable/test_back3"
+        android:layout_margin="12dp"/>
+
+    <TextView
+        android:id="@+id/content_type1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is sample data for view type 1"
+        android:textSize="16sp"
+        android:layout_margin="12dp"/>
+</LinearLayout>

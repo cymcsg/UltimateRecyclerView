@@ -222,7 +222,6 @@ public class FloatingActionsMenu extends ViewGroup {
             if (!isHorizontal)
                 child.layout(0, childY, child.getMeasuredWidth(), childY + child.getMeasuredHeight());
             else {
-                URLogs.d("num---" + child.getMeasuredWidth() + "   " + child.getMeasuredHeight() + "   " + childX + "   " + childY);
                 child.layout(childX, 0,
                         childX + child.getMeasuredWidth(), child.getMeasuredHeight());
             }

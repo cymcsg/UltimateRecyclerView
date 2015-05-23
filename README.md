@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.2
+###Version:0.3.4
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -10,7 +10,7 @@
 #####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
-UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
+UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
 
 Notice that UltimateRecyclerView is a project under development.
@@ -29,8 +29,13 @@ Notice that UltimateRecyclerView is a project under development.
 * Showing or hiding toolbar and floating button when scrolling
 * scrollbars
 * Colorful styles of ``swipe to refresh``
+* sticky header like instagram
+* support different layout in adapter
 
 
+###Changes in 0.3.4:
+- [x] support different layout in adapter
+- [x] support easy way to use admob
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -44,7 +49,7 @@ Notice that UltimateRecyclerView is a project under development.
 
 ###Upcoming features:
 * More animations
-* Add sticky header like instagram
+* Optimise UltimateViewAdapter
 * ...
 
 
@@ -84,7 +89,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.4'
 }
 ```
 
@@ -106,7 +111,7 @@ Loading more:
 ```
 
 
-Set ParallaxHeader:
+######Set ParallaxHeader:
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
@@ -121,7 +126,7 @@ Set ParallaxHeader:
 ```
 
 
-Set swipe to refresh:
+######Set swipe to refresh:
 
 ```java
  ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -140,7 +145,7 @@ Set swipe to refresh:
         });
 ```
 
-Set swipe to dismiss:
+######Set swipe to dismiss:
 
 ```java
   ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
@@ -165,7 +170,7 @@ Set swipe to dismiss:
         });
  ```
  
- Drag and drop:
+###### Drag and drop:
  
  ```java
     dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
@@ -195,7 +200,7 @@ Animations:
   ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
  ```
         
-Showing and hiding toolbar and floating button:
+######Showing and hiding toolbar and floating button:
 
 ```java
   ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
@@ -217,30 +222,30 @@ Showing and hiding toolbar and floating button:
         });        
  ```
  
-Show empty view when the adapter is null:
+######Show empty view when the adapter is null:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
 ...
 app:recyclerviewEmptyView="@layout/empty_view"/>
 ```
 
-Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
+######Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
 ...
  app:recyclerviewFloatingActionView="@layout/floating_view"/>
 ```
 
-Set custom colorful style of pull to refresh:
+######Set custom colorful style of pull to refresh:
 ```xml
  <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
  .../>
 ``` 
-Using CustomUltimateRecyclerview instead of UltimateRecyclerView 
+######Using CustomUltimateRecyclerview instead of UltimateRecyclerView 
 ``ultimateRecyclerView.setCustomSwipeToRefresh();``
 
 
-Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
+######Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml layout:
 
 ```xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
@@ -248,6 +253,96 @@ Set scrollbars of RecyclerView by set attributes of UltimateRecyclerView in xml 
 ```
 Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED** refer to [this](http://stackoverflow.com/questions/27056379/is-there-any-way-to-enable-scrollbars-for-recyclerview-in-code)
 
+######Add sticky header:
+
+In MainActivity:
+```java
+   StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+  ultimateRecyclerView.addItemDecoration(headersDecor);
+```
+
+In the adapter:
+```java
+ @Override
+    public long generateHeaderId(int position) {
+        if (getItem(position).length() > 0)
+            return getItem(position).charAt(0);
+        else return -1;
+    }
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.stick_header_item, viewGroup, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+```
+
+
+######Using different layout in an adapter:
+You should define a MultiViewAdapter which extends UltimateDiffernetViewTypeAdapter and then your custom differnt view adapters.
+```java
+public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewTypeAdapter{
+    @Override
+    public Enum getEnumFromPosition(int position) {
+        if (position % 2 == 1) {
+            return SampleViewType.SAMPLE1;
+        } else {
+            return SampleViewType.SAMPLE2;
+        }
+    }
+    
+    public MultiViewTypesRecyclerViewAdapter(List<String> dataSet) {
+      putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this,dataSet));
+      putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this,dataSet));
+      ...
+    }
+    ...
+}
+```
+```java
+public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
+   
+    @Override
+    public ViewHolder newViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.simple_binder1, parent, false);
+        return new ViewHolder(view);
+    }
+    ...
+}
+    
+```
+
+
+######Admob implementation
+```java
+ private AdView createadmob() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        mAdView.setAdUnitId("__GOOGLE_AD_UNIT__ID__");
+        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+        if (admob_test_mode)
+            // Optionally populate the ad request builder.
+            adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+        // Start loading the ad.
+        mAdView.loadAd(adRequestBuilder.build());
+        return mAdView;
+    }
+```
+```java
+       simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList, new AdmobAdapter.AdviewListener() {
+            @Override
+            public AdView onGenerateAdview() {
+                return createadmob();
+            }
+        });
+```
 
 ####If you want to see more details,you can check the demo.
 
@@ -267,6 +362,7 @@ Note that set scrollbars of RecyclerView dynamically by code is **NOT SUPPORTED*
 * Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
+* Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 

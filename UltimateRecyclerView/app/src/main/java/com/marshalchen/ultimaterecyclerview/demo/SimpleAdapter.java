@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 import java.security.SecureRandom;
@@ -79,13 +80,13 @@ public class SimpleAdapter extends UltimateViewAdapter {
         swapPositions(stringList, from, to);
     }
 
+
     @Override
-    public long getHeaderId(int position) {
-        if (position == 0) {
-            return -1;
-        } else {
+    public long generateHeaderId(int position) {
+       // URLogs.d("position--" + position + "   " + getItem(position));
+        if (getItem(position).length() > 0)
             return getItem(position).charAt(0);
-        }
+        else return -1;
     }
 
     @Override
@@ -98,9 +99,25 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        TextView textView = (TextView) viewHolder.itemView;
+
+        TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.stick_text);
         textView.setText(String.valueOf(getItem(position).charAt(0)));
-        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
+//        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
+        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AAffffff"));
+        ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.stick_img);
+
+        SecureRandom imgGen = new SecureRandom();
+        switch (imgGen.nextInt(3)) {
+            case 0:
+                imageView.setImageResource(R.drawable.test_back1);
+                break;
+            case 1:
+                imageView.setImageResource(R.drawable.test_back2);
+                break;
+            case 2:
+                imageView.setImageResource(R.drawable.test_back);
+                break;
+        }
 
     }
 //

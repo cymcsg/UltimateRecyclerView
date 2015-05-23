@@ -28,11 +28,10 @@ public class FlipInTopXAnimator extends BaseItemAnimator {
                 .setDuration(getRemoveDuration())
                 .setListener(new DefaultRemoveVpaListener(holder))
                 .start();
-        mRemoveAnimations.add(holder);
     }
 
     @Override
-    protected void preAnimateAdd(RecyclerView.ViewHolder holder) {
+    protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
         ViewCompat.setRotationX(holder.itemView, 90);
     }
 
@@ -42,6 +41,5 @@ public class FlipInTopXAnimator extends BaseItemAnimator {
                 .rotationX(0)
                 .setDuration(getAddDuration())
                 .setListener(new DefaultAddVpaListener(holder)).start();
-        mAddAnimations.add(holder);
     }
 }
