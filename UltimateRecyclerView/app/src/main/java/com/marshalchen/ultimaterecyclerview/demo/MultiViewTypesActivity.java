@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.modules.MultiViewTypesRecyclerViewAdapter;
 import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
@@ -74,26 +75,6 @@ public class MultiViewTypesActivity extends ActionBarActivity {
             }
         });
 
-//        ultimateRecyclerView.enableLoadmore();
-//        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-//                .inflate(R.layout.custom_bottom_progressbar, null));
-//
-//        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-//            @Override
-//            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-//                Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-//                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-//                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-//                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-//
-//                    }
-//                }, 1000);
-//            }
-//        });
         Paint paint = new Paint();
         paint.setStrokeWidth(5);
         paint.setColor(Color.BLUE);

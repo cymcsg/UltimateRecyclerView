@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
@@ -23,12 +24,14 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
     public ViewHolder newViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.simple_binder1, parent, false);
+        URLogs.d("bindViewHolderbindViewHolder");
         return new ViewHolder(view);
     }
 
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
-        holder.mTitleText.setText("Sample type 1");
+        URLogs.d("bindViewHolderbindViewHolder   "+position);
+        holder.mTitleText.setText("Sample bindViewHolder 1");
 
     }
 
@@ -37,7 +40,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         return 1;
     }
 
-    static class ViewHolder extends UltimateViewAdapter.UltimateRecyclerviewViewHolder {
+    static class ViewHolder extends MultiViewTypesRecyclerViewAdapter.UltimateRecyclerviewViewHolder {
 
         TextView mTitleText;
         ImageView mImageView;
