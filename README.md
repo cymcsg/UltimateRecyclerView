@@ -31,11 +31,14 @@ Notice that UltimateRecyclerView is a project under development.
 * Colorful styles of ``swipe to refresh``
 * sticky header like instagram
 * support different layout in adapter
+* loading adapter with animations
 
 
 ###Changes in 0.3.4:
 - [x] support different layout in adapter
 - [x] support easy way to use admob
+- [x] loading adapter with animations
+
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -342,6 +345,24 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
                 return createadmob();
             }
         });
+```
+
+######Loading adapter with animations :
+```java
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+       ...
+        if (!isFirstOnly || position > mLastPosition) {
+            for (Animator anim : getAdapterAnimations(holder.itemView, AdapterAnimationType.ScaleIn)) {
+                anim.setDuration(mDuration).start();
+                anim.setInterpolator(mInterpolator);
+            }
+            mLastPosition = position;
+        } else {
+            ViewHelper.clear(holder.itemView);
+        }
+
+    }
 ```
 
 ####If you want to see more details,you can check the demo.
