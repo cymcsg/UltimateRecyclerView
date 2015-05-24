@@ -40,7 +40,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
         }
         if (!isFirstOnly || position > mLastPosition) {
-            for (Animator anim : getAnimators(holder.itemView, AdapterAnimationType.ScaleIn)) {
+            for (Animator anim : getAdapterAnimations(holder.itemView, AdapterAnimationType.ScaleIn)) {
                 anim.setDuration(mDuration).start();
                 anim.setInterpolator(mInterpolator);
             }

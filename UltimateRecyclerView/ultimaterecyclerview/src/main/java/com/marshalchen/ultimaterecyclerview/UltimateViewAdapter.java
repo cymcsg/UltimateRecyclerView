@@ -226,7 +226,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
 
-    protected Animator[] getAnimators(View view, AdapterAnimationType type) {
+    protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);
