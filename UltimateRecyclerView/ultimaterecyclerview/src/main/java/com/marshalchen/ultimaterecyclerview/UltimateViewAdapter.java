@@ -225,7 +225,12 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         SlideInRight,
     }
 
-
+    /**
+     * Animations when loading the adapter
+     * @param view
+     * @param type
+     * @return
+     */
     protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);

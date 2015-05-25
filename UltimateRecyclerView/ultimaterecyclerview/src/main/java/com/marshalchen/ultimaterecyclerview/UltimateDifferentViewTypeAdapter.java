@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An abstract adapter which can be extended for Recyclerview
+ * An adapter which support different layout
  */
 public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extends UltimateViewAdapter {
     private Map<E, DataBinder> mBinderMap = new HashMap<>();
