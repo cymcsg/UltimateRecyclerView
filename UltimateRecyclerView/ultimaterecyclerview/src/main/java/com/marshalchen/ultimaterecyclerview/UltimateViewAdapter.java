@@ -165,8 +165,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
-        //     notifyItemInserted(position);
-        notifyDataSetChanged();
+        notifyItemInserted(position);
+       // notifyDataSetChanged();
         //  notifyItemChanged(position + 1);
     }
 
@@ -227,6 +227,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * Animations when loading the adapter
+     *
      * @param view
      * @param type
      * @return
