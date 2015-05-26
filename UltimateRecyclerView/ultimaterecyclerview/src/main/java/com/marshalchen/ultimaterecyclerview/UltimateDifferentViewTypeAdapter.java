@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An abstract adapter which can be extended for Recyclerview
+ * An adapter which support different layout
  */
 public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extends UltimateViewAdapter {
     private Map<E, DataBinder> mBinderMap = new HashMap<>();
@@ -30,7 +30,6 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extend
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        URLogs.d("bindViewHolderbindViewHolder   "+position);
         int binderPosition = getBinderPosition(position);
         getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
 

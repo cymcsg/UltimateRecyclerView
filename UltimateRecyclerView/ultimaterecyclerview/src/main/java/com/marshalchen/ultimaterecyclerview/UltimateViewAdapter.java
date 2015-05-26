@@ -165,8 +165,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
-        //     notifyItemInserted(position);
-        notifyDataSetChanged();
+        notifyItemInserted(position);
+       // notifyDataSetChanged();
         //  notifyItemChanged(position + 1);
     }
 
@@ -225,8 +225,14 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         SlideInRight,
     }
 
-
-    protected Animator[] getAnimators(View view, AdapterAnimationType type) {
+    /**
+     * Animations when loading the adapter
+     *
+     * @param view
+     * @param type
+     * @return
+     */
+    protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", .5f, 1f);

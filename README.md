@@ -31,11 +31,14 @@ Notice that UltimateRecyclerView is a project under development.
 * Colorful styles of ``swipe to refresh``
 * sticky header like instagram
 * support different layout in adapter
+* loading adapter with animations
 
 
 ###Changes in 0.3.4:
 - [x] support different layout in adapter
 - [x] support easy way to use admob
+- [x] loading adapter with animations
+
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -65,12 +68,12 @@ If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it
 
 
 ###Screenshot
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/0bed76fcdecb604afab39df9ce1a509af4b6f995/ultimaterecyclerview/ultimate_recyclerview6.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview1.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview2.gif)
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview11.gif)
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview12.gif)
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview7.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/b93b542a517f7c32a72010813c82fdd9c2b97857/ultimaterecyclerview/ultimate_recyclerview4.gif)
-
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview8.gif)
+![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview9.gif)
 
 
 ###Sample
@@ -342,6 +345,24 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
                 return createadmob();
             }
         });
+```
+
+######Loading adapter with animations :
+```java
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+       ...
+        if (!isFirstOnly || position > mLastPosition) {
+            for (Animator anim : getAdapterAnimations(holder.itemView, AdapterAnimationType.ScaleIn)) {
+                anim.setDuration(mDuration).start();
+                anim.setInterpolator(mInterpolator);
+            }
+            mLastPosition = position;
+        } else {
+            ViewHelper.clear(holder.itemView);
+        }
+
+    }
 ```
 
 ####If you want to see more details,you can check the demo.
