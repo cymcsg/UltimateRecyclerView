@@ -8,8 +8,8 @@ android {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 8
+        versionName "1.0.7"
     }
     buildTypes {
         release {
