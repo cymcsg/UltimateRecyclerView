@@ -975,6 +975,14 @@ public class UltimateRecyclerView extends FrameLayout {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, -mToolbar.getHeight());
     }
 
+    public void showView(View mView, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveView(mView, ultimateRecyclerView, screenHeight, 0);
+    }
+
+    public void hideView(View mView, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveView(mView, ultimateRecyclerView, screenHeight, -mView.getHeight());
+    }
+
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
         if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
             return;
@@ -985,6 +993,26 @@ public class UltimateRecyclerView extends FrameLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float translationY = (float) animation.getAnimatedValue();
                 ViewHelper.setTranslationY(mToolbar, translationY);
+                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;
+                ((View) ultimateRecyclerView).requestLayout();
+            }
+        });
+        animator.start();
+    }
+
+    protected void moveView(final View mView, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
+        if (ViewHelper.getTranslationY(mView) == toTranslationY) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mView), toTranslationY).setDuration(200);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float translationY = (float) animation.getAnimatedValue();
+                ViewHelper.setTranslationY(mView, translationY);
                 ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
                 // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
