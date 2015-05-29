@@ -73,7 +73,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
     ItemTouchListenerAdapter itemTouchListenerAdapter;
     Toolbar toolbar;
     boolean isDrag = true;
-
+    View floatingButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 
         ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
+        floatingButton = findViewById(R.id.custom_urv_add_floating_button);
         List<String> stringList = new ArrayList<>();
         simpleRecyclerViewAdapter = new SimpleAnimationAdapter(stringList);
 
@@ -132,6 +133,9 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                 }, 1000);
             }
         });
+        // ultimateRecyclerView.hideDefaultFloatingActionButton();
+        // ultimateRecyclerView.hideFloatingActionMenu();
+        ultimateRecyclerView.displayCustomFloatingActionView(false);
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -146,11 +150,13 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
-                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.showFloatingActionMenu();
+                    //  ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    //  ultimateRecyclerView.showView(floatingButton, ultimateRecyclerView, getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.UP) {
-                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.hideFloatingActionMenu();
+//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.hideFloatingActionMenu();
+                    //   ultimateRecyclerView.hideView(floatingButton, ultimateRecyclerView, getScreenHeight());
+
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                 }
             }
@@ -367,7 +373,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                     //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
+                        //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
                     }
                 }, 1800);
             }
@@ -384,7 +390,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                     refreshingStringArray();
                     break;
                 case 1:
-                  //  refreshingMaterial();
+                    //  refreshingMaterial();
                     refreshingString();
                     break;
                 case 2:
