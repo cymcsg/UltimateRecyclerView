@@ -192,22 +192,22 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
-    /**
-     * Set a swipe-to-dismiss OnItemTouchListener for RecyclerView
-     *
-     * @param dismissCallbacks
-     */
-    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) throws NullPointerException {
-        int[] notToDismiss = null;
-        if (mAdapter == null) throw new NullPointerException();
-        if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
-            notToDismiss = new int[]{
-                    0
-            };
-        }
-
-        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks, notToDismiss));
-    }
+//    /**
+//     * Set a swipe-to-dismiss OnItemTouchListener for RecyclerView
+//     *
+//     * @param dismissCallbacks
+//     */
+//    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) throws NullPointerException {
+//        int[] notToDismiss = null;
+//        if (mAdapter == null) throw new NullPointerException();
+//        if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
+//            notToDismiss = new int[]{
+//                    0
+//            };
+//        }
+//
+//        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks, notToDismiss));
+//    }
 
     void setDefaultScrollListener() {
         mOnScrollListener = new RecyclerView.OnScrollListener() {
