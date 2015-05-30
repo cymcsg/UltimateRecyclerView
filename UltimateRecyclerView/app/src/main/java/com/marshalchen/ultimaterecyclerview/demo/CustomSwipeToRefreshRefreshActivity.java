@@ -19,12 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
-import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
@@ -69,8 +66,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     private ActionMode actionMode;
-    DragDropTouchListener dragDropTouchListener;
-    ItemTouchListenerAdapter itemTouchListenerAdapter;
+
     Toolbar toolbar;
     boolean isDrag = true;
     View floatingButton = null;
@@ -162,75 +158,6 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
             }
         });
 
-        itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
-                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
-                    @Override
-                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemClick()");
-                        if (actionMode != null && isDrag) {
-                            toggleSelection(position);
-                        }
-                    }
-
-                    @Override
-                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemLongClick()" + isDrag);
-                        if (isDrag) {
-                            URLogs.d("onItemLongClick()" + isDrag);
-                            toolbar.startActionMode(CustomSwipeToRefreshRefreshActivity.this);
-                            toggleSelection(position);
-                            dragDropTouchListener.startDrag();
-                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
-                        }
-
-                    }
-                });
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
-
-        ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
-            @Override
-            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
-            }
-
-            @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    simpleRecyclerViewAdapter.remove(data.position);
-                }
-            }
-
-            @Override
-            public void onResetMotion() {
-                isDrag = true;
-            }
-
-            @Override
-            public void onTouchDown() {
-                isDrag = false;
-
-            }
-        });
-
-
-        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
-            @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                simpleRecyclerViewAdapter.swapPositions(from, to);
-                simpleRecyclerViewAdapter.clearSelection(from);
-                simpleRecyclerViewAdapter.notifyItemChanged(to);
-                if (actionMode != null) actionMode.finish();
-                URLogs.d("switch----");
-            }
-
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                URLogs.d("drop----");
-                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
