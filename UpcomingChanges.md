@@ -13,7 +13,7 @@
 - [x] support different layout in UltimateViewAdapter
 - [ ] Customize height and width
 - [ ] Traditional header
-- [ ] Swipe color
+- [ ] Swipe to dismiss color
  
 
 
