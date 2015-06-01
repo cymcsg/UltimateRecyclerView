@@ -33,7 +33,7 @@
             android:name=".CustomSwipeToRefreshRefreshActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".TestAbMob"
+            android:name=".TestAdMob"
             android:label="@string/app_name"></activity>
 
         <activity

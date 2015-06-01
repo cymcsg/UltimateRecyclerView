@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -296,7 +295,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         } else if (id == R.id.admob) {
-            Intent intent = new Intent(this, TestAbMob.class);
+            Intent intent = new Intent(this, TestAdMob.class);
             startActivity(intent);
             return true;
         }

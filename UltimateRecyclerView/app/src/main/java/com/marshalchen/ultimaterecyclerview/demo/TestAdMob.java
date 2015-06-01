@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by hesk on 20/5/15.
  */
-public class TestAbMob extends ActionBarActivity {
+public class TestAdMob extends ActionBarActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     admobdfpadapter simpleRecyclerViewAdapter = null;
