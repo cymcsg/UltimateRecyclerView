@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 
 import java.util.List;

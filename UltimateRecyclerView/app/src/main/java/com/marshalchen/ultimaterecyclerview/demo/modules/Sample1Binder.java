@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
@@ -42,7 +43,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         return 1;
     }
 
-    static class ViewHolder extends MultiViewTypesRecyclerViewAdapter.UltimateRecyclerviewViewHolder {
+    static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         TextView mTitleText;
         ImageView mImageView;
