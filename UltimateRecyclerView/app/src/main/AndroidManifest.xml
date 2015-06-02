@@ -35,6 +35,9 @@
         <activity
             android:name=".TestAdMob"
             android:label="@string/app_name"></activity>
+        <activity
+            android:name=".SwipeAndDragActivity"
+            android:label="@string/app_name"></activity>
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
