@@ -48,6 +48,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.modules.ExampleDataProvider;
 import com.marshalchen.ultimaterecyclerview.draggable.RecyclerViewDragDropManager;
+import com.marshalchen.ultimaterecyclerview.draggable.RecyclerViewTouchActionGuardManager;
 import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -68,6 +69,7 @@ public class SwipeAndDragActivity extends ActionBarActivity implements ActionMod
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
     private RecyclerView.Adapter mWrappedAdapter;
+    private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,18 +119,21 @@ public class SwipeAndDragActivity extends ActionBarActivity implements ActionMod
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
         mRecyclerViewDragDropManager.setDraggingItemShadowDrawable(
                 (NinePatchDrawable) getResources().getDrawable(R.drawable.material_shadow_z3));
-
+        mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
+        mRecyclerViewTouchActionGuardManager.setInterceptVerticalScrollingWhileAnimationRunning(true);
+        mRecyclerViewTouchActionGuardManager.setEnabled(true);
 
         // swipe manager
 
         mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
         mWrappedAdapter = mRecyclerViewDragDropManager.createWrappedAdapter(simpleRecyclerViewAdapter);
 
-        mWrappedAdapter = mRecyclerViewSwipeManager.createWrappedAdapter(mWrappedAdapter);
+        //mWrappedAdapter = mRecyclerViewSwipeManager.createWrappedAdapter(mWrappedAdapter);
 
         ultimateRecyclerView.setAdapter(mWrappedAdapter);
-        mRecyclerViewSwipeManager.attachRecyclerView(ultimateRecyclerView);
-        mRecyclerViewDragDropManager.attachRecyclerView((RecyclerView)ultimateRecyclerView);
+       // mRecyclerViewSwipeManager.attachRecyclerView(ultimateRecyclerView);
+        mRecyclerViewTouchActionGuardManager.attachRecyclerView(ultimateRecyclerView);
+        mRecyclerViewDragDropManager.attachRecyclerView(ultimateRecyclerView.mRecyclerView);
 
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
