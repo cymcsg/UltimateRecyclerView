@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 
 
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.draggable.utils.CustomRecyclerViewUtils;
 
 import java.lang.ref.WeakReference;
@@ -38,7 +39,7 @@ class RemovingItemDecorator extends RecyclerView.ItemDecoration {
 
     private static final long ADDITIONAL_REMOVE_DURATION = 100;  // workaround: to avoid the gap between the below item
 
-    private RecyclerView mRecyclerView;
+    private UltimateRecyclerView mRecyclerView;
     private RecyclerView.ViewHolder mSwipingItem;
     private long mSwipingItemId;
     private Rect mSwipingItemBounds = new Rect();
@@ -52,7 +53,7 @@ class RemovingItemDecorator extends RecyclerView.ItemDecoration {
 
     private int mPendingNotificationMask = 0;
 
-    public RemovingItemDecorator(RecyclerView rv, RecyclerView.ViewHolder swipingItem, long removeAnimationDuration, long moveAnimationDuration) {
+    public RemovingItemDecorator(UltimateRecyclerView rv, RecyclerView.ViewHolder swipingItem, long removeAnimationDuration, long moveAnimationDuration) {
         mRecyclerView = rv;
         mSwipingItem = swipingItem;
         mSwipingItemId = swipingItem.getItemId();

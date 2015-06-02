@@ -1075,5 +1075,14 @@ public class UltimateRecyclerView extends FrameLayout {
         defaultFloatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
     }
 
+    public void removeItemDecoration(RecyclerView.ItemDecoration decoration){
+        mRecyclerView.removeItemDecoration(decoration);
+    }
+    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener){
+        mRecyclerView.addOnItemTouchListener(listener);
+    }
+    public void removeOnItemTouchListener(RecyclerView.OnItemTouchListener listener){
+        mRecyclerView.removeOnItemTouchListener(listener);
+    }
 
 }

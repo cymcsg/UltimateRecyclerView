@@ -18,12 +18,16 @@ package com.marshalchen.ultimaterecyclerview.draggable.utils;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
+
 public class WrapperAdapterUtils {
 
     private WrapperAdapterUtils() {
     }
 
     public static <T> T findWrappedAdapter(RecyclerView.Adapter adapter, Class<T> clazz) {
+        URLogs.d("adapter---"+clazz.isInstance(adapter)+"   "
+        +(adapter instanceof BaseWrapperAdapter)+"    ");
         if (clazz.isInstance(adapter)) {
             return clazz.cast(adapter);
         } else if (adapter instanceof BaseWrapperAdapter) {

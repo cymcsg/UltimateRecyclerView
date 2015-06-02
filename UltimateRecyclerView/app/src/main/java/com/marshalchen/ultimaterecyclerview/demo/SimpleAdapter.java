@@ -25,8 +25,10 @@ public class SimpleAdapter extends UltimateViewAdapter
         implements SwipeableItemAdapter<SimpleAdapter.ViewHolder> {
     private List<String> stringList;
 
-    public SimpleAdapter(List<String> stringList) {
+    public SimpleAdapter(List<String> stringList,AbstractDataProvider dataProvider) {
+
         this.stringList = stringList;
+        mProvider = dataProvider;
         mItemViewOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +45,7 @@ public class SimpleAdapter extends UltimateViewAdapter
     }
 
 
-   // private AbstractDataProvider mProvider;
+    private AbstractDataProvider mProvider;
     private EventListener mEventListener;
     private View.OnClickListener mItemViewOnClickListener;
     private View.OnClickListener mSwipeableViewContainerOnClickListener;
@@ -72,10 +74,10 @@ public class SimpleAdapter extends UltimateViewAdapter
 
                 ((ViewHolder) holder).mContainer.setBackgroundResource(bgResId);
             }
-
+            final AbstractDataProvider.Data item = mProvider.getItem(position);
             // set swiping properties
-//            ((ViewHolder) holder).setSwipeItemSlideAmount(
-//                    item.isPinnedToSwipeLeft() ? RecyclerViewSwipeManager.OUTSIDE_OF_THE_WINDOW_LEFT : 0);
+            ((ViewHolder) holder).setSwipeItemSlideAmount(
+                    item.isPinnedToSwipeLeft() ? RecyclerViewSwipeManager.OUTSIDE_OF_THE_WINDOW_LEFT : 0);
         }
 
     }
@@ -167,25 +169,8 @@ public class SimpleAdapter extends UltimateViewAdapter
 
     }
 
-    @Override
-    public int onGetSwipeReactionType(ViewHolder holder, int position, int x, int y) {
-        return 0;
-    }
 
-    @Override
-    public void onSetSwipeBackground(ViewHolder holder, int position, int type) {
 
-    }
-
-    @Override
-    public int onSwipeItem(ViewHolder holder, int position, int result) {
-        return 0;
-    }
-
-    @Override
-    public void onPerformAfterSwipeReaction(ViewHolder holder, int position, int result, int reaction) {
-
-    }
 //
 //    private int getRandomColor() {
 //        SecureRandom rgen = new SecureRandom();
@@ -248,6 +233,95 @@ public class SimpleAdapter extends UltimateViewAdapter
     private void onSwipeableViewContainerClick(View v) {
         if (mEventListener != null) {
             mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v), false);  // false --- not pinned
+        }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mProvider.getItem(position).getId();
+    }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        return mProvider.getItem(position).getViewType();
+//    }
+
+//    @Override
+//    public int getItemCount() {
+//        return mProvider.getCount();
+//    }
+
+
+
+    @Override
+    public void onSetSwipeBackground(ViewHolder holder, int position, int type) {
+        int bgRes = 0;
+        switch (type) {
+            case RecyclerViewSwipeManager.DRAWABLE_SWIPE_NEUTRAL_BACKGROUND:
+                bgRes = R.drawable.bg_swipe_item_neutral;
+                break;
+            case RecyclerViewSwipeManager.DRAWABLE_SWIPE_LEFT_BACKGROUND:
+                bgRes = R.drawable.bg_swipe_item_left;
+                break;
+            case RecyclerViewSwipeManager.DRAWABLE_SWIPE_RIGHT_BACKGROUND:
+                bgRes = R.drawable.bg_swipe_item_right;
+                break;
+        }
+
+        holder.itemView.setBackgroundResource(bgRes);
+    }
+
+    @Override
+    public int onGetSwipeReactionType(ViewHolder holder, int position, int x, int y) {
+        return mProvider.getItem(position).getSwipeReactionType();
+    }
+
+    @Override
+    public int onSwipeItem(ViewHolder holder, int position, int result) {
+        URLogs.d("onSwipeItem(position = " + position + ", result = " + result + ")");
+
+        switch (result) {
+            // swipe right
+            case RecyclerViewSwipeManager.RESULT_SWIPED_RIGHT:
+                if (mProvider.getItem(position).isPinnedToSwipeLeft()) {
+                    // pinned --- back to default position
+                    return RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_DEFAULT;
+                } else {
+                    // not pinned --- remove
+                    return RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_REMOVE_ITEM;
+                }
+                // swipe left -- pin
+            case RecyclerViewSwipeManager.RESULT_SWIPED_LEFT:
+                return RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION;
+            // other --- do nothing
+            case RecyclerViewSwipeManager.RESULT_CANCELED:
+            default:
+                return RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_DEFAULT;
+        }
+    }
+
+    @Override
+    public void onPerformAfterSwipeReaction(ViewHolder holder, int position, int result, int reaction) {
+        URLogs.d("onPerformAfterSwipeReaction(position = " + position + ", result = " + result + ", reaction = " + reaction + ")");
+
+        final AbstractDataProvider.Data item = mProvider.getItem(position);
+
+        if (reaction == RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_REMOVE_ITEM) {
+            mProvider.removeItem(position);
+            notifyItemRemoved(position);
+
+            if (mEventListener != null) {
+                mEventListener.onItemRemoved(position);
+            }
+        } else if (reaction == RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION) {
+            item.setPinnedToSwipeLeft(true);
+            notifyItemChanged(position);
+
+            if (mEventListener != null) {
+                mEventListener.onItemPinned(position);
+            }
+        } else {
+            item.setPinnedToSwipeLeft(false);
         }
     }
     public EventListener getEventListener() {

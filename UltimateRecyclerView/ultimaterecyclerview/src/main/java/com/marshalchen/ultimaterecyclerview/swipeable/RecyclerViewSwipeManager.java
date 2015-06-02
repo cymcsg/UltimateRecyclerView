@@ -27,6 +27,8 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.draggable.animator.SwipeDismissItemAnimator;
 import com.marshalchen.ultimaterecyclerview.draggable.utils.CustomRecyclerViewUtils;
 import com.marshalchen.ultimaterecyclerview.draggable.utils.WrapperAdapterUtils;
@@ -225,7 +227,7 @@ public class RecyclerViewSwipeManager {
     private static final boolean LOCAL_LOGD = false;
 
     private RecyclerView.OnItemTouchListener mInternalUseOnItemTouchListener;
-    private RecyclerView mRecyclerView;
+    private UltimateRecyclerView mRecyclerView;
 
     private long mReturnToDefaultPositionAnimationDuration = 300;
     private long mMoveToOutsideWindowAnimationDuration = 200;
@@ -303,7 +305,7 @@ public class RecyclerViewSwipeManager {
      *
      * @param rv The {@link RecyclerView} instance
      */
-    public void attachRecyclerView(RecyclerView rv) {
+    public void attachRecyclerView(UltimateRecyclerView rv) {
         if (rv == null) {
             throw new IllegalArgumentException("RecyclerView cannot be null");
         }
@@ -317,6 +319,7 @@ public class RecyclerViewSwipeManager {
         }
 
         if (mAdapter == null || getSwipeableItemWrapperAdapter(rv) != mAdapter) {
+            URLogs.d("madapter----"+(mAdapter == null)+"    "+(getSwipeableItemWrapperAdapter(rv)==null));
             throw new IllegalStateException("adapter is not set properly");
         }
 
@@ -472,7 +475,7 @@ public class RecyclerViewSwipeManager {
         return true;
     }
 
-    private static SwipeableItemWrapperAdapter getSwipeableItemWrapperAdapter(RecyclerView rv) {
+    private static SwipeableItemWrapperAdapter getSwipeableItemWrapperAdapter(UltimateRecyclerView rv) {
         return WrapperAdapterUtils.findWrappedAdapter(rv.getAdapter(), SwipeableItemWrapperAdapter.class);
     }
 
