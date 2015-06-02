@@ -56,7 +56,7 @@ import java.util.List;
 public class SwipeAndDragActivity extends ActionBarActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    SwipeAndDragAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
@@ -87,8 +87,8 @@ public class SwipeAndDragActivity extends ActionBarActivity implements ActionMod
         stringList.add("55");
         stringList.add("66");
         stringList.add("11771");
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList,new ExampleDataProvider());
-        simpleRecyclerViewAdapter.setEventListener(new SimpleAdapter.EventListener() {
+        simpleRecyclerViewAdapter = new SwipeAndDragAdapter(stringList,new ExampleDataProvider());
+        simpleRecyclerViewAdapter.setEventListener(new SwipeAndDragAdapter.EventListener() {
             @Override
             public void onItemRemoved(int position) {
                 URLogs.d("remove");

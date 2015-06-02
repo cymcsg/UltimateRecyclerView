@@ -89,7 +89,7 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
+                .inflate(R.layout.recycler_view_adapter_swipedrag, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
