@@ -15,4 +15,9 @@
         android:orderInCategory="100"
         android:title="ADMob ListView"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/swipe_and_drag"
+        android:orderInCategory="105"
+        android:title="SwipeDragActivity"
+        app:showAsAction="never" />
 </menu>

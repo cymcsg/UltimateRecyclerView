@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -25,8 +24,6 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
-import com.marshalchen.ultimaterecyclerview.demo.modules.ExampleDataProvider;
-import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
@@ -43,8 +40,8 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
     Toolbar toolbar;
     boolean isDrag = true;
-    private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
-    private RecyclerView.Adapter mWrappedAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,33 +64,11 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
         stringList.add("55");
         stringList.add("66");
         stringList.add("11771");
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList,new ExampleDataProvider());
-        simpleRecyclerViewAdapter.setEventListener(new SimpleAdapter.EventListener() {
-            @Override
-            public void onItemRemoved(int position) {
-                URLogs.d("remove");
-            }
-
-            @Override
-            public void onItemPinned(int position) {
-                URLogs.d("pinned");
-            }
-
-            @Override
-            public void onItemViewClicked(View v, boolean pinned) {
-                URLogs.d("onItemViewClicked");
-            }
-        });
-
+        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-        // swipe manager
-
-        //mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
-      //  mWrappedAdapter = mRecyclerViewSwipeManager.createWrappedAdapter(simpleRecyclerViewAdapter);
-       // mRecyclerViewSwipeManager.attachRecyclerView(ultimateRecyclerView);
 
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
@@ -320,6 +295,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         } else if (id == R.id.admob) {
+            Intent intent = new Intent(this, TestAdMob.class);
+            startActivity(intent);
+            return true;
+        }else if (id == R.id.swipe_and_drag) {
             Intent intent = new Intent(this, SwipeAndDragActivity.class);
             startActivity(intent);
             return true;
