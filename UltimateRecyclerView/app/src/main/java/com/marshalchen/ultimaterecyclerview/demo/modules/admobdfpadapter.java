@@ -87,15 +87,13 @@ public class admobdfpadapter extends AdmobAdapter {
 
         TextView textViewSample;
         ImageView imageViewSample;
-        ProgressBar progressBarSample;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
+
         }
     }
 

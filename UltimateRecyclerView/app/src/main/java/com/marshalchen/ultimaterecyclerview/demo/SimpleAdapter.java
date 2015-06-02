@@ -12,18 +12,41 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.modules.AbstractDataProvider;
+import com.marshalchen.ultimaterecyclerview.draggable.utils.RecyclerViewAdapterUtils;
+import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
+import com.marshalchen.ultimaterecyclerview.swipeable.SwipeableItemAdapter;
 
 import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAdapter extends UltimateViewAdapter {
+public class SimpleAdapter extends UltimateViewAdapter
+        implements SwipeableItemAdapter<SimpleAdapter.ViewHolder> {
     private List<String> stringList;
 
     public SimpleAdapter(List<String> stringList) {
         this.stringList = stringList;
+        mItemViewOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemViewClick(v);
+            }
+        };
+        mSwipeableViewContainerOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSwipeableViewContainerClick(v);
+            }
+        };
+        setHasStableIds(true);
     }
 
+
+   // private AbstractDataProvider mProvider;
+    private EventListener mEventListener;
+    private View.OnClickListener mItemViewOnClickListener;
+    private View.OnClickListener mSwipeableViewContainerOnClickListener;
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -31,6 +54,28 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
             ((ViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
+            ((ViewHolder) holder).itemView.setOnClickListener(mItemViewOnClickListener);
+            // (if the item is *pinned*, click event comes to the mContainer)
+            ((ViewHolder) holder).mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
+            final int swipeState =  ((ViewHolder) holder).getSwipeStateFlags();
+
+            if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_UPDATED) != 0) {
+                int bgResId;
+
+                if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_ACTIVE) != 0) {
+                    bgResId = R.drawable.bg_item_swiping_active_state;
+                } else if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_SWIPING) != 0) {
+                    bgResId = R.drawable.bg_item_swiping_state;
+                } else {
+                    bgResId = R.drawable.bg_item_normal_state;
+                }
+
+                ((ViewHolder) holder).mContainer.setBackgroundResource(bgResId);
+            }
+
+            // set swiping properties
+//            ((ViewHolder) holder).setSwipeItemSlideAmount(
+//                    item.isPinnedToSwipeLeft() ? RecyclerViewSwipeManager.OUTSIDE_OF_THE_WINDOW_LEFT : 0);
         }
 
     }
@@ -121,6 +166,26 @@ public class SimpleAdapter extends UltimateViewAdapter {
         }
 
     }
+
+    @Override
+    public int onGetSwipeReactionType(ViewHolder holder, int position, int x, int y) {
+        return 0;
+    }
+
+    @Override
+    public void onSetSwipeBackground(ViewHolder holder, int position, int type) {
+
+    }
+
+    @Override
+    public int onSwipeItem(ViewHolder holder, int position, int result) {
+        return 0;
+    }
+
+    @Override
+    public void onPerformAfterSwipeReaction(ViewHolder holder, int position, int result, int reaction) {
+
+    }
 //
 //    private int getRandomColor() {
 //        SecureRandom rgen = new SecureRandom();
@@ -134,7 +199,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
         TextView textViewSample;
         ImageView imageViewSample;
-        ProgressBar progressBarSample;
+        public ViewGroup mContainer;
+        public View mDragHandle;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -155,10 +221,16 @@ public class SimpleAdapter extends UltimateViewAdapter {
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
+            mContainer = (ViewGroup) itemView.findViewById(R.id.container);
+            mDragHandle = itemView.findViewById(R.id.drag_handle);
+
+        }
+        @Override
+        public View getSwipeableContainerView() {
+            return mContainer;
         }
     }
+
 
     public String getItem(int position) {
         if (customHeaderView != null)
@@ -167,5 +239,30 @@ public class SimpleAdapter extends UltimateViewAdapter {
             return stringList.get(position);
         else return "";
     }
+    private void onItemViewClick(View v) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewClicked(v, true); // true --- pinned
+        }
+    }
 
+    private void onSwipeableViewContainerClick(View v) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v), false);  // false --- not pinned
+        }
+    }
+    public EventListener getEventListener() {
+        return mEventListener;
+    }
+
+    public void setEventListener(EventListener eventListener) {
+        mEventListener = eventListener;
+    }
+
+    public interface EventListener {
+        void onItemRemoved(int position);
+
+        void onItemPinned(int position);
+
+        void onItemViewClicked(View v, boolean pinned);
+    }
 }

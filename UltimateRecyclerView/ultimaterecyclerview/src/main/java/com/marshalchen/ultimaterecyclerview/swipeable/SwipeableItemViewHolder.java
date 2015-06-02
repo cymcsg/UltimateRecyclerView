@@ -28,9 +28,9 @@ public interface SwipeableItemViewHolder {
      * Sets the state flags value for swiping item
      *
      * @param flags Bitwise OR of these flags;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_SWIPING}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_ACTIVE}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_UPDATED}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_SWIPING}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_ACTIVE}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_UPDATED}
      */
     void setSwipeStateFlags(int flags);
 
@@ -38,9 +38,9 @@ public interface SwipeableItemViewHolder {
      * Gets the state flags value for swiping item
      *
      * @return  Bitwise OR of these flags;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_SWIPING}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_ACTIVE}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_UPDATED}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_SWIPING}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_ACTIVE}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#STATE_FLAG_IS_UPDATED}
      */
     int getSwipeStateFlags();
 
@@ -48,10 +48,10 @@ public interface SwipeableItemViewHolder {
      * Sets the result code of swiping item.
      *
      * @param result Result code. One of these values;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_NONE}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_LEFT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_RIGHT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_CANCELED}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_NONE}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_LEFT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_RIGHT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_CANCELED}
      */
     void setSwipeResult(int result);
 
@@ -59,10 +59,10 @@ public interface SwipeableItemViewHolder {
      * Gets the result code of swiping item.
      *
      * @return Result code. One of these values;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_NONE}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_LEFT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_RIGHT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_CANCELED}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_NONE}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_LEFT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_SWIPED_RIGHT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#RESULT_CANCELED}
      */
     int getSwipeResult();
 
@@ -70,9 +70,9 @@ public interface SwipeableItemViewHolder {
      * Sets the reaction type of after swiping item.
      *
      * @param reaction After-reaction type. One of these values;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_DEFAULT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_REMOVE_ITEM}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_DEFAULT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_REMOVE_ITEM}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION}
      */
     void setAfterSwipeReaction(int reaction);
 
@@ -80,9 +80,9 @@ public interface SwipeableItemViewHolder {
      * Gets the reaction type of after swiping item.
      *
      * @return After-reaction type. One of these values;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_DEFAULT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_REMOVE_ITEM}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_DEFAULT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_REMOVE_ITEM}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#AFTER_SWIPE_REACTION_MOVE_TO_SWIPED_DIRECTION}
      */
     int getAfterSwipeReaction();
 
@@ -90,8 +90,8 @@ public interface SwipeableItemViewHolder {
      * Sets the item swipe amount.
      *
      * @param amount Item swipe amount. Generally the range is [-1.0 .. 1.0], but these special values can be accepted;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_LEFT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_RIGHT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_LEFT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_RIGHT}
      */
     void setSwipeItemSlideAmount(float amount);
 
@@ -99,8 +99,8 @@ public interface SwipeableItemViewHolder {
      * Gets the item swipe amount.
      *
      * @return Item swipe amount. Generally the range is [-1.0 .. 1.0], but these special values may be returned;
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_LEFT}
-     *              - {@link com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_RIGHT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_LEFT}
+     *              - {@link com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager#OUTSIDE_OF_THE_WINDOW_RIGHT}
      */
     float getSwipeItemSlideAmount();
 

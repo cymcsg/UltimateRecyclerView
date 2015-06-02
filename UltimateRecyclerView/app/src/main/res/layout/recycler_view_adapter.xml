@@ -3,28 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textview" android:text="test2"/>
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true">
 
-    <ImageView
-        android:layout_marginTop="2dp"
-        android:layout_below="@id/textview"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_width="fill_parent"
-        android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/imageview"
-        android:src="@drawable/test_back4" />
+        <View
+            android:id="@+id/drag_handle"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#20000000" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:id="@+id/progressbar" android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_toRightOf="@id/drag_handle"
+            android:text="test2"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@id/textview"
+            android:layout_toRightOf="@id/drag_handle"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_back4" />
+
+
+    </RelativeLayout>
+
+
 </RelativeLayout>
