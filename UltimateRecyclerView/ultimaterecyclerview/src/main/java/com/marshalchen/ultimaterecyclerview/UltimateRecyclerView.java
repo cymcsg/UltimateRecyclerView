@@ -282,7 +282,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 }
 
                 if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount)
-                        <= mFirstVisibleItem ) {
+                        <= mFirstVisibleItem) {
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     isLoadingMore = true;
                     previousTotal = mTotalItemCount;
@@ -1075,14 +1075,19 @@ public class UltimateRecyclerView extends FrameLayout {
         defaultFloatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
     }
 
-    public void removeItemDecoration(RecyclerView.ItemDecoration decoration){
+    public void removeItemDecoration(RecyclerView.ItemDecoration decoration) {
         mRecyclerView.removeItemDecoration(decoration);
     }
-    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener){
+
+    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
         mRecyclerView.addOnItemTouchListener(listener);
     }
-    public void removeOnItemTouchListener(RecyclerView.OnItemTouchListener listener){
+
+    public void removeOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
         mRecyclerView.removeOnItemTouchListener(listener);
     }
 
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return mRecyclerView.getLayoutManager();
+    }
 }

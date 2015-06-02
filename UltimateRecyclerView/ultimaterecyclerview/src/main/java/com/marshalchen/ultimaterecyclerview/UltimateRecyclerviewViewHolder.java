@@ -3,14 +3,15 @@ package com.marshalchen.ultimaterecyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.marshalchen.ultimaterecyclerview.draggable.DraggableItemViewHolder;
 import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.marshalchen.ultimaterecyclerview.swipeable.SwipeableItemViewHolder;
 
 /**
  * Created by cym on 15-6-2.
  */
-public class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder implements SwipeableItemViewHolder {
-
+public class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder implements SwipeableItemViewHolder,DraggableItemViewHolder {
+    private int mDragStateFlags;
     private int mSwipeStateFlags;
     private int mSwipeResult = RecyclerViewSwipeManager.RESULT_NONE;
     private int mAfterSwipeReaction = RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_DEFAULT;
@@ -91,4 +92,15 @@ public class UltimateRecyclerviewViewHolder extends RecyclerView.ViewHolder impl
     public View getSwipeableContainerView() {
         return null;
     }
+
+    @Override
+    public void setDragStateFlags(int flags) {
+        mDragStateFlags = flags;
+    }
+
+    @Override
+    public int getDragStateFlags() {
+        return mDragStateFlags;
+    }
+
 }

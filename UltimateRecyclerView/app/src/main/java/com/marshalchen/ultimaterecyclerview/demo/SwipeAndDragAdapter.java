@@ -1,6 +1,8 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.internal.widget.ViewUtils;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,9 @@ import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.AbstractDataProvider;
+import com.marshalchen.ultimaterecyclerview.draggable.DraggableItemAdapter;
+import com.marshalchen.ultimaterecyclerview.draggable.ItemDraggableRange;
+import com.marshalchen.ultimaterecyclerview.draggable.RecyclerViewDragDropManager;
 import com.marshalchen.ultimaterecyclerview.draggable.utils.RecyclerViewAdapterUtils;
 import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.marshalchen.ultimaterecyclerview.swipeable.SwipeableItemAdapter;
@@ -21,7 +26,8 @@ import java.util.List;
 
 
 public class SwipeAndDragAdapter extends UltimateViewAdapter
-        implements SwipeableItemAdapter<SwipeAndDragAdapter.ViewHolder> {
+        implements SwipeableItemAdapter<SwipeAndDragAdapter.ViewHolder>,
+        DraggableItemAdapter<SwipeAndDragAdapter.ViewHolder> {
     private List<String> stringList;
 
     public SwipeAndDragAdapter(List<String> stringList, AbstractDataProvider dataProvider) {
@@ -58,12 +64,18 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
             ((ViewHolder) holder).itemView.setOnClickListener(mItemViewOnClickListener);
             // (if the item is *pinned*, click event comes to the mContainer)
             ((ViewHolder) holder).mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
-            final int swipeState =  ((ViewHolder) holder).getSwipeStateFlags();
+            final int dragState = ((ViewHolder) holder).getDragStateFlags();
+            final int swipeState = ((ViewHolder) holder).getSwipeStateFlags();
 
-            if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_UPDATED) != 0) {
+            if (((dragState & RecyclerViewDragDropManager.STATE_FLAG_IS_UPDATED) != 0) ||
+                    ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_UPDATED) != 0)) {
                 int bgResId;
 
-                if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_ACTIVE) != 0) {
+                if ((dragState & RecyclerViewDragDropManager.STATE_FLAG_IS_ACTIVE) != 0) {
+                    bgResId = R.drawable.bg_item_dragging_active_state;
+                } else if ((dragState & RecyclerViewDragDropManager.STATE_FLAG_DRAGGING) != 0) {
+                    bgResId = R.drawable.bg_item_dragging_state;
+                } else if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_IS_ACTIVE) != 0) {
                     bgResId = R.drawable.bg_item_swiping_active_state;
                 } else if ((swipeState & RecyclerViewSwipeManager.STATE_FLAG_SWIPING) != 0) {
                     bgResId = R.drawable.bg_item_swiping_state;
@@ -73,6 +85,9 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
 
                 ((ViewHolder) holder).mContainer.setBackgroundResource(bgResId);
             }
+
+
+
             final AbstractDataProvider.Data item = mProvider.getItem(position);
             // set swiping properties
             ((ViewHolder) holder).setSwipeItemSlideAmount(
@@ -130,7 +145,7 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
 
     @Override
     public long generateHeaderId(int position) {
-       // URLogs.d("position--" + position + "   " + getItem(position));
+        // URLogs.d("position--" + position + "   " + getItem(position));
         if (getItem(position).length() > 0)
             return getItem(position).charAt(0);
         else return -1;
@@ -168,6 +183,45 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
 
     }
 
+    @Override
+    public boolean onCheckCanStartDrag(ViewHolder holder, int position, int x, int y) {
+        // x, y --- relative from the itemView's top-left
+        final View containerView = holder.mContainer;
+        final View dragHandleView = holder.mDragHandle;
+
+        final int offsetX = containerView.getLeft() + (int) (ViewCompat.getTranslationX(containerView) + 0.5f);
+        final int offsetY = containerView.getTop() + (int) (ViewCompat.getTranslationY(containerView) + 0.5f);
+
+        return hitTest(dragHandleView, x - offsetX, y - offsetY);
+    }
+    public static boolean hitTest(View v, int x, int y) {
+        final int tx = (int) (ViewCompat.getTranslationX(v) + 0.5f);
+        final int ty = (int) (ViewCompat.getTranslationY(v) + 0.5f);
+        final int left = v.getLeft() + tx;
+        final int right = v.getRight() + tx;
+        final int top = v.getTop() + ty;
+        final int bottom = v.getBottom() + ty;
+
+        return (x >= left) && (x <= right) && (y >= top) && (y <= bottom);
+    }
+    @Override
+    public ItemDraggableRange onGetItemDraggableRange(ViewHolder holder, int position) {
+        // no drag-sortable range specified
+        return null;
+    }
+
+    @Override
+    public void onMoveItem(int fromPosition, int toPosition) {
+        URLogs.d("onMoveItem(fromPosition = " + fromPosition + ", toPosition = " + toPosition + ")");
+
+        if (fromPosition == toPosition) {
+            return;
+        }
+
+        mProvider.moveItem(fromPosition, toPosition);
+
+        notifyItemMoved(fromPosition, toPosition);
+    }
 
 
 //
@@ -209,6 +263,7 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
             mDragHandle = itemView.findViewById(R.id.drag_handle);
 
         }
+
         @Override
         public View getSwipeableContainerView() {
             return mContainer;
@@ -223,6 +278,7 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
             return stringList.get(position);
         else return "";
     }
+
     private void onItemViewClick(View v) {
         if (mEventListener != null) {
             mEventListener.onItemViewClicked(v, true); // true --- pinned
@@ -249,7 +305,6 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
 //    public int getItemCount() {
 //        return mProvider.getCount();
 //    }
-
 
 
     @Override
@@ -323,6 +378,7 @@ public class SwipeAndDragAdapter extends UltimateViewAdapter
             item.setPinnedToSwipeLeft(false);
         }
     }
+
     public EventListener getEventListener() {
         return mEventListener;
     }
