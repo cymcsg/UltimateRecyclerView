@@ -250,4 +250,14 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateV
         int finalShift = pos + shift;
         return finalShift;
     }
+
+    /**
+     * for external shift number adjustment
+     *
+     * @param pos initial number
+     * @return the number
+     */
+    public int getFinalShiftPosition(int pos) {
+        return getDataArrayPosition(pos);
+    }
 }

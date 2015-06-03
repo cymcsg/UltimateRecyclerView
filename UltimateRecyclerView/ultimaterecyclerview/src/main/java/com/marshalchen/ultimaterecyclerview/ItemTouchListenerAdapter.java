@@ -24,7 +24,7 @@ import android.view.View;
 /**
  * As RecyclerView does not have standard way to add click listeners to the items,
  * this RecyclerView.OnItemTouchListener intercepts touch events and translates them to simple onItemClick and onItemLongClick callbacks.
- *
+ * <p/>
  * Simply add it as follows:
  * <pre>
  * {@code
@@ -73,13 +73,31 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
         }
     }
 
+    /**
+     * case out and fix the bug from offseted number from AdmobAdapter
+     * fixed by jjhesk
+     *
+     * @param position input position
+     * @return the actual item position
+     */
+    private int shiftAdjustInt(int position) {
+        int p;
+        if (recyclerView.getAdapter() instanceof AdmobAdapter) {
+            AdmobAdapter adp = (AdmobAdapter) recyclerView.getAdapter();
+            p = adp.getFinalShiftPosition(position);
+        } else {
+            p = position;
+        }
+        return p;
+    }
+
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         View view = getChildViewUnder(e);
         if (view == null) return false;
 
         view.setPressed(false);
-        int position = recyclerView.getChildPosition(view);
+        int position = shiftAdjustInt(recyclerView.getChildPosition(view));
         listener.onItemClick(recyclerView, view, position);
         return true;
     }
@@ -87,7 +105,7 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
     public void onLongPress(MotionEvent e) {
         View view = getChildViewUnder(e);
         if (view == null) return;
-        int position = recyclerView.getChildPosition(view);
+        int position = shiftAdjustInt(recyclerView.getChildPosition(view));
         listener.onItemLongClick(recyclerView, view, position);
         view.setPressed(false);
     }

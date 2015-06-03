@@ -170,7 +170,7 @@ public class TestAbMob extends ActionBarActivity {
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
                     public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemClick()");
+                        URLogs.d("onItemClick(" + position + ")");
                         if (actionMode != null && isDrag) {
                             toggleSelection(position);
                         }
