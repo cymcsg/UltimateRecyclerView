@@ -64,7 +64,6 @@ public abstract class DragDropTouchListener implements RecyclerView.OnItemTouchL
     private Activity activity;
 
 
-
     public void setCustomDragHighlight(Drawable dragHighlight) {
         this.dragHighlight = dragHighlight;
     }
@@ -95,6 +94,17 @@ public abstract class DragDropTouchListener implements RecyclerView.OnItemTouchL
     public DragDropTouchListener(RecyclerView recyclerView, Activity activity, Drawable dragHighlight) {
         this(recyclerView, activity);
         this.dragHighlight = dragHighlight;
+    }
+
+    /**
+     * case out and fix the bug from offseted number from AdmobAdapter
+     * fixed by jjhesk   because it is a drag and drop situation. so the drag shoud be only on the actual position of the adview
+     *
+     * @param position input position
+     * @return the actual item position
+     */
+    private int shiftAdjustInt(int position) {
+        return position;
     }
 
     @Override
@@ -266,7 +276,8 @@ public abstract class DragDropTouchListener implements RecyclerView.OnItemTouchL
     }
 
     private View getViewByPosition(int position) {
-        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position);
+        final int pos = shiftAdjustInt(position);
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(pos);
         return viewHolder == null ? null : viewHolder.itemView;
     }
 

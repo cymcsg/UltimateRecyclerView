@@ -171,6 +171,19 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         return false;
     }
 
+
+    /**
+     * case out and fix the bug from offseted number from AdmobAdapter
+     * fixed by jjhesk
+     *
+     * @param position input position
+     * @return the actual item position
+     */
+    private int shiftAdjustInt(int position) {
+        return position;
+    }
+
+
     private boolean down(MotionEvent motionEvent) {
 
         if (mPaused) return false;
@@ -179,7 +192,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         mDownY = motionEvent.getRawY();
         mSwipeView = mRecyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
         if (mSwipeView == null) return false;
-        int pos = mRecyclerView.getChildPosition(mSwipeView);
+        final int pos = shiftAdjustInt(mRecyclerView.getChildPosition(mSwipeView));
         if (notToDismissPositionArray != null && notToDismissPositionArray.length > 0) {
             for (int notToDismiss : notToDismissPositionArray) {
                 if (pos == notToDismiss) return false;
@@ -240,7 +253,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         }
         if (dismiss) {
             // dismiss
-            final int pos = mRecyclerView.getChildPosition(mSwipeView);
+            final int pos = shiftAdjustInt(mRecyclerView.getChildPosition(mSwipeView));
             final View swipeViewCopy = mSwipeView;
             final SwipeDirection swipeDirection = dismissRight ? SwipeDirection.RIGHT : SwipeDirection.LEFT;
             ++mDismissCount;

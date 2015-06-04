@@ -29,6 +29,8 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateV
     protected List<T> list;
     protected AdviewListener adviewlistener;
 
+    public static final int POSITION_ON_AD = -1;
+
     /**
      * This is the enhanced listview injection model that will be able to work with Googlge Admob, DoubleClick, and
      * related custom cell injection on the fly. It provides two specific options for the view to be taken place.
@@ -242,13 +244,33 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateV
             if (once) {
                 if (pos >= adfrequency) shift--;
             } else {
-                int accumulator = (int) Math.floor(pos / adfrequency);
-                shift -= accumulator;
+                shift -= atAdPos(pos);
             }
         }
 
         int finalShift = pos + shift;
         return finalShift;
+    }
+
+    /**
+     * indicate if the touch position is at the Adview
+     *
+     * @param pos in raw
+     * @return yes or no
+     */
+    public boolean isPosOnAdView(int pos) {
+        int zero_for_admob_selection = pos % adfrequency;
+        return zero_for_admob_selection == 0;
+    }
+
+    /**
+     * to display the accumulator for the Ad position
+     *
+     * @param pos raw touch position
+     * @return the placement for the ad position
+     */
+    public int atAdPos(int pos) {
+        return (int) Math.floor(pos / adfrequency);
     }
 
     /**

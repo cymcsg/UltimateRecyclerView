@@ -78,13 +78,13 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
      * fixed by jjhesk
      *
      * @param position input position
-     * @return the actual item position
+     * @return AdmobAdapter.POSITION_ON_AD meaning that the touch position is on the position of Adview
      */
     private int shiftAdjustInt(int position) {
         int p;
         if (recyclerView.getAdapter() instanceof AdmobAdapter) {
             AdmobAdapter adp = (AdmobAdapter) recyclerView.getAdapter();
-            p = adp.getFinalShiftPosition(position);
+            p = adp.isPosOnAdView(position) ? AdmobAdapter.POSITION_ON_AD : adp.getFinalShiftPosition(position);
         } else {
             p = position;
         }
@@ -98,7 +98,9 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
 
         view.setPressed(false);
         int position = shiftAdjustInt(recyclerView.getChildPosition(view));
-        listener.onItemClick(recyclerView, view, position);
+        if (position != AdmobAdapter.POSITION_ON_AD) {
+            listener.onItemClick(recyclerView, view, position);
+        }
         return true;
     }
 
@@ -106,7 +108,9 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
         View view = getChildViewUnder(e);
         if (view == null) return;
         int position = shiftAdjustInt(recyclerView.getChildPosition(view));
-        listener.onItemLongClick(recyclerView, view, position);
+        if (position != AdmobAdapter.POSITION_ON_AD) {
+            listener.onItemLongClick(recyclerView, view, position);
+        }
         view.setPressed(false);
     }
 
