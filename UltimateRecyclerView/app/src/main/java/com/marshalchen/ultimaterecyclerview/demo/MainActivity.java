@@ -299,7 +299,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         }else if (id == R.id.swipe_and_drag) {
-            Intent intent = new Intent(this, SwipeAndDragActivity.class);
+            Intent intent = new Intent(this, DragActivity.class);
             startActivity(intent);
             return true;
         }

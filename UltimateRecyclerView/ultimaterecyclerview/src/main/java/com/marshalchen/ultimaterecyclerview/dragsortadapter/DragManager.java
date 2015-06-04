@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.DragEvent;
 import android.view.View;
-
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-
 import java.lang.ref.WeakReference;
 
 import static java.lang.Float.MIN_VALUE;
@@ -15,12 +12,12 @@ import static java.lang.Float.MIN_VALUE;
 public class DragManager implements View.OnDragListener {
 
   private final WeakReference<RecyclerView> recyclerViewRef;
-  private final UltimateViewAdapter adapter;
+  private final DragSortAdapter<?> adapter;
   private long draggingId = RecyclerView.NO_ID;
   private final PointF nextMoveTouchPoint = new PointF(MIN_VALUE, MIN_VALUE);
   @Nullable private DragInfo lastDragInfo;
 
-  public DragManager(RecyclerView recyclerView, UltimateViewAdapter adapter) {
+  public DragManager(RecyclerView recyclerView, DragSortAdapter<?> adapter) {
     this.recyclerViewRef = new WeakReference<>(recyclerView);
     this.adapter = adapter;
   }
