@@ -36,7 +36,7 @@
             android:name=".TestAdMob"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".SwipeAndDragActivity"
+            android:name=".DragActivity"
             android:label="@string/app_name"></activity>
 
         <activity
