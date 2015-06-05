@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
@@ -54,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        List<String> stringList = new ArrayList<>();
+        final List<String> stringList = new ArrayList<>();
 
         stringList.add("111");
         stringList.add("aaa");
@@ -149,7 +151,40 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-       
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipe(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+//                                    Toast.makeText(MainActivity.this, mItems.get(position) + " swiped left", Toast.LENGTH_SHORT).show();
+//                                    stringList.remove(position);
+//                                    simpleRecyclerViewAdapter.notifyItemRemoved(position);
+                                    URLogs.d("remove---");
+                                    simpleRecyclerViewAdapter.remove(position);
+                                }
+                              //  simpleRecyclerViewAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+//                                    Toast.makeText(MainActivity.this, mItems.get(position) + " swiped right", Toast.LENGTH_SHORT).show();
+//                                    stringList.remove(position);
+//                                    simpleRecyclerViewAdapter.notifyItemRemoved(position);
+                                    URLogs.d("remove---");
+                                    simpleRecyclerViewAdapter.remove(position);
+                                }
+                               // simpleRecyclerViewAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+        ultimateRecyclerView.addOnItemTouchListener(swipeTouchListener);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
