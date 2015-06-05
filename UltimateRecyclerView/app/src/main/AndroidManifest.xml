@@ -38,6 +38,9 @@
         <activity
             android:name=".DragActivity"
             android:label="@string/app_name"></activity>
+        <activity
+            android:name=".swipelist.SwipeListViewExampleActivity"
+            android:label="@string/app_name"></activity>
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

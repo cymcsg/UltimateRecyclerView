@@ -47,7 +47,7 @@ public class DragAdatper extends DragSortAdapter<DragAdatper.MainViewHolder> {
     }
 
     @Override public long getItemId(int position) {
-        URLogs.d("hashcode---"+stringList.get(position).hashCode()+"    "+position);
+       // URLogs.d("hashcode---"+stringList.get(position).hashCode()+"    "+position);
         return stringList.get(position).hashCode();
     }
     protected static int convertToOriginalPosition(int position, int dragInitial, int dragCurrent) {
