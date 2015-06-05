@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewStub;
 
 import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView;
+import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListViewListener;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 
@@ -21,17 +22,20 @@ public class SwipeableUltimateRecyclerview extends UltimateRecyclerView  {
 
     public SwipeableUltimateRecyclerview(Context context, AttributeSet attrs) {
         super(context, attrs);
+        ((SwipeListView)mRecyclerView).init(attrs);
     }
 
     public SwipeableUltimateRecyclerview(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        ((SwipeListView)mRecyclerView).init(attrs);
     }
 
     @Override
     protected void initViews() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
+        View view = inflater.inflate(R.layout.swipeable_ultimate_recycler_view_layout, this);
         mRecyclerView = (SwipeListView) view.findViewById(R.id.ultimate_list);
+
         mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         setScrollbars();
         mSwipeRefreshLayout.setEnabled(false);
@@ -66,5 +70,9 @@ public class SwipeableUltimateRecyclerview extends UltimateRecyclerView  {
         }
 
 
+    }
+
+    public void setSwipeListViewListener(SwipeListViewListener swipeListViewListener) {
+        ((SwipeListView)mRecyclerView).swipeListViewListener = swipeListViewListener;
     }
 }
