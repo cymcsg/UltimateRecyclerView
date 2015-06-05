@@ -46,11 +46,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
-import com.marshalchen.ultimaterecyclerview.demo.modules.ExampleDataProvider;
-import com.marshalchen.ultimaterecyclerview.draggable.RecyclerViewDragDropManager;
-import com.marshalchen.ultimaterecyclerview.draggable.RecyclerViewTouchActionGuardManager;
-import com.marshalchen.ultimaterecyclerview.swipeable.RecyclerViewSwipeManager;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,10 +62,7 @@ public class DragActivity extends ActionBarActivity implements ActionMode.Callba
 
     Toolbar toolbar;
     boolean isDrag = true;
-    private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
-    private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
-    private RecyclerView.Adapter mWrappedAdapter;
-    private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
+  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
