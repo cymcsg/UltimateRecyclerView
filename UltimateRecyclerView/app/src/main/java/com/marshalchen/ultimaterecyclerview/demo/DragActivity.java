@@ -1,18 +1,13 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
-import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
@@ -52,17 +45,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DragActivity extends ActionBarActivity implements ActionMode.Callback {
+public class DragActivity extends ActionBarActivity {
 
     RecyclerView ultimateRecyclerView;
     DragAdatper simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
-    int moreNum = 2;
-    private ActionMode actionMode;
-
     Toolbar toolbar;
-    boolean isDrag = true;
-  
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,39 +116,6 @@ public class DragActivity extends ActionBarActivity implements ActionMode.Callba
         });
 
 
-//        ultimateRecyclerView.addItemDecoration(
-//                new HorizontalDividerItemDecoration.Builder(this).build());
-
-//        ultimateRecyclerView.setCustomSwipeToRefresh();
-//        final StoreHouseHeader header = new StoreHouseHeader(this);
-//        //   header.setPadding(0, 15, 0, 0);
-//
-//        header.initWithString("Marshal Chen");
-//        //  header.initWithStringArray(R.array.akta);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                    }
-//                }, 1800);
-//            }
-//        });
-
     }
 
 
@@ -170,46 +126,8 @@ public class DragActivity extends ActionBarActivity implements ActionMode.Callba
 
     }
 
-    public int getScreenHeight() {
-        return findViewById(android.R.id.content).getHeight();
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        URLogs.d("actionmode---" + (mode == null));
-        mode.getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-        //  return false;
-    }
-
-    /**
-     * Called to refresh an action mode's action menu whenever it is invalidated.
-     *
-     * @param mode ActionMode being prepared
-     * @param menu Menu used to populate action buttons
-     * @return true if the menu or action mode was updated, false otherwise.
-     */
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        // swipeToDismissTouchListener.setEnabled(false);
-        this.actionMode = mode;
-        return false;
-    }
 
 
-    @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return false;
-    }
-
-
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        this.actionMode = null;
-    }
-
-
-    //
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
