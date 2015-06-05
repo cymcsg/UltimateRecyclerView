@@ -151,7 +151,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     }
 
-    private void setScrollbars() {
+    protected void setScrollbars() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (mScrollbarsStyle) {
             case SCROLLBARS_VERTICAL:
