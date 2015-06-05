@@ -200,7 +200,6 @@ public class SwipeListView extends RecyclerView {
             swipeActionRight = styled.getInt(R.styleable.SwipeListView_swipeActionRight, SWIPE_ACTION_REVEAL);
             onlyOneOpenedWhenSwipe = styled.getBoolean(R.styleable.SwipeListView_onlyOneOpenedWhenSwipe, false);
             swipeOffsetLeft = styled.getDimension(R.styleable.SwipeListView_swipeOffsetLeft, 0);
-            URLogs.d("swipeOffsetLeft   " + swipeOffsetLeft);
             swipeOffsetRight = styled.getDimension(R.styleable.SwipeListView_swipeOffsetRight, 0);
             swipeOpenOnLongPress = styled.getBoolean(R.styleable.SwipeListView_swipeOpenOnLongPress, true);
             swipeAnimationTime = styled.getInteger(R.styleable.SwipeListView_swipeAnimationTime, 0);

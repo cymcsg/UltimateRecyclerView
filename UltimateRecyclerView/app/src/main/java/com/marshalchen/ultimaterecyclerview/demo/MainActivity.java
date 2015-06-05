@@ -331,7 +331,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         } else if (id == R.id.admob) {
-            Intent intent = new Intent(this, DragActivity.class);
+            Intent intent = new Intent(this, TestAdMob.class);
             startActivity(intent);
             return true;
         }else if (id == R.id.swipe_and_drag) {
