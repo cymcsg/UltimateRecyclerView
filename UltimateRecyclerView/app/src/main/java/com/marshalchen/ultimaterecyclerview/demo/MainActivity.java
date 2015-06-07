@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum+++ "  Refresh things", 0);
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -157,7 +157,10 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         new SwipeableRecyclerViewTouchListener.SwipeListener() {
                             @Override
                             public boolean canSwipe(int position) {
-                                return true;
+
+                                if (position > 0)
+                                    return true;
+                                else return false;
                             }
 
                             @Override
@@ -169,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                                     URLogs.d("remove---");
                                     simpleRecyclerViewAdapter.remove(position);
                                 }
-                              //  simpleRecyclerViewAdapter.notifyDataSetChanged();
+                                //  simpleRecyclerViewAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -181,7 +184,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                                     URLogs.d("remove---");
                                     simpleRecyclerViewAdapter.remove(position);
                                 }
-                               // simpleRecyclerViewAdapter.notifyDataSetChanged();
+                                // simpleRecyclerViewAdapter.notifyDataSetChanged();
                             }
                         });
 
@@ -334,7 +337,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             Intent intent = new Intent(this, TestAdMob.class);
             startActivity(intent);
             return true;
-        }else if (id == R.id.swipe_and_drag) {
+        } else if (id == R.id.swipe_and_drag) {
             Intent intent = new Intent(this, SwipeListViewExampleActivity.class);
             startActivity(intent);
             return true;
