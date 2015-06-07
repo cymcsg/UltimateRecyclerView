@@ -384,6 +384,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 * Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
+* Swipe[SwipeList](https://github.com/rahulrj/Swipe_RecyclerView)
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
