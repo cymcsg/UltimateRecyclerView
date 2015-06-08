@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                                     URLogs.d("remove---");
                                     simpleRecyclerViewAdapter.remove(position);
                                 }
-                                //  simpleRecyclerViewAdapter.notifyDataSetChanged();
+                                  simpleRecyclerViewAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -184,7 +184,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                                     URLogs.d("remove---");
                                     simpleRecyclerViewAdapter.remove(position);
                                 }
-                                // simpleRecyclerViewAdapter.notifyDataSetChanged();
+                                 simpleRecyclerViewAdapter.notifyDataSetChanged();
                             }
                         });
 
