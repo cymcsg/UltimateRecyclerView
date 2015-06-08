@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
+public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;

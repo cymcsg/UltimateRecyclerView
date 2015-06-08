@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -59,7 +60,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 
-public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity implements ActionMode.Callback {
+public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity implements ActionMode.Callback {
 
     CustomUltimateRecyclerview ultimateRecyclerView;
     SimpleAnimationAdapter simpleRecyclerViewAdapter = null;

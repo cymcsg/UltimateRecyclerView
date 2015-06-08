@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * A activity which can be swiped to show bottom view with default horizontal divider item decoration.
  */
-public class MultiViewTypesActivity extends ActionBarActivity {
+public class MultiViewTypesActivity extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     MultiViewTypesRecyclerViewAdapter simpleRecyclerViewAdapter = null;
