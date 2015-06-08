@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,9 +11,10 @@ import java.util.List;
  * Enhanced Google Admob implementation
  * Created by hesk on 20/5/15.
  * Visit: https://github.com/jjhesk
- * JJHESK HKM. MIT LICNESE
+ * JJHESK HKM. MIT LICENSE
+ * {@link {https://github.com/jjhesk/MaterialTabsAdavanced/blob/master/LICENSE.md}}
  */
-public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateViewAdapter {
+public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
     public interface AdviewListener<Adv extends ViewGroup> {
         Adv onGenerateAdview();
     }
@@ -26,6 +28,8 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateVie
     protected boolean once;
     protected List<T> list;
     protected AdviewListener adviewlistener;
+
+    public static final int POSITION_ON_AD = -1;
 
     /**
      * This is the enhanced listview injection model that will be able to work with Googlge Admob, DoubleClick, and
@@ -74,6 +78,26 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateVie
         list = L;
     }
 
+    /**
+     * the layout id for the normal data
+     *
+     * @return the ID
+     */
+    protected abstract int getNormalLayoutResId();
+
+    /**
+     * create a new view holder for data binding
+     *
+     * @param mview the view layout with resource initialized
+     * @return the view type
+     */
+    protected abstract V newViewHolder(View mview);
+
+    @Override
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
+        return newViewHolder(v);
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -220,12 +244,42 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T> extends UltimateVie
             if (once) {
                 if (pos >= adfrequency) shift--;
             } else {
-                int accumulator = (int) Math.floor(pos / adfrequency);
-                shift -= accumulator;
+                shift -= atAdPos(pos);
             }
         }
 
         int finalShift = pos + shift;
         return finalShift;
+    }
+
+    /**
+     * indicate if the touch position is at the Adview
+     *
+     * @param pos in raw
+     * @return yes or no
+     */
+    public boolean isPosOnAdView(int pos) {
+        int zero_for_admob_selection = pos % adfrequency;
+        return zero_for_admob_selection == 0;
+    }
+
+    /**
+     * to display the accumulator for the Ad position
+     *
+     * @param pos raw touch position
+     * @return the placement for the ad position
+     */
+    public int atAdPos(int pos) {
+        return (int) Math.floor(pos / adfrequency);
+    }
+
+    /**
+     * for external shift number adjustment
+     *
+     * @param pos initial number
+     * @return the number
+     */
+    public int getFinalShiftPosition(int pos) {
+        return getDataArrayPosition(pos);
     }
 }

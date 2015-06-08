@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by hesk on 20/5/15.
  */
-public class TestAdMob extends ActionBarActivity {
+public class TestAdMob extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     admobdfpadapter simpleRecyclerViewAdapter = null;
