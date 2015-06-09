@@ -153,43 +153,33 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             }
         });
 
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
-                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                            @Override
-                            public boolean canSwipe(int position) {
 
-                                if (position > 0)
-                                    return true;
-                                else return false;
-                            }
+        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
+                new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                    @Override
+                    public boolean canSwipe(int position) {
 
-                            @Override
-                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-//                                    Toast.makeText(MainActivity.this, mItems.get(position) + " swiped left", Toast.LENGTH_SHORT).show();
-//                                    stringList.remove(position);
-//                                    simpleRecyclerViewAdapter.notifyItemRemoved(position);
-                                    URLogs.d("remove---");
-                                    simpleRecyclerViewAdapter.remove(position);
-                                }
-                                  simpleRecyclerViewAdapter.notifyDataSetChanged();
-                            }
+                        if (position > 0)
+                            return true;
+                        else return false;
+                    }
 
-                            @Override
-                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-//                                    Toast.makeText(MainActivity.this, mItems.get(position) + " swiped right", Toast.LENGTH_SHORT).show();
-//                                    stringList.remove(position);
-//                                    simpleRecyclerViewAdapter.notifyItemRemoved(position);
-                                    URLogs.d("remove---");
-                                    simpleRecyclerViewAdapter.remove(position);
-                                }
-                                 simpleRecyclerViewAdapter.notifyDataSetChanged();
-                            }
-                        });
+                    @Override
+                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
 
-        ultimateRecyclerView.addOnItemTouchListener(swipeTouchListener);
+                    @Override
+                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }));
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
