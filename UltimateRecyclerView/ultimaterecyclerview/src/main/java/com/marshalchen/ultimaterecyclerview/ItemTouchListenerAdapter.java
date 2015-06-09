@@ -76,12 +76,13 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
     /**
      * case out and fix the bug from offseted number from AdmobAdapter
      * fixed by jjhesk
-     *
+     * one more thing is that the first item display in the list got to be clickable. 
+     * 
      * @param position input position
      * @return AdmobAdapter.POSITION_ON_AD meaning that the touch position is on the position of Adview
      */
     private int shiftAdjustInt(int position) {
-        if (recyclerView.getAdapter() instanceof AdmobAdapter) {
+        if (recyclerView.getAdapter() instanceof AdmobAdapter && position > 0 ) {
             AdmobAdapter adp = (AdmobAdapter) recyclerView.getAdapter();
             return adp.isPosOnAdView(position) ? AdmobAdapter.POSITION_ON_AD : adp.getFinalShiftPosition(position);
         } else {
