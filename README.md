@@ -7,7 +7,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-#####Project website:[UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
+#####Project website:[https://github.com/cymcsg/UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
 ###Description
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
@@ -27,11 +27,11 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
-* scrollbars
+* Scrollbars
 * Colorful styles of ``swipe to refresh``
-* sticky header like instagram
-* support different layout in adapter
-* loading adapter with animations
+* Sticky header like instagram
+* Support different layout in adapter
+* Loading adapter with animations
 
 
 ###Changes in 0.3.4:
@@ -132,21 +132,32 @@ Loading more:
 ######Set swipe to refresh:
 
 ```java
- ultimateRecyclerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
+
+	ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,new SwipeableRecyclerViewTouchListener.SwipeListener() {
                     @Override
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-                        ultimateRecyclerView.setRefreshing(false);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                    public boolean canSwipe(int position) {
+                        if (position > 0)
+                            return true;
+                        else return false;
                     }
-                }, 1000);
-            }
-        });
-```
+
+                    @Override
+                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }));
+                ```
 
 ######Set swipe to dismiss:
 
@@ -170,7 +181,7 @@ Loading more:
             public void onTouchDown() {
                 isDrag = false;
             }
-        });
+        });        
  ```
  
 ###### Drag and drop:
@@ -380,7 +391,6 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 * Divider of recyclerview[RecyclerView-FlexibleDivider](https://github.com/yqritc/RecyclerView-FlexibleDivider)
 * Another kind of swipe[ScrollableItemList](https://github.com/rohaanhamid/ScrollableItemList)
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
-* Swipe to dismiss and drag drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 * Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
