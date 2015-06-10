@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
     Toolbar toolbar;
     boolean isDrag = true;
 
+    DragDropTouchListener dragDropTouchListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +183,52 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                         simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }));
+
+
+        ItemTouchListenerAdapter itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
+                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
+                    @Override
+                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
+                    }
+
+                    @Override
+                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
+                        URLogs.d("onItemLongClick()" + isDrag);
+                        if (isDrag) {
+                            URLogs.d("onItemLongClick()" + isDrag);
+                            dragDropTouchListener.startDrag();
+                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
+                        }
+
+                    }
+                });
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
+
+        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
+            @Override
+            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
+                if (from > 0 && to > 0) {
+                    simpleRecyclerViewAdapter.swapPositions(from, to);
+//                    //simpleRecyclerViewAdapter.clearSelection(from);
+//                    simpleRecyclerViewAdapter.notifyItemChanged(to);
+                    //simpleRecyclerViewAdapter.remove(position);
+                    //  simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    URLogs.d("switch----");
+                    //    simpleRecyclerViewAdapter.insert(simpleRecyclerViewAdapter.remove(););
+                }
+
+            }
+
+            @Override
+            protected void onItemDrop(RecyclerView recyclerView, int position) {
+                URLogs.d("drop----");
+                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
+                simpleRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        };
+        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
+        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
+
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -325,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         } else if (id == R.id.admob) {
-            Intent intent = new Intent(this, TestAdMob.class);
+            Intent intent = new Intent(this, DragActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.swipe_and_drag) {
