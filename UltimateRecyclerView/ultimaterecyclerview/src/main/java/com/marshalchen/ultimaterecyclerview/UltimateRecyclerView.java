@@ -1,3 +1,19 @@
+/*
+ * Copyright(c) 2015 Marshal Chen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.marshalchen.ultimaterecyclerview;
 
 import android.content.Context;
@@ -32,7 +48,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 /**
- * UltimateRecyclerView is a recyclerview which contains the function of swipe to dismiss,animations,drag drop etc.
+ * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc.
  */
 public class UltimateRecyclerView extends FrameLayout {
     public RecyclerView mRecyclerView;
@@ -151,7 +167,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     }
 
-    private void setScrollbars() {
+    protected void setScrollbars() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (mScrollbarsStyle) {
             case SCROLLBARS_VERTICAL:
@@ -192,22 +208,7 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
-    /**
-     * Set a swipe-to-dismiss OnItemTouchListener for RecyclerView
-     *
-     * @param dismissCallbacks
-     */
-    public void setSwipeToDismissCallback(SwipeToDismissTouchListener.DismissCallbacks dismissCallbacks) throws NullPointerException {
-        int[] notToDismiss = null;
-        if (mAdapter == null) throw new NullPointerException();
-        if (mAdapter != null && mAdapter.getCustomHeaderView() != null) {
-            notToDismiss = new int[]{
-                    0
-            };
-        }
 
-        mRecyclerView.addOnItemTouchListener(new SwipeToDismissTouchListener(mRecyclerView, dismissCallbacks, notToDismiss));
-    }
 
     void setDefaultScrollListener() {
         mOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -282,7 +283,7 @@ public class UltimateRecyclerView extends FrameLayout {
                 }
 
                 if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount)
-                        <= mFirstVisibleItem ) {
+                        <= mFirstVisibleItem) {
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     isLoadingMore = true;
                     previousTotal = mTotalItemCount;
@@ -975,6 +976,14 @@ public class UltimateRecyclerView extends FrameLayout {
         moveToolbar(mToolbar, ultimateRecyclerView, screenHeight, -mToolbar.getHeight());
     }
 
+    public void showView(View mView, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveView(mView, ultimateRecyclerView, screenHeight, 0);
+    }
+
+    public void hideView(View mView, UltimateRecyclerView ultimateRecyclerView, int screenHeight) {
+        moveView(mView, ultimateRecyclerView, screenHeight, -mView.getHeight());
+    }
+
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
         if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
             return;
@@ -985,6 +994,26 @@ public class UltimateRecyclerView extends FrameLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float translationY = (float) animation.getAnimatedValue();
                 ViewHelper.setTranslationY(mToolbar, translationY);
+                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
+                layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;
+                ((View) ultimateRecyclerView).requestLayout();
+            }
+        });
+        animator.start();
+    }
+
+    protected void moveView(final View mView, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
+        if (ViewHelper.getTranslationY(mView) == toTranslationY) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mView), toTranslationY).setDuration(200);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float translationY = (float) animation.getAnimatedValue();
+                ViewHelper.setTranslationY(mView, translationY);
                 ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
                 // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
@@ -1047,5 +1076,19 @@ public class UltimateRecyclerView extends FrameLayout {
         defaultFloatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE);
     }
 
+    public void removeItemDecoration(RecyclerView.ItemDecoration decoration) {
+        mRecyclerView.removeItemDecoration(decoration);
+    }
 
+    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
+        mRecyclerView.addOnItemTouchListener(listener);
+    }
+
+    public void removeOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
+        mRecyclerView.removeOnItemTouchListener(listener);
+    }
+
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return mRecyclerView.getLayoutManager();
+    }
 }

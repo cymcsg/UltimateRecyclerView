@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,12 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
-import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
@@ -62,18 +60,17 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 
-public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity implements ActionMode.Callback {
+public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity implements ActionMode.Callback {
 
     CustomUltimateRecyclerview ultimateRecyclerView;
     SimpleAnimationAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 100;
     private ActionMode actionMode;
-    DragDropTouchListener dragDropTouchListener;
-    ItemTouchListenerAdapter itemTouchListenerAdapter;
+
     Toolbar toolbar;
     boolean isDrag = true;
-
+    View floatingButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +84,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
 
         ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
+        floatingButton = findViewById(R.id.custom_urv_add_floating_button);
         List<String> stringList = new ArrayList<>();
         simpleRecyclerViewAdapter = new SimpleAnimationAdapter(stringList);
 
@@ -132,6 +130,9 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                 }, 1000);
             }
         });
+        // ultimateRecyclerView.hideDefaultFloatingActionButton();
+        // ultimateRecyclerView.hideFloatingActionMenu();
+        ultimateRecyclerView.displayCustomFloatingActionView(false);
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -146,85 +147,18 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
                 if (observableScrollState == ObservableScrollState.DOWN) {
-                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.showFloatingActionMenu();
+                    //  ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    //  ultimateRecyclerView.showView(floatingButton, ultimateRecyclerView, getScreenHeight());
                 } else if (observableScrollState == ObservableScrollState.UP) {
-                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.hideFloatingActionMenu();
+//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.hideFloatingActionMenu();
+                    //   ultimateRecyclerView.hideView(floatingButton, ultimateRecyclerView, getScreenHeight());
+
                 } else if (observableScrollState == ObservableScrollState.STOP) {
                 }
             }
         });
 
-        itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
-                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
-                    @Override
-                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemClick()");
-                        if (actionMode != null && isDrag) {
-                            toggleSelection(position);
-                        }
-                    }
-
-                    @Override
-                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemLongClick()" + isDrag);
-                        if (isDrag) {
-                            URLogs.d("onItemLongClick()" + isDrag);
-                            toolbar.startActionMode(CustomSwipeToRefreshRefreshActivity.this);
-                            toggleSelection(position);
-                            dragDropTouchListener.startDrag();
-                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
-                        }
-
-                    }
-                });
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
-
-        ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
-            @Override
-            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
-            }
-
-            @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    simpleRecyclerViewAdapter.remove(data.position);
-                }
-            }
-
-            @Override
-            public void onResetMotion() {
-                isDrag = true;
-            }
-
-            @Override
-            public void onTouchDown() {
-                isDrag = false;
-
-            }
-        });
-
-
-        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
-            @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                simpleRecyclerViewAdapter.swapPositions(from, to);
-                simpleRecyclerViewAdapter.clearSelection(from);
-                simpleRecyclerViewAdapter.notifyItemChanged(to);
-                if (actionMode != null) actionMode.finish();
-                URLogs.d("switch----");
-            }
-
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                URLogs.d("drop----");
-                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -367,7 +301,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                     //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
+                        //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
                     }
                 }, 1800);
             }
@@ -384,7 +318,7 @@ public class CustomSwipeToRefreshRefreshActivity extends ActionBarActivity imple
                     refreshingStringArray();
                     break;
                 case 1:
-                  //  refreshingMaterial();
+                    //  refreshingMaterial();
                     refreshingString();
                     break;
                 case 2:

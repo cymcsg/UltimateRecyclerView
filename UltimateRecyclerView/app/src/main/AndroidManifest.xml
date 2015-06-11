@@ -30,13 +30,16 @@
             android:name=".MultiViewTypesActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".DefaultSwipeRefreshActivity"
-            android:label="@string/app_name"></activity>
-        <activity
             android:name=".CustomSwipeToRefreshRefreshActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".TestAbMob"
+            android:name=".TestAdMob"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".DragActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".swipelist.SwipeListViewExampleActivity"
             android:label="@string/app_name"></activity>
 
         <activity

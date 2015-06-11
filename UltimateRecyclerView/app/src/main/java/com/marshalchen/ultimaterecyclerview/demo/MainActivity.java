@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,31 +22,32 @@ import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
+import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.SwipeToDismissTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements ActionMode.Callback {
+public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
-    DragDropTouchListener dragDropTouchListener;
-    ItemTouchListenerAdapter itemTouchListenerAdapter;
+
     Toolbar toolbar;
     boolean isDrag = true;
 
+    DragDropTouchListener dragDropTouchListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
 
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        List<String> stringList = new ArrayList<>();
+        final List<String> stringList = new ArrayList<>();
 
         stringList.add("111");
         stringList.add("aaa");
@@ -98,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum+++ "  Refresh things", 0);
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -154,14 +156,39 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             }
         });
 
-        itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
+
+        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
+                new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                    @Override
+                    public boolean canSwipe(int position) {
+
+                        if (position > 0)
+                            return true;
+                        else return false;
+                    }
+
+                    @Override
+                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            simpleRecyclerViewAdapter.remove(position);
+                        }
+                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }));
+
+
+        ItemTouchListenerAdapter itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
                     @Override
                     public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemClick()");
-                        if (actionMode != null && isDrag) {
-                            toggleSelection(position);
-                        }
                     }
 
                     @Override
@@ -169,8 +196,6 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                         URLogs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
                             URLogs.d("onItemLongClick()" + isDrag);
-                            toolbar.startActionMode(MainActivity.this);
-                            toggleSelection(position);
                             dragDropTouchListener.startDrag();
                             ultimateRecyclerView.enableDefaultSwipeRefresh(false);
                         }
@@ -179,41 +204,17 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
                 });
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
 
-        ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
-            @Override
-            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
-            }
-
-            @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    simpleRecyclerViewAdapter.remove(data.position);
-                }
-            }
-
-            @Override
-            public void onResetMotion() {
-                isDrag = true;
-            }
-
-            @Override
-            public void onTouchDown() {
-                isDrag = false;
-
-            }
-        });
-
-
         dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
             @Override
             protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
                 if (from > 0 && to > 0) {
                     simpleRecyclerViewAdapter.swapPositions(from, to);
-                    simpleRecyclerViewAdapter.clearSelection(from);
-                    simpleRecyclerViewAdapter.notifyItemChanged(to);
-                    if (actionMode != null) actionMode.finish();
+//                    //simpleRecyclerViewAdapter.clearSelection(from);
+//                    simpleRecyclerViewAdapter.notifyItemChanged(to);
+                    //simpleRecyclerViewAdapter.remove(position);
+                    //  simpleRecyclerViewAdapter.notifyDataSetChanged();
                     URLogs.d("switch----");
+                    //    simpleRecyclerViewAdapter.insert(simpleRecyclerViewAdapter.remove(););
                 }
 
             }
@@ -222,6 +223,7 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             protected void onItemDrop(RecyclerView recyclerView, int position) {
                 URLogs.d("drop----");
                 ultimateRecyclerView.enableDefaultSwipeRefresh(true);
+                simpleRecyclerViewAdapter.notifyDataSetChanged();
             }
         };
         dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
@@ -372,7 +374,11 @@ public class MainActivity extends ActionBarActivity implements ActionMode.Callba
             startActivity(intent);
             return true;
         } else if (id == R.id.admob) {
-            Intent intent = new Intent(this, TestAbMob.class);
+            Intent intent = new Intent(this, DragActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.swipe_and_drag) {
+            Intent intent = new Intent(this, SwipeListViewExampleActivity.class);
             startActivity(intent);
             return true;
         }

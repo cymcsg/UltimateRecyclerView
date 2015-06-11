@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 
 import java.util.List;
@@ -31,12 +32,15 @@ public class admobdfpadapter extends AdmobAdapter {
 
 
     @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    protected int getNormalLayoutResId() {
+        return R.layout.recycler_view_adapter;
     }
+
+    @Override
+    protected UltimateRecyclerviewViewHolder newViewHolder(View mview) {
+        return new ViewHolder(mview);
+    }
+
 
     /**
      * Returns the number of items in the adapter bound to the parent RecyclerView.
@@ -86,15 +90,12 @@ public class admobdfpadapter extends AdmobAdapter {
 
         TextView textViewSample;
         ImageView imageViewSample;
-        ProgressBar progressBarSample;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewSample = (TextView) itemView.findViewById(
-                    R.id.textview);
+            textViewSample = (TextView) itemView.findViewById(R.id.textview);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
+
         }
     }
 

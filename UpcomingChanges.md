@@ -1,7 +1,7 @@
 ###Upcoming changes in 0.4.0:
-- [ ] add sticky header like instagram
+- [x] add sticky header like instagram
 - [ ] change an other sticky header for optimising
-- [ ] New recyclerview v22
+- [x] New recyclerview v22
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 - [ ] trigger to bring the item back when swipe to dismiss
 - [ ] auto judge loadmore or header in adatper
@@ -10,8 +10,11 @@
 - [x] add method to set default swipe to dismiss color
 - [ ] add loading state of URV
 - [ ] make ``swapAdapter`` more intelligent 
-- [ ] support different layout in UltimateViewAdapter
-
+- [x] support different layout in UltimateViewAdapter
+- [ ] Customize height and width
+- [ ] Traditional header
+- [ ] Swipe to dismiss color
+ 
 
 
 ###Other changes:
