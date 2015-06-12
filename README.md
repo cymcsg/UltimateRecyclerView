@@ -291,7 +291,14 @@ In the adapter:
         };
     }
 ```
-
+Refresh adapter:
+```java
+mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+      @Override public void onChanged() {
+        headersDecor.invalidateHeaders();
+      }
+    });
+```
 
 ######Using different layout in an adapter:
 You should define a MultiViewAdapter which extends UltimateDiffernetViewTypeAdapter and then your custom differnt view adapters.
