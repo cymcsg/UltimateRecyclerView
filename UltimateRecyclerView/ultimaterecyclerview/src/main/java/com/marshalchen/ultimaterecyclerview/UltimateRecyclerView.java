@@ -167,6 +167,9 @@ public class UltimateRecyclerView extends FrameLayout {
 
     }
 
+    /**
+     * Add ScrollBar of Recyclerview
+     */
     protected void setScrollbars() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (mScrollbarsStyle) {
@@ -209,8 +212,8 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
-
     void setDefaultScrollListener() {
+        mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
 
             @Override
@@ -223,13 +226,15 @@ public class UltimateRecyclerView extends FrameLayout {
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
         };
-        mRecyclerView.setOnScrollListener(mOnScrollListener);
+
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
     /**
      * Enable loading more of the recyclerview
      */
     public void enableLoadmore() {
+        mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
             private int[] lastPositions;
 
@@ -294,7 +299,7 @@ public class UltimateRecyclerView extends FrameLayout {
             }
 
         };
-        mRecyclerView.setOnScrollListener(mOnScrollListener);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
@@ -384,8 +389,23 @@ public class UltimateRecyclerView extends FrameLayout {
         }
     }
 
+    /**
+     * Set a listener that will be notified of any changes in scroll state or position.
+     *
+     * @param customOnScrollListener to set or null to clear
+     * @deprecated Use {@link #addOnScrollListener(RecyclerView.OnScrollListener)} and
+     * {@link #removeOnScrollListener(RecyclerView.OnScrollListener)}
+     */
     public void setOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) {
         mRecyclerView.setOnScrollListener(customOnScrollListener);
+    }
+
+    public void addOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) {
+        mRecyclerView.addOnScrollListener(customOnScrollListener);
+    }
+
+    public void removeOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) {
+        mRecyclerView.removeOnScrollListener(customOnScrollListener);
     }
 
     public void addItemDividerDecoration(Context context) {
