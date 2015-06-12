@@ -16,6 +16,11 @@
         android:title="ADMob ListView"
         app:showAsAction="never" />
     <item
+        android:id="@+id/scrollactivity"
+        android:orderInCategory="100"
+        android:title="Scroll observables"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/swipe_and_drag"
         android:orderInCategory="105"
         android:title="SwipeDragActivity"

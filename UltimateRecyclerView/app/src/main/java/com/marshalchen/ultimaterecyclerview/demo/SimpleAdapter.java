@@ -84,7 +84,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public long generateHeaderId(int position) {
-       // URLogs.d("position--" + position + "   " + getItem(position));
+        // URLogs.d("position--" + position + "   " + getItem(position));
         if (getItem(position).length() > 0)
             return getItem(position).charAt(0);
         else return -1;

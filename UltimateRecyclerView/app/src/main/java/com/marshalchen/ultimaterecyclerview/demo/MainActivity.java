@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +28,7 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -375,6 +375,10 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             return true;
         } else if (id == R.id.admob) {
             Intent intent = new Intent(this, TestAdMob.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.scrollactivity) {
+            Intent intent = new Intent(this, ScrollObservablesActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.swipe_and_drag) {

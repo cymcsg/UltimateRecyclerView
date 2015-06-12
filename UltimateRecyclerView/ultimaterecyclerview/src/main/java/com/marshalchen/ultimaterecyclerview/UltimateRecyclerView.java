@@ -21,7 +21,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Build;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,6 +39,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.marshalchen.ultimaterecyclerview.Utils.SavedStateScrolling;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
@@ -163,7 +163,6 @@ public class UltimateRecyclerView extends FrameLayout {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
             mFloatingButtonView.setVisibility(View.VISIBLE);
         }
-
 
     }
 
@@ -802,7 +801,7 @@ public class UltimateRecyclerView extends FrameLayout {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
+        SavedStateScrolling ss = (SavedStateScrolling) state;
         mPrevFirstVisiblePosition = ss.prevFirstVisiblePosition;
         mPrevFirstVisibleChildHeight = ss.prevFirstVisibleChildHeight;
         mPrevScrolledChildrenHeight = ss.prevScrolledChildrenHeight;
@@ -815,7 +814,7 @@ public class UltimateRecyclerView extends FrameLayout {
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
+        SavedStateScrolling ss = new SavedStateScrolling(superState);
         ss.prevFirstVisiblePosition = mPrevFirstVisiblePosition;
         ss.prevFirstVisibleChildHeight = mPrevFirstVisibleChildHeight;
         ss.prevScrolledChildrenHeight = mPrevScrolledChildrenHeight;
@@ -825,113 +824,6 @@ public class UltimateRecyclerView extends FrameLayout {
         return ss;
     }
 
-    /**
-     * This saved state class is a Parcelable and should not extend
-     * {@link android.view.View.BaseSavedState} nor {@link android.view.AbsSavedState}
-     * because its super class AbsSavedState's constructor
-     * {@link android.view.AbsSavedState#AbsSavedState(android.os.Parcel)} currently passes null
-     * as a class loader to read its superstate from Parcelable.
-     * This causes {@link android.os.BadParcelableException} when restoring saved states.
-     * <p/>
-     * The super class "RecyclerView" is a part of the support library,
-     * and restoring its saved state requires the class loader that loaded the RecyclerView.
-     * It seems that the class loader is not required when restoring from RecyclerView itself,
-     * but it is required when restoring from RecyclerView's subclasses.
-     */
-    static class SavedState implements Parcelable {
-        public static final SavedState EMPTY_STATE = new SavedState() {
-        };
-
-        int prevFirstVisiblePosition;
-        int prevFirstVisibleChildHeight = -1;
-        int prevScrolledChildrenHeight;
-        int prevScrollY;
-        int scrollY;
-        SparseIntArray childrenHeights;
-
-        // This keeps the parent(RecyclerView)'s state
-        Parcelable superState;
-
-        /**
-         * Called by EMPTY_STATE instantiation.
-         */
-        private SavedState() {
-            superState = null;
-        }
-
-        /**
-         * Called by onSaveInstanceState.
-         */
-        SavedState(Parcelable superState) {
-            this.superState = superState != EMPTY_STATE ? superState : null;
-        }
-
-        /**
-         * Called by CREATOR.
-         */
-        private SavedState(Parcel in) {
-            // Parcel 'in' has its parent(RecyclerView)'s saved state.
-            // To restore it, class loader that loaded RecyclerView is required.
-            Parcelable superState = in.readParcelable(RecyclerView.class.getClassLoader());
-            this.superState = superState != null ? superState : EMPTY_STATE;
-
-            prevFirstVisiblePosition = in.readInt();
-            prevFirstVisibleChildHeight = in.readInt();
-            prevScrolledChildrenHeight = in.readInt();
-            prevScrollY = in.readInt();
-            scrollY = in.readInt();
-            childrenHeights = new SparseIntArray();
-            final int numOfChildren = in.readInt();
-            if (0 < numOfChildren) {
-                for (int i = 0; i < numOfChildren; i++) {
-                    final int key = in.readInt();
-                    final int value = in.readInt();
-                    childrenHeights.put(key, value);
-                }
-            }
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            out.writeParcelable(superState, flags);
-
-            out.writeInt(prevFirstVisiblePosition);
-            out.writeInt(prevFirstVisibleChildHeight);
-            out.writeInt(prevScrolledChildrenHeight);
-            out.writeInt(prevScrollY);
-            out.writeInt(scrollY);
-            final int numOfChildren = childrenHeights == null ? 0 : childrenHeights.size();
-            out.writeInt(numOfChildren);
-            if (0 < numOfChildren) {
-                for (int i = 0; i < numOfChildren; i++) {
-                    out.writeInt(childrenHeights.keyAt(i));
-                    out.writeInt(childrenHeights.valueAt(i));
-                }
-            }
-        }
-
-        public Parcelable getSuperState() {
-            return superState;
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
