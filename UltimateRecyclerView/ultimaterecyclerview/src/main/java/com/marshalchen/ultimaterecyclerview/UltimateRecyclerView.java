@@ -159,12 +159,16 @@ public class UltimateRecyclerView extends FrameLayout {
             mEmptyView = mEmpty.inflate();
         mEmpty.setVisibility(View.GONE);
 
+
+
+
+    }
+
+    public void showFloatingButtonView(){
         if (mFloatingButtonId != 0) {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
             mFloatingButtonView.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     /**
@@ -206,7 +210,6 @@ public class UltimateRecyclerView extends FrameLayout {
                 defaultSwipeToDismissColors = getResources().getIntArray(colorList);
             }
         } finally {
-
             typedArray.recycle();
         }
     }
@@ -305,6 +308,9 @@ public class UltimateRecyclerView extends FrameLayout {
                     .inflate(R.layout.bottom_progressbar, null));
     }
 
+    /**
+     * Remove loading more scroll listener
+     */
     public void disableLoadmore() {
         setDefaultScrollListener();
         mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
