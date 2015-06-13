@@ -16,14 +16,13 @@ import android.widget.FrameLayout;
 
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.UltimateRecycleObservableExtendedView;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.Utils.ScrollUtils;
-import com.marshalchen.ultimaterecyclerview.Utils.Scrollable;
+import com.marshalchen.ultimaterecyclerview.Scrollable;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.widget.SlidingTabLayout;
-import com.marshalchen.ultimaterecyclerview.observables.CacheFragmentStatePagerAdapter;
-import com.marshalchen.ultimaterecyclerview.observables.ObservableRecyclerView;
-import com.marshalchen.ultimaterecyclerview.observables.TouchInterceptionLayout;
+import com.marshalchen.ultimaterecyclerview.Utils.CacheFragmentStatePagerAdapter;
+import com.marshalchen.ultimaterecyclerview.Utils.TouchInterceptionLayout;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -38,7 +37,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
     private ViewPager mPager;
     private NavigationAdapter mPagerAdapter;
     private int mSlop;
-    private boolean mScrolled;
+    private boolean mScrolled = false;
     private ObservableScrollState mLastScrollState;
     private View mHeaderView, headerBanner;
     private int slidingTabLayout_height, mBaseTranslationY;
@@ -109,7 +108,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                 return;
             }
             int toolbarHeight = headerBanner.getHeight();
-            adjustToolbar(mLastScrollState, view);
+       //     adjustToolbar(mLastScrollState, view);
         }
     }
 
@@ -129,7 +128,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
 
             // If interceptionLayout can move, it should intercept.
             // And once it begins to move, horizontal scroll shouldn't work any longer.
-            View toolbarView = getActivity().findViewById(R.id.toolbar);
+            // View toolbarView = getActivity().findViewById(R.id.toolbar);
             int toolbarHeight = headerBanner.getHeight();
 
 
@@ -173,7 +172,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
         @Override
         public void onUpOrCancelMotionEvent(MotionEvent ev) {
             mScrolled = false;
-            adjustToolbar(mLastScrollState);
+            //    adjustToolbar(mLastScrollState);
         }
     };
 
@@ -186,9 +185,12 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
         if (view == null) {
             return null;
         }
+        return viewscrollable(view);
+    }
 
-        UltimateRecycleObservableExtendedView exv = (UltimateRecycleObservableExtendedView) view.findViewById(R.id.scroll);
-        return exv.getScrollable();
+    private Scrollable viewscrollable(View fromFragmentView) {
+        return (Scrollable) fromFragmentView.findViewById(R.id.scroll);
+
     }
 
     private void adjustToolbar(ObservableScrollState scrollState) {
@@ -217,7 +219,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
 
     private void adjustToolbar(ObservableScrollState scrollState, View view) {
         int toolbarHeight = headerBanner.getHeight();
-        final Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+        final Scrollable scrollView = viewscrollable(view);
         if (scrollView == null) {
             return;
         }
@@ -265,22 +267,8 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                 continue;
             }
 
-            /*if (view.findViewById(R.id.scroll) instanceof ObservableListView) {
-                ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
-                if (isShown) {
-                    // Scroll up
-                    if (0 < listView.getCurrentScrollY()) {
-                        listView.setSelection(0);
-                    }
-                } else {
-                    // Scroll down (to hide padding)
-                    if (listView.getCurrentScrollY() < toolbarHeight) {
-                        listView.setSelection(1);
-                    }
-                }
-            }*/
-            if (view.findViewById(R.id.scroll) instanceof ObservableRecyclerView) {
-                ObservableRecyclerView listView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
+            if (view.findViewById(R.id.scroll) instanceof UltimateRecyclerView) {
+                UltimateRecyclerView listView = (UltimateRecyclerView) viewscrollable(view);
                 if (isShown) {
                     // Scroll up
                     if (0 < listView.getCurrentScrollY()) {
@@ -353,7 +341,8 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
+       // private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
+        private static final String[] TITLES = new String[]{"fff", "nd eee"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);

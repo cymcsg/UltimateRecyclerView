@@ -50,7 +50,7 @@ import com.nineoldandroids.view.ViewHelper;
 /**
  * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc.
  */
-public class UltimateRecyclerView extends FrameLayout {
+public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public RecyclerView mRecyclerView;
 
     protected FloatingActionButton defaultFloatingActionButton;
@@ -211,7 +211,7 @@ public class UltimateRecyclerView extends FrameLayout {
     }
 
 
-    void setDefaultScrollListener() {
+    protected void setDefaultScrollListener() {
         mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
 
@@ -226,6 +226,18 @@ public class UltimateRecyclerView extends FrameLayout {
             }
         };
 
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
+    }
+
+    private void setObserableScrollListener() {
+        mRecyclerView.removeOnScrollListener(mOnScrollListener);
+        mOnScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                enableShoworHideToolbarAndFloatingButton(recyclerView);
+            }
+        };
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
@@ -824,7 +836,6 @@ public class UltimateRecyclerView extends FrameLayout {
         return ss;
     }
 
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
@@ -845,6 +856,36 @@ public class UltimateRecyclerView extends FrameLayout {
         return super.onInterceptTouchEvent(ev);
     }
 
+    private MotionEvent mPrevMoveEvent;
+    private ViewGroup mTouchInterceptionViewGroup;
+
+    @Override
+    public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
+        mTouchInterceptionViewGroup = viewGroup;
+        setObserableScrollListener();
+    }
+
+    @Override
+    public void scrollVerticallyTo(int y) {
+        View firstVisibleChild = getChildAt(0);
+        if (firstVisibleChild != null) {
+            int baseHeight = firstVisibleChild.getHeight();
+            int position = y / baseHeight;
+            //  mRecyclerView.scrollscrollVerticallyToPosition(position);
+            RecyclerView.LayoutManager lm = getLayoutManager();
+            if (lm != null && lm instanceof LinearLayoutManager) {
+                ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, 0);
+            } else {
+                mRecyclerView.scrollToPosition(position);
+            }
+        }
+    }
+
+    @Override
+    public int getCurrentScrollY() {
+        return mScrollY;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (mCallbacks != null) {
@@ -854,6 +895,64 @@ public class UltimateRecyclerView extends FrameLayout {
                     mIntercepted = false;
                     mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState);
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    if (mPrevMoveEvent == null) {
+                        mPrevMoveEvent = ev;
+                    }
+                    float diffY = ev.getY() - mPrevMoveEvent.getY();
+                    mPrevMoveEvent = MotionEvent.obtainNoHistory(ev);
+                    if (mRecyclerView.getScrollY() - diffY <= 0) {
+                        // Can't scroll anymore.
+
+                        if (mIntercepted) {
+                            // Already dispatched ACTION_DOWN event to parents, so stop here.
+                            return false;
+                        }
+
+                        // Apps can set the interception target other than the direct parent.
+                        final ViewGroup parent;
+                        if (mTouchInterceptionViewGroup == null) {
+                            parent = (ViewGroup) getParent();
+                        } else {
+                            parent = mTouchInterceptionViewGroup;
+                        }
+
+                        // Get offset to parents. If the parent is not the direct parent,
+                        // we should aggregate offsets from all of the parents.
+                        float offsetX = 0;
+                        float offsetY = 0;
+                        for (View v = this; v != null && v != parent; v = (View) v.getParent()) {
+                            offsetX += v.getLeft() - v.getScrollX();
+                            offsetY += v.getTop() - v.getScrollY();
+                        }
+                        final MotionEvent event = MotionEvent.obtainNoHistory(ev);
+                        event.offsetLocation(offsetX, offsetY);
+
+                        if (parent.onInterceptTouchEvent(event)) {
+                            mIntercepted = true;
+
+                            // If the parent wants to intercept ACTION_MOVE events,
+                            // we pass ACTION_DOWN event to the parent
+                            // as if these touch events just have began now.
+                            event.setAction(MotionEvent.ACTION_DOWN);
+
+                            // Return this onTouchEvent() first and set ACTION_DOWN event for parent
+                            // to the queue, to keep events sequence.
+                            post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    parent.dispatchTouchEvent(event);
+                                }
+                            });
+                            return false;
+                        }
+                        // Even when this can't be scrolled anymore,
+                        // simply returning false here may cause subView's click,
+                        // so delegate it to super.
+                        return super.onTouchEvent(ev);
+                    }
                     break;
             }
         }

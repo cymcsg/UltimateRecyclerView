@@ -11,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.UltimateRecycleObservableExtendedView;
-import com.marshalchen.ultimaterecyclerview.Utils.ScrollSmoothLineaerLayoutManager;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 
 /**
  * Created by hesk on 12/6/15.
@@ -27,25 +25,19 @@ public class ViewPagerFragmentListSingle extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.simplefragment_ultimate_recycle_extend, container, false);
+        View view = inflater.inflate(R.layout.listurv, container, false);
 
-        final UltimateRecycleObservableExtendedView recyclerView = (UltimateRecycleObservableExtendedView) view.findViewById(R.id.scroll);
+        final UltimateRecyclerView recyclerView = (UltimateRecyclerView) view.findViewById(R.id.scroll);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(false);
-        recyclerView.displayCustomFloatingActionView(false);
-        recyclerView.setSaveEnabled(false);
         recyclerView.setRefreshing(false);
-
         setDummyData(recyclerView);
-
         ViewPagerTabFragmentParentFragment parentFragment = (ViewPagerTabFragmentParentFragment) getParentFragment();
-
         ViewGroup parentFView = (ViewGroup) parentFragment.getView();
-
         if (parentFragment != null) {
-            recyclerView.mRecyclerView.setTouchInterceptionViewGroup((ViewGroup) parentFView.findViewById(R.id.container));
+            recyclerView.setTouchInterceptionViewGroup((ViewGroup) parentFView.findViewById(R.id.container));
             if (parentFragment instanceof ObservableScrollViewCallbacks) {
-                recyclerView.mRecyclerView.setScrollViewCallbacks(parentFragment);
+                recyclerView.setScrollViewCallbacks(parentFragment);
                 Log.d(TAG, "this is ObservableScrollViewCallbacks");
             }
         }

@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.Utils;
+package com.marshalchen.ultimaterecyclerview;
 
 import android.view.ViewGroup;
 

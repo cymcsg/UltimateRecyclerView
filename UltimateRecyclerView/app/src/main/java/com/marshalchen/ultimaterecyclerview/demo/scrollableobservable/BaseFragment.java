@@ -27,8 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.UltimateRecycleObservableExtendedView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
@@ -80,11 +78,6 @@ public abstract class BaseFragment extends Fragment {
     protected void setDummyData(RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleAdapter(getDummyData()));
     }
-
-    protected void setDummyData(UltimateRecycleObservableExtendedView recyclerView) {
-        recyclerView.setAdapter(new SimpleAdapter(getDummyData()));
-    }
-
 
     protected void setDummyData(UltimateRecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleAdapter(getDummyData()));

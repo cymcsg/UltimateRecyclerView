@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.observables;
+package com.marshalchen.ultimaterecyclerview.Utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
