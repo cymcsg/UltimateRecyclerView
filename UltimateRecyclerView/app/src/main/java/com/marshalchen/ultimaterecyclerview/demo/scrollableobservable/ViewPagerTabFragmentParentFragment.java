@@ -1,6 +1,8 @@
 package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
@@ -39,51 +42,63 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
     private int mSlop;
     private boolean mScrolled = false;
     private ObservableScrollState mLastScrollState;
-    private View mHeaderView, headerBanner;
+    private View mHeaderContainer;
+    private ImageView headerBanner;
     private int slidingTabLayout_height, mBaseTranslationY;
     private SlidingTabLayout slidingTabLayout;
+    private FrameLayout pager_wrapper;
+    private int totalfullheight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.simplefragment_viewpaper_fragment_parent, container, false);
-
+        totalfullheight = view.getHeight();
         AppCompatActivity parentActivity = (AppCompatActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
+        pager_wrapper = (FrameLayout) view.findViewById(R.id.pager_wrapper);
         mPager.setAdapter(mPagerAdapter);
-        mHeaderView = (View) view.findViewById(R.id.header);
-        headerBanner = view.findViewById(R.id.header_background);
-
+        mHeaderContainer = (View) view.findViewById(R.id.header);
+        headerBanner = (ImageView) view.findViewById(R.id.header_background);
         slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         slidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
         slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(mPager);
-
-
-        slidingTabLayout_height = slidingTabLayout.getHeight();
         ViewConfiguration vc = ViewConfiguration.get(parentActivity);
         mSlop = vc.getScaledTouchSlop();
         mInterceptionLayout = (TouchInterceptionLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
         mPager.setCurrentItem(0);
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setpagertoppadding(headerBanner.getHeight() + slidingTabLayout.getHeight());
+    }
+
+    protected void setpagertoppadding(float m) {
+        final int mheight = (int) Math.abs(m);
+        pager_wrapper.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mheight));
+        pager_wrapper.requestLayout();
     }
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         if (dragging) {
-            int toolbarHeight = headerBanner.getHeight();
-            float currentHeaderTranslationY = ViewCompat.getTranslationY(mHeaderView);
+            int headerBannerHeight = headerBanner.getHeight();
+            float currentHeaderTranslationY = ViewCompat.getTranslationY(mHeaderContainer);
             if (firstScroll) {
-                if (-toolbarHeight < currentHeaderTranslationY) {
+                if (-headerBannerHeight < currentHeaderTranslationY) {
                     mBaseTranslationY = scrollY;
                 }
             }
-            float headerTranslationY = ScrollUtils.getFloat(-(scrollY - mBaseTranslationY), -toolbarHeight, 0);
-            ViewPropertyAnimator.animate(mHeaderView).cancel();
-            ViewCompat.setTranslationY(mHeaderView, headerTranslationY);
+            float headerTranslationY = ScrollUtils.getFloat(mBaseTranslationY - scrollY, -headerBannerHeight, 0);
+            ViewPropertyAnimator.animate(mHeaderContainer).cancel();
+            ViewCompat.setTranslationY(mHeaderContainer, headerTranslationY);
+            //todo: need some more works on this
+            setpagertoppadding(totalfullheight - headerTranslationY);
         }
     }
 
@@ -96,7 +111,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
         if (!mScrolled) {
             // This event can be used only when TouchInterceptionFrameLayout
             // doesn't handle the consecutive events.
-            // adjustToolbar(scrollState);
+            // toolbarAdjustment(scrollState);
             mBaseTranslationY = 0;
 
             Fragment fragment = getCurrentFragment();
@@ -107,8 +122,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
             if (view == null) {
                 return;
             }
-            int toolbarHeight = headerBanner.getHeight();
-       //     adjustToolbar(mLastScrollState, view);
+            //    toolbarAdjustment(mLastScrollState, view);
         }
     }
 
@@ -129,9 +143,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
             // If interceptionLayout can move, it should intercept.
             // And once it begins to move, horizontal scroll shouldn't work any longer.
             // View toolbarView = getActivity().findViewById(R.id.toolbar);
-            int toolbarHeight = headerBanner.getHeight();
-
-
+            int headerBannerHeight = headerBanner.getHeight();
             int translationY = (int) ViewCompat.getTranslationY(mInterceptionLayout);
             boolean scrollingUp = 0 < diffY;
             boolean scrollingDown = diffY < 0;
@@ -142,7 +154,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                     return true;
                 }
             } else if (scrollingDown) {
-                if (-toolbarHeight < translationY) {
+                if (-headerBannerHeight < translationY) {
                     mScrolled = true;
                     mLastScrollState = ObservableScrollState.DOWN;
                     return true;
@@ -158,11 +170,19 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
-            View toolbarView = getActivity().findViewById(R.id.toolbar);
-            float translationY = ScrollUtils.getFloat(ViewCompat.getTranslationY(mInterceptionLayout) + diffY, -toolbarView.getHeight(), 0);
+         /*   View tView = adjustmentToolBarView();
+            float translationY = ScrollUtils.getFloat(ViewCompat.getTranslationY(mInterceptionLayout) + diffY, -tView.getHeight(), 0);
             ViewCompat.setTranslationY(mInterceptionLayout, translationY);
-            ViewCompat.setTranslationY(toolbarView, translationY);
+            ViewCompat.setTranslationY(tView, translationY);
             if (translationY < 0) {
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
+                lp.height = (int) (-translationY + getScreenHeight());
+                mInterceptionLayout.requestLayout();
+            }*/
+            float translationY = ScrollUtils.getFloat(ViewCompat.getTranslationY(mInterceptionLayout) + diffY, -headerBanner.getHeight(), 0);
+            ViewCompat.setTranslationY(mInterceptionLayout, translationY);
+            if (translationY < 0) {
+                // start getting smaller
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
                 lp.height = (int) (-translationY + getScreenHeight());
                 mInterceptionLayout.requestLayout();
@@ -172,7 +192,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
         @Override
         public void onUpOrCancelMotionEvent(MotionEvent ev) {
             mScrolled = false;
-            //    adjustToolbar(mLastScrollState);
+            //  toolbarAdjustment(mLastScrollState);
         }
     };
 
@@ -193,9 +213,14 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
 
     }
 
-    private void adjustToolbar(ObservableScrollState scrollState) {
-        View toolbarView = getActivity().findViewById(R.id.toolbar);
-        int toolbarHeight = toolbarView.getHeight();
+    private View adjustmentToolBarView() {
+        return getActivity().findViewById(R.id.toolbar);
+        //  return getCurrentFragment().getView().findViewById(R.id.header);
+    }
+
+    private void toolbarAdjustment(ObservableScrollState scrollState) {
+        View tView = adjustmentToolBarView();
+        int toolbarHeight = tView.getHeight();
         final Scrollable scrollable = getCurrentScrollable();
         if (scrollable == null) {
             return;
@@ -217,7 +242,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
     }
 
 
-    private void adjustToolbar(ObservableScrollState scrollState, View view) {
+    private void toolbarAdjustment(ObservableScrollState scrollState, View view) {
         int toolbarHeight = headerBanner.getHeight();
         final Scrollable scrollView = viewscrollable(view);
         if (scrollView == null) {
@@ -300,8 +325,8 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
         if (view == null) {
             return false;
         }
-        View toolbarView = getActivity().findViewById(R.id.toolbar);
-        return ViewCompat.getTranslationY(mInterceptionLayout) == -toolbarView.getHeight();
+        View tView = adjustmentToolBarView();
+        return ViewCompat.getTranslationY(mInterceptionLayout) == -tView.getHeight();
     }
 
     private void showToolbar() {
@@ -309,8 +334,8 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
     }
 
     private void hideToolbar() {
-        View toolbarView = getActivity().findViewById(R.id.toolbar);
-        animateToolbar(-toolbarView.getHeight());
+        View tView = adjustmentToolBarView();
+        animateToolbar(-tView.getHeight());
     }
 
     private void animateToolbar(final float toY) {
@@ -321,9 +346,9 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float translationY = (float) animation.getAnimatedValue();
-                    View toolbarView = getActivity().findViewById(R.id.toolbar);
+                    View tView = adjustmentToolBarView();
                     ViewCompat.setTranslationY(mInterceptionLayout, translationY);
-                    ViewCompat.setTranslationY(toolbarView, translationY);
+                    ViewCompat.setTranslationY(tView, translationY);
                     if (translationY < 0) {
                         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
                         lp.height = (int) (-translationY + getScreenHeight());
@@ -341,8 +366,8 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-       // private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
-        private static final String[] TITLES = new String[]{"fff", "nd eee"};
+        private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
+        //  private static final String[] TITLES = new String[]{"fff", "nd eee"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);

@@ -17,7 +17,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@color/secondary_text_disabled_material_dark"
     android:paddingTop="?attr/actionBarSize">
 
     <!--
@@ -30,7 +30,7 @@
         android:id="@+id/pager_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="200dp">
+        android:layout_gravity="bottom">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
@@ -51,12 +51,20 @@
             android:minHeight="@dimen/header_bar_height"
             android:orientation="vertical">
 
-            <View
+
+            <ImageView
                 android:id="@+id/header_background"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/header_bar_height"
                 android:background="@color/primaryDark"
-                android:minHeight="@dimen/header_bar_height" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/test_back1" />
+
+            <!--
+                        <View
+                            android:id="@+id/header_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/header_bar_height" />-->
 
             <com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.widget.SlidingTabLayout
                 android:id="@+id/sliding_tabs"
