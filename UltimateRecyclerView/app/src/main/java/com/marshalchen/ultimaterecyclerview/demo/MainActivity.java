@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             }
         });
 
-
+        ultimateRecyclerView.showFloatingButtonView();
         ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
                 new SwipeableRecyclerViewTouchListener.SwipeListener() {
                     @Override
