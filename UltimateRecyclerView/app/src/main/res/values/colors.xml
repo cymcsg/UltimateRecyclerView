@@ -11,4 +11,12 @@
     <color name="bg_item_swiping_active_state">#ff9999ff</color>
     <color name="bg_item_dragging_state">#ffffdddd</color>
     <color name="bg_item_dragging_active_state">#ffff9999</color>
+
+
+    <color name="primary">#009688</color>
+    <color name="primaryDark">#00796b</color>
+    <color name="accent">#eeff41</color>
+    <color name="accentLight">#F4FF81</color>
+    <color name="tab_text_color">#ffff3abb</color>
+
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.marshalchen.ultimaterecyclerview.demo"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.marshalchen.ultimaterecyclerview.demo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,11 +11,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        tools:replace="android:icon,android:theme"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -28,19 +28,24 @@
 
         <activity
             android:name=".MultiViewTypesActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".CustomSwipeToRefreshRefreshActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".TestAdMob"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
+        <activity
+            android:name=".scrollableobservable.ScrollObservablesActivity"
+            android:label="@string/app_name">
+
+        </activity>
         <activity
             android:name=".DragActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".swipelist.SwipeListViewExampleActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
