@@ -3,6 +3,8 @@ package com.marshalchen.ultimaterecyclerview.divideritemdecoration;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DimenRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -13,7 +15,7 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
 
     private MarginProvider mMarginProvider;
 
-    private VerticalDividerItemDecoration(Builder builder) {
+    protected VerticalDividerItemDecoration(Builder builder) {
         super(builder);
         mMarginProvider = builder.mMarginProvider;
     }
@@ -21,18 +23,20 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
     @Override
     protected Rect getDividerBound(int position, RecyclerView parent, View child) {
         Rect bounds = new Rect(0, 0, 0, 0);
+        int transitionX = (int) ViewCompat.getTranslationX(child);
+        int transitionY = (int) ViewCompat.getTranslationY(child);
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
         bounds.top = parent.getPaddingTop() +
-                mMarginProvider.dividerTopMargin(position, parent);
+                mMarginProvider.dividerTopMargin(position, parent) + transitionY;
         bounds.bottom = parent.getHeight() - parent.getPaddingBottom() -
-                mMarginProvider.dividerBottomMargin(position, parent);
+                mMarginProvider.dividerBottomMargin(position, parent) + transitionY;
 
         int dividerSize = getDividerSize(position, parent);
         if (mDividerType == DividerType.DRAWABLE) {
-            bounds.left = child.getRight() + params.leftMargin;
+            bounds.left = child.getRight() + params.leftMargin + transitionX;
             bounds.right = bounds.left + dividerSize;
         } else {
-            bounds.left = child.getRight() + params.leftMargin + dividerSize / 2;
+            bounds.left = child.getRight() + params.leftMargin + dividerSize / 2 + transitionX;
             bounds.right = bounds.left;
         }
 
@@ -41,17 +45,7 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
 
     @Override
     protected void setItemOffsets(Rect outRect, int position, RecyclerView parent) {
-        int size = getDividerSize(position, parent) / 2;
-        if (position == 0) {
-            outRect.set(0, 0, size, 0);
-        } else {
-            int lastItemSize = getDividerSize(position - 1, parent) / 2;
-            if (position == parent.getLayoutManager().getItemCount() - 1) {
-                outRect.set(lastItemSize, 0, 0, 0);
-            } else {
-                outRect.set(lastItemSize, 0, size, 0);
-            }
-        }
+        outRect.set(0, 0, getDividerSize(position, parent), 0);
     }
 
     private int getDividerSize(int position, RecyclerView parent) {
@@ -78,7 +72,7 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
          * @param parent   RecyclerView
          * @return top margin
          */
-        public int dividerTopMargin(int position, RecyclerView parent);
+        int dividerTopMargin(int position, RecyclerView parent);
 
         /**
          * Returns bottom margin of divider.
@@ -87,7 +81,7 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
          * @param parent   RecyclerView
          * @return bottom margin
          */
-        public int dividerBottomMargin(int position, RecyclerView parent);
+        int dividerBottomMargin(int position, RecyclerView parent);
     }
 
     public static class Builder extends FlexibleDividerDecoration.Builder<Builder> {
@@ -120,6 +114,19 @@ public class VerticalDividerItemDecoration extends FlexibleDividerDecoration {
                     return bottomMargin;
                 }
             });
+        }
+
+        public Builder margin(int verticalMargin) {
+            return margin(verticalMargin, verticalMargin);
+        }
+
+        public Builder marginResId(@DimenRes int topMarginId, @DimenRes int bottomMarginId) {
+            return margin(mResources.getDimensionPixelSize(topMarginId),
+                    mResources.getDimensionPixelSize(bottomMarginId));
+        }
+
+        public Builder marginResId(@DimenRes int verticalMarginId) {
+            return marginResId(verticalMarginId, verticalMarginId);
         }
 
         public Builder marginProvider(MarginProvider provider) {

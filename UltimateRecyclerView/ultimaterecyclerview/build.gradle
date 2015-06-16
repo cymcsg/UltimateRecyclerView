@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 8
         targetSdkVersion 22
         versionCode 3
         versionName "1.0"
@@ -27,13 +27,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'in.srain.cube:ultra-ptr:1.0.9@aar'
-    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.0@aar'
 }
 
 ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.3.5'
+    PUBLISH_VERSION = '0.3.6'
 }
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'

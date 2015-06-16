@@ -1,12 +1,16 @@
 package com.marshalchen.ultimaterecyclerview.divideritemdecoration;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -30,6 +34,7 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
     protected ColorProvider mColorProvider;
     protected DrawableProvider mDrawableProvider;
     protected SizeProvider mSizeProvider;
+    protected boolean mShowLastDivider;
     private Paint mPaint;
 
     protected FlexibleDividerDecoration(Builder builder) {
@@ -60,6 +65,7 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
         }
 
         mVisibilityProvider = builder.mVisibilityProvider;
+        mShowLastDivider = builder.mShowLastDivider;
     }
 
     private void setSizeProvider(Builder builder) {
@@ -76,10 +82,23 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount - 1; i++) {
+        int lastChildPosition = -1;
+        int childCount = mShowLastDivider ? parent.getChildCount() : parent.getChildCount() - 1;
+        for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
-            int childPosition = parent.getChildPosition(child);
+            int childPosition = parent.getChildAdapterPosition(child);
+
+            if (childPosition < lastChildPosition) {
+                // Avoid remaining divider when animation starts
+                continue;
+            }
+            lastChildPosition = childPosition;
+
+            if (ViewCompat.getAlpha(child) < 1) {
+                // Avoid remaining divider when animation starts
+                continue;
+            }
+
             if (mVisibilityProvider.shouldHideDivider(childPosition, parent)) {
                 continue;
             }
@@ -106,13 +125,13 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
 
     @Override
     public void getItemOffsets(Rect rect, View v, RecyclerView parent, RecyclerView.State state) {
-        int position = parent.getChildPosition(v);
+        int position = parent.getChildAdapterPosition(v);
         setItemOffsets(rect, position, parent);
     }
 
-    abstract Rect getDividerBound(int position, RecyclerView parent, View child);
+    protected abstract Rect getDividerBound(int position, RecyclerView parent, View child);
 
-    abstract void setItemOffsets(Rect outRect, int position, RecyclerView parent);
+    protected abstract void setItemOffsets(Rect outRect, int position, RecyclerView parent);
 
     /**
      * Interface for controlling divider visibility
@@ -126,7 +145,7 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
          * @param parent   RecyclerView
          * @return True if the divider at position should be hidden
          */
-        public boolean shouldHideDivider(int position, RecyclerView parent);
+        boolean shouldHideDivider(int position, RecyclerView parent);
     }
 
     /**
@@ -135,13 +154,13 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
     public interface PaintProvider {
 
         /**
-         * Returns {@link android.graphics.Paint} for divider
+         * Returns {@link Paint} for divider
          *
          * @param position Divider position
          * @param parent   RecyclerView
          * @return Paint instance
          */
-        public Paint dividerPaint(int position, RecyclerView parent);
+        Paint dividerPaint(int position, RecyclerView parent);
     }
 
     /**
@@ -156,7 +175,7 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
          * @param parent   RecyclerView
          * @return Color value
          */
-        public int dividerColor(int position, RecyclerView parent);
+        int dividerColor(int position, RecyclerView parent);
     }
 
     /**
@@ -171,7 +190,7 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
          * @param parent   RecyclerView
          * @return Drawable instance
          */
-        public Drawable drawableProvider(int position, RecyclerView parent);
+        Drawable drawableProvider(int position, RecyclerView parent);
     }
 
     /**
@@ -187,12 +206,13 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
          * @param parent   RecyclerView
          * @return Size of divider
          */
-        public int dividerSize(int position, RecyclerView parent);
+        int dividerSize(int position, RecyclerView parent);
     }
 
     public static class Builder<T extends Builder> {
 
         private Context mContext;
+        protected Resources mResources;
         private PaintProvider mPaintProvider;
         private ColorProvider mColorProvider;
         private DrawableProvider mDrawableProvider;
@@ -203,9 +223,11 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
                 return false;
             }
         };
+        private boolean mShowLastDivider = false;
 
         public Builder(Context context) {
             mContext = context;
+            mResources = context.getResources();
         }
 
         public T paint(final Paint paint) {
@@ -231,13 +253,17 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
             });
         }
 
+        public T colorResId(@ColorRes int colorId) {
+            return color(mResources.getColor(colorId));
+        }
+
         public T colorProvider(ColorProvider provider) {
             mColorProvider = provider;
             return (T) this;
         }
 
         public T drawable(@DrawableRes int id) {
-            return drawable(mContext.getResources().getDrawable(id));
+            return drawable(mResources.getDrawable(id));
         }
 
         public T drawable(final Drawable drawable) {
@@ -263,6 +289,10 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
             });
         }
 
+        public T sizeResId(@DimenRes int sizeId) {
+            return size(mResources.getDimensionPixelSize(sizeId));
+        }
+
         public T sizeProvider(SizeProvider provider) {
             mSizeProvider = provider;
             return (T) this;
@@ -270,6 +300,11 @@ public abstract class FlexibleDividerDecoration extends RecyclerView.ItemDecorat
 
         public T visibilityProvider(VisibilityProvider provider) {
             mVisibilityProvider = provider;
+            return (T) this;
+        }
+
+        public T showLastDivider() {
+            mShowLastDivider = true;
             return (T) this;
         }
 
