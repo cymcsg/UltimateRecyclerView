@@ -27,7 +27,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'in.srain.cube:ultra-ptr:1.0.9@aar'
-    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.0@aar'
 }
 
 ext {

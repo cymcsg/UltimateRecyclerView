@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.Collections;
 import java.util.List;

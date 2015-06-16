@@ -30,7 +30,7 @@ import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
