@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
-
+//        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
+//        ultimateRecyclerView.showEmptyView();
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
