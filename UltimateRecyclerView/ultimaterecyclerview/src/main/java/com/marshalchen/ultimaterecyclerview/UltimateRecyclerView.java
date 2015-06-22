@@ -161,11 +161,28 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mEmpty.setVisibility(View.GONE);
 
 
-
-
     }
 
-    public void showFloatingButtonView(){
+    public void setEmptyView(int emptyResourceId) {
+        mEmptyId = emptyResourceId;
+
+        mEmpty.setLayoutResource(mEmptyId);
+        if (mEmptyId != 0)
+            mEmptyView = mEmpty.inflate();
+        mEmpty.setVisibility(View.GONE);
+    }
+
+    public void showEmptyView() {
+        if (mEmptyId != 0)
+            mEmpty.setVisibility(View.VISIBLE);
+    }
+
+    public void hideEmptyView() {
+        if (mEmptyId != 0)
+            mEmpty.setVisibility(View.GONE);
+    }
+
+    public void showFloatingButtonView() {
         if (mFloatingButtonId != 0) {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
             mFloatingButtonView.setVisibility(View.VISIBLE);
