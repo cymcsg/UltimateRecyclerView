@@ -33,7 +33,7 @@ import android.view.View;
  * }
  * </pre>
  */
-public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureListener implements RecyclerView.OnItemTouchListener {
+public  class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureListener implements RecyclerView.OnItemTouchListener {
 
 
     public interface RecyclerViewOnItemClickListener {
@@ -65,6 +65,10 @@ public class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureLis
     public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
     }
 
+    @Override
+    public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
     @Override
     public void onShowPress(MotionEvent e) {
         View view = getChildViewUnder(e);
