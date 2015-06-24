@@ -146,13 +146,21 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
-                if (observableScrollState == ObservableScrollState.DOWN) {
-                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.showFloatingActionMenu();
-                } else if (observableScrollState == ObservableScrollState.UP) {
+//                if (observableScrollState == ObservableScrollState.DOWN) {
+//                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.showFloatingActionMenu();
+//                } else if (observableScrollState == ObservableScrollState.UP) {
+//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.hideFloatingActionMenu();
+//                } else if (observableScrollState == ObservableScrollState.STOP) {
+//                }
+                URLogs.d("onUpOrCancelMotionEvent");
+                if (observableScrollState == ObservableScrollState.UP) {
                     ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
                     ultimateRecyclerView.hideFloatingActionMenu();
-                } else if (observableScrollState == ObservableScrollState.STOP) {
+                } else if (observableScrollState == ObservableScrollState.DOWN) {
+                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.showFloatingActionMenu();
                 }
             }
         });
