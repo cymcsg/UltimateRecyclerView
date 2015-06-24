@@ -27,10 +27,10 @@ public class SavedStateScrolling implements Parcelable {
     public int prevScrolledChildrenHeight;
     public int prevScrollY;
     public int scrollY;
-    public SparseIntArray childrenHeights;
+    public  SparseIntArray childrenHeights;
 
     // This keeps the parent(RecyclerView)'s state
-    Parcelable superState;
+    public Parcelable superState;
 
     /**
      * Called by EMPTY_STATE instantiation.
@@ -71,7 +71,6 @@ public class SavedStateScrolling implements Parcelable {
         }
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -100,8 +99,8 @@ public class SavedStateScrolling implements Parcelable {
         return superState;
     }
 
-    public static final Creator<SavedStateScrolling> CREATOR
-            = new Creator<SavedStateScrolling>() {
+    public static final Parcelable.Creator<SavedStateScrolling> CREATOR
+            = new Parcelable.Creator<SavedStateScrolling>() {
         @Override
         public SavedStateScrolling createFromParcel(Parcel in) {
             return new SavedStateScrolling(in);
