@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.6
+###Version:0.3.7
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -34,12 +34,13 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading adapter with animations
 
 
-###Changes in 0.3.6:
+###Changes in 0.3.7:
 - [x] support different layout in adapter
 - [x] support easy way to use admob
 - [x] loading adapter with animations
 - [x] support latest version of Recyclerview
 - [x] support minSdk to 8
+- [x] Upgrade recyclerview to 22.2.0
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -93,7 +94,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.6'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.7'
 }
 ```
 
