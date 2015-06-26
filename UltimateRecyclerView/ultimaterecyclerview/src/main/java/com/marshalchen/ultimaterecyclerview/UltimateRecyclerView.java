@@ -67,20 +67,26 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     protected int mPaddingRight;
     protected boolean mClipToPadding;
     private UltimateViewAdapter mAdapter;
-    private ObservableScrollState mObservableScrollState;
-    private ObservableScrollViewCallbacks mCallbacks;
-    private SparseIntArray mChildrenHeights = new SparseIntArray();
+
+
     // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
     private int mPrevScrolledChildrenHeight;
     private int mPrevScrollY;
     private int mScrollY;
+    private SparseIntArray mChildrenHeights = new SparseIntArray();
+    ;
 
-
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollState mObservableScrollState;
+    private ObservableScrollViewCallbacks mCallbacks;
+    //private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
     private boolean mIntercepted;
+    private MotionEvent mPrevMoveEvent;
+    private ViewGroup mTouchInterceptionViewGroup;
 
 
     protected ViewStub mEmpty;
@@ -161,11 +167,28 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mEmpty.setVisibility(View.GONE);
 
 
-
-
     }
 
-    public void showFloatingButtonView(){
+    public void setEmptyView(int emptyResourceId) {
+        mEmptyId = emptyResourceId;
+
+        mEmpty.setLayoutResource(mEmptyId);
+        if (mEmptyId != 0)
+            mEmptyView = mEmpty.inflate();
+        mEmpty.setVisibility(View.GONE);
+    }
+
+    public void showEmptyView() {
+        if (mEmptyId != 0)
+            mEmpty.setVisibility(View.VISIBLE);
+    }
+
+    public void hideEmptyView() {
+        if (mEmptyId != 0)
+            mEmpty.setVisibility(View.GONE);
+    }
+
+    public void showFloatingButtonView() {
         if (mFloatingButtonId != 0) {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
             mFloatingButtonView.setVisibility(View.VISIBLE);
@@ -335,12 +358,15 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
         if (mCallbacks != null) {
             if (getChildCount() > 0) {
-                int firstVisiblePosition = recyclerView.getChildPosition(recyclerView.getChildAt(0));
-                int lastVisiblePosition = recyclerView.getChildPosition(recyclerView.getChildAt(getChildCount() - 1));
+                int firstVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0));
+                int lastVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - 1));
                 for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
-                    if (mChildrenHeights.indexOfKey(i) < 0 || recyclerView.getChildAt(j).getHeight() != mChildrenHeights.get(i)) {
-                        mChildrenHeights.put(i, recyclerView.getChildAt(j).getHeight());
+                    int childHeight = 0;
+                    View child = recyclerView.getChildAt(j);
+                    if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
+                        childHeight = child.getHeight();
                     }
+                    mChildrenHeights.put(i, childHeight);
                 }
 
                 View firstVisibleChild = recyclerView.getChildAt(0);
@@ -381,6 +407,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
                     } else if (firstVisiblePosition == 0) {
                         mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
+                        mPrevScrolledChildrenHeight = 0;
                     }
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
@@ -405,7 +432,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     mPrevScrollY = mScrollY;
                 }
             }
-
         }
     }
 
@@ -863,10 +889,25 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
         return super.onInterceptTouchEvent(ev);
+
+//        if (mCallbacks != null) {
+//            URLogs.d("ev---"+ev.getActionMasked());
+//            switch (ev.getActionMasked()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    // Whether or not motion events are consumed by children,
+//                    // flag initializations which are related to ACTION_DOWN events should be executed.
+//                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
+//                    // passed to parent (this view), the flags will be invalid.
+//                    // Also, applications might implement initialization codes to onDownMotionEvent,
+//                    // so call it here.
+//                    mFirstScroll = mDragging = true;
+//                    mCallbacks.onDownMotionEvent();
+//                    break;
+//            }
+//        }
+//        return super.onInterceptTouchEvent(ev);
     }
 
-    private MotionEvent mPrevMoveEvent;
-    private ViewGroup mTouchInterceptionViewGroup;
 
     @Override
     public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
@@ -876,17 +917,22 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public void scrollVerticallyTo(int y) {
+        URLogs.d("vertically");
         View firstVisibleChild = getChildAt(0);
         if (firstVisibleChild != null) {
             int baseHeight = firstVisibleChild.getHeight();
             int position = y / baseHeight;
-            //  mRecyclerView.scrollscrollVerticallyToPosition(position);
-            RecyclerView.LayoutManager lm = getLayoutManager();
-            if (lm != null && lm instanceof LinearLayoutManager) {
-                ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, 0);
-            } else {
-                mRecyclerView.scrollToPosition(position);
-            }
+            scrollVerticallyToPosition(position);
+        }
+    }
+
+    public void scrollVerticallyToPosition(int position) {
+        RecyclerView.LayoutManager lm = getLayoutManager();
+
+        if (lm != null && lm instanceof LinearLayoutManager) {
+            ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, 0);
+        } else {
+            lm.scrollToPosition(position);
         }
     }
 
@@ -897,7 +943,9 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        URLogs.d("ev---"+ev);
         if (mCallbacks != null) {
+
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -905,14 +953,13 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState);
                     break;
-
                 case MotionEvent.ACTION_MOVE:
                     if (mPrevMoveEvent == null) {
                         mPrevMoveEvent = ev;
                     }
                     float diffY = ev.getY() - mPrevMoveEvent.getY();
                     mPrevMoveEvent = MotionEvent.obtainNoHistory(ev);
-                    if (mRecyclerView.getScrollY() - diffY <= 0) {
+                    if (getCurrentScrollY() - diffY <= 0) {
                         // Can't scroll anymore.
 
                         if (mIntercepted) {

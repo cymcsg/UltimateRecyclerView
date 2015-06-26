@@ -23,16 +23,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'in.srain.cube:ultra-ptr:1.0.9@aar'
+    compile 'in.srain.cube:ultra-ptr:1.0.10'
 }
 
 ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.3.6'
+    PUBLISH_VERSION = '0.3.7'
 }
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'

@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
-
+//        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
+//        ultimateRecyclerView.showEmptyView();
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
@@ -145,13 +146,21 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
-                if (observableScrollState == ObservableScrollState.DOWN) {
-                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.showFloatingActionMenu();
-                } else if (observableScrollState == ObservableScrollState.UP) {
+//                if (observableScrollState == ObservableScrollState.DOWN) {
+//                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.showFloatingActionMenu();
+//                } else if (observableScrollState == ObservableScrollState.UP) {
+//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+//                    ultimateRecyclerView.hideFloatingActionMenu();
+//                } else if (observableScrollState == ObservableScrollState.STOP) {
+//                }
+                URLogs.d("onUpOrCancelMotionEvent");
+                if (observableScrollState == ObservableScrollState.UP) {
                     ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
                     ultimateRecyclerView.hideFloatingActionMenu();
-                } else if (observableScrollState == ObservableScrollState.STOP) {
+                } else if (observableScrollState == ObservableScrollState.DOWN) {
+                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
+                    ultimateRecyclerView.showFloatingActionMenu();
                 }
             }
         });
@@ -205,6 +214,11 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
 
         dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
+
             @Override
             protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
                 if (from > 0 && to > 0) {
