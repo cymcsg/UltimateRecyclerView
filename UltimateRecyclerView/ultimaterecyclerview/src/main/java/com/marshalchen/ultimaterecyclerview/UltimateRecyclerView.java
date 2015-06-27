@@ -169,6 +169,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     }
 
+    /**
+     * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero.
+     * You can customize it as loading view.
+     * @param emptyResourceId
+     */
     public void setEmptyView(int emptyResourceId) {
         mEmptyId = emptyResourceId;
 
@@ -178,16 +183,26 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mEmpty.setVisibility(View.GONE);
     }
 
+    /**
+     * Show the custom or default empty view.
+     * You can customize it as loading view.
+     */
     public void showEmptyView() {
         if (mEmptyId != 0)
             mEmpty.setVisibility(View.VISIBLE);
     }
-
+    /**
+     * Hide the custom or default empty view.
+     *
+     */
     public void hideEmptyView() {
         if (mEmptyId != 0)
             mEmpty.setVisibility(View.GONE);
     }
 
+    /**
+     * Show the custom floating button view.
+     */
     public void showFloatingButtonView() {
         if (mFloatingButtonId != 0) {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
