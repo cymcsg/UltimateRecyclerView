@@ -95,22 +95,22 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             }
         });
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
-                        ultimateRecyclerView.setRefreshing(false);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-                }, 1000);
-            }
-        });
+//        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+//                        ultimateRecyclerView.setRefreshing(false);
+//                        //   ultimateRecyclerView.scrollBy(0, -50);
+//                        linearLayoutManager.scrollToPosition(0);
+////                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+////                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                    }
+//                }, 1000);
+//            }
+//        });
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                     @Override
                     public boolean canSwipe(int position) {
 
-                        if (position > 0)
+                        if (position > 0 && position < stringList.size())
                             return true;
                         else return false;
                     }
