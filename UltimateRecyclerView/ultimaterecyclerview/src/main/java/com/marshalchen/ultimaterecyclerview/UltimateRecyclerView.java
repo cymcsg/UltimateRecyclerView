@@ -21,7 +21,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Build;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,7 +39,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.marshalchen.ultimaterecyclerview.Utils.SavedStateScrolling;
+import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
