@@ -416,6 +416,10 @@ Donate $19.99: [![$19.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.co
 Donate $39.99: [![$39.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
 
 Donate $59.99: [![$59.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
+
+
+Alipay:![donate](http://img0.ph.126.net/YVD08v60MSHS4ChknZmCYw==/6630586179607294188.png)
+
 License
 --------
 
