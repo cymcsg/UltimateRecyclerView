@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by hesk on 20/5/15.
  */
-public class admobdfpadapter extends AdmobAdapter {
+public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapter.ViewHolder> {
     public admobdfpadapter(AdView v, int e, List<String> f) {
         super(v, false, e, f);
     }
@@ -37,7 +37,7 @@ public class admobdfpadapter extends AdmobAdapter {
     }
 
     @Override
-    protected UltimateRecyclerviewViewHolder newViewHolder(View mview) {
+    protected ViewHolder newViewHolder(View mview) {
         return new ViewHolder(mview);
     }
 
@@ -86,7 +86,7 @@ public class admobdfpadapter extends AdmobAdapter {
     }
 
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder {
+    static class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
@@ -128,9 +128,16 @@ public class admobdfpadapter extends AdmobAdapter {
         }
     }
 
+    public void insert(final List<String> list, final String object, final int post) {
+        super.insert(list, object, post);
+    }
 
-    public void insert(String string, int position) {
-        insert(list, string, position);
+    public void insert(final List<String> list, final String object) {
+        super.insert(list, object);
+    }
+
+    public void insert(final String object) {
+        insert(list, object);
     }
 
     public void remove(int position) {
