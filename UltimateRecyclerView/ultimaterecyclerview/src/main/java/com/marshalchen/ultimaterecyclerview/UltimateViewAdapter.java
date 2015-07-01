@@ -2,6 +2,8 @@ package com.marshalchen.ultimaterecyclerview;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +67,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Using a custom LoadMoreView
      *
-     * @param customview
+     * @param customview the inflated view
      */
     public void setCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
@@ -74,7 +76,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Changing the loadmore view
      *
-     * @param customview
+     * @param customview the inflated view
      */
     public void swipeCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
@@ -141,9 +143,9 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Swap the item of list
      *
-     * @param list
-     * @param from
-     * @param to
+     * @param list data list
+     * @param from position from
+     * @param to position to
      */
     public void swapPositions(List<?> list, int from, int to) {
         if (customHeaderView != null) {
@@ -157,10 +159,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Insert a item to the list of the adapter
      *
-     * @param list
-     * @param object
-     * @param position
-     * @param <T>
+     * @param list data list
+     * @param object object T
+     * @param position position
+     * @param <T> in T
      */
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
@@ -173,8 +175,8 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Remove a item of  the list of the adapter
      *
-     * @param list
-     * @param position
+     * @param list data list
+     * @param position position
      */
     public void remove(List<?> list, int position) {
         list.remove(customHeaderView != null ? position - 1 : position);
@@ -184,7 +186,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Clear the list of the adapter
      *
-     * @param list
+     * @param list data list
      */
     public void clear(List<?> list) {
         int size = list.size();
@@ -222,10 +224,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Animations when loading the adapter
      *
-     * @param view
-     * @param type
-     * @return
+     * @param view the view
+     * @param type the type of the animation
+     * @return the animator in array
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);

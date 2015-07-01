@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -39,7 +40,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
+import com.marshalchen.ultimaterecyclerview.Utils.SavedStateScrolling;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
@@ -375,14 +376,21 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0));
                 int lastVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - 1));
-                for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
-                    int childHeight = 0;
-                    View child = recyclerView.getChildAt(j);
-                    if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
-                        if (child != null)
+                try {
+                    for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
+                        int childHeight = 0;
+                        View child = recyclerView.getChildAt(j);
+                        if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
+                           if (child!=null)
                             childHeight = child.getHeight();
-                    }
-                    mChildrenHeights.put(i, childHeight);
+                        }
+                        mChildrenHeights.put(i, childHeight);
+               
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    //todo: need to solve this issue when the first child is missing from the scroll. Please also see the debug from the RV error.
+                    //todo: 07-01 11:50:36.359  32348-32348/com.marshalchen.ultimaterecyclerview.demo D/RVerror? Attempt to invoke virtual method 'int android.view.View.getHeight()' on a null object reference
+                    Log.d("RVerror", e.getMessage());
                 }
 
                 View firstVisibleChild = recyclerView.getChildAt(0);
@@ -959,7 +967,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        URLogs.d("ev---" + ev);
+        URLogs.d("ev---"+ev);
         if (mCallbacks != null) {
 
             switch (ev.getActionMasked()) {

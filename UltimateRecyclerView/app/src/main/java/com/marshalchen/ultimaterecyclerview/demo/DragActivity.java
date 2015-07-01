@@ -40,6 +40,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
 
 import java.util.ArrayList;
@@ -136,24 +137,7 @@ public class DragActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bottom) {
-            Intent intent = new Intent(this, MultiViewTypesActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_custom) {
-            Intent intent = new Intent(this, CustomSwipeToRefreshRefreshActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.admob) {
-            Intent intent = new Intent(this, TestAdMob.class);
-            startActivity(intent);
-            return true;
-        }
+        FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
     }
 
