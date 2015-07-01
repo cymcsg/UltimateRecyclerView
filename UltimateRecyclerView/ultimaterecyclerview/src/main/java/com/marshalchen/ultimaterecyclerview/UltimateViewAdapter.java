@@ -2,6 +2,8 @@ package com.marshalchen.ultimaterecyclerview;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,6 +228,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      * @param type
      * @return
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
