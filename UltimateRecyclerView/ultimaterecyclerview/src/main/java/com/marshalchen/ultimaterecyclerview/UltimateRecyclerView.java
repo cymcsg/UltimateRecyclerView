@@ -40,11 +40,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.marshalchen.ultimaterecyclerview.Utils.SavedStateScrolling;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
+import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -381,16 +381,17 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         int childHeight = 0;
                         View child = recyclerView.getChildAt(j);
                         if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
-                           if (child!=null)
-                            childHeight = child.getHeight();
+                            if (child != null)
+                                childHeight = child.getHeight();
                         }
                         mChildrenHeights.put(i, childHeight);
-               
+                    }
+
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     //todo: need to solve this issue when the first child is missing from the scroll. Please also see the debug from the RV error.
                     //todo: 07-01 11:50:36.359  32348-32348/com.marshalchen.ultimaterecyclerview.demo D/RVerror? Attempt to invoke virtual method 'int android.view.View.getHeight()' on a null object reference
-                    Log.d("RVerror", e.getMessage());
+                    URLogs.e(e, "");
                 }
 
                 View firstVisibleChild = recyclerView.getChildAt(0);
@@ -967,7 +968,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        URLogs.d("ev---"+ev);
+        URLogs.d("ev---" + ev);
         if (mCallbacks != null) {
 
             switch (ev.getActionMasked()) {

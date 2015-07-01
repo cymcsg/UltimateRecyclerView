@@ -25,7 +25,6 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.Utils.ScrollSmoothLineaerLayoutManager;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
@@ -50,11 +49,12 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 /**
  * Created by hesk on 7/1/2015.
  */
-public class debugLoadMore extends AppCompatActivity {
+public class DebugLoadMoreActivity extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
