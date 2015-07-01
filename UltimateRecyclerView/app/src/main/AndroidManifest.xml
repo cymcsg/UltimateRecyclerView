@@ -36,6 +36,9 @@
             android:name=".TestAdMob"
             android:label="@string/app_name" />
         <activity
+            android:name=".DebugLoadMoreActivity"
+            android:label="@string/app_name" />
+        <activity
             android:name=".scrollableobservable.ScrollObservablesActivity"
             android:label="@string/app_name">
 

@@ -8,12 +8,13 @@
 - [ ] swipe position judge
 - [x] add method to set background color of recyclerview
 - [x] add method to set default swipe to dismiss color
-- [ ] add loading state of URV
+- [x] add loading state of URV
 - [ ] make ``swapAdapter`` more intelligent 
 - [x] support different layout in UltimateViewAdapter
 - [ ] Customize height and width
 - [ ] Traditional header
 - [ ] Swipe to dismiss color
+- [ ] Make adapter more easy to use
  
 
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.marshalchen.ultimaterecyclerview.Utils;
+package com.marshalchen.ultimaterecyclerview.uiUtils;
 
 import android.os.Bundle;
 import android.os.Parcelable;

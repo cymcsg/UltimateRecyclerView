@@ -40,11 +40,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.marshalchen.ultimaterecyclerview.Utils.SavedStateScrolling;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
+import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -169,6 +169,12 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     }
 
+    /**
+     * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero.
+     * You can customize it as loading view.
+     *
+     * @param emptyResourceId
+     */
     public void setEmptyView(int emptyResourceId) {
         mEmptyId = emptyResourceId;
 
@@ -178,16 +184,26 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mEmpty.setVisibility(View.GONE);
     }
 
+    /**
+     * Show the custom or default empty view.
+     * You can customize it as loading view.
+     */
     public void showEmptyView() {
         if (mEmptyId != 0)
             mEmpty.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hide the custom or default empty view.
+     */
     public void hideEmptyView() {
         if (mEmptyId != 0)
             mEmpty.setVisibility(View.GONE);
     }
 
+    /**
+     * Show the custom floating button view.
+     */
     public void showFloatingButtonView() {
         if (mFloatingButtonId != 0) {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
@@ -360,13 +376,22 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0));
                 int lastVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - 1));
-                for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
-                    int childHeight = 0;
-                    View child = recyclerView.getChildAt(j);
-                    if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
-                        childHeight = child.getHeight();
+                try {
+                    for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
+                        int childHeight = 0;
+                        View child = recyclerView.getChildAt(j);
+                        if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
+                            if (child != null)
+                                childHeight = child.getHeight();
+                        }
+                        mChildrenHeights.put(i, childHeight);
                     }
-                    mChildrenHeights.put(i, childHeight);
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    //todo: need to solve this issue when the first child is missing from the scroll. Please also see the debug from the RV error.
+                    //todo: 07-01 11:50:36.359  32348-32348/com.marshalchen.ultimaterecyclerview.demo D/RVerror? Attempt to invoke virtual method 'int android.view.View.getHeight()' on a null object reference
+                    URLogs.e(e, "");
                 }
 
                 View firstVisibleChild = recyclerView.getChildAt(0);
@@ -943,7 +968,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        URLogs.d("ev---"+ev);
+        URLogs.d("ev---" + ev);
         if (mCallbacks != null) {
 
             switch (ev.getActionMasked()) {

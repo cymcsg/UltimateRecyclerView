@@ -46,6 +46,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +158,6 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
                 }
             }
         });
-
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -334,7 +334,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
     private int mLoadTime = 0;
     StoreHouseHeader storeHouseHeader;
     MaterialHeader materialHeader;
-  //  RentalsSunHeaderView rentalsSunHeaderView;
+    //  RentalsSunHeaderView rentalsSunHeaderView;
 
     void refreshingStringArray() {
         storeHouseHeader = new StoreHouseHeader(this);
@@ -479,20 +479,10 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bottom) {
-            Intent intent = new Intent(this, MultiViewTypesActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
+        FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
     }
+
 
     enum Type {
         FadeIn("FadeIn", new FadeInAnimator()),
