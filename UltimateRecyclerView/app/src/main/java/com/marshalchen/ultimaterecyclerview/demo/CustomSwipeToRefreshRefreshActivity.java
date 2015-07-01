@@ -55,7 +55,6 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
-import in.srain.cube.views.ptr.header.RentalsSunHeaderView;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
@@ -241,38 +240,38 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
     }
 
 
-    void refreshingRental() {
-        rentalsSunHeaderView = new RentalsSunHeaderView(this);
-        rentalsSunHeaderView.setUp(ultimateRecyclerView.mPtrFrameLayout);
-
-        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
-        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
-        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(rentalsSunHeaderView);
-        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(rentalsSunHeaderView);
-        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
-        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-                return canbePullDown;
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                        changeHeaderHandler.sendEmptyMessageDelayed(3, 500);
-                    }
-                }, 1800);
-            }
-        });
-
-    }
+//    void refreshingRental() {
+//        rentalsSunHeaderView = new RentalsSunHeaderView(this);
+//        rentalsSunHeaderView.setUp(ultimateRecyclerView.mPtrFrameLayout);
+//
+//        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+//        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
+//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(rentalsSunHeaderView);
+//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(rentalsSunHeaderView);
+//        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+//            @Override
+//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
+//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
+//                return canbePullDown;
+//            }
+//
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+//                ptrFrameLayout.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+//                        //   ultimateRecyclerView.scrollBy(0, -50);
+//                        linearLayoutManager.scrollToPosition(0);
+//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+//                        changeHeaderHandler.sendEmptyMessageDelayed(3, 500);
+//                    }
+//                }, 1800);
+//            }
+//        });
+//
+//    }
 
     void refreshingMaterial() {
         materialHeader = new MaterialHeader(this);
@@ -335,7 +334,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
     private int mLoadTime = 0;
     StoreHouseHeader storeHouseHeader;
     MaterialHeader materialHeader;
-    RentalsSunHeaderView rentalsSunHeaderView;
+  //  RentalsSunHeaderView rentalsSunHeaderView;
 
     void refreshingStringArray() {
         storeHouseHeader = new StoreHouseHeader(this);

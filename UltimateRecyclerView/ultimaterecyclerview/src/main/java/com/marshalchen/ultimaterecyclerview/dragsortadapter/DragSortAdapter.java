@@ -47,6 +47,10 @@ public abstract class DragSortAdapter<VH extends DragSortAdapter.ViewHolder>
       }
 
       @Override public void onTouchEvent(RecyclerView rv, MotionEvent e) { }
+      @Override
+      public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+      }
     });
 
     recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -28,9 +28,9 @@ repositories {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:recyclerview-v7:22.1.1'
-    compile 'com.android.support:cardview-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
     // compile(name:'ultimaterecyclerview', ext:'aar')
     compile project(':ultimaterecyclerview')
     // compile 'com.marshalchen.ultimaterecyclerview:library:0.3.6'

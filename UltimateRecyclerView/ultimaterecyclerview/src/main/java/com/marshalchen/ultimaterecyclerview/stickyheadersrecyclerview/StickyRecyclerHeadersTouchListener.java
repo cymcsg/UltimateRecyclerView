@@ -48,7 +48,10 @@ public class StickyRecyclerHeadersTouchListener implements RecyclerView.OnItemTo
 
   @Override
   public void onTouchEvent(RecyclerView view, MotionEvent e) { /* do nothing? */ }
+  @Override
+  public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+  }
   private class SingleTapDetector extends GestureDetector.SimpleOnGestureListener {
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
