@@ -3,9 +3,9 @@ package com.marshalchen.ultimaterecyclerview.demo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +21,33 @@ import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
+import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
+import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
@@ -36,8 +56,10 @@ import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecy
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
+/**
+ * Created by hesk on 7/1/2015.
+ */
+public class debugLoadMore extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
     SimpleAdapter simpleRecyclerViewAdapter = null;
@@ -330,41 +352,6 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         return findViewById(android.R.id.content).getHeight();
     }
 
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        URLogs.d("actionmode---" + (mode == null));
-        mode.getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-        //  return false;
-    }
-
-    /**
-     * Called to refresh an action mode's action menu whenever it is invalidated.
-     *
-     * @param mode ActionMode being prepared
-     * @param menu Menu used to populate action buttons
-     * @return true if the menu or action mode was updated, false otherwise.
-     */
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        // swipeToDismissTouchListener.setEnabled(false);
-        this.actionMode = mode;
-        return false;
-    }
-
-
-    @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return false;
-    }
-
-
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        this.actionMode = null;
-    }
-
-
     //
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -412,6 +399,5 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             return mAnimator;
         }
     }
-
 
 }

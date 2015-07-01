@@ -24,7 +24,6 @@ public class SimpleAdapter extends UltimateViewAdapter {
         this.stringList = stringList;
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
