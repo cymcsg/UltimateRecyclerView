@@ -140,6 +140,10 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public void onTouchEvent(RecyclerView rv, MotionEvent motionEvent) {
         handleTouchEvent(motionEvent);
     }
+    @Override
+    public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
 
     private boolean handleTouchEvent(MotionEvent motionEvent) {
         if (mViewWidth < 2) {
