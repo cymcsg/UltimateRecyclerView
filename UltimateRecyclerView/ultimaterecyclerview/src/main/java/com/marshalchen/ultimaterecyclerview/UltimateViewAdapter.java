@@ -145,7 +145,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
      *
      * @param list data list
      * @param from position from
-     * @param to position to
+     * @param to   position to
      */
     public void swapPositions(List<?> list, int from, int to) {
         if (customHeaderView != null) {
@@ -159,28 +159,28 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Insert a item to the list of the adapter
      *
-     * @param list data list
-     * @param object object T
+     * @param list     data list
+     * @param object   object T
      * @param position position
-     * @param <T> in T
+     * @param <T>      in T
      */
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
         notifyItemInserted(position);
-       // notifyDataSetChanged();
-        //  notifyItemChanged(position + 1);
     }
 
     /**
      * Remove a item of  the list of the adapter
      *
-     * @param list data list
+     * @param list     data list
      * @param position position
      */
     public void remove(List<?> list, int position) {
-        list.remove(customHeaderView != null ? position - 1 : position);
-        notifyItemRemoved(position);
+        if (list.size() > 0) {
+            list.remove(customHeaderView != null ? position - 1 : position);
+            notifyItemRemoved(position);
+        }
     }
 
     /**
