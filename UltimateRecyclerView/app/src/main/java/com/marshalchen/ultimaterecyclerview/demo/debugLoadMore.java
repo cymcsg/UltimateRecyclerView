@@ -1,6 +1,5 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.Utils.ScrollSmoothLineaerLayoutManager;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
@@ -48,13 +48,8 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
-import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
-import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
-import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hesk on 7/1/2015.
@@ -81,29 +76,15 @@ public class debugLoadMore extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        final List<String> stringList = new ArrayList<>();
-
-        stringList.add("111");
-        stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
-
-        linearLayoutManager = new LinearLayoutManager(this);
+        simpleRecyclerViewAdapter = new SimpleAdapter(SampleDataboxset.newList());
+        linearLayoutManager = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
 
-        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
-        ultimateRecyclerView.addItemDecoration(headersDecor);
-//        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
-//        ultimateRecyclerView.showEmptyView();
+        // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+        // ultimateRecyclerView.addItemDecoration(headersDecor);
         ultimateRecyclerView.enableLoadmore();
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
@@ -117,7 +98,7 @@ public class debugLoadMore extends AppCompatActivity {
                 toolbar.setBackgroundDrawable(c);
             }
         });
-        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffff66ff"));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -140,14 +121,11 @@ public class debugLoadMore extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-
+                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
+                        linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
+                        //linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
                     }
-                }, 1000);
+                }, 10000);
             }
         });
 
@@ -228,43 +206,13 @@ public class debugLoadMore extends AppCompatActivity {
                         URLogs.d("onItemLongClick()" + isDrag);
                         if (isDrag) {
                             URLogs.d("onItemLongClick()" + isDrag);
-                            dragDropTouchListener.startDrag();
-                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
+                            //   dragDropTouchListener.startDrag();
+                            //   ultimateRecyclerView.enableDefaultSwipeRefresh(false);
                         }
 
                     }
                 });
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
-
-        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-
-            @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                if (from > 0 && to > 0) {
-                    simpleRecyclerViewAdapter.swapPositions(from, to);
-//                    //simpleRecyclerViewAdapter.clearSelection(from);
-//                    simpleRecyclerViewAdapter.notifyItemChanged(to);
-                    //simpleRecyclerViewAdapter.remove(position);
-                    //  simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    URLogs.d("switch----");
-                    //    simpleRecyclerViewAdapter.insert(simpleRecyclerViewAdapter.remove(););
-                }
-
-            }
-
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                URLogs.d("drop----");
-                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
-                simpleRecyclerViewAdapter.notifyDataSetChanged();
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -300,39 +248,6 @@ public class debugLoadMore extends AppCompatActivity {
                 simpleRecyclerViewAdapter.remove(1);
             }
         });
-
-//        ultimateRecyclerView.addItemDecoration(
-//                new HorizontalDividerItemDecoration.Builder(this).build());
-
-//        ultimateRecyclerView.setCustomSwipeToRefresh();
-//        final StoreHouseHeader header = new StoreHouseHeader(this);
-//        //   header.setPadding(0, 15, 0, 0);
-//
-//        header.initWithString("Marshal Chen");
-//        //  header.initWithStringArray(R.array.akta);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                    }
-//                }, 1800);
-//            }
-//        });
 
     }
 

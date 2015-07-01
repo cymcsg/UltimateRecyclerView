@@ -30,6 +30,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -360,15 +361,21 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0));
                 int lastVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - 1));
-                for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
-                    int childHeight = 0;
-                    View child = recyclerView.getChildAt(j);
-                    if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
-                        childHeight = child.getHeight();
+                try {
+                    for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
+                        int childHeight = 0;
+                        View child = recyclerView.getChildAt(j);
+                        if (mChildrenHeights.indexOfKey(i) < 0 || (child != null && child.getHeight() != mChildrenHeights.get(i))) {
+                            childHeight = child.getHeight();
+                        }
+                        mChildrenHeights.put(i, childHeight);
                     }
-                    mChildrenHeights.put(i, childHeight);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    //todo: need to solve this issue when the first child is missing from the scroll. Please also see the debug from the RV error.
+                    //todo: 07-01 11:50:36.359  32348-32348/com.marshalchen.ultimaterecyclerview.demo D/RVerror? Attempt to invoke virtual method 'int android.view.View.getHeight()' on a null object reference
+                    Log.d("RVerror", e.getMessage());
                 }
-
                 View firstVisibleChild = recyclerView.getChildAt(0);
                 if (firstVisibleChild != null) {
                     if (mPrevFirstVisiblePosition < firstVisiblePosition) {
@@ -943,7 +950,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        URLogs.d("ev---"+ev);
+        URLogs.d("ev---" + ev);
         if (mCallbacks != null) {
 
             switch (ev.getActionMasked()) {
