@@ -146,6 +146,16 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     }
 
     /**
+     * Returns the number of items in the adapter bound to the parent RecyclerView.
+     *
+     * @return The number of items in the bound adapter
+     */
+    @Override
+    public int getAdapterItemCount() {
+        return list.size();
+    }
+
+    /**
      * get the display item count
      *
      * @return the final items for display
@@ -160,7 +170,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 return base;
             }
         } else {
-            int check_sum = (adfrequency > 0 ? atAdPos(base) : 0) + base;
+            final int check_sum = (adfrequency > 0 ? atAdPos(base) : 0) + base;
             Log.d("getItemCountE2", check_sum + "");
             return check_sum;
         }

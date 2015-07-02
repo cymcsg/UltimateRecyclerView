@@ -13,13 +13,14 @@ public class SampleDataboxset {
     public static List<String> newList() {
         final List<String> stringList = new ArrayList<>();
         stringList.add("111");
-        stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
+        stringList.add("TYAT");
+        stringList.add("BMW");
+        stringList.add("3M");
+        stringList.add("Apple");
+        stringList.add("Organe");
+        stringList.add("Nike");
+        stringList.add("Addos");
+        stringList.add("76 RE");
         return stringList;
     }
 
