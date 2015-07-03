@@ -122,10 +122,10 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
-                        linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
-                        //linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+                        //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
+                        //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
                     }
-                }, 10000);
+                }, 2500);
             }
         });
 
@@ -137,7 +137,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-
+                URLogs.d("onScrollChanged: " + dragging);
             }
 
             @Override
@@ -171,7 +171,6 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 new SwipeableRecyclerViewTouchListener.SwipeListener() {
                     @Override
                     public boolean canSwipe(int position) {
-
                         if (position > 0)
                             return true;
                         else return false;

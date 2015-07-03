@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,14 +51,11 @@ public class TestAdMob extends AppCompatActivity {
         mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
         mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-
         if (admob_test_mode)
             // Optionally populate the ad request builder.
             adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
-
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
         return mAdView;
@@ -91,8 +89,9 @@ public class TestAdMob extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
-                        linearLayoutManager.scrollToPosition(linearLayoutManager.getItemCount());
+                        Log.d("loadmore", maxLastVisiblePosition + " position");
+                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 1);
+                        //  linearLayoutManager.scrollToPosition(linearLayoutManager.getChildCount() - 1);
                     }
                 }, 5000);
             }

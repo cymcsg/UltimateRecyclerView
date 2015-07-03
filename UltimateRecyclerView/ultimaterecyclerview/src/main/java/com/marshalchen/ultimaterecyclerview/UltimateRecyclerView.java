@@ -302,8 +302,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     translateHeader(mTotalYScrolled);
                 }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                mVisibleItemCount = layoutManager.getChildCount();
-                mTotalItemCount = layoutManager.getItemCount();
 
                 if (layoutManagerType == null) {
                     if (layoutManager instanceof GridLayoutManager) {
@@ -319,6 +317,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
                 switch (layoutManagerType) {
                     case LINEAR:
+                        mVisibleItemCount = layoutManager.getChildCount();
+                        mTotalItemCount = layoutManager.getItemCount();
                     case GRID:
                         lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                         mFirstVisibleItem = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
@@ -337,14 +337,15 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 }
 
                 if (isLoadingMore) {
+                    //todo: there are some bugs needs to be adjusted for admob adapter
                     if (mTotalItemCount > previousTotal) {
                         isLoadingMore = false;
                         previousTotal = mTotalItemCount;
                     }
                 }
 
-                if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount)
-                        <= mFirstVisibleItem) {
+                if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem) {
+                    //todo: there are some bugs needs to be adjusted for admob adapter
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     isLoadingMore = true;
                     previousTotal = mTotalItemCount;
@@ -563,7 +564,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (defaultSwipeToDismissColors != null && defaultSwipeToDismissColors.length > 0) {
             mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors);
         } else {
-            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
@@ -613,7 +615,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview
      *
-     * @param adapter
+     * @param adapter the adapter in normal
      */
     public void setAdapter(UltimateViewAdapter adapter) {
         mAdapter = adapter;
@@ -625,73 +627,66 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 @Override
                 public void onItemRangeChanged(int positionStart, int itemCount) {
                     super.onItemRangeChanged(positionStart, itemCount);
-                    update();
+                    updateHelperDisplays();
                 }
 
                 @Override
                 public void onItemRangeInserted(int positionStart, int itemCount) {
                     super.onItemRangeInserted(positionStart, itemCount);
-                    update();
+                    updateHelperDisplays();
                 }
 
                 @Override
                 public void onItemRangeRemoved(int positionStart, int itemCount) {
                     super.onItemRangeRemoved(positionStart, itemCount);
-                    update();
+                    updateHelperDisplays();
                 }
 
                 @Override
                 public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
                     super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-                    update();
+                    updateHelperDisplays();
                 }
 
                 @Override
                 public void onChanged() {
                     super.onChanged();
-                    update();
+                    updateHelperDisplays();
                 }
-
-                private void update() {
-                    isLoadingMore = false;
-                    if (mSwipeRefreshLayout != null)
-                        mSwipeRefreshLayout.setRefreshing(false);
-//
-                    if (mAdapter == null)
-                        return;
-
-                    if (mRecyclerView.getAdapter().getItemCount() == 0 && mEmptyId != 0) {
-                        mEmpty.setVisibility(View.VISIBLE);
-                    } else if (mEmptyId != 0) {
-                        mEmpty.setVisibility(View.GONE);
-                    }
-//                if (mRecyclerView.getAdapter().getItemCount() > 0 && mAdapter.getCustomHeaderView() != null
-//                        && mAdapter.getCustomHeaderView().getVisibility() == View.GONE) {
-//                    mAdapter.getCustomHeaderView().setVisibility(View.VISIBLE);
-//                }
-                    if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null
-                            && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
-                        mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
-                    }
-                    if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum && mAdapter.getCustomLoadMoreView() != null) {
-                        mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
-                    }
-                }
-
             });
         if ((adapter == null || mAdapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
             mEmpty.setVisibility(View.VISIBLE);
         }
-//        if (adapter == null || adapter.getAdapterItemCount() == 0) {
-//            mAdapter.getCustomHeaderView().setVisibility(View.GONE);
-//            mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
-//        }
+    }
+
+    private void updateHelperDisplays() {
+        isLoadingMore = false;
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(false);
+        if (mAdapter == null)
+            return;
+        /**
+         * fixed by jjHesk
+         * + empty layout is NONE
+         * + getItemCount is zero
+         */
+        if (mAdapter.getAdapterItemCount() == 0) {
+            mEmpty.setVisibility(mEmptyId == 0 ? View.VISIBLE : View.GONE);
+        }
+        if (mAdapter.getCustomLoadMoreView() == null) return;
+        if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
+            mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+        }
+        if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum) {
+            mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
+        }
     }
 
     /**
-     * @param adapter
+     * @param adapter input param
      * @deprecated Short for some ui effects
      */
+    @Deprecated
     public void setAdapter(RecyclerView.Adapter adapter) {
         mRecyclerView.setAdapter(adapter);
         if (mSwipeRefreshLayout != null)
@@ -765,8 +760,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
 
     public interface OnLoadMoreListener {
-
-        public void loadMore(int itemsCount, int maxLastVisiblePosition);
+        void loadMore(int itemsCount, final int maxLastVisiblePosition);
     }
 
     public static enum LAYOUT_MANAGER_TYPE {

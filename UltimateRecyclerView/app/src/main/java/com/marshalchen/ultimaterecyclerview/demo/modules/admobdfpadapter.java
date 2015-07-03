@@ -42,16 +42,6 @@ public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapte
     }
 
 
-    /**
-     * Returns the number of items in the adapter bound to the parent RecyclerView.
-     *
-     * @return The number of items in the bound adapter
-     */
-    @Override
-    public int getAdapterItemCount() {
-        return list.size();
-    }
-
 
     @Override
     public long generateHeaderId(int position) {
