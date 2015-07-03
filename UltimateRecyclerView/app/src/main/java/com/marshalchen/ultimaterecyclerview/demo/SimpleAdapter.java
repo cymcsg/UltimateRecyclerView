@@ -49,15 +49,15 @@ public class SimpleAdapter extends UltimateViewAdapter {
             ((ViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
             if (mDragStartListener != null) {
-                ((ViewHolder) holder).imageViewSample.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                            mDragStartListener.onStartDrag(holder);
-                        }
-                        return false;
-                    }
-                });
+//                ((ViewHolder) holder).imageViewSample.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+//                            mDragStartListener.onStartDrag(holder);
+//                        }
+//                        return false;
+//                    }
+//                });
 
                 ((ViewHolder) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
