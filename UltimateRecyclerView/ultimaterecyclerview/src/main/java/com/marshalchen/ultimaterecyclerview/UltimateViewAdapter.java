@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.List;
  * An abstract adapter which can be extended for Recyclerview
  */
 public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,ItemTouchHelperAdapter {
 
 
     protected View customLoadMoreView = null;
@@ -250,6 +251,16 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             };
         }
         return null;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
     }
 
 }
