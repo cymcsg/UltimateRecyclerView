@@ -265,7 +265,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mHeader != null) {
                     mTotalYScrolled += dy;
-                    translateHeader(mTotalYScrolled);
+                    if (isParallaxHeader)
+                        translateHeader(mTotalYScrolled);
                 }
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
@@ -299,7 +300,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mHeader != null) {
                     mTotalYScrolled += dy;
-                    translateHeader(mTotalYScrolled);
+                    if (isParallaxHeader)
+                        translateHeader(mTotalYScrolled);
                 }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
@@ -809,6 +811,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private int mTotalYScrolled;
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
+    private static boolean isParallaxHeader = false;
 
     /**
      * Set the parallax header of the recyclerview
@@ -821,6 +824,18 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         if (mAdapter != null)
             mAdapter.setCustomHeaderView(mHeader);
+        isParallaxHeader = true;
+    }
+
+
+    /**
+     * Set the normal header of the recyclerview
+     *
+     * @param header
+     */
+    public void setNormalHeader(View header) {
+        setParallaxHeader(header);
+        isParallaxHeader = false;
     }
 
     /**
@@ -868,7 +883,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
         @Override
         protected void dispatchDraw(Canvas canvas) {
-            canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
+            if (isParallaxHeader)
+                canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
             super.dispatchDraw(canvas);
         }
 
