@@ -166,7 +166,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
     @Override
     public void onItemDismiss(int position) {
         remove(position);
-        notifyItemRemoved(position);
+       // notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 //
 //    private int getRandomColor() {

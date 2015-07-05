@@ -99,22 +99,22 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             }
         });
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-//        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
-//                        ultimateRecyclerView.setRefreshing(false);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-////                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-////                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                }, 1000);
-//            }
-//        });
+        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        ultimateRecyclerView.setRefreshing(false);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+            }
+        });
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
