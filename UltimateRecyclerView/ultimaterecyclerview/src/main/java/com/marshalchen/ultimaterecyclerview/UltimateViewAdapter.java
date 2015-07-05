@@ -255,12 +255,27 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position) {
-
+        notifyDataSetChanged();
     }
 
+
+    protected OnStartDragListener mDragStartListener = null;
+
+    /**
+     * Listener for manual initiation of a drag.
+     */
+    public interface OnStartDragListener {
+
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
+    }
 }

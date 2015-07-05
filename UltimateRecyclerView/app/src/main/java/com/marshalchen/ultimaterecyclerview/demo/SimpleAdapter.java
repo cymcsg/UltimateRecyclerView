@@ -27,20 +27,6 @@ public class SimpleAdapter extends UltimateViewAdapter {
         this.stringList = stringList;
     }
 
-    private OnStartDragListener mDragStartListener = null;
-
-    /**
-     * Listener for manual initiation of a drag.
-     */
-    public interface OnStartDragListener {
-
-        /**
-         * Called when a view is requesting a start of a drag.
-         *
-         * @param viewHolder The holder of the view to drag.
-         */
-        void onStartDrag(RecyclerView.ViewHolder viewHolder);
-    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
@@ -160,14 +146,16 @@ public class SimpleAdapter extends UltimateViewAdapter {
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         swapPositions(fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+//        notifyItemMoved(fromPosition, toPosition);
+        super.onItemMove(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position) {
         remove(position);
-       // notifyItemRemoved(position);
-        notifyDataSetChanged();
+        // notifyItemRemoved(position);
+//        notifyDataSetChanged();
+        super.onItemDismiss(position);
     }
 //
 //    private int getRandomColor() {
@@ -182,8 +170,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     }
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder implements
-            ItemTouchHelperViewHolder {
+    class ViewHolder extends UltimateRecyclerviewViewHolder  {
 
         TextView textViewSample;
         ImageView imageViewSample;
