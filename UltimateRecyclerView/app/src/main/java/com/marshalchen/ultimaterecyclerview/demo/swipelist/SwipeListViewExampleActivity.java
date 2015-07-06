@@ -18,38 +18,27 @@
 
 package com.marshalchen.ultimaterecyclerview.demo.swipelist;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
-import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
+import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
-import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView;
+import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SwipeListViewExampleActivity extends FragmentActivity {
 
-    private static final int REQUEST_CODE_SETTINGS = 0;
     private SwipeAdapter adapter;
     private List<String> data;
 
@@ -67,10 +56,16 @@ public class SwipeListViewExampleActivity extends FragmentActivity {
         data = new ArrayList<String>();
 
         adapter = new SwipeAdapter(data);
-
+        adapter.setMode(SwipeItemManagerInterface.Mode.Single);
         swipeListView = (UltimateRecyclerView) findViewById(R.id.example_lv_list);
         mLayoutManager = new LinearLayoutManager(this);
         swipeListView.setLayoutManager(mLayoutManager);
+        swipeListView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                URLogs.d("click");
+            }
+        }));
         data.add("aa");
         data.add("bb");
         data.add("cc");
@@ -83,24 +78,11 @@ public class SwipeListViewExampleActivity extends FragmentActivity {
         data.add("bb");
         data.add("cc");
         data.add("dd");
-
 
         swipeListView.setAdapter(adapter);
-//        swipeListView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//
-//
-//                        Toast.makeText(SwipeListViewExampleActivity.this,""+position,Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//        );
-
-
 
 
     }
-
 
 
 }

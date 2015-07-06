@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.swipe.BaseSwipeAdapter;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout;
@@ -28,7 +29,12 @@ public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
         final Context context = parent.getContext();
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_swipeable, parent, false);
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                URLogs.d("click");
+            }
+        });
         final ViewHolder viewHolder = new ViewHolder(view);
         SwipeLayout swipeLayout = viewHolder.swipeLayout;
         swipeLayout.setDragEdge(SwipeLayout.DragEdge.Right);
@@ -48,6 +54,7 @@ public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
                 Toast.makeText(v.getContext(), "Deleted " + viewHolder.getPosition(), Toast.LENGTH_SHORT).show();
             }
         });
+
         return viewHolder;
     }
 
