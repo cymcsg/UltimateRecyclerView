@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
 import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView;
@@ -49,14 +50,13 @@ import java.util.List;
 public class SwipeListViewExampleActivity extends FragmentActivity {
 
     private static final int REQUEST_CODE_SETTINGS = 0;
-    private PackageAdapter adapter;
+    private SwipeAdapter adapter;
     private List<String> data;
 
-    private SwipeableUltimateRecyclerview swipeListView;
+    private UltimateRecyclerView swipeListView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,62 +66,24 @@ public class SwipeListViewExampleActivity extends FragmentActivity {
 
         data = new ArrayList<String>();
 
-        adapter = new PackageAdapter(this, data);
+        adapter = new SwipeAdapter(data);
 
-        swipeListView = (SwipeableUltimateRecyclerview) findViewById(R.id.example_lv_list);
+        swipeListView = (UltimateRecyclerView) findViewById(R.id.example_lv_list);
         mLayoutManager = new LinearLayoutManager(this);
         swipeListView.setLayoutManager(mLayoutManager);
         data.add("aa");
         data.add("bb");
         data.add("cc");
         data.add("dd");
+        data.add("aa");
+        data.add("bb");
+        data.add("cc");
+        data.add("dd");
+        data.add("aa");
+        data.add("bb");
+        data.add("cc");
+        data.add("dd");
 
-        swipeListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
-            @Override
-            public void onOpened(int position, boolean toRight) {
-            }
-
-            @Override
-            public void onClosed(int position, boolean fromRight) {
-            }
-
-            @Override
-            public void onListChanged() {
-            }
-
-            @Override
-            public void onMove(int position, float x) {
-            }
-
-            @Override
-            public void onStartOpen(int position, int action, boolean right) {
-                Log.d("swipe", String.format("onStartOpen %d - action %d", position, action));
-            }
-
-            @Override
-            public void onStartClose(int position, boolean right) {
-                Log.d("swipe", String.format("onStartClose %d", position));
-            }
-
-            @Override
-            public void onClickFrontView(int position) {
-                Log.d("swipe", String.format("onClickFrontView %d", position));
-            }
-
-            @Override
-            public void onClickBackView(int position) {
-                Log.d("swipe", String.format("onClickBackView %d", position));
-            }
-
-            @Override
-            public void onDismiss(int[] reverseSortedPositions) {
-                for (int position : reverseSortedPositions) {
-                    data.remove(position);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-        });
 
         swipeListView.setAdapter(adapter);
 //        swipeListView.addOnItemTouchListener(

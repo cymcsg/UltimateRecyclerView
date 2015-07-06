@@ -24,18 +24,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview
-            xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
             android:id="@+id/example_lv_list"
             android:listSelector="#00000000"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            swipe:swipeFrontView="@+id/frontItemLayout"
-            swipe:swipeBackView="@+id/back"
-            swipe:swipeOffsetLeft="25dp"
-            swipe:swipeCloseAllItemsWhenMoveList="true"
-            swipe:swipeMode="left"
-            swipe:onlyOneOpenedWhenSwipe="true"
+
             />
 
 </LinearLayout>
