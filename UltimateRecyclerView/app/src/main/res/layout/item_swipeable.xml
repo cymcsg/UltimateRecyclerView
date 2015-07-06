@@ -17,11 +17,11 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+             >
 
     <com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout
         android:id="@id/recyclerview_swipe"
-        xmlns:swipe="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -65,11 +65,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/item_selector"
-            android:padding="16dp">
-            <TextView android:textColor="#cccccc"
+            android:padding="16dp"
+            android:clickable="true"
+
+            >
+
+            <TextView
                 android:id="@+id/position"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="#cccccc"/>
 
             <TextView
                 android:layout_width="match_parent"

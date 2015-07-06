@@ -60,12 +60,12 @@ public class SwipeListViewExampleActivity extends FragmentActivity {
         swipeListView = (UltimateRecyclerView) findViewById(R.id.example_lv_list);
         mLayoutManager = new LinearLayoutManager(this);
         swipeListView.setLayoutManager(mLayoutManager);
-        swipeListView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                URLogs.d("click");
-            }
-        }));
+//        swipeListView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                URLogs.d("click");
+//            }
+//        }));
         data.add("aa");
         data.add("bb");
         data.add("cc");
