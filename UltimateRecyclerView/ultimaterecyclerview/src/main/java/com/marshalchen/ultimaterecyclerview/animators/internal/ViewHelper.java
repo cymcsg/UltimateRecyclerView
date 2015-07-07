@@ -1,5 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.animators.internal;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
@@ -21,6 +23,7 @@ import android.view.View;
 
 public final class ViewHelper {
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void clear(View v) {
         ViewCompat.setAlpha(v, 1);
         ViewCompat.setScaleY(v, 1);

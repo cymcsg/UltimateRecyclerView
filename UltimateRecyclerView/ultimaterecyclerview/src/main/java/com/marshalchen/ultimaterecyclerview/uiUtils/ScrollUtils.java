@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.Utils;
+package com.marshalchen.ultimaterecyclerview.uiUtils;
 
 import android.os.Build;
 import android.view.View;

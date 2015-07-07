@@ -2,10 +2,13 @@ package com.marshalchen.ultimaterecyclerview;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.Collections;
@@ -14,8 +17,8 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public abstract class UltimateViewAdapter extends RecyclerView.Adapter<UltimateRecyclerviewViewHolder>
+        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,ItemTouchHelperAdapter {
 
 
     protected View customLoadMoreView = null;
@@ -34,10 +37,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
@@ -45,7 +48,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             if (customHeaderView != null)
                 return new UltimateRecyclerviewViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
@@ -65,7 +68,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Using a custom LoadMoreView
      *
-     * @param customview
+     * @param customview the inflated view
      */
     public void setCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
@@ -74,7 +77,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Changing the loadmore view
      *
-     * @param customview
+     * @param customview the inflated view
      */
     public void swipeCustomLoadMoreView(View customview) {
         customLoadMoreView = customview;
@@ -141,9 +144,9 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Swap the item of list
      *
-     * @param list
-     * @param from
-     * @param to
+     * @param list data list
+     * @param from position from
+     * @param to   position to
      */
     public void swapPositions(List<?> list, int from, int to) {
         if (customHeaderView != null) {
@@ -157,34 +160,34 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Insert a item to the list of the adapter
      *
-     * @param list
-     * @param object
-     * @param position
-     * @param <T>
+     * @param list     data list
+     * @param object   object T
+     * @param position position
+     * @param <T>      in T
      */
     public <T> void insert(List<T> list, T object, int position) {
         list.add(position, object);
         if (customHeaderView != null) position++;
         notifyItemInserted(position);
-       // notifyDataSetChanged();
-        //  notifyItemChanged(position + 1);
     }
 
     /**
      * Remove a item of  the list of the adapter
      *
-     * @param list
-     * @param position
+     * @param list     data list
+     * @param position position
      */
     public void remove(List<?> list, int position) {
-        list.remove(customHeaderView != null ? position - 1 : position);
-        notifyItemRemoved(position);
+        if (list.size() > 0) {
+            list.remove(customHeaderView != null ? position - 1 : position);
+            notifyItemRemoved(position);
+        }
     }
 
     /**
      * Clear the list of the adapter
      *
-     * @param list
+     * @param list data list
      */
     public void clear(List<?> list) {
         int size = list.size();
@@ -222,10 +225,11 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * Animations when loading the adapter
      *
-     * @param view
-     * @param type
-     * @return
+     * @param view the view
+     * @param type the type of the animation
+     * @return the animator in array
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected Animator[] getAdapterAnimations(View view, AdapterAnimationType type) {
         if (type == AdapterAnimationType.ScaleIn) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", .5f, 1f);
@@ -249,4 +253,29 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
         return null;
     }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        notifyDataSetChanged();
+    }
+
+
+    protected OnStartDragListener mDragStartListener = null;
+
+    /**
+     * Listener for manual initiation of a drag.
+     */
+    public interface OnStartDragListener {
+
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
+    }
 }

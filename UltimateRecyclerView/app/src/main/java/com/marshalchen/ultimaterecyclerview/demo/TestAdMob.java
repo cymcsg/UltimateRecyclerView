@@ -9,7 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +23,8 @@ import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
+import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.admobdfpadapter;
 
 import java.util.ArrayList;
@@ -45,21 +51,17 @@ public class TestAdMob extends AppCompatActivity {
         mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
         mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-
         if (admob_test_mode)
             // Optionally populate the ad request builder.
             adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
-
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
         return mAdView;
     }
 
     private void enableSwipe() {
-
 
 
     }
@@ -71,7 +73,7 @@ public class TestAdMob extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -87,22 +89,15 @@ public class TestAdMob extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-
-
+                        Log.d("loadmore", maxLastVisiblePosition + " position");
+                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 1);
+                        //  linearLayoutManager.scrollToPosition(linearLayoutManager.getChildCount() - 1);
                     }
-                }, 1000);
+                }, 5000);
             }
         });
-
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+        ultimateRecyclerView.enableLoadmore();
     }
 
     private void enableClick() {
@@ -110,39 +105,30 @@ public class TestAdMob extends AppCompatActivity {
 
     }
 
+    private void impleAddDrop() {
+        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 1);
+            }
+        });
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleRecyclerViewAdapter.remove(3);
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        final List<String> stringList = new ArrayList<>();
-
-        stringList.add("111");
-        stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
-        stringList.add("a33");
-        stringList.add("a44");
-        stringList.add("a55");
-        stringList.add("a66");
-        stringList.add("a11771");
-        stringList.add("g33");
-        stringList.add("gb44");
-        stringList.add("n55");
-        stringList.add("n66");
-        stringList.add("e11771");
-
         /**
          * wokring example 1 implementation of Admob banner with static Adview
          */
@@ -150,52 +136,20 @@ public class TestAdMob extends AppCompatActivity {
         /**
          * working example 2 with multiple called Adviews
          */
-        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 5, stringList, new AdmobAdapter.AdviewListener() {
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 3, SampleDataboxset.newListFromGen(), new AdmobAdapter.AdviewListener() {
             @Override
             public AdView onGenerateAdview() {
                 return createadmob();
             }
         });
-
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         enableRefreshAndLoadMore();
         enableClick();
-        // enableSwipe();
-
-        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //simpleRecyclerViewAdapter.insert("newly added item", 1);
-
-
-                stringList.add("a55");
-                stringList.add("a66");
-                stringList.add("a11771");
-                stringList.add("g33");
-                stringList.add("gb44");
-                stringList.add("n55");
-                stringList.add("n66");
-                stringList.add("e11771");
-
-
-                simpleRecyclerViewAdapter.notifyDataSetChanged();
-
-            }
-        });
-
-        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // simpleRecyclerViewAdapter.remove(1);
-            }
-        });
-
+        impleAddDrop();
     }
-
 
     private void toggleSelection(int position) {
         simpleRecyclerViewAdapter.toggleSelection(position);
@@ -211,5 +165,18 @@ public class TestAdMob extends AppCompatActivity {
         return findViewById(android.R.id.content).getHeight();
     }
 
+    //
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FastBinding.startactivity(this, item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
 
 }

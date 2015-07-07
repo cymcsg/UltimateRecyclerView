@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="fab_expand_menu_button" type="id"/>
+    <item name="recyclerview_swipe" type="id"/>
 </resources>

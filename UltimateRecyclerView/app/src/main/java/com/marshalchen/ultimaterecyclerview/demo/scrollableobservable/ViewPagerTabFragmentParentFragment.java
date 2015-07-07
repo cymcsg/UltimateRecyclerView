@@ -1,6 +1,5 @@
 package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,12 +19,12 @@ import android.widget.ImageView;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.Utils.ScrollUtils;
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollUtils;
 import com.marshalchen.ultimaterecyclerview.Scrollable;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.widget.SlidingTabLayout;
-import com.marshalchen.ultimaterecyclerview.Utils.CacheFragmentStatePagerAdapter;
-import com.marshalchen.ultimaterecyclerview.Utils.TouchInterceptionLayout;
+import com.marshalchen.ultimaterecyclerview.uiUtils.CacheFragmentStatePagerAdapter;
+import com.marshalchen.ultimaterecyclerview.uiUtils.TouchInterceptionLayout;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 

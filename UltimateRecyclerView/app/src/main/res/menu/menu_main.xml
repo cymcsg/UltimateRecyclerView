@@ -13,7 +13,7 @@
     <item
         android:id="@+id/admob"
         android:orderInCategory="100"
-        android:title="ADMob ListView"
+        android:title="ADMob ListView Test"
         app:showAsAction="never" />
     <item
         android:id="@+id/scrollactivity"
@@ -25,4 +25,11 @@
         android:orderInCategory="105"
         android:title="SwipeDragActivity"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/debug_load_more"
+        android:orderInCategory="105"
+        android:title="Load More Test"
+        app:showAsAction="never" />
+
 </menu>
