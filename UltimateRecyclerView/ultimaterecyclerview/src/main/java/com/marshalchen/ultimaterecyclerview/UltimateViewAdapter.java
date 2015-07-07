@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public abstract class UltimateViewAdapter extends RecyclerView.Adapter<UltimateRecyclerviewViewHolder>
         implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,ItemTouchHelperAdapter {
 
 
@@ -37,10 +37,10 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
@@ -48,7 +48,7 @@ public abstract class UltimateViewAdapter extends RecyclerView.Adapter<RecyclerV
             if (customHeaderView != null)
                 return new UltimateRecyclerviewViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
-            RecyclerView.ViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;

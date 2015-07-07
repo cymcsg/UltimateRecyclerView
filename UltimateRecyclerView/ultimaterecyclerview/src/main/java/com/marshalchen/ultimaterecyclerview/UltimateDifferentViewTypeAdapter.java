@@ -20,7 +20,7 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extend
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        if (viewType == VIEW_TYPES.HEADER||viewType ==VIEW_TYPES.FOOTER
 //                ||viewType==VIEW_TYPES.CHANGED_FOOTER) {
 //            return super.onCreateViewHolder(parent, viewType);
@@ -29,7 +29,7 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extend
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(UltimateRecyclerviewViewHolder viewHolder, int position) {
         int binderPosition = getBinderPosition(position);
         getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
 

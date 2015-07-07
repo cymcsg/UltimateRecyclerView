@@ -105,9 +105,9 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.ADVIEW) {
-            RecyclerView.ViewHolder adview_holder;
+            UltimateRecyclerviewViewHolder adview_holder;
             if (adviewlistener != null) {
                 try {
                     adview_holder = new UltimateRecyclerviewViewHolder(adviewlistener.onGenerateAdview());

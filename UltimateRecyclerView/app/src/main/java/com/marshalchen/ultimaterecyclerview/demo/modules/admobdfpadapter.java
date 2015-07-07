@@ -69,7 +69,7 @@ public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapte
      * @param position The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(UltimateRecyclerviewViewHolder holder, int position) {
         if (onActionToBindData(position, list)) {
             ((ViewHolder) holder).textViewSample.setText((String) list.get(getDataArrayPosition(position)));
         }
