@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.7
+###Version:0.3.9
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -34,13 +34,12 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading adapter with animations
 
 
-###Changes in 0.3.7:
+###Changes in 0.3.9:
 - [x] support different layout in adapter
-- [x] support easy way to use admob
 - [x] loading adapter with animations
-- [x] support latest version of Recyclerview
 - [x] support minSdk to 8
 - [x] Upgrade recyclerview to 22.2.0
+- [x] new style of drag and swipe
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -50,6 +49,7 @@ Notice that UltimateRecyclerView is a project under development.
 - [x] add support for scrollbars of RecyclerView
 - [x] add method set background color of recyclerview
 - [x] add method to set default swipe to dismiss color
+- [x] support easy way to use admob
 
 
 ###Upcoming features:
@@ -94,7 +94,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.7'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.9'
 }
 ```
 
@@ -398,13 +398,12 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 * Use animators from  [recyclerview-animators](https://github.com/wasabeef/recyclerview-animators)
 * Deal with different types of LayoutManager from[SuperRecyclerView](https://github.com/Malinskiy/SuperRecyclerView)
 * Divider of recyclerview[RecyclerView-FlexibleDivider](https://github.com/yqritc/RecyclerView-FlexibleDivider)
-* Another kind of swipe[ScrollableItemList](https://github.com/rohaanhamid/ScrollableItemList)
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
-* Drag and drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 * Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
-* Swipe[SwipeList](https://github.com/rahulrj/Swipe_RecyclerView)
+* Swipe[AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
+* Thanks [jjhesk](https://github.com/jjhesk) for doing so many work on the project
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
