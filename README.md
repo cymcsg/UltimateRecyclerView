@@ -15,8 +15,7 @@ UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView
 
 Notice that UltimateRecyclerView is a project under development.
 
-
-
+[Your donations is highly appreciated. Thank you!](#donations)
 
 ###Features:
 * Swipe to refresh(using android.support.v4.widget.SwipeRefreshLayout)
@@ -390,17 +389,18 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
-###Donate:
-Donate $9.99: [![$9.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5GYRYZVNAK2G2)
+<h2 ><a name="donations"></a>Donations:</h2>
 
-Donate $19.99: [![$19.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2NTS85GHJLRT6)
+Donate $9.99: [![$9.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5GYRYZVNAK2G2)
 
-Donate $39.99: [![$39.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
+Donate $19.99: [![$19.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2NTS85GHJLRT6)
 
-Donate $59.99: [![$59.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
+Donate $39.99: [![$39.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
+
+Donate $59.99: [![$59.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
 
 
-Alipay:![donate](http://img0.ph.126.net/YVD08v60MSHS4ChknZmCYw==/6630586179607294188.png)
+Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/alipay.png)
 
 License
 --------
