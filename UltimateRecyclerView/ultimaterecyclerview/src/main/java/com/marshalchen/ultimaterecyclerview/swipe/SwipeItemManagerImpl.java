@@ -49,14 +49,7 @@ public class SwipeItemManagerImpl implements SwipeItemManagerInterface {
         mOpenPosition = INVALID_POSITION;
     }
 
-    private void initialize(BaseSwipeAdapter.BaseSwipeableViewHolder targetViewHolder, int position) {
-        targetViewHolder.onLayoutListener = new OnLayoutListener(position);
-        targetViewHolder.swipeMemory = new SwipeMemory(position);
-        targetViewHolder.position = position;
 
-        targetViewHolder.swipeLayout.addSwipeListener(targetViewHolder.swipeMemory);
-        targetViewHolder.swipeLayout.addOnLayoutListener(targetViewHolder.onLayoutListener);
-    }
 
     private void initialize(UltimateRecyclerviewViewHolder targetViewHolder, int position) {
         targetViewHolder.onLayoutListener = new OnLayoutListener(position);
@@ -66,21 +59,7 @@ public class SwipeItemManagerImpl implements SwipeItemManagerInterface {
         targetViewHolder.swipeLayout.addSwipeListener(targetViewHolder.swipeMemory);
         targetViewHolder.swipeLayout.addOnLayoutListener(targetViewHolder.onLayoutListener);
     }
-    public void updateConvertView(BaseSwipeAdapter.BaseSwipeableViewHolder targetViewHolder, int position) {
-        if (targetViewHolder.onLayoutListener == null) {
-            initialize(targetViewHolder, position);
-        }
 
-        SwipeLayout swipeLayout = targetViewHolder.swipeLayout;
-        if (swipeLayout == null)
-            throw new IllegalStateException("can not find SwipeLayout in target view");
-
-        mShownLayouts.add(swipeLayout);
-
-        ((SwipeMemory) targetViewHolder.swipeMemory).setPosition(position);
-        ((OnLayoutListener) targetViewHolder.onLayoutListener).setPosition(position);
-        targetViewHolder.position = position;
-    }
 
     public void updateConvertView(UltimateRecyclerviewViewHolder targetViewHolder, int position) {
         if (targetViewHolder.onLayoutListener == null) {

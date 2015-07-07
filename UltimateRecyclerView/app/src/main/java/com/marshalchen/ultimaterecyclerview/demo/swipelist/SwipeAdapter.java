@@ -12,12 +12,9 @@ import android.widget.Toast;
 import com.marshalchen.ultimaterecyclerview.SwipeableUltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.swipe.BaseSwipeAdapter;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SwipeAdapter extends SwipeableUltimateViewAdapter {
