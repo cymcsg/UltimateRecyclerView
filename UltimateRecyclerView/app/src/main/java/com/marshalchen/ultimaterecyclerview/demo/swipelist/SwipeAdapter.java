@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.swipelist;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marshalchen.ultimaterecyclerview.SwipeableUltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.swipe.BaseSwipeAdapter;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout;
@@ -16,7 +20,7 @@ import com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
+public class SwipeAdapter extends SwipeableUltimateViewAdapter {
 
     private List<String> mData;
 
@@ -24,8 +28,9 @@ public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
         this.mData = mData;
     }
 
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         final Context context = parent.getContext();
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_swipeable, parent, false);
@@ -59,15 +64,35 @@ public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final UltimateRecyclerviewViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
 
-        holder.textView.setText(mData.get(position));
+        ((ViewHolder)holder).textView.setText(mData.get(position));
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        return null;
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    @Override
+    public int getAdapterItemCount() {
+        return 0;
+    }
+
+    @Override
+    public long generateHeaderId(int position) {
+        return 0;
     }
 
     @Override
@@ -95,7 +120,7 @@ public class SwipeAdapter extends BaseSwipeAdapter<SwipeAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
-    public static class ViewHolder extends BaseSwipeAdapter.BaseSwipeableViewHolder {
+    public static class ViewHolder extends UltimateRecyclerviewViewHolder {
         public TextView textView;
         public Button   deleteButton;
 
