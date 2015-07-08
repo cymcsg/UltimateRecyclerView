@@ -26,7 +26,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
 
     @Override
-    public void onBindViewHolder(final SimpleAdapterViewHolder  holder, int position) {
+    public void onBindViewHolder(final SimpleAdapterViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
 
             ((SimpleAdapterViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
@@ -60,14 +60,14 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
     @Override
     public SimpleAdapterViewHolder getViewHolder(View view) {
-        return new SimpleAdapterViewHolder(view);
+        return new SimpleAdapterViewHolder(view, false);
     }
 
     @Override
     public SimpleAdapterViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_adapter, parent, false);
-        SimpleAdapterViewHolder vh = new SimpleAdapterViewHolder(v);
+        SimpleAdapterViewHolder vh = new SimpleAdapterViewHolder(v, true);
         return vh;
     }
 
@@ -173,14 +173,14 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
     }
 
 
-   public class SimpleAdapterViewHolder extends UltimateRecyclerviewViewHolder  {
+    public class SimpleAdapterViewHolder extends UltimateRecyclerviewViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
         ProgressBar progressBarSample;
         View item_view;
 
-        public SimpleAdapterViewHolder(View itemView) {
+        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override
@@ -196,12 +196,15 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 //
 //                }
 //            }));
-            textViewSample = (TextView) itemView.findViewById(
-                    R.id.textview);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-           // progressBarSample.setVisibility(View.GONE);
-            item_view = itemView.findViewById(R.id.itemview);
+            if (isItem) {
+                textViewSample = (TextView) itemView.findViewById(
+                        R.id.textview);
+                imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+                progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
+                progressBarSample.setVisibility(View.GONE);
+                item_view = itemView.findViewById(R.id.itemview);
+            }
+
         }
 
         @Override
