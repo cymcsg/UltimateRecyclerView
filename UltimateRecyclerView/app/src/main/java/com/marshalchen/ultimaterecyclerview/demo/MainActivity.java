@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import com.marshalchen.ultimaterecyclerview.animators.*;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
+import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
     Toolbar toolbar;
     boolean isDrag = true;
 
-    DragDropTouchListener dragDropTouchListener;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                 .inflate(R.layout.custom_bottom_progressbar, null));
 
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+     //   ultimateRecyclerView.setNormalHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
             public void onParallaxScroll(float percentage, float offset, View parallax) {
@@ -96,22 +99,33 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
             }
         });
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-//        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
-//                        ultimateRecyclerView.setRefreshing(false);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-////                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-////                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                }, 1000);
-//            }
-//        });
+        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        ultimateRecyclerView.setRefreshing(false);
+                        //   ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+            }
+        });
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
+        simpleRecyclerViewAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
+            @Override
+            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+                mItemTouchHelper.startDrag(viewHolder);
+            }
+        });
+
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
@@ -167,82 +181,32 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         });
 
         ultimateRecyclerView.showFloatingButtonView();
-        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
-                new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                    @Override
-                    public boolean canSwipe(int position) {
-
-                        if (position > 0 && position < stringList.size())
-                            return true;
-                        else return false;
-                    }
-
-                    @Override
-                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-                }));
-
-
-        ItemTouchListenerAdapter itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
-                new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
-                    @Override
-                    public void onItemClick(RecyclerView parent, View clickedView, int position) {
-                    }
-
-                    @Override
-                    public void onItemLongClick(RecyclerView parent, View clickedView, int position) {
-                        URLogs.d("onItemLongClick()" + isDrag);
-                        if (isDrag) {
-                            URLogs.d("onItemLongClick()" + isDrag);
-                            dragDropTouchListener.startDrag();
-                            ultimateRecyclerView.enableDefaultSwipeRefresh(false);
-                        }
-
-                    }
-                });
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
-
-        dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-
-            @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                if (from > 0 && to > 0) {
-                    simpleRecyclerViewAdapter.swapPositions(from, to);
-//                    //simpleRecyclerViewAdapter.clearSelection(from);
-//                    simpleRecyclerViewAdapter.notifyItemChanged(to);
-                    //simpleRecyclerViewAdapter.remove(position);
-                    //  simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    URLogs.d("switch----");
-                    //    simpleRecyclerViewAdapter.insert(simpleRecyclerViewAdapter.remove(););
-                }
-
-            }
-
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                URLogs.d("drop----");
-                ultimateRecyclerView.enableDefaultSwipeRefresh(true);
-                simpleRecyclerViewAdapter.notifyDataSetChanged();
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
+//        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
+//                new SwipeableRecyclerViewTouchListener.SwipeListener() {
+//                    @Override
+//                    public boolean canSwipe(int position) {
+//
+//                        if (position > 0 && position < stringList.size())
+//                            return true;
+//                        else return false;
+//                    }
+//
+//                    @Override
+//                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+//                        for (int position : reverseSortedPositions) {
+//                            simpleRecyclerViewAdapter.remove(position);
+//                        }
+//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+//                        for (int position : reverseSortedPositions) {
+//                            simpleRecyclerViewAdapter.remove(position);
+//                        }
+//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                    }
+//                }));
 
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);

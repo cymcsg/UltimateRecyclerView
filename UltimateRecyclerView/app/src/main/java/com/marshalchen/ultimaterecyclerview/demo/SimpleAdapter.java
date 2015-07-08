@@ -1,8 +1,10 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperViewHolder;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -24,12 +27,31 @@ public class SimpleAdapter extends UltimateViewAdapter {
         this.stringList = stringList;
     }
 
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final UltimateRecyclerviewViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
 
             ((ViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
+            if (mDragStartListener != null) {
+//                ((ViewHolder) holder).imageViewSample.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+//                            mDragStartListener.onStartDrag(holder);
+//                        }
+//                        return false;
+//                    }
+//                });
+
+                ((ViewHolder) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return false;
+                    }
+                });
+            }
         }
 
     }
@@ -120,6 +142,21 @@ public class SimpleAdapter extends UltimateViewAdapter {
         }
 
     }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        swapPositions(fromPosition, toPosition);
+//        notifyItemMoved(fromPosition, toPosition);
+        super.onItemMove(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        remove(position);
+        // notifyItemRemoved(position);
+//        notifyDataSetChanged();
+        super.onItemDismiss(position);
+    }
 //
 //    private int getRandomColor() {
 //        SecureRandom rgen = new SecureRandom();
@@ -128,12 +165,17 @@ public class SimpleAdapter extends UltimateViewAdapter {
 //        });
 //    }
 
+    public void setOnDragStartListener(OnStartDragListener dragStartListener) {
+        mDragStartListener = dragStartListener;
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder {
+    }
+
+    class ViewHolder extends UltimateRecyclerviewViewHolder  {
 
         TextView textViewSample;
         ImageView imageViewSample;
         ProgressBar progressBarSample;
+        View item_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -156,6 +198,17 @@ public class SimpleAdapter extends UltimateViewAdapter {
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
             progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
             progressBarSample.setVisibility(View.GONE);
+            item_view = itemView.findViewById(R.id.itemview);
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 

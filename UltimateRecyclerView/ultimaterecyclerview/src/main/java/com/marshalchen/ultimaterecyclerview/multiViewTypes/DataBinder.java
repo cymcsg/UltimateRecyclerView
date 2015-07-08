@@ -4,13 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 
 /**
  * Class for binding view and data
  *
  * Created by yqritc on 2015/03/01.
  */
-abstract public class DataBinder<T extends RecyclerView.ViewHolder> {
+abstract public class DataBinder<T extends UltimateRecyclerviewViewHolder> {
 
     private UltimateDifferentViewTypeAdapter mDataBindAdapter;
 

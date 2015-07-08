@@ -18,45 +18,34 @@
 
 package com.marshalchen.ultimaterecyclerview.demo.swipelist;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
-import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
+import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
+import com.marshalchen.ultimaterecyclerview.URLogs;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
-import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView;
+import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SwipeListViewExampleActivity extends FragmentActivity {
 
-    private static final int REQUEST_CODE_SETTINGS = 0;
-    private PackageAdapter adapter;
+    private SwipeAdapter adapter;
     private List<String> data;
 
-    private SwipeableUltimateRecyclerview swipeListView;
+    private UltimateRecyclerView swipeListView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,79 +55,34 @@ public class SwipeListViewExampleActivity extends FragmentActivity {
 
         data = new ArrayList<String>();
 
-        adapter = new PackageAdapter(this, data);
-
-        swipeListView = (SwipeableUltimateRecyclerview) findViewById(R.id.example_lv_list);
+        adapter = new SwipeAdapter(data);
+        adapter.setMode(SwipeItemManagerInterface.Mode.Single);
+        swipeListView = (UltimateRecyclerView) findViewById(R.id.example_lv_list);
         mLayoutManager = new LinearLayoutManager(this);
         swipeListView.setLayoutManager(mLayoutManager);
+//        swipeListView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                URLogs.d("click");
+//            }
+//        }));
+        data.add("aa");
+        data.add("bb");
+        data.add("cc");
+        data.add("dd");
+        data.add("aa");
+        data.add("bb");
+        data.add("cc");
+        data.add("dd");
         data.add("aa");
         data.add("bb");
         data.add("cc");
         data.add("dd");
 
-        swipeListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
-            @Override
-            public void onOpened(int position, boolean toRight) {
-            }
-
-            @Override
-            public void onClosed(int position, boolean fromRight) {
-            }
-
-            @Override
-            public void onListChanged() {
-            }
-
-            @Override
-            public void onMove(int position, float x) {
-            }
-
-            @Override
-            public void onStartOpen(int position, int action, boolean right) {
-                Log.d("swipe", String.format("onStartOpen %d - action %d", position, action));
-            }
-
-            @Override
-            public void onStartClose(int position, boolean right) {
-                Log.d("swipe", String.format("onStartClose %d", position));
-            }
-
-            @Override
-            public void onClickFrontView(int position) {
-                Log.d("swipe", String.format("onClickFrontView %d", position));
-            }
-
-            @Override
-            public void onClickBackView(int position) {
-                Log.d("swipe", String.format("onClickBackView %d", position));
-            }
-
-            @Override
-            public void onDismiss(int[] reverseSortedPositions) {
-                for (int position : reverseSortedPositions) {
-                    data.remove(position);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-        });
-
         swipeListView.setAdapter(adapter);
-//        swipeListView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//
-//
-//                        Toast.makeText(SwipeListViewExampleActivity.this,""+position,Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//        );
-
-
 
 
     }
-
 
 
 }

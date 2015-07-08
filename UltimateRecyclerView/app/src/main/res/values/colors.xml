@@ -19,4 +19,7 @@
     <color name="accentLight">#F4FF81</color>
     <color name="tab_text_color">#ffff3abb</color>
 
+    <color name="backgroundColor">@color/background_material_dark</color>
+    <color name="backgroundColorPress">@color/accent_material_dark</color>
+
 </resources>
