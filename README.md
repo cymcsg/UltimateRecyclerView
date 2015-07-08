@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.7
+###Version:0.3.9
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -15,8 +15,7 @@ UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView
 
 Notice that UltimateRecyclerView is a project under development.
 
-
-
+[Your donations is highly appreciated. Thank you!](#donations)
 
 ###Features:
 * Swipe to refresh(using android.support.v4.widget.SwipeRefreshLayout)
@@ -34,13 +33,13 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading adapter with animations
 
 
-###Changes in 0.3.7:
+###Changes in 0.3.9:
 - [x] support different layout in adapter
-- [x] support easy way to use admob
 - [x] loading adapter with animations
-- [x] support latest version of Recyclerview
 - [x] support minSdk to 8
 - [x] Upgrade recyclerview to 22.2.0
+- [x] new style of drag and swipe
+- [x] normal head view
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -50,6 +49,7 @@ Notice that UltimateRecyclerView is a project under development.
 - [x] add support for scrollbars of RecyclerView
 - [x] add method set background color of recyclerview
 - [x] add method to set default swipe to dismiss color
+- [x] support easy way to use admob
 
 
 ###Upcoming features:
@@ -94,7 +94,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.7'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.9'
 }
 ```
 
@@ -115,6 +115,20 @@ Loading more:
   ultimateRecyclerView.enableLoadmore();
 ```
 
+```java
+ ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
+                    }
+                }, 1000);
+            }
+        });
+
+```
 
 ######Set ParallaxHeader:
 
@@ -135,77 +149,37 @@ Loading more:
 
 ```java
 
-	ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,new SwipeableRecyclerViewTouchListener.SwipeListener() {
+ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public boolean canSwipe(int position) {
-                        if (position > 0)
-                            return true;
-                        else return false;
+                    public void run() {
+                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        ultimateRecyclerView.setRefreshing(false);
                     }
-
-                    @Override
-                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-                }));
+                }, 1000);
+            }
+        });
                 ```
 
 ######Set swipe to dismiss:
 
 ```java
-  ultimateRecyclerView.setSwipeToDismissCallback(new SwipeToDismissTouchListener.DismissCallbacks() {
-            @Override
-            public SwipeToDismissTouchListener.SwipeDirection dismissDirection(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
-            }
-            @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData data : dismissData) {
-                    simpleRecyclerViewAdapter.remove(data.position);
-                }
-            }
-            @Override
-            public void onResetMotion() {
-                isDrag = true;
-            }
-            @Override
-            public void onTouchDown() {
-                isDrag = false;
-            }
-        });        
+  ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
  ```
  
 ###### Drag and drop:
  
  ```java
-    dragDropTouchListener = new DragDropTouchListener(ultimateRecyclerView.mRecyclerView, this) {
+   simpleRecyclerViewAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
             @Override
-            protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
-                simpleRecyclerViewAdapter.swapPositions(from, to);
-                simpleRecyclerViewAdapter.clearSelection(from);
-                simpleRecyclerViewAdapter.notifyItemChanged(to);
-                if (actionMode != null) actionMode.finish();
-                Logs.d("switch----");
+            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+                mItemTouchHelper.startDrag(viewHolder);
             }
-            @Override
-            protected void onItemDrop(RecyclerView recyclerView, int position) {
-                Logs.d("drop----");
-                ultimateRecyclerView.enableSwipeRefresh(true);
-            }
-        };
-        dragDropTouchListener.setCustomDragHighlight(getResources().getDrawable(R.drawable.custom_drag_frame));
-        ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(dragDropTouchListener);
+        });
 ```
 
 Animations:
@@ -243,6 +217,14 @@ Animations:
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
 ...
 app:recyclerviewEmptyView="@layout/empty_view"/>
+```
+
+OR
+
+```java
+ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
+
+ultimateRecyclerView.showEmptyView();
 ```
 
 ######Show custom FloatingView(Both menu and button are fine. It is easy to set click event on them) when the adapter is null:
@@ -398,24 +380,28 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 * Use animators from  [recyclerview-animators](https://github.com/wasabeef/recyclerview-animators)
 * Deal with different types of LayoutManager from[SuperRecyclerView](https://github.com/Malinskiy/SuperRecyclerView)
 * Divider of recyclerview[RecyclerView-FlexibleDivider](https://github.com/yqritc/RecyclerView-FlexibleDivider)
-* Another kind of swipe[ScrollableItemList](https://github.com/rohaanhamid/ScrollableItemList)
 * Parallax header of the recyclerview[android-parallax-recyclerview](https://github.com/kanytu/android-parallax-recyclerview)
-* Drag and drop[DynamicRecyclerView](https://github.com/ismoli/DynamicRecyclerView)
 * Floating action button [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
 * Colorful pull to refresh [Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
 * Sticky section headers in  RecyclerView [StickHeader](https://github.com/eowise/recyclerview-stickyheaders)
-* Swipe[SwipeList](https://github.com/rahulrj/Swipe_RecyclerView)
+* Swipe[AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
+* Thanks [jjhesk](https://github.com/jjhesk) for doing so many work on the project
 
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
-###Donate:
-Donate $9.99: [![$9.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5GYRYZVNAK2G2)
+<h2 ><a name="donations"></a>Donations:</h2>
 
-Donate $19.99: [![$19.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2NTS85GHJLRT6)
+Donate $9.99: [![$9.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5GYRYZVNAK2G2)
 
-Donate $39.99: [![$39.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
+Donate $19.99: [![$19.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2NTS85GHJLRT6)
 
-Donate $59.99: [![$59.99](http://i.imgur.com/wUWK6e1.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
+Donate $39.99: [![$39.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
+
+Donate $59.99: [![$59.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
+
+
+Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/alipay.png)
+
 License
 --------
 

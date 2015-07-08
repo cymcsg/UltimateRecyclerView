@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,13 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     }
 
     protected Adv advertise_view = null;
+    /**
+     * There is an AD between the amount of the data items. adfrequency is known as the amount.
+     */
     protected int adfrequency;
+    /**
+     * The ad is only insert once and no more.
+     */
     protected boolean once;
     protected List<T> list;
     protected AdviewListener adviewlistener;
@@ -64,11 +71,9 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             advertise_view.getChildAt(i).setFocusable(false);
         }
         advertise_view.setFocusable(false);
-
-
         once = insertOnce;
-        adfrequency = setInterval;
-      /*  registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adfrequency = setInterval + 1;
+        /*  registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
@@ -100,9 +105,9 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.ADVIEW) {
-            RecyclerView.ViewHolder adview_holder;
+            UltimateRecyclerviewViewHolder adview_holder;
             if (adviewlistener != null) {
                 try {
                     adview_holder = new UltimateRecyclerviewViewHolder(adviewlistener.onGenerateAdview());
@@ -125,15 +130,36 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     @Override
     public int getItemViewType(int position) {
         int type = super.getItemViewType(position);
-        if (type == VIEW_TYPES.NORMAL && position % adfrequency == 0 && !once && position > 0) {
-            return VIEW_TYPES.ADVIEW;
-        } else if (type == VIEW_TYPES.NORMAL && position == adfrequency && once) {
-            return VIEW_TYPES.ADVIEW;
+        if (type == VIEW_TYPES.NORMAL) {
+            if (!once) {
+                if (position > 0 && isPosOnAdView(position)) {
+                    return VIEW_TYPES.ADVIEW;
+                } else return type;
+            } else {
+                if (isPosOnAdView(position) && adfrequency == position + 1) {
+                    return VIEW_TYPES.ADVIEW;
+                } else return type;
+            }
         } else {
             return type;
         }
     }
 
+    /**
+     * Returns the number of items in the adapter bound to the parent RecyclerView.
+     *
+     * @return The number of items in the bound adapter
+     */
+    @Override
+    public int getAdapterItemCount() {
+        return list.size();
+    }
+
+    /**
+     * get the display item count
+     *
+     * @return the final items for display
+     */
     @Override
     public int getItemCount() {
         final int base = super.getItemCount();
@@ -144,64 +170,69 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 return base;
             }
         } else {
-            int check_sum = (adfrequency > 0 ? (int) Math.floor(getAdapterItemCount() / adfrequency) : 0) + base;
+            final int check_sum = (adfrequency > 0 ? atAdPos(base) : 0) + base;
+            Log.d("getItemCountE2", check_sum + "");
             return check_sum;
         }
     }
 
     @Override
     /**
-     * Todo: need to resolve this problem when it crash
+     * Todo: need to resolve this problem when it crash. and we need more testing for this now.
      * Insert a item to the list of the adapter
      *
-     * @param list
-     * @param object
-     * @param position
-     * @param <T>
+     * @param list the data list
+     * @param object the object
+     * @param position the object position
+     * @param <T> the generic type
      */
-    public <T> void insert(List<T> list, T object, int position) {
-      /*  list.add(position, object);
-        int notifyposition = position;
-        if (customHeaderView != null) notifyposition++;
-
-        if (once) {
-            if (adfrequency > position) {
-                notifyposition++;
+    public <T> void insert(final List<T> list, final T object, final int position) {
+        try {
+            list.add(position, object);
+            final int offset = getReverseDataArrayPosition(position);
+            notifyItemInserted(offset);
+            if (isPosOnAdView(offset) && position > 0) {
+                notifyItemInserted(offset + 1);
             }
-        } else {
-            notifyposition += adfrequency > 0 ? (int) Math.floor(getAdapterItemCount() / adfrequency) : 0;
+            Log.d("admobError", "offset final: " + offset);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.d("admobError i1", e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("admobError i2", e.getMessage());
         }
-        notifyItemInserted(notifyposition);*/
-
-        //still working on the above code
-
     }
+
+    public <T> void insert(final List<T> list, final T object) {
+        insert(list, object, list.size());
+    }
+
 
     @Override
     /**
      * Todo: need to resolve this problem when it crash
      * Remove a item of  the list of the adapter
      *
-     * @param list
-     * @param position
+     * @param list the data source
+     * @param position with the position on the list
      */
     public void remove(List<?> list, int position) {
-        /*
-        int removePosOffset = customHeaderView != null ? position - 1 : position;
-        if (adfrequency > 0) {
-            if (once) {
-                if (adfrequency > position) {
-                    removePosOffset--;
+        try {
+            if (list.size() > 0 && position < list.size()) {
+                list.remove(position);
+                final int offset = getReverseDataArrayPosition(position);
+                notifyItemRemoved(offset);
+                if (offset > 1 && isPosOnAdView(offset) && position > 0) {
+                    notifyItemRemoved(offset - 1);
                 }
+                Log.d("admobError", "offset final: " + offset);
             } else {
-                removePosOffset -= (int) Math.floor(getAdapterItemCount() / adfrequency);
+                throw new ArrayIndexOutOfBoundsException("no data or the remove position is not exist p:" + position + ", list size:" + list.size());
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.d("admobError r1", e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("admobError r2", e.getMessage());
         }
-
-        list.remove(removePosOffset);
-        notifyItemRemoved(position);*/
-
-        //still working on the above code
 
     }
 
@@ -212,8 +243,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param list the source data list
      * @return the decision to tell whether the data binding should be taken place
      */
-
-    protected boolean onActionToBindData(int pos, List<T> list) {
+    protected boolean onActionToBindData(final int pos, final List<T> list) {
         int getType = getItemViewType(pos);
         if (pos < getItemCount() && getType == VIEW_TYPES.NORMAL)
             if (customHeaderView != null) {
@@ -237,7 +267,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param pos machine loaded position in int
      * @return the final confirmed position for data binding
      */
-    protected int getDataArrayPosition(int pos) {
+    protected int getDataArrayPosition(final int pos) {
         int shift = 0;
         if (customHeaderView != null) shift--;
         if (adfrequency > 0) {
@@ -247,9 +277,26 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 shift -= atAdPos(pos);
             }
         }
+        return pos + shift;
+    }
 
-        int finalShift = pos + shift;
-        return finalShift;
+    /**
+     * this is the {getDataArrayPosition} reverse
+     *
+     * @param dataPos position on the data list
+     * @return offset
+     */
+    protected int getReverseDataArrayPosition(final int dataPos) {
+        int shift = 0;
+        if (customHeaderView != null) shift++;
+        if (adfrequency > 0) {
+            if (once) {
+                if (dataPos >= adfrequency) shift++;
+            } else {
+                shift += atAdPos(dataPos);
+            }
+        }
+        return dataPos + shift;
     }
 
     /**
@@ -258,8 +305,8 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param pos in raw
      * @return yes or no
      */
-    public boolean isPosOnAdView(int pos) {
-        int zero_for_admob_selection = pos % adfrequency;
+    public boolean isPosOnAdView(final int pos) {
+        final int zero_for_admob_selection = (pos + 1) % adfrequency;
         return zero_for_admob_selection == 0;
     }
 
@@ -269,8 +316,10 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param pos raw touch position
      * @return the placement for the ad position
      */
-    public int atAdPos(int pos) {
-        return (int) Math.floor(pos / adfrequency);
+    public int atAdPos(final int pos) {
+        final int take_int = (int) Math.floor((pos + 1) / adfrequency);
+        Log.d("atAdPosE2", take_int + "");
+        return take_int;
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.Utils;
+package com.marshalchen.ultimaterecyclerview.uiUtils;
 
 import android.content.Context;
 import android.graphics.PointF;
