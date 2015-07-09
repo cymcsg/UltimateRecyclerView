@@ -21,7 +21,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAnimationAdapter extends UltimateViewAdapter {
+public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.ViewHolder> {
     private List<String> stringList;
 
     public SimpleAnimationAdapter(List<String> stringList) {
@@ -34,7 +34,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
     private boolean isFirstOnly = true;
 
     @Override
-    public void onBindViewHolder(UltimateRecyclerviewViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
 
             ((ViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
@@ -59,7 +59,12 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter {
     }
 
     @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+    public RecyclerView.ViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_adapter, parent, false);
         ViewHolder vh = new ViewHolder(v);
