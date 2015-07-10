@@ -21,8 +21,8 @@ Notice that UltimateRecyclerView is a project under development.
 * Swipe to refresh(using android.support.v4.widget.SwipeRefreshLayout)
 * Many kinds of animations
 * Swipe to dismiss
-* Parallax head view
-* Drag and drop
+* Parallax or normal head view
+* Drag and drop items
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
@@ -30,7 +30,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Colorful styles of ``swipe to refresh``
 * Sticky header like instagram
 * Support different layout in adapter
-* Loading adapter with animations
+* Loading adapter with animation
 
 ###Changes in 0.3.10:
 - [x] new style of drag and swipe
@@ -65,7 +65,7 @@ Notice that UltimateRecyclerView is a project under development.
 
 
 
-If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
+If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
 
 ####Welcome to fork and pull request.
 
@@ -107,10 +107,11 @@ dependencies {
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/ultimate_recycler_view"
-        app:recyclerviewClipToPadding="true"
-        app:recyclerviewPadding="2dp">
+       >
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
+
+
 #####3.Features:  
 Loading more:
 
@@ -137,7 +138,8 @@ Loading more:
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+ 
+ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
             public void onParallaxScroll(float percentage, float offset, View parallax) {
                 Drawable c = toolbar.getBackground();
