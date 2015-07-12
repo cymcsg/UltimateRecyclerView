@@ -151,7 +151,6 @@ Loading more:
 ######Set swipe to refresh:
 
 ```java
-
 ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -164,7 +163,7 @@ ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefres
                 }, 1000);
             }
         });
-                ```
+```
 
 ######Set swipe to dismiss:
 
@@ -172,7 +171,7 @@ ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefres
   ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
- ```
+```
  
 ###### Drag and drop:
  
