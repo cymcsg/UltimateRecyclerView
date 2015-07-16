@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter implements SwipeItemManagerInterface {
+public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> implements SwipeItemManagerInterface {
 
     protected SwipeItemManagerImpl mItemManger = new SwipeItemManagerImpl(this);
 

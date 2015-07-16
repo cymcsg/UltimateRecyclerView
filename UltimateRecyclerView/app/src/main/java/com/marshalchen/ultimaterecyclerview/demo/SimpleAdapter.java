@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,16 +10,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperViewHolder;
 
 import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAdapter extends UltimateViewAdapter {
+public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapterViewHolder> {
     private List<String> stringList;
 
     public SimpleAdapter(List<String> stringList) {
@@ -29,10 +26,10 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
 
     @Override
-    public void onBindViewHolder(final UltimateRecyclerviewViewHolder holder, int position) {
+    public void onBindViewHolder(final SimpleAdapterViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
 
-            ((ViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
+            ((SimpleAdapterViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
             if (mDragStartListener != null) {
 //                ((ViewHolder) holder).imageViewSample.setOnTouchListener(new View.OnTouchListener() {
@@ -45,7 +42,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 //                    }
 //                });
 
-                ((ViewHolder) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
+                ((SimpleAdapterViewHolder) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         return false;
@@ -62,10 +59,15 @@ public class SimpleAdapter extends UltimateViewAdapter {
     }
 
     @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+    public SimpleAdapterViewHolder getViewHolder(View view) {
+        return new SimpleAdapterViewHolder(view, false);
+    }
+
+    @Override
+    public SimpleAdapterViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_adapter, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        SimpleAdapterViewHolder vh = new SimpleAdapterViewHolder(v, true);
         return vh;
     }
 
@@ -170,14 +172,15 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     }
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder  {
+
+    public class SimpleAdapterViewHolder extends UltimateRecyclerviewViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
         ProgressBar progressBarSample;
         View item_view;
 
-        public ViewHolder(View itemView) {
+        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override
@@ -193,12 +196,15 @@ public class SimpleAdapter extends UltimateViewAdapter {
 //
 //                }
 //            }));
-            textViewSample = (TextView) itemView.findViewById(
-                    R.id.textview);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
-            item_view = itemView.findViewById(R.id.itemview);
+            if (isItem) {
+                textViewSample = (TextView) itemView.findViewById(
+                        R.id.textview);
+                imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+                progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
+                progressBarSample.setVisibility(View.GONE);
+                item_view = itemView.findViewById(R.id.itemview);
+            }
+
         }
 
         @Override

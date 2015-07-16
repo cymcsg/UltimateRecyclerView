@@ -15,7 +15,7 @@ import java.util.List;
  * JJHESK HKM. MIT LICENSE
  * {@link {https://github.com/jjhesk/MaterialTabsAdavanced/blob/master/LICENSE.md}}
  */
-public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
+public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> {
     public interface AdviewListener<Adv extends ViewGroup> {
         Adv onGenerateAdview();
     }

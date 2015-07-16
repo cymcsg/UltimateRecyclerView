@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.9
+###Version:0.3.10
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -21,8 +21,8 @@ Notice that UltimateRecyclerView is a project under development.
 * Swipe to refresh(using android.support.v4.widget.SwipeRefreshLayout)
 * Many kinds of animations
 * Swipe to dismiss
-* Parallax head view
-* Drag and drop
+* Parallax or normal head view
+* Drag and drop items
 * Loading more when reach the last item(infinite scrolling)
 * Custom views in loading more
 * Showing or hiding toolbar and floating button when scrolling
@@ -30,16 +30,19 @@ Notice that UltimateRecyclerView is a project under development.
 * Colorful styles of ``swipe to refresh``
 * Sticky header like instagram
 * Support different layout in adapter
-* Loading adapter with animations
+* Loading adapter with animation
 
+###Changes in 0.3.10:
+- [x] new style of drag and swipe
+- [x] normal head view
+- [x] add Generics in the UltimateViewAdapter
 
-###Changes in 0.3.9:
+###Changes in 0.3.8:
 - [x] support different layout in adapter
 - [x] loading adapter with animations
 - [x] support minSdk to 8
 - [x] Upgrade recyclerview to 22.2.0
-- [x] new style of drag and swipe
-- [x] normal head view
+
 
 ###Changes in 0.3.2:
 - [x] add a empty view when the adapter do not have data
@@ -62,7 +65,7 @@ Notice that UltimateRecyclerView is a project under development.
 
 
 
-If you have some good idea, please tell us.My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
+If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
 
 ####Welcome to fork and pull request.
 
@@ -94,7 +97,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.9'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.10'
 }
 ```
 
@@ -104,10 +107,11 @@ dependencies {
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/ultimate_recycler_view"
-        app:recyclerviewClipToPadding="true"
-        app:recyclerviewPadding="2dp">
+       >
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
+
+
 #####3.Features:  
 Loading more:
 
@@ -134,7 +138,8 @@ Loading more:
 
 ```java
  ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+ 
+ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
             public void onParallaxScroll(float percentage, float offset, View parallax) {
                 Drawable c = toolbar.getBackground();
@@ -148,7 +153,6 @@ Loading more:
 ######Set swipe to refresh:
 
 ```java
-
 ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -161,7 +165,7 @@ ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefres
                 }, 1000);
             }
         });
-                ```
+```
 
 ######Set swipe to dismiss:
 
@@ -169,7 +173,7 @@ ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefres
   ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
- ```
+```
  
 ###### Drag and drop:
  
