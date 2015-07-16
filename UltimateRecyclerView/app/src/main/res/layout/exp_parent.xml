@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/exp_section_ripple_wrapper_click"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/sectionNormalHeight"
+    android:layout_margin="0dp"
+    android:background="@color/red"
+    android:padding="0dp">
+
+    <RelativeLayout
+        android:id="@id/exp_section_adjustment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:padding="0dp">
+        <!-- android:foreground="?android:attr/selectableItemBackground"
+        -->
+        <TextView
+            android:id="@id/exp_section_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/exp_section_notification_number"
+            android:layout_toStartOf="@id/exp_section_notification_number"
+            android:gravity="left"
+            android:lines="1"
+            android:text="sample menu item parent"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sectionSize" />
+
+        <TextView
+            android:id="@id/exp_section_notification_number"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/exp_indication_arrow"
+            android:elegantTextHeight="false"
+            android:gravity="center_horizontal"
+            android:maxLength="5"
+            android:singleLine="true"
+            android:text="(99)"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sectionNotificationSize"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@id/exp_indication_arrow"
+            android:layout_width="@dimen/sectionSquareIconSize"
+            android:layout_height="@dimen/sectionSquareIconSize"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/sectionRowMarginHorizontal"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_item_swipe_right" />
+    </RelativeLayout>
+
+</RelativeLayout>
+
