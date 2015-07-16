@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+public abstract class NormalUltimateViewAdapter extends RecyclerView.Adapter<UltimateRecyclerviewViewHolder>
         implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,ItemTouchHelperAdapter {
 
 
@@ -37,18 +37,18 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
 
     @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == VIEW_TYPES.FOOTER) {
-            VH viewHolder = getViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
             if (customHeaderView != null)
-                return getViewHolder(customHeaderView);
+                return new UltimateRecyclerviewViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
-            VH viewHolder = getViewHolder(customLoadMoreView);
+            UltimateRecyclerviewViewHolder viewHolder = new UltimateRecyclerviewViewHolder(customLoadMoreView);
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.GONE);
             return viewHolder;
@@ -61,10 +61,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return onCreateViewHolder(parent);
 
     }
-    public abstract VH getViewHolder(View view);
 
 
-    public abstract VH onCreateViewHolder(ViewGroup parent);
+    public abstract UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent);
 
     /**
      * Using a custom LoadMoreView

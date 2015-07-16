@@ -27,6 +27,11 @@ public class SwipeAdapter extends SwipeableUltimateViewAdapter {
 
 
     @Override
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
+    @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         final Context context = parent.getContext();
 

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * An adapter which support different layout
  */
-public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extends UltimateViewAdapter {
+public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> {
     private Map<E, DataBinder> mBinderMap = new HashMap<>();
 
     protected class VIEW_TYPES extends UltimateViewAdapter.VIEW_TYPES {

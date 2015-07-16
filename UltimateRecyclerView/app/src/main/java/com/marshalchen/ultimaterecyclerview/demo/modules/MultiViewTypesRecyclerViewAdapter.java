@@ -62,6 +62,11 @@ public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewType
 
 
     @Override
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
+    @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_adapter, parent, false);
