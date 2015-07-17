@@ -32,4 +32,10 @@
         android:title="Load More Test"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/expandmenu"
+        android:orderInCategory="105"
+        android:title="expX Test"
+        app:showAsAction="never" />
+
 </menu>
