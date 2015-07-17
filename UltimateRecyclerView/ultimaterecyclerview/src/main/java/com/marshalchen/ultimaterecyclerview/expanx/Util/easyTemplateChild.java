@@ -17,6 +17,8 @@ public abstract class easyTemplateChild<T extends ExpandableItemData, B extends 
     public B text;
     public H relativeLayout;
     private int offsetMargin, itemMargin;
+    private boolean capitalized = false;
+    private boolean countenabled = true;
 
     public easyTemplateChild(View itemView, int itemMargin, int expandSize) {
         this(itemView);
@@ -35,9 +37,19 @@ public abstract class easyTemplateChild<T extends ExpandableItemData, B extends 
     }
 
 
+    protected void forceTitleCapitalized(boolean b) {
+        capitalized = b;
+    }
+
     @Override
     public void bindView(final T itemData, int position) {
-        text.setText(itemData.getText());
+
+        if (capitalized) {
+            text.setText(itemData.getText().toUpperCase());
+        } else {
+            text.setText(itemData.getText());
+        }
+
         text.setLayoutParams(getParamsLayoutOffset(text, itemData));
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
