@@ -20,9 +20,10 @@ public abstract class easyTemplateParent<T extends ExpandableItemData, H extends
     public ImageView image;
     public B text, count;
     public ImageView expand;
-
-
+    private boolean capitalized = false;
+    private boolean countenabled = true;
     public H relativeLayout;
+    private T item;
     public RelativeLayout adjustmentlayout;
 
     public easyTemplateParent(View itemView) {
@@ -35,20 +36,47 @@ public abstract class easyTemplateParent<T extends ExpandableItemData, H extends
         itemMargin = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.item_margin);
     }
 
+    protected void forceTitleCapitalized(boolean b) {
+        capitalized = b;
+    }
+
+    protected void setNotifcationFieldEnabled(boolean b) {
+        countenabled = b;
+        if (!countenabled) {
+            count.setVisibility(View.GONE);
+        } else {
+            if (getItem() != null && getItem().isExpand()) {
+                count.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    protected T getItem() {
+        return item;
+    }
+
     @Override
     protected void setCountVisible(int visibility) {
-        count.setVisibility(visibility);
+        if (countenabled)
+            count.setVisibility(visibility);
     }
 
     @Override
     protected void updateCountNumber(String text) {
-        count.setText(text);
+        if (countenabled)
+            count.setText(text);
     }
 
     @Override
     public void bindView(final T itemData, final int position, final ItemDataClickListener imageClickListener) {
         adjustmentlayout.setLayoutParams(getParamsLayout(adjustmentlayout, itemData));
-        text.setText(itemData.getText());
+
+        if (capitalized) {
+            text.setText(itemData.getText().toUpperCase());
+        } else {
+            text.setText(itemData.getText());
+        }
+
         setHandleInitiatedViewStatus(itemData, expand, count);
         setRelativeLayoutClickable(relativeLayout, itemData, imageClickListener, position);
         relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
@@ -59,6 +87,7 @@ public abstract class easyTemplateParent<T extends ExpandableItemData, H extends
                 return false;
             }
         });
+        item = itemData;
     }
 
 
