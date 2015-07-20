@@ -362,8 +362,36 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
+
+
     }
 
+    /**
+     * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
+     *
+     */
+    public void reenableLoadmore(){
+        enableLoadmore();
+        if (mAdapter != null ){
+            mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
+                    .inflate(R.layout.bottom_progressbar, null));
+            mAdapter.isLoadMoreChanged=false;
+        }
+
+    }
+
+    /**
+     * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
+     *
+     */
+    public void reenableLoadmore(View customLoadingMoreView){
+        enableLoadmore();
+        if (mAdapter != null ){
+            mAdapter.setCustomLoadMoreView(customLoadingMoreView);
+            mAdapter.isLoadMoreChanged=false;
+        }
+
+    }
     /**
      * Remove loading more scroll listener
      */
@@ -691,7 +719,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          */
         if (mAdapter.getAdapterItemCount() == 0) {
             mEmpty.setVisibility(mEmptyId != 0 ? View.VISIBLE : View.GONE);
+        } else if (mEmptyId != 0) {
+            mEmpty.setVisibility(View.GONE);
         }
+
         if (mAdapter.getCustomLoadMoreView() == null) return;
         if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
             mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
@@ -699,6 +730,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum) {
             mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
         }
+
     }
 
     /**
