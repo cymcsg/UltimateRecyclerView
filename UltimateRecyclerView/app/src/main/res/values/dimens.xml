@@ -23,4 +23,9 @@
 
     <dimen name="sliding_slop">32dp</dimen>
     <dimen name="sliding_overlay_blur_size">4dp</dimen>
+    <dimen name="sectionNormalHeight">48dp</dimen>
+    <dimen name="sectionSquareIconSize">40dp</dimen>
+    <dimen name="sectionNotificationSize">10sp</dimen>
+    <dimen name="sectionSize">15sp</dimen>
+    <dimen name="sectionRowMarginHorizontal">16sp</dimen>
 </resources>

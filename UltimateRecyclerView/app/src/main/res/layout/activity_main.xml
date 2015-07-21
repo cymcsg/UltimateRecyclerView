@@ -51,6 +51,7 @@
         app:recyclerviewClipToPadding="true"
         app:recyclerviewFloatingActionView="@layout/floating_view"
         app:recyclerviewScrollbars="vertical"
+        app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
         android:layout_marginTop="?attr/actionBarSize" />
 </FrameLayout>
