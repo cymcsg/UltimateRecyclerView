@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/exp_section_ripple_wrapper_click"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/sectionNormalHeight"
+    android:layout_margin="0dp"
+    android:padding="0dp">
+
+    <RelativeLayout
+        android:id="@id/exp_section_adjustment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="0dp">
+
+        <TextView
+            android:id="@id/exp_section_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:lines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sectionSize" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

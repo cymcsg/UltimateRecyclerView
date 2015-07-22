@@ -13,4 +13,7 @@
     <dimen name="fab_mini_shadow_size">6dp</dimen>
     <dimen name="fab_min_significant_scroll">4dp</dimen>
 
+    <!-- the expandable things -->
+    <dimen name="item_margin">16dp</dimen>
+    <dimen name="expand_size">8dp</dimen>
 </resources>
