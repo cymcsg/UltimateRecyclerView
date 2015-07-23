@@ -9,6 +9,8 @@
 - [ ] Traditional header
 - [ ] Swipe to dismiss color
 - [ ] Make adapter more easy to use
+- [x] Expandble feature
+- [ ] Change toolbar into CollapsingToolbarLayout
  
 
 
