@@ -167,7 +167,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>      in T
      */
     public <T> void insert(List<T> list, T object, int position) {
-        list.add(position, object);
+        list.add(customHeaderView != null ? position - 1 : position, object);
         if (customHeaderView != null) position++;
         notifyItemInserted(position);
     }
