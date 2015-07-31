@@ -368,37 +368,37 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
-     *
      */
-    public void reenableLoadmore(){
+    public void reenableLoadmore() {
         enableLoadmore();
-        if (mAdapter != null ){
+        if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
-            mAdapter.isLoadMoreChanged=false;
+            mAdapter.isLoadMoreChanged = false;
         }
 
     }
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
-     *
      */
-    public void reenableLoadmore(View customLoadingMoreView){
+    public void reenableLoadmore(View customLoadingMoreView) {
         enableLoadmore();
-        if (mAdapter != null ){
+        if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(customLoadingMoreView);
-            mAdapter.isLoadMoreChanged=false;
+            mAdapter.isLoadMoreChanged = false;
         }
 
     }
+
     /**
      * Remove loading more scroll listener
      */
     public void disableLoadmore() {
         setDefaultScrollListener();
-        mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
-                .inflate(R.layout.empty_progressbar, null));
+        if (mAdapter != null)
+            mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
+                    .inflate(R.layout.empty_progressbar, null));
     }
 
 
