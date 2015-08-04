@@ -180,7 +180,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         ProgressBar progressBarSample;
         View item_view;
 
-        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
+        public  SimpleAdapterViewHolder(View itemView, boolean isItem) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override

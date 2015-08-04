@@ -206,6 +206,14 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         insert(list, object, list.size());
     }
 
+    /**
+     * default insert that will append the object at the end
+     *
+     * @param object data object
+     */
+    public void insert(final T object) {
+        insert(list, object, list.size());
+    }
 
     @Override
     /**
