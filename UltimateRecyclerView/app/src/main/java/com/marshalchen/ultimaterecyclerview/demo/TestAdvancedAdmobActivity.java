@@ -16,8 +16,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -42,9 +44,9 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
 
-    public static class adap extends simpleAdmobAdapter<String, VMoler, LinearLayout> {
+    public static class adap extends simpleAdmobAdapter<String, VMoler, RelativeLayout> {
 
-        public adap(LinearLayout v, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
+        public adap(RelativeLayout v, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
             super(v, insertOnce, setInterval, L, listener);
         }
 
@@ -102,7 +104,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     }
 
 
-    private LinearLayout createadmob() {
+    private RelativeLayout createadmob() {
 
         AdSize adSize = AdSize.SMART_BANNER;
 
@@ -122,7 +124,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         }
 
         adSize = AdSize.MEDIUM_RECTANGLE;
-        AdView mAdView = new AdView(this);
+        final AdView mAdView = new AdView(this);
         mAdView.setAdSize(adSize);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
 
@@ -137,18 +139,54 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int width = displaymetrics.widthPixels;
-        double ratio = ((float) (width)) / 300.0;
-        int height = (int) (ratio * 250);
-        ViewCompat.setScaleX(mAdView, (float) ratio);
-        ViewCompat.setScaleY(mAdView, (float) ratio);
-        LinearLayout LL = new LinearLayout(this);
-        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
-        l.gravity = Gravity.CENTER;
 
-        mAdView.setLayoutParams(l);
-        LL.addView(mAdView);
-        return LL;
+        int dw = displaymetrics.widthPixels;
+
+        int dh = displaymetrics.heightPixels;
+
+        //  final double ratio = ((float) (dw)) / 300.0;
+
+        RelativeLayout layout = new RelativeLayout(this);
+        final double ratio = 1.21d;
+        //Math.max(dw / 1280.0f, dh / 800.0f);
+        int height = (int) (ratio * 250);
+
+        // Add the adView to it
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_BOTTOM, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        mAdView.setLayoutParams(params);
+
+
+        // get display info
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+      /*  G.display_w = displayMetrics.widthPixels;
+        G.display_h = displayMetrics.heightPixels;
+        G.scale = Math.max(G.display_w/1280.0f, G.display_h/800.0f);*/
+
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+
+                int g = mAdView.getLayoutParams().width;
+                int h = mAdView.getLayoutParams().height;
+
+                ViewCompat.setScaleX(mAdView, (float) ratio);
+                ViewCompat.setScaleY(mAdView, (float) ratio);
+
+            }
+        });
+
+        layout.addView(mAdView);
+        return layout;
 
     }
 
@@ -187,7 +225,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         final adap adp1 = new adap(createadmob(), false, 4, new ArrayList<String>(),
                 new AdmobAdapter.AdviewListener() {
                     @Override
-                    public LinearLayout onGenerateAdview() {
+                    public RelativeLayout onGenerateAdview() {
                         return createadmob();
                     }
                 });
