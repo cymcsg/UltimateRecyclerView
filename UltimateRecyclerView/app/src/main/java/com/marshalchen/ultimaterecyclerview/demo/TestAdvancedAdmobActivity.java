@@ -220,6 +220,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /**
                  *  example 2 implementation enhancement of list view
+                 *  without advertisement configurations
                  */
                 sw.init(false);
             }
@@ -230,6 +231,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /**
                  *  example 2 implementation enhancement of list view
+                 *  with advertisement configuration
                  */
                 sw.init(true);
             }
