@@ -6,7 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.marshalchen.ultimaterecyclerview.quickAdapter.MultiItemTypeSupport;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.extUtimateRVA.MultiItemTypeSupport;
 
 import java.util.ArrayList;
 import java.util.List;

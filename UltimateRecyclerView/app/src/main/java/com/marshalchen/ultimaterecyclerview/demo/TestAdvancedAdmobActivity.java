@@ -1,17 +1,20 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,7 +28,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.simpleAdmobAdapter;
-import com.marshalchen.ultimaterecyclerview.quickAdapter.switchableadapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.BiAdAdapterSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +42,10 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
 
-    public static class adap extends simpleAdmobAdapter<String, VMoler, AdView> {
+    public static class adap extends simpleAdmobAdapter<String, VMoler, LinearLayout> {
 
-        public adap(AdView adview, boolean insertOnce, int setInterval, List<String> L) {
-            super(adview, insertOnce, setInterval, L);
-        }
-
-        public adap(AdView adview, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
-            super(adview, insertOnce, setInterval, L, listener);
+        public adap(LinearLayout v, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
+            super(v, insertOnce, setInterval, L, listener);
         }
 
         @Override
@@ -103,7 +102,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     }
 
 
-    private AdView createadmob() {
+    private LinearLayout createadmob() {
 
         AdSize adSize = AdSize.SMART_BANNER;
 
@@ -122,11 +121,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             adSize = AdSize.BANNER;
         }
 
-
+        adSize = AdSize.MEDIUM_RECTANGLE;
         AdView mAdView = new AdView(this);
         mAdView.setAdSize(adSize);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
-        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         if (admob_test_mode)
@@ -135,7 +135,21 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
 
-        return mAdView;
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        double ratio = ((float) (width)) / 300.0;
+        int height = (int) (ratio * 250);
+        ViewCompat.setScaleX(mAdView, (float) ratio);
+        ViewCompat.setScaleY(mAdView, (float) ratio);
+        LinearLayout LL = new LinearLayout(this);
+        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+        l.gravity = Gravity.CENTER;
+
+        mAdView.setLayoutParams(l);
+        LL.addView(mAdView);
+        return LL;
+
     }
 
 
@@ -163,23 +177,22 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             URLogs.d(textViewSample.getText() + " long clicked!");
             return true;
         }
-
-
     }
 
 
     /**
      * example 1 implementation of the switch view
      */
-    private switchableadapter imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 4, new ArrayList<String>(), new AdmobAdapter.AdviewListener() {
-            @Override
-            public AdView onGenerateAdview() {
-                return createadmob();
-            }
-        });
+    private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
+        final adap adp1 = new adap(createadmob(), false, 4, new ArrayList<String>(),
+                new AdmobAdapter.AdviewListener() {
+                    @Override
+                    public LinearLayout onGenerateAdview() {
+                        return createadmob();
+                    }
+                });
         final regular adp2 = new regular(new ArrayList<String>());
-        final switchableadapter switchable = new switchableadapter(rv, adp2, adp1);
+        final BiAdAdapterSwitcher switchable = new BiAdAdapterSwitcher(rv, adp2, adp1);
         return switchable;
     }
 
@@ -201,11 +214,11 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         /**
          *  example 2 implementation enhancement of list view
          */
-        final switchableadapter sw = imple_switch_view(ultimateRecyclerView)
+        final BiAdAdapterSwitcher sw = imple_switch_view(ultimateRecyclerView)
                 .onEnableRefresh(100)
-                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 100, new switchableadapter.onLoadMore() {
+                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 100, new BiAdAdapterSwitcher.onLoadMore() {
                     @Override
-                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, switchableadapter this_module) {
+                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher this_module) {
                         this_module.load_more_data(SampleDataboxset.newList());
                         return true;
                     }

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         public static final int ADVIEW = 4;
     }
 
-    protected Adv advertise_view = null;
+    protected final Adv advertise_view;
     /**
      * There is an AD between the amount of the data items. adfrequency is known as the amount.
      */
@@ -52,6 +53,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         this(adview, insertOnce, setInterval, L, null);
     }
 
+
     /**
      * This is same to the above method
      *
@@ -63,14 +65,17 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      */
     public AdmobAdapter(Adv adview, boolean insertOnce, int setInterval, List<T> L, AdviewListener listener) {
         advertise_view = adview;
-        /**
-         * Disable focus for sub-views of the AdView to avoid problems with
-         * trackpad navigation of the list.
-         */
-        for (int i = 0; i < advertise_view.getChildCount(); i++) {
-            advertise_view.getChildAt(i).setFocusable(false);
-        }
-        advertise_view.setFocusable(false);
+
+
+            /**
+             * Disable focus for sub-views of the AdView to avoid problems with
+             * trackpad navigation of the list.
+             */
+            for (int i = 0; i < advertise_view.getChildCount(); i++) {
+                advertise_view.getChildAt(i).setFocusable(false);
+            }
+            advertise_view.setFocusable(false);
+
         once = insertOnce;
         adfrequency = setInterval + 1;
         /*  registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -98,6 +103,19 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      */
     protected abstract V newViewHolder(View mview);
 
+    public static class AdHolder extends UltimateRecyclerviewViewHolder {
+
+        public AdHolder(AdviewListener adviewlistener) {
+            super(adviewlistener.onGenerateAdview());
+        }
+    }
+
+    /**
+     * only on the first creation
+     *
+     * @param parent parent resource
+     * @return the UtimateView
+     */
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
@@ -110,7 +128,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             UltimateRecyclerviewViewHolder adview_holder;
             if (adviewlistener != null) {
                 try {
-                    adview_holder = new UltimateRecyclerviewViewHolder(adviewlistener.onGenerateAdview());
+                    adview_holder = new AdHolder(adviewlistener);
                 } catch (NullPointerException e) {
                     adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
                 } catch (Exception e) {

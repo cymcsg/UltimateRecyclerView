@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.quickAdapter;
+package com.marshalchen.ultimaterecyclerview.quickAdapter.extUtimateRVA;
 
 /**
  * Created by hesk on 31/7/15.
