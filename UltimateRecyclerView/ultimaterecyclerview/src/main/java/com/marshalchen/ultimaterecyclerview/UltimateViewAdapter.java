@@ -18,7 +18,7 @@ import java.util.List;
  * An abstract adapter which can be extended for Recyclerview
  */
 public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
-        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,ItemTouchHelperAdapter {
+        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
 
 
     protected View customLoadMoreView = null;
@@ -61,6 +61,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return onCreateViewHolder(parent);
 
     }
+
     public abstract VH getViewHolder(View view);
 
 
