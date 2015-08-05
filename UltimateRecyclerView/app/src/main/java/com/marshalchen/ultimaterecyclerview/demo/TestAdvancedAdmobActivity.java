@@ -132,7 +132,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         final RelativeLayout layout = AdGoogleDisplaySupport.initialSupport(this, displaymetrics);
         final double ratio = AdGoogleDisplaySupport.ratioMatching(displaymetrics);
-        final int ad_height = AdGoogleDisplaySupport.defaultHeight(displaymetrics.widthPixels);
+        final int ad_height = AdGoogleDisplaySupport.defaultHeight(displaymetrics);
         AdGoogleDisplaySupport.panelAdjust(mAdView, (int) (ad_height * ratio));
         // get display info
         /*  G.display_w = displayMetrics.widthPixels;
