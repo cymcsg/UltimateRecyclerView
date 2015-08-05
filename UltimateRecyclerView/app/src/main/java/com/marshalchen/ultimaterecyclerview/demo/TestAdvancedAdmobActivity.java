@@ -3,18 +3,12 @@ package com.marshalchen.ultimaterecyclerview.demo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +25,7 @@ import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.simpleAdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.BiAdAdapterSwitcher;
+import com.marshalchen.ultimaterecyclerview.ui.AdGoogleDisplaySupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +122,6 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         final AdView mAdView = new AdView(this);
         mAdView.setAdSize(adSize);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
-
-
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         if (admob_test_mode)
@@ -136,58 +129,27 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
-
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
-        int dw = displaymetrics.widthPixels;
-
-        int dh = displaymetrics.heightPixels;
-
-        //  final double ratio = ((float) (dw)) / 300.0;
-
-        RelativeLayout layout = new RelativeLayout(this);
-        final double ratio = 1.21d;
-        //Math.max(dw / 1280.0f, dh / 800.0f);
-        int height = (int) (ratio * 250);
-
-        // Add the adView to it
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.ALIGN_BOTTOM, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        mAdView.setLayoutParams(params);
-
-
+        final RelativeLayout layout = AdGoogleDisplaySupport.initialSupport(this, displaymetrics);
+        final double ratio = AdGoogleDisplaySupport.ratioMatching(displaymetrics);
+        final int ad_height = AdGoogleDisplaySupport.defaultHeight(displaymetrics.widthPixels);
+        AdGoogleDisplaySupport.panelAdjust(mAdView, (int) (ad_height * ratio));
         // get display info
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-      /*  G.display_w = displayMetrics.widthPixels;
+        /*  G.display_w = displayMetrics.widthPixels;
         G.display_h = displayMetrics.heightPixels;
         G.scale = Math.max(G.display_w/1280.0f, G.display_h/800.0f);*/
-
-
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-
-                int g = mAdView.getLayoutParams().width;
                 int h = mAdView.getLayoutParams().height;
-
-                ViewCompat.setScaleX(mAdView, (float) ratio);
-                ViewCompat.setScaleY(mAdView, (float) ratio);
-
+                AdGoogleDisplaySupport.scale(mAdView, ratio);
+                AdGoogleDisplaySupport.panelAdjust(mAdView, (int) (h * ratio));
+                //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             }
         });
-
         layout.addView(mAdView);
         return layout;
-
     }
 
 
@@ -222,7 +184,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 4, new ArrayList<String>(),
+        final adap adp1 = new adap(createadmob(), false, 34, new ArrayList<String>(),
                 new AdmobAdapter.AdviewListener() {
                     @Override
                     public RelativeLayout onGenerateAdview() {
