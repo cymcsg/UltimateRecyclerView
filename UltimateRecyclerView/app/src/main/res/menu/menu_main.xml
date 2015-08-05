@@ -16,6 +16,11 @@
         android:title="ADMob ListView Test"
         app:showAsAction="never" />
     <item
+        android:id="@+id/adv_admob"
+        android:orderInCategory="105"
+        android:title="Switchable Admob Test"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/scrollactivity"
         android:orderInCategory="100"
         android:title="Scroll observables"
@@ -37,5 +42,6 @@
         android:orderInCategory="105"
         android:title="expX Test"
         app:showAsAction="never" />
+
 
 </menu>

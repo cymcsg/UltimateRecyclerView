@@ -6,7 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.marshalchen.ultimaterecyclerview.quickAdapter.MultiItemTypeSupport;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.extUtimateRVA.MultiItemTypeSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +51,11 @@ public abstract class QuickAdapter<T> extends
     }
 
     protected BaseAdapterHelper getAdapterHelper(int position,
-                                                 View convertView, ViewGroup parent) {
+                                                 View convertView,
+                                                 ViewGroup parent) {
 
         if (mMultiItemSupport != null) {
-            return get(
-                    context,
+            return get(context,
                     convertView,
                     parent,
                     mMultiItemSupport.getLayoutId(position, data.get(position)),

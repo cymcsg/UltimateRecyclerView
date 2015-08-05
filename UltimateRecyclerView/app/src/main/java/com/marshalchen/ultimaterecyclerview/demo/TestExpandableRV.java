@@ -16,7 +16,7 @@ import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 /**
  * Created by hesk on 16/7/15.
  */
-public class testexpandableListView extends AppCompatActivity {
+public class TestExpandableRV extends AppCompatActivity {
 
     private static String[] sampledatagroup1 = {
             "peter", "http://google",

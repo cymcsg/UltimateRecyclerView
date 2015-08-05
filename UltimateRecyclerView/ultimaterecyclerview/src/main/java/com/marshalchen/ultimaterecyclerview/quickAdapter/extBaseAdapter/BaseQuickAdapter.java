@@ -24,7 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.marshalchen.ultimaterecyclerview.quickAdapter.MultiItemTypeSupport;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.extUtimateRVA.MultiItemTypeSupport;
 
 import java.util.ArrayList;
 import java.util.List;
