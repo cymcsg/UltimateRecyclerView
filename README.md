@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.11
+###Version:0.3.12
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -32,11 +32,12 @@ Notice that UltimateRecyclerView is a project under development.
 * Support different layout in adapter
 * Loading adapter with animation
 
-###Changes in 0.3.11:
+###Changes in 0.3.12:
 - [x] new style of drag and swipe
 - [x] normal head view
 - [x] add Generics in the UltimateViewAdapter
 - [x] expandable item of recyclerview
+- [x] quick adapter
 
 ###Changes in 0.3.8:
 - [x] support different layout in adapter
@@ -98,7 +99,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.11'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.12'
 }
 ```
 
