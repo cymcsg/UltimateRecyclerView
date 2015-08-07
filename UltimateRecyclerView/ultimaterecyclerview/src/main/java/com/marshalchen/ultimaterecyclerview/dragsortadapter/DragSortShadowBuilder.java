@@ -16,12 +16,15 @@
 
 package com.marshalchen.ultimaterecyclerview.dragsortadapter;
 
+import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DragSortShadowBuilder extends View.DragShadowBuilder {
 
   public static final String TAG = DragSortShadowBuilder.class.getSimpleName();

@@ -67,14 +67,14 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         advertise_view = adview;
 
 
-            /**
-             * Disable focus for sub-views of the AdView to avoid problems with
-             * trackpad navigation of the list.
-             */
-            for (int i = 0; i < advertise_view.getChildCount(); i++) {
-                advertise_view.getChildAt(i).setFocusable(false);
-            }
-            advertise_view.setFocusable(false);
+        /**
+         * Disable focus for sub-views of the AdView to avoid problems with
+         * trackpad navigation of the list.
+         */
+        for (int i = 0; i < advertise_view.getChildCount(); i++) {
+            advertise_view.getChildAt(i).setFocusable(false);
+        }
+        advertise_view.setFocusable(false);
 
         once = insertOnce;
         adfrequency = setInterval + 1;
@@ -101,10 +101,14 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param mview the view layout with resource initialized
      * @return the view type
      */
+    // @Deprecated
     protected abstract V newViewHolder(View mview);
 
+    /*
+        @Override
+        public V getViewHolder(View view) { return  }
+    */
     public static class AdHolder extends UltimateRecyclerviewViewHolder {
-
         public AdHolder(AdviewListener adviewlistener) {
             super(adviewlistener.onGenerateAdview());
         }
@@ -134,7 +138,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 } catch (Exception e) {
                     adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
                 }
-
                 return adview_holder;
             } else {
                 adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
@@ -231,6 +234,12 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      */
     public void insert(final T object) {
         insert(list, object, list.size());
+    }
+
+
+    public void removeAll() {
+        list.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -346,6 +355,19 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         final int take_int = (int) Math.floor((pos + 1) / adfrequency);
         Log.d("atAdPosE2", take_int + "");
         return take_int;
+    }
+
+    /**
+     * Indicates whether each item in the data set can be represented with a unique identifier
+     * of type {@link Long}.
+     *
+     * @param hasStableIds Whether items in data set have unique identifiers or not.
+     * @see #hasStableIds()
+     * @see #getItemId(int)
+     */
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(true);
     }
 
     /**

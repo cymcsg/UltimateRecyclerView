@@ -8,9 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -38,6 +41,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     private boolean admob_test_mode = false;
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
+    private BiAdAdapterSwitcher bi_sw;
 
     public static class adap extends simpleAdmobAdapter<String, VMoler, RelativeLayout> {
 
@@ -52,7 +56,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
         @Override
         protected int getNormalLayoutResId() {
-            return R.layout.recycler_view_adapter;
+            return getIdRV();
         }
 
 
@@ -61,10 +65,6 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
             return new VMoler(mview);
         }
 
-        @Override
-        public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-            return new UltimateRecyclerviewViewHolder(view);
-        }
     }
 
     public static class regular extends easyRegularAdapter<String, VMoler> {
@@ -75,17 +75,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
         @Override
         protected int getNormalLayoutResId() {
-            return R.layout.recycler_view_adapter;
+            return getIdRV();
         }
 
         @Override
         protected VMoler newViewHolder(View view) {
             return new VMoler(view);
-        }
-
-        @Override
-        public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-            return new UltimateRecyclerviewViewHolder(view);
         }
 
         @Override
@@ -96,8 +91,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
     private static void bindthisInhere(VMoler d, String data, int pos) {
         d.textViewSample.setText(data);
+        d.num.setText("@:" + pos);
     }
 
+    private static int getIdRV() {
+        return R.layout.countable_rv_adp;
+    }
 
     private RelativeLayout createadmob() {
 
@@ -155,13 +154,14 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
     public static class VMoler extends UltimateRecyclerviewViewHolder implements
             View.OnClickListener, View.OnLongClickListener {
-        public TextView textViewSample;
+        public TextView textViewSample, num;
         public ImageView imageViewSample;
         public ProgressBar progressBarSample;
 
         public VMoler(View itemView) {
             super(itemView);
             textViewSample = (TextView) itemView.findViewById(R.id.textview);
+            num = (TextView) itemView.findViewById(R.id.numb_coun);
             imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
             progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
             progressBarSample.setVisibility(View.GONE);
@@ -184,7 +184,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 34, new ArrayList<String>(),
+        final adap adp1 = new adap(createadmob(), false, 33, new ArrayList<String>(),
                 new AdmobAdapter.AdviewListener() {
                     @Override
                     public RelativeLayout onGenerateAdview() {
@@ -214,12 +214,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         /**
          *  example 2 implementation enhancement of list view
          */
-        final BiAdAdapterSwitcher sw = imple_switch_view(ultimateRecyclerView)
+        bi_sw = imple_switch_view(ultimateRecyclerView)
                 .onEnableRefresh(100)
-                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 100, new BiAdAdapterSwitcher.onLoadMore() {
+                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 4000, new BiAdAdapterSwitcher.onLoadMore() {
                     @Override
                     public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher this_module) {
-                        this_module.load_more_data(SampleDataboxset.newList());
+                        this_module.load_more_data(SampleDataboxset.newList(100));
                         return true;
                     }
                 });
@@ -235,7 +235,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                  *  example 2 implementation enhancement of list view
                  *  without advertisement configurations
                  */
-                sw.init(false);
+                bi_sw.init(false);
             }
 
         });
@@ -246,9 +246,39 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                  *  example 2 implementation enhancement of list view
                  *  with advertisement configuration
                  */
-                sw.init(true);
+                bi_sw.init(true);
+            }
+        });
+        setup_spinner();
+    }
+
+    private void remove_all_items() {
+        bi_sw.removeALL();
+    }
+
+    private void setup_spinner() {
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setPrompt("test functions");
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        spinnerAdapter.add("noth");
+        spinnerAdapter.add("remove all");
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //  ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
+                //   ultimateRecyclerView.getItemAnimator().setAddDuration(300);
+                //   ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
+                if (position == 1) {
+                    remove_all_items();
+                    spinner.setSelection(0, true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
-
 }

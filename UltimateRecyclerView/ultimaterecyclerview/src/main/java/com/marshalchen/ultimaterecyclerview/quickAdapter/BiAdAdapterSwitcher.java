@@ -34,7 +34,11 @@ public class BiAdAdapterSwitcher<
     private ADMOB withad;
     private onLoadMore loading_more;
     private boolean with_the_ad;
-    private int page_now = 1;
+    private int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
+
+    public void setMaxPages(final int n) {
+        max_pages = n;
+    }
 
     public BiAdAdapterSwitcher(UltimateRecyclerView view, EASY adapter_without_ad, ADMOB adapter_with_ad) {
         this.listview = view;
@@ -44,30 +48,20 @@ public class BiAdAdapterSwitcher<
 
     public void init(final boolean adenabled) {
         this.with_the_ad = adenabled;
-        this.listview.setAdapter(adenabled ? this.withad : this.noad);
+        if (layoutLoadMoreResId != 0) {
+            if (adenabled) {
+                withad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
+            } else
+                noad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
+            listview.enableLoadmore();
+        }
+        listview.setAdapter(adenabled ? this.withad : this.noad);
     }
 
     public interface onLoadMore {
         boolean request_start(int current_page_no, int itemsCount, final int maxLastVisiblePosition, final BiAdAdapterSwitcher this_module);
     }
 
-    private void enableRefreshAndLoadMore() {
-        this.listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things");
-                        //   this.listview.setRefreshing(false);
-                        // linearLayoutManager.scrollToPosition(0);
-                    }
-                }, 1000);
-            }
-        });
-
-
-    }
 
     /**
      * will implement more functions later
@@ -82,15 +76,16 @@ public class BiAdAdapterSwitcher<
                     @Override
                     public void run() {
                         reset();
-                        listview.setRefreshing(false);
                         if (loading_more != null) {
                             final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this);
                             if (ok) {
                                 page_now = 1;
+                                max_pages = 1;
                             } else {
                                 /** not okay, maybe consider to disable load more. **/
                             }
                         }
+                        listview.setRefreshing(false);
                     }
                 }, delay_trigger);
             }
@@ -98,9 +93,13 @@ public class BiAdAdapterSwitcher<
         return this;
     }
 
+    public void removeALL() {
+        reset();
+    }
+
     private void reset() {
         if (with_the_ad) {
-            // withad.notifyItemRangeRemoved(0,withad.getItemCount());
+            withad.removeAll();
         } else {
             noad.removeAll();
         }
@@ -114,7 +113,7 @@ public class BiAdAdapterSwitcher<
         }
     }
 
-    public void load_more_data_zero(final List<T> new_data_list) {
+    public void load_more_data_at_zero(final List<T> new_data_list) {
         if (with_the_ad) {
             insert_default(withad, new_data_list);
         } else {
@@ -122,9 +121,12 @@ public class BiAdAdapterSwitcher<
         }
     }
 
-    public BiAdAdapterSwitcher onEnableLoadmore(final @LayoutRes int layoutResId, final int delay_trigger, final onLoadMore loading_more_trigger_interface) {
-        this.loading_more = loading_more_trigger_interface;
-        this.listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+    public BiAdAdapterSwitcher onEnableLoadmore(
+            final @LayoutRes int layoutResId,
+            final int delay_trigger,
+            final onLoadMore loading_more_trigger_interface) {
+        loading_more = loading_more_trigger_interface;
+        listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
@@ -143,18 +145,12 @@ public class BiAdAdapterSwitcher<
                 }, delay_trigger);
             }
         });
-
-
-        if (with_the_ad) {
-            withad.setCustomLoadMoreView(getV(layoutResId));
-        } else
-            noad.setCustomLoadMoreView(getV(layoutResId));
-        this.listview.enableLoadmore();
+        this.layoutLoadMoreResId = layoutResId;
         return this;
     }
 
     private View getV(final @LayoutRes int layoutResId) {
-        return LayoutInflater.from(this.listview.getContext()).inflate(layoutResId, null);
+        return LayoutInflater.from(listview.getContext()).inflate(layoutResId, null);
     }
 
 
