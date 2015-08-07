@@ -205,7 +205,6 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
@@ -216,10 +215,13 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
          */
         bi_sw = imple_switch_view(ultimateRecyclerView)
                 .onEnableRefresh(100)
+                .EnableAutoDisableLoadMoreByMaxPages()
                 .onEnableLoadmore(R.layout.custom_bottom_progressbar, 4000, new BiAdAdapterSwitcher.onLoadMore() {
                     @Override
                     public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher this_module) {
-                        this_module.load_more_data(SampleDataboxset.newList(100));
+                        this_module.load_more_data(SampleDataboxset.newList(50));
+                        //test the max pages
+                        bi_sw.setMaxPages(3);
                         return true;
                     }
                 });

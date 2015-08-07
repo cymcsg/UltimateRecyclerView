@@ -33,7 +33,7 @@ public class BiAdAdapterSwitcher<
     private EASY noad;
     private ADMOB withad;
     private onLoadMore loading_more;
-    private boolean with_the_ad;
+    private boolean with_the_ad, auto_disable_loadmore = false;
     private int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
 
     public void setMaxPages(final int n) {
@@ -44,6 +44,11 @@ public class BiAdAdapterSwitcher<
         this.listview = view;
         this.noad = adapter_without_ad;
         this.withad = adapter_with_ad;
+    }
+
+    public BiAdAdapterSwitcher EnableAutoDisableLoadMoreByMaxPages() {
+        auto_disable_loadmore = true;
+        return this;
     }
 
     public void init(final boolean adenabled) {
@@ -69,7 +74,7 @@ public class BiAdAdapterSwitcher<
      * @return switchableadapter object
      */
     public BiAdAdapterSwitcher onEnableRefresh(final int delay_trigger) {
-        this.listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -82,6 +87,7 @@ public class BiAdAdapterSwitcher<
                                 page_now = 1;
                                 max_pages = 1;
                             } else {
+                                if (auto_disable_loadmore) listview.disableLoadmore();
                                 /** not okay, maybe consider to disable load more. **/
                             }
                         }
@@ -95,6 +101,17 @@ public class BiAdAdapterSwitcher<
 
     public void removeALL() {
         reset();
+    }
+
+    /**
+     * once it is called, the list will restart from the zero scroll
+     */
+    public void notifyDataSetChanged() {
+        if (with_the_ad) {
+            withad.notifyDataSetChanged();
+        } else {
+            noad.notifyDataSetChanged();
+        }
     }
 
     private void reset() {
@@ -135,10 +152,14 @@ public class BiAdAdapterSwitcher<
                         Log.d("loadmore", maxLastVisiblePosition + " position");
                         if (loading_more != null) {
                             final boolean ok = loading_more.request_start(page_now, itemsCount, maxLastVisiblePosition, BiAdAdapterSwitcher.this);
-                            if (ok) {
+
+                            if (ok && page_now < max_pages) {
                                 page_now++;
+                                if (auto_disable_loadmore && listview.isLoadMoreEnabled()) {
+                                    listview.reenableLoadmore();
+                                }
                             } else {
-                                /** not okay, maybe consider to disable load more. **/
+                                if (auto_disable_loadmore) listview.disableLoadmore();
                             }
                         }
                     }
