@@ -85,6 +85,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private boolean mFirstScroll;
     private boolean mDragging;
     private boolean mIntercepted;
+    private boolean mIsLoadMoreWidgetEnabled;
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
 
@@ -363,6 +364,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
 
+        mIsLoadMoreWidgetEnabled = true;
 
     }
 
@@ -376,7 +378,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     .inflate(R.layout.bottom_progressbar, null));
             mAdapter.isLoadMoreChanged = false;
         }
-
+        mIsLoadMoreWidgetEnabled = true;
     }
 
     /**
@@ -388,7 +390,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.setCustomLoadMoreView(customLoadingMoreView);
             mAdapter.isLoadMoreChanged = false;
         }
+        mIsLoadMoreWidgetEnabled = true;
+    }
 
+    public boolean isLoadMoreEnabled() {
+        return mIsLoadMoreWidgetEnabled;
     }
 
     /**
@@ -399,6 +405,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null)
             mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.empty_progressbar, null));
+        mIsLoadMoreWidgetEnabled = false;
     }
 
 

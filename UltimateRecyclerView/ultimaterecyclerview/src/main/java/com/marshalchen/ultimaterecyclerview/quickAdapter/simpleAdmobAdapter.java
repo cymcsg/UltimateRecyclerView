@@ -23,6 +23,11 @@ public abstract class simpleAdmobAdapter<T, B extends UltimateRecyclerviewViewHo
     }
 
     @Override
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
+    @Override
     public void onBindViewHolder(UltimateRecyclerviewViewHolder holder, int position) {
         if (onActionToBindData(position, list)) {
             this.withBindHolder((B) holder, this.list.get(position), position);

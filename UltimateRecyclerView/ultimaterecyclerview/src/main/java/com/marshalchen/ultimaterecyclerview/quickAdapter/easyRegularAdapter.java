@@ -17,6 +17,11 @@ import java.util.List;
 public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
     private List<T> currentlistsource;
 
+    @Override
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
     /**
      * dynamic object to start
      *
@@ -74,8 +79,10 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
     }
 
     public void removeAll() {
-        while (currentlistsource.size() > 0) {
-            remove(currentlistsource, 0);
-        }
+        //while (currentlistsource.size() > 0) {
+        //  remove(currentlistsource, 0);
+        currentlistsource.clear();
+        notifyDataSetChanged();
+        // }
     }
 }
