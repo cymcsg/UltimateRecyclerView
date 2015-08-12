@@ -184,7 +184,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 33, new ArrayList<String>(),
+        final adap adp1 = new adap(createadmob(), false, 10, new ArrayList<String>(),
                 new AdmobAdapter.AdviewListener() {
                     @Override
                     public RelativeLayout onGenerateAdview() {
@@ -216,12 +216,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         bi_sw = imple_switch_view(ultimateRecyclerView)
                 .onEnableRefresh(100)
                 .EnableAutoDisableLoadMoreByMaxPages()
-                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 4000, new BiAdAdapterSwitcher.onLoadMore() {
+                .onEnableLoadmore(R.layout.custom_bottom_progressbar, 2000, new BiAdAdapterSwitcher.onLoadMore() {
                     @Override
-                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher this_module) {
-                        this_module.load_more_data(SampleDataboxset.newList(50));
+                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher bi, boolean refresh) {
+                        bi.load_more_data(SampleDataboxset.newList(5));
                         //test the max pages
-                        bi_sw.setMaxPages(3);
+                        bi.setMaxPages(10);
                         return true;
                     }
                 });
