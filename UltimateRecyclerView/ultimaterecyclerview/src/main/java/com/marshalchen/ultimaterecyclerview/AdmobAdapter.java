@@ -1,11 +1,9 @@
 package com.marshalchen.ultimaterecyclerview;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -375,19 +373,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         final int take_int = (int) Math.floor((pos + 1) / adfrequency);
         Log.d("atAdPosE2", take_int + "");
         return take_int;
-    }
-
-    /**
-     * Indicates whether each item in the data set can be represented with a unique identifier
-     * of type {@link Long}.
-     *
-     * @param hasStableIds Whether items in data set have unique identifiers or not.
-     * @see #hasStableIds()
-     * @see #getItemId(int)
-     */
-    @Override
-    public void setHasStableIds(boolean hasStableIds) {
-        super.setHasStableIds(true);
     }
 
     /**
