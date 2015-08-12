@@ -28,13 +28,15 @@ public class BiAdAdapterSwitcher<
         B extends UltimateRecyclerviewViewHolder,
         EASY extends easyRegularAdapter<T, B>,
         V extends ViewGroup,
-        ADMOB extends simpleAdmobAdapter<T, B, V>> {
-    private UltimateRecyclerView listview;
-    private EASY noad;
-    private ADMOB withad;
-    private onLoadMore loading_more;
-    private boolean with_the_ad, auto_disable_loadmore = false;
-    private int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
+        ADMOB extends simpleAdmobAdapter<T, B, V>>
+
+        implements SwipeRefreshLayout.OnRefreshListener {
+    protected UltimateRecyclerView listview;
+    protected EASY noad;
+    protected ADMOB withad;
+    protected onLoadMore loading_more;
+    protected boolean with_the_ad, auto_disable_loadmore = false;
+    protected int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
 
     public void setMaxPages(final int n) {
         max_pages = n;
@@ -63,10 +65,38 @@ public class BiAdAdapterSwitcher<
         listview.setAdapter(adenabled ? this.withad : this.noad);
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
+
     public interface onLoadMore {
         boolean request_start(int current_page_no, int itemsCount, final int maxLastVisiblePosition, final BiAdAdapterSwitcher this_module);
     }
 
+    protected Runnable refesh_default = new Runnable() {
+        @Override
+        public void run() {
+            reset();
+            if (loading_more != null) {
+                final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this);
+                if (ok) {
+                    page_now = 1;
+                    max_pages = 1;
+                    notifyDataSetChanged();
+                } else {
+                    if (auto_disable_loadmore) listview.disableLoadmore();
+                    /** not okay, maybe consider to disable load more. **/
+                }
+            }
+            listview.setRefreshing(false);
+        }
+    };
+
+    protected BiAdAdapterSwitcher setCustomOnFresh(Runnable h) {
+        this.refesh_default = h;
+        return this;
+    }
 
     /**
      * will implement more functions later
@@ -77,23 +107,7 @@ public class BiAdAdapterSwitcher<
         listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        reset();
-                        if (loading_more != null) {
-                            final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this);
-                            if (ok) {
-                                page_now = 1;
-                                max_pages = 1;
-                            } else {
-                                if (auto_disable_loadmore) listview.disableLoadmore();
-                                /** not okay, maybe consider to disable load more. **/
-                            }
-                        }
-                        listview.setRefreshing(false);
-                    }
-                }, delay_trigger);
+                new Handler().postDelayed(refesh_default, delay_trigger);
             }
         });
         return this;

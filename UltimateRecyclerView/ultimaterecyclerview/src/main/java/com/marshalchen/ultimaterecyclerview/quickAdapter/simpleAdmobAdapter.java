@@ -56,4 +56,6 @@ public abstract class simpleAdmobAdapter<T, B extends UltimateRecyclerviewViewHo
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
     }
+
+
 }
