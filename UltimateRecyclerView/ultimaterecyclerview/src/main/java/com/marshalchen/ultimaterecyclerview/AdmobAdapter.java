@@ -65,7 +65,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      */
     public AdmobAdapter(Adv adview, boolean insertOnce, int setInterval, List<T> L, AdviewListener listener) {
         advertise_view = adview;
-        setHasStableIds(true);
+        // setHasStableIds(true);
 
         /**
          * Disable focus for sub-views of the AdView to avoid problems with

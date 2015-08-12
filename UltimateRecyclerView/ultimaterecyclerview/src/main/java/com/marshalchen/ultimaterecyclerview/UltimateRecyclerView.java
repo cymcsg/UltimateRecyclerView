@@ -76,7 +76,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private int mPrevScrollY;
     private int mScrollY;
     private SparseIntArray mChildrenHeights = new SparseIntArray();
-    ;
 
     // Fields that don't need to be saved onSaveInstanceState
     private ObservableScrollState mObservableScrollState;

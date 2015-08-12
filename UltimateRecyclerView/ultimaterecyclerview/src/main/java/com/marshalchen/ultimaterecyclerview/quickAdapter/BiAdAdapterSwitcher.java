@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class BiAdAdapterSwitcher<
     protected onLoadMore loading_more;
     protected boolean with_the_ad, auto_disable_loadmore = false;
     protected int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
+    protected RecyclerView.LayoutManager mManager;
 
     public void setMaxPages(final int n) {
         max_pages = n;
@@ -46,6 +50,7 @@ public class BiAdAdapterSwitcher<
         this.listview = view;
         this.noad = adapter_without_ad;
         this.withad = adapter_with_ad;
+        this.mManager = view.getLayoutManager();
     }
 
     public BiAdAdapterSwitcher EnableAutoDisableLoadMoreByMaxPages() {
@@ -65,11 +70,28 @@ public class BiAdAdapterSwitcher<
         listview.setAdapter(adenabled ? this.withad : this.noad);
     }
 
+    public void scrollToTop() {
+        if (mManager == null) mManager = listview.getLayoutManager();
+        if (mManager == null) return;
+
+        if (mManager instanceof LinearLayoutManager) {
+            LinearLayoutManager mLayoutManager = (LinearLayoutManager) mManager;
+            if (mLayoutManager.getStackFromEnd() && mLayoutManager.canScrollVertically()) {
+                mLayoutManager.scrollToPosition(1);
+            }
+        } else if (mManager instanceof ScrollSmoothLineaerLayoutManager) {
+            LinearLayoutManager mLayoutManager = (ScrollSmoothLineaerLayoutManager) mManager;
+            if (mLayoutManager.getStackFromEnd() && mLayoutManager.canScrollVertically()) {
+                mLayoutManager.scrollToPosition(1);
+            }
+        }
+    }
+
     public interface onLoadMore {
         boolean request_start(int current_page_no, int itemsCount, final int maxLastVisiblePosition, final BiAdAdapterSwitcher this_module, final boolean onRefresh);
     }
 
-    protected Runnable refesh_default = new Runnable() {
+    protected Runnable refresh_default = new Runnable() {
         @Override
         public void run() {
             reset();
@@ -78,7 +100,7 @@ public class BiAdAdapterSwitcher<
                 if (ok) {
                     page_now = 1;
                     max_pages = 1;
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
                 } else {
                     if (auto_disable_loadmore) listview.disableLoadmore();
                     /** not okay, maybe consider to disable load more. **/
@@ -89,7 +111,7 @@ public class BiAdAdapterSwitcher<
     };
 
     protected BiAdAdapterSwitcher setCustomOnFresh(Runnable h) {
-        this.refesh_default = h;
+        this.refresh_default = h;
         return this;
     }
 
@@ -102,7 +124,7 @@ public class BiAdAdapterSwitcher<
         listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(refesh_default, delay_trigger);
+                new Handler().postDelayed(refresh_default, delay_trigger);
             }
         });
         return this;
@@ -191,10 +213,10 @@ public class BiAdAdapterSwitcher<
     }
 
     private void insert_default(ADMOB sd, List<T> list) {
-       /* for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             sd.insert(list.get(i));
-        }*/
-        sd.insert(list);
+        }
+        // sd.insert(list);
     }
 
     public static <V extends ViewGroup> void maximum_size(LinearLayout l, V suppose_tobe_Adview, Activity activity) {
