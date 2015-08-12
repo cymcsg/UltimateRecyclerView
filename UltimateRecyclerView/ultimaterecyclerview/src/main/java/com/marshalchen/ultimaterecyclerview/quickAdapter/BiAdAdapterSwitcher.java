@@ -182,9 +182,10 @@ public class BiAdAdapterSwitcher<
     }
 
     private void insert_default(ADMOB sd, List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
+       /* for (int i = 0; i < list.size(); i++) {
             sd.insert(list.get(i));
-        }
+        }*/
+        sd.insert(list);
     }
 
     public static <V extends ViewGroup> void maximum_size(LinearLayout l, V suppose_tobe_Adview, Activity activity) {

@@ -184,7 +184,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 33, new ArrayList<String>(),
+        final adap adp1 = new adap(createadmob(), false, 10, new ArrayList<String>(),
                 new AdmobAdapter.AdviewListener() {
                     @Override
                     public RelativeLayout onGenerateAdview() {
