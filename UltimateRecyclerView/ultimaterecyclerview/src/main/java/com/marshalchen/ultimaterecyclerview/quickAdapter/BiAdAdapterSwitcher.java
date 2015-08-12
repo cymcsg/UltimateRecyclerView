@@ -30,7 +30,7 @@ public class BiAdAdapterSwitcher<
         V extends ViewGroup,
         ADMOB extends simpleAdmobAdapter<T, B, V>>
 
-        implements SwipeRefreshLayout.OnRefreshListener {
+{
     protected UltimateRecyclerView listview;
     protected EASY noad;
     protected ADMOB withad;
@@ -65,13 +65,8 @@ public class BiAdAdapterSwitcher<
         listview.setAdapter(adenabled ? this.withad : this.noad);
     }
 
-    @Override
-    public void onRefresh() {
-
-    }
-
     public interface onLoadMore {
-        boolean request_start(int current_page_no, int itemsCount, final int maxLastVisiblePosition, final BiAdAdapterSwitcher this_module);
+        boolean request_start(int current_page_no, int itemsCount, final int maxLastVisiblePosition, final BiAdAdapterSwitcher this_module, final boolean onRefresh);
     }
 
     protected Runnable refesh_default = new Runnable() {
@@ -79,7 +74,7 @@ public class BiAdAdapterSwitcher<
         public void run() {
             reset();
             if (loading_more != null) {
-                final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this);
+                final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this, true);
                 if (ok) {
                     page_now = 1;
                     max_pages = 1;
@@ -165,7 +160,7 @@ public class BiAdAdapterSwitcher<
                     public void run() {
                         Log.d("loadmore", maxLastVisiblePosition + " position");
                         if (loading_more != null) {
-                            final boolean ok = loading_more.request_start(page_now, itemsCount, maxLastVisiblePosition, BiAdAdapterSwitcher.this);
+                            final boolean ok = loading_more.request_start(page_now, itemsCount, maxLastVisiblePosition, BiAdAdapterSwitcher.this, false);
 
                             if (ok && page_now < max_pages) {
                                 page_now++;
