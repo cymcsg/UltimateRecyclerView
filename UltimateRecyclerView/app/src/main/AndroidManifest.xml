@@ -36,7 +36,7 @@
             android:name=".TestAdMob"
             android:label="@string/app_name" />
         <activity
-            android:name=".testexpandableListView"
+            android:name=".TestExpandableRV"
             android:label="@string/app_name" />
         <activity
             android:name=".DebugLoadMoreActivity"
@@ -49,6 +49,9 @@
             android:label="@string/app_name" />
         <activity
             android:name=".swipelist.SwipeListViewExampleActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".TestAdvancedAdmobActivity"
             android:label="@string/app_name" />
 
         <activity

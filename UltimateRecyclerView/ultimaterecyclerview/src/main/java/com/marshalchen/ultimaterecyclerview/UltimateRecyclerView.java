@@ -76,7 +76,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private int mPrevScrollY;
     private int mScrollY;
     private SparseIntArray mChildrenHeights = new SparseIntArray();
-    ;
 
     // Fields that don't need to be saved onSaveInstanceState
     private ObservableScrollState mObservableScrollState;
@@ -85,6 +84,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private boolean mFirstScroll;
     private boolean mDragging;
     private boolean mIntercepted;
+    private boolean mIsLoadMoreWidgetEnabled;
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
 
@@ -363,42 +363,48 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
 
+        mIsLoadMoreWidgetEnabled = true;
 
     }
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
-     *
      */
-    public void reenableLoadmore(){
+    public void reenableLoadmore() {
         enableLoadmore();
-        if (mAdapter != null ){
+        if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
-            mAdapter.isLoadMoreChanged=false;
+            mAdapter.isLoadMoreChanged = false;
         }
-
+        mIsLoadMoreWidgetEnabled = true;
     }
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
-     *
      */
-    public void reenableLoadmore(View customLoadingMoreView){
+    public void reenableLoadmore(View customLoadingMoreView) {
         enableLoadmore();
-        if (mAdapter != null ){
+        if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(customLoadingMoreView);
-            mAdapter.isLoadMoreChanged=false;
+            mAdapter.isLoadMoreChanged = false;
         }
-
+        mIsLoadMoreWidgetEnabled = true;
     }
+
+    public boolean isLoadMoreEnabled() {
+        return mIsLoadMoreWidgetEnabled;
+    }
+
     /**
      * Remove loading more scroll listener
      */
     public void disableLoadmore() {
         setDefaultScrollListener();
-        mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
-                .inflate(R.layout.empty_progressbar, null));
+        if (mAdapter != null)
+            mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
+                    .inflate(R.layout.empty_progressbar, null));
+        mIsLoadMoreWidgetEnabled = false;
     }
 
 

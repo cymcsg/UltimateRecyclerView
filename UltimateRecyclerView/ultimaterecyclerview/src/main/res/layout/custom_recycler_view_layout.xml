@@ -36,7 +36,7 @@
         android:layout_marginBottom="15dp"
         android:visibility="gone"
         fab:plusIconColor="#808080"
-        fab:colorNormal="#ffffff" />
+        fab:fab_colorNormal="#ffffff" />
 
     <ViewStub
         android:id="@+id/floatingActionViewStub"

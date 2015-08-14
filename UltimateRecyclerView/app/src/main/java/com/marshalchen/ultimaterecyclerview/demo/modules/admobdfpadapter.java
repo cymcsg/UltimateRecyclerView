@@ -118,18 +118,6 @@ public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapte
         }
     }
 
-    public void insert(final List<String> list, final String object, final int post) {
-        super.insert(list, object, post);
-    }
-
-    public void insert(final List<String> list, final String object) {
-        super.insert(list, object);
-    }
-
-    public void insert(final String object) {
-        insert(list, object);
-    }
-
     public void remove(int position) {
         remove(list, position);
     }

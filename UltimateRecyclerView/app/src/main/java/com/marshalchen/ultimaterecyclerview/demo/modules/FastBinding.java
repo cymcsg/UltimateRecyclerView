@@ -9,9 +9,10 @@ import com.marshalchen.ultimaterecyclerview.demo.MultiViewTypesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.TestAdMob;
 import com.marshalchen.ultimaterecyclerview.demo.DebugLoadMoreActivity;
+import com.marshalchen.ultimaterecyclerview.demo.TestAdvancedAdmobActivity;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
-import com.marshalchen.ultimaterecyclerview.demo.testexpandableListView;
+import com.marshalchen.ultimaterecyclerview.demo.TestExpandableRV;
 
 /**
  * Created by hesk on 7/1/2015.
@@ -23,7 +24,8 @@ public enum FastBinding {
     scrollactivity(R.id.scrollactivity, ScrollObservablesActivity.class),
     swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
     debug_load_more(R.id.debug_load_more, DebugLoadMoreActivity.class),
-    expandmenu(R.id.expandmenu, testexpandableListView.class);
+    advancedAdmob(R.id.adv_admob, TestAdvancedAdmobActivity.class),
+    expandmenu(R.id.expandmenu, TestExpandableRV.class);
 
     private int id;
     private Class<?> clazz;

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:text="test2"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:id="@+id/hkbox"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/textview">
+
+
+        <TextView
+            android:id="@+id/numb_coun"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:gravity="center_vertical"
+            android:text="99+"
+            android:textSize="23sp" />
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:layout_toRightOf="@id/numb_coun"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_back4" />
+    </RelativeLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+</RelativeLayout>
