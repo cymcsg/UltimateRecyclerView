@@ -16,9 +16,11 @@
 
 package com.marshalchen.ultimaterecyclerview.dragsortadapter;
 
+import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +36,7 @@ public abstract class DragSortAdapter<VH extends DragSortAdapter.ViewHolder>
   private int scrollState = RecyclerView.SCROLL_STATE_IDLE;
   private final PointF lastTouchPoint = new PointF(); // used to create ShadowBuilder
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public DragSortAdapter(RecyclerView recyclerView) {
     setHasStableIds(true);
 
@@ -121,6 +124,7 @@ public abstract class DragSortAdapter<VH extends DragSortAdapter.ViewHolder>
     }
   }
 
+  @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
   void handleDragScroll(RecyclerView rv, DragInfo dragInfo) {
     if (rv.getLayoutManager().canScrollHorizontally()) {
       if (rv.canScrollHorizontally(-1) && dragInfo.shouldScrollLeft()) {
@@ -150,6 +154,7 @@ public abstract class DragSortAdapter<VH extends DragSortAdapter.ViewHolder>
       this.adapter = dragSortAdapter;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public final void startDrag() {
       PointF touchPoint = adapter.getLastTouchPoint();
       int x = (int) (touchPoint.x - itemView.getX());
@@ -162,6 +167,7 @@ public abstract class DragSortAdapter<VH extends DragSortAdapter.ViewHolder>
       return new DragSortShadowBuilder(itemView, touchPoint);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public final void startDrag(View.DragShadowBuilder dragShadowBuilder) {
       Point shadowSize = new Point();
       Point shadowTouchPoint = new Point();

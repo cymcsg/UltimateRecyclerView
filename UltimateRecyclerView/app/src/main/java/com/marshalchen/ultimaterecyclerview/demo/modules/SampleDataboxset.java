@@ -24,6 +24,12 @@ public class SampleDataboxset {
         return stringList;
     }
 
+    public static List<String> newList(int longh) {
+        final List<String> j = newList();
+        genItems(longh, j);
+        return j;
+    }
+
     public static List<String> newListFromGen() {
         final List<String> s = new ArrayList<>();
         genItems(38, s);

@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.0"
+        versionCode 15
+        versionName "0.3.16"
     }
     buildTypes {
         release {
@@ -27,12 +27,13 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'in.srain.cube:ultra-ptr:1.0.10'
+    compile 'com.github.bumptech.glide:glide:3.6.0'
 }
 
 ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.3.11'
+    PUBLISH_VERSION = '0.3.16'
 }
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'

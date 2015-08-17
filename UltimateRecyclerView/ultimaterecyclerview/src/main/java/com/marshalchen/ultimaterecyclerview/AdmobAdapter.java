@@ -1,6 +1,5 @@
 package com.marshalchen.ultimaterecyclerview;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         public static final int ADVIEW = 4;
     }
 
-    protected Adv advertise_view = null;
+    protected final Adv advertise_view;
     /**
      * There is an AD between the amount of the data items. adfrequency is known as the amount.
      */
@@ -52,6 +51,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         this(adview, insertOnce, setInterval, L, null);
     }
 
+
     /**
      * This is same to the above method
      *
@@ -63,6 +63,8 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      */
     public AdmobAdapter(Adv adview, boolean insertOnce, int setInterval, List<T> L, AdviewListener listener) {
         advertise_view = adview;
+        // setHasStableIds(true);
+
         /**
          * Disable focus for sub-views of the AdView to avoid problems with
          * trackpad navigation of the list.
@@ -71,6 +73,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             advertise_view.getChildAt(i).setFocusable(false);
         }
         advertise_view.setFocusable(false);
+
         once = insertOnce;
         adfrequency = setInterval + 1;
         /*  registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -96,8 +99,25 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param mview the view layout with resource initialized
      * @return the view type
      */
+    // @Deprecated
     protected abstract V newViewHolder(View mview);
 
+    /*
+        @Override
+        public V getViewHolder(View view) { return  }
+    */
+    public static class AdHolder extends UltimateRecyclerviewViewHolder {
+        public AdHolder(AdviewListener adviewlistener) {
+            super(adviewlistener.onGenerateAdview());
+        }
+    }
+
+    /**
+     * only on the first creation
+     *
+     * @param parent parent resource
+     * @return the UtimateView
+     */
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
@@ -106,22 +126,22 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //   if (parent == null)
+        //       Log.d("getItemCountE2", "parent is null on viewType: " + viewType);
         if (viewType == VIEW_TYPES.ADVIEW) {
             UltimateRecyclerviewViewHolder adview_holder;
             if (adviewlistener != null) {
                 try {
-                    adview_holder = new UltimateRecyclerviewViewHolder(adviewlistener.onGenerateAdview());
+                    adview_holder = new AdHolder(adviewlistener);
                 } catch (NullPointerException e) {
                     adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
                 } catch (Exception e) {
                     adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
                 }
-
-                return adview_holder;
             } else {
                 adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
-                return adview_holder;
             }
+            return adview_holder;
         } else {
             return super.onCreateViewHolder(parent, viewType);
         }
@@ -178,34 +198,67 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
 
     @Override
     /**
-     * Todo: need to resolve this problem when it crash. and we need more testing for this now.
      * Insert a item to the list of the adapter
      *
      * @param list the data list
      * @param object the object
-     * @param position the object position
+     * @param first_insert_data_pos the object position at the end of the list
      * @param <T> the generic type
      */
-    public <T> void insert(final List<T> list, final T object, final int position) {
+    public <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
         try {
-            list.add(position, object);
-            final int offset = getReverseDataArrayPosition(position);
-            notifyItemInserted(offset);
-            if (isPosOnAdView(offset) && position > 0) {
-                notifyItemInserted(offset + 1);
+            list.add(first_insert_data_pos, object);
+            final int offset = getReverseDataArrayPosition(first_insert_data_pos);
+            if (isPosOnAdView(offset) && first_insert_data_pos > 0) {
+                notifyItemRangeChanged(offset, offset + 1);
+            } else {
+                notifyItemInserted(offset);
             }
-            Log.d("admobError", "offset final: " + offset);
         } catch (ArrayIndexOutOfBoundsException e) {
-            Log.d("admobError i1", e.getMessage());
+            Log.d("admobErrorMr3", e.getMessage());
         } catch (IndexOutOfBoundsException e) {
-            Log.d("admobError i2", e.getMessage());
+            Log.d("admobErrorMr3", e.getMessage());
         }
     }
 
-    public <T> void insert(final List<T> list, final T object) {
+    /**
+     * to insert data with a new list
+     *
+     * @param original_list    the original list
+     * @param new_list         the list that items are in it
+     * @param first_insert_pos the first item
+     * @param <T>              the list type holder
+     */
+    public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
+        try {
+            original_list.addAll(first_insert_pos, new_list);
+            final int view_pos_1 = getReverseDataArrayPosition(first_insert_pos);
+            final int view_pos_2 = getReverseDataArrayPosition(first_insert_pos + new_list.size());
+            notifyItemRangeChanged(view_pos_1, view_pos_2);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.d("admobErrorMr3", e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("admobErrorMr3", e.getMessage());
+        }
+    }
+
+    /**
+     * default insert that will append the object at the end
+     *
+     * @param object data object
+     */
+    public void insert(final T object) {
         insert(list, object, list.size());
     }
 
+    public void insert(final List<T> newlist) {
+        insert(list, newlist, list.size());
+    }
+
+    public void removeAll() {
+        list.clear();
+        notifyDataSetChanged();
+    }
 
     @Override
     /**
@@ -224,7 +277,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 if (offset > 1 && isPosOnAdView(offset) && position > 0) {
                     notifyItemRemoved(offset - 1);
                 }
-                Log.d("admobError", "offset final: " + offset);
+                Log.d("normaladmob", "offset final: " + offset);
             } else {
                 throw new ArrayIndexOutOfBoundsException("no data or the remove position is not exist p:" + position + ", list size:" + list.size());
             }
@@ -281,7 +334,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     }
 
     /**
-     * this is the {getDataArrayPosition} reverse
+     * this is the {getDataArrayPosition} reverse from data position to layout position
      *
      * @param dataPos position on the data list
      * @return offset

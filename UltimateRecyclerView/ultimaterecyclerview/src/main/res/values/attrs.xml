@@ -28,10 +28,10 @@
     </declare-styleable>
 
     <declare-styleable name="FloatActionButton">
-        <attr name="colorPressed" format="color" />
-        <attr name="colorNormal" format="color" />
+        <attr name="fab_colorPressed" format="color" />
+        <attr name="fab_colorNormal" format="color" />
         <attr name="icon" />
-        <attr name="size" format="enum">
+        <attr name="fab_size" format="enum">
             <enum name="normal" value="0" />
             <enum name="mini" value="1" />
         </attr>
