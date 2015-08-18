@@ -61,6 +61,6 @@
         android:layout_alignParentBottom="true"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         fab:plusIconColor="#808080"
-        fab:fab_colorNormal="#aaffff"
+        fab:urv_fab_colorNormal="#aaffff"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
