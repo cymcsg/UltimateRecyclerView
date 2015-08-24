@@ -57,7 +57,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 Log.d("start to load more", itemsCount + " :: " + itemsCount);
             }
         });
-       /* mUltimateRecyclerView.setParallaxHeader(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));*/
+     /*   mUltimateRecyclerView.setParallaxHeader(LayoutInflater.from(this).inflate(R.layout.empty_view, null));*/
 
     }
 
