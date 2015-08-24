@@ -13,6 +13,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
+import java.io.PipedOutputStream;
 import java.util.List;
 
 /**
@@ -100,10 +101,12 @@ public class GridAdapter extends UltimateViewAdapter {
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
         final private int columns;
         final private int intervalRow;
+        final private GridAdapter mGridAdapter;
 
-        public GridSpan(int col, int intervalRow) {
+        public GridSpan(int col, int intervalRow, GridAdapter mGridAdapter) {
             this.columns = col;
             this.intervalRow = intervalRow;
+            this.mGridAdapter = mGridAdapter;
         }
 
         /**
@@ -114,9 +117,13 @@ public class GridAdapter extends UltimateViewAdapter {
          */
         @Override
         public int getSpanSize(int position) {
-            int mIntervalHeader = columns * intervalRow;
-            int h = position % mIntervalHeader == 0 ? columns : 1;
-            return h;
+            if (position == mGridAdapter.getAdapterItemCount()) {
+                return columns;
+            } else {
+                int mIntervalHeader = columns * intervalRow;
+                int h = position % mIntervalHeader == 0 ? columns : 1;
+                return h;
+            }
         }
     }
 

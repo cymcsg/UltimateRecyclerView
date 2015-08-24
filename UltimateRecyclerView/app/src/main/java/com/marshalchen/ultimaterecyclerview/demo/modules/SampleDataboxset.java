@@ -70,7 +70,7 @@ public class SampleDataboxset {
 
     public static final Integer[] res = new Integer[]{
             R.drawable.test_back2,
-            R.drawable.test_back1,
+           // R.drawable.test_back1,
             R.drawable.test_back
     };
     public static final String[] girl_name = new String[]{

@@ -7,13 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Display;
 import android.view.LayoutInflater;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
+import com.marshalchen.ultimaterecyclerview.uiUtils.BasicGridLayoutManager;
+
 import java.util.List;
+
 import static com.marshalchen.ultimaterecyclerview.demo.GridAdapter.*;
 
 /**
@@ -22,8 +26,8 @@ import static com.marshalchen.ultimaterecyclerview.demo.GridAdapter.*;
 public class GridLayoutRVTest extends AppCompatActivity {
     private UltimateRecyclerView mUltimateRecyclerView;
     private GridAdapter mGridAdapter = null;
-    private GridLayoutManager mGridLayoutManager;
-    private int moreNum = 2, columns = 3;
+    private BasicGridLayoutManager mGridLayoutManager;
+    private int moreNum = 2, columns = 2;
     private ActionMode actionMode;
     private Toolbar mToolbar;
     boolean isDrag = true;
@@ -38,19 +42,22 @@ public class GridLayoutRVTest extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         mUltimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
-        mUltimateRecyclerView.setHasFixedSize(false);
-        final List<String> stringList = SampleDataboxset.newListFromGen(100);
-        mGridAdapter = new GridAdapter(stringList);
-        mGridLayoutManager = new GridLayoutManager(this, columns);
-        mGridLayoutManager.setSpanSizeLookup(new GridAdapter.GridSpan(columns, 10));
-        mUltimateRecyclerView.setHasFixedSize(true);
+        mGridAdapter = new GridAdapter(SampleDataboxset.newListFromGen(67));
+        mGridLayoutManager = new BasicGridLayoutManager(this, columns, mGridAdapter);
         mUltimateRecyclerView.setLayoutManager(mGridLayoutManager);
+        mUltimateRecyclerView.setHasFixedSize(true);
+        mUltimateRecyclerView.setSaveEnabled(true);
+        mUltimateRecyclerView.setClipToPadding(false);
         mUltimateRecyclerView.setAdapter(mGridAdapter);
         mUltimateRecyclerView.enableLoadmore();
-        mGridAdapter
-          .setCustomLoadMoreView(LayoutInflater.from(this)
-          .inflate(R.layout.custom_bottom_progressbar, null));
-
+        mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+        mUltimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, int maxLastVisiblePosition) {
+                Log.d("start to load more", itemsCount + " :: " + itemsCount);
+            }
+        });
+       /* mUltimateRecyclerView.setParallaxHeader(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));*/
 
     }
 
