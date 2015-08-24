@@ -1,9 +1,11 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by hesk on 7/1/2015.
@@ -30,6 +32,12 @@ public class SampleDataboxset {
         return j;
     }
 
+    public static List<String> newListFromGen(int n) {
+        final List<String> s = new ArrayList<>();
+        genItems(n, s);
+        return s;
+    }
+
     public static List<String> newListFromGen() {
         final List<String> s = new ArrayList<>();
         genItems(38, s);
@@ -38,7 +46,8 @@ public class SampleDataboxset {
 
     private static void genItems(final int howmany, final List<String> list) {
         for (int i = 0; i < howmany; i++) {
-            list.add("foinefieifn");
+            Random e = new Random();
+            list.add(girl_name[e.nextInt(girl_name.length)]);
         }
     }
 
@@ -48,9 +57,55 @@ public class SampleDataboxset {
         }
     }
 
+    public static int getGirlImageRandom() {
+        Random e = new Random();
+        return res[e.nextInt(res.length)];
+    }
+
     public static void insertMore(admobdfpadapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
             sd.insert("More items " + i);
         }
     }
+
+    public static final Integer[] res = new Integer[]{
+            R.drawable.test_back2,
+            R.drawable.test_back1,
+            R.drawable.test_back
+    };
+    public static final String[] girl_name = new String[]{
+            "Anna",
+            "Sindy",
+            "Venus",
+            "Pamela",
+            "Chantel",
+            "Lostus",
+            "Sephia",
+            "Sophy",
+            "YahoLee",
+            "Liza",
+            "Angel",
+            "Cristy",
+            "Gobby",
+            "Sophia",
+            "Nicole",
+            "Emily",
+            "Tiffany",
+            "Susan",
+            "Vicki",
+            "Eva",
+            "Ruby",
+            "Toby",
+            "Gobia",
+            "Victoria",
+            "Annus",
+            "Sammus",
+            "Sindia",
+            "Erica",
+            "Vivian",
+            "Septhanie",
+            "Fiona",
+            "Leonia",
+            "Karon"
+    };
 }
