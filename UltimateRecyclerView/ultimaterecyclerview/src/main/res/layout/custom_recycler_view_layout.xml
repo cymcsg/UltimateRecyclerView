@@ -22,7 +22,7 @@
             android:id="@+id/ultimate_list"
             android:background="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"/>
 
     </in.srain.cube.views.ptr.PtrFrameLayout>
 
@@ -36,7 +36,7 @@
         android:layout_marginBottom="15dp"
         android:visibility="gone"
         fab:plusIconColor="#808080"
-        fab:fab_colorNormal="#ffffff" />
+        fab:urv_fab_colorNormal="#ffffff" />
 
     <ViewStub
         android:id="@+id/floatingActionViewStub"

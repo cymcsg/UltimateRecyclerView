@@ -101,7 +101,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
                 return VIEW_TYPES.FOOTER;
             }
 
-
         } else if (position == 0 && customHeaderView != null) {
             return VIEW_TYPES.HEADER;
         } else
