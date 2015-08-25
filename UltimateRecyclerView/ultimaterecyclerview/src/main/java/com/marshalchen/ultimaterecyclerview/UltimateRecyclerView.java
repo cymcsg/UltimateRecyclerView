@@ -23,6 +23,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -852,9 +853,19 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private static boolean isParallaxHeader = false;
 
     /**
+     * allow resource layout id to be introduced
+     *
+     * @param mLayout res id
+     */
+    public void setParallaxHeader(@LayoutRes int mLayout) {
+        View h_layout = LayoutInflater.from(getContext()).inflate(mLayout, null);
+        setParallaxHeader(h_layout);
+    }
+
+    /**
      * Set the parallax header of the recyclerview
      *
-     * @param header
+     * @param header the view
      */
     public void setParallaxHeader(View header) {
         mHeader = new CustomRelativeWrapper(header.getContext());
