@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 
 import com.marshalchen.ultimaterecyclerview.demo.CustomSwipeToRefreshRefreshActivity;
+import com.marshalchen.ultimaterecyclerview.demo.GridLayoutRVTest;
 import com.marshalchen.ultimaterecyclerview.demo.MultiViewTypesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.TestAdMob;
@@ -25,6 +26,7 @@ public enum FastBinding {
     swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
     debug_load_more(R.id.debug_load_more, DebugLoadMoreActivity.class),
     advancedAdmob(R.id.adv_admob, TestAdvancedAdmobActivity.class),
+    gridlayouttesting(R.id.gridlayoutperformance, GridLayoutRVTest.class),
     expandmenu(R.id.expandmenu, TestExpandableRV.class);
 
     private int id;

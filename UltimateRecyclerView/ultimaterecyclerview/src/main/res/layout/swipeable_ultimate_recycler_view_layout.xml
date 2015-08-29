@@ -13,7 +13,7 @@
             android:id="@+id/ultimate_list"
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView>
+            android:layout_height="match_parent"/>
 
     </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
 
@@ -27,7 +27,7 @@
         android:layout_marginBottom="15dp"
         android:visibility="gone"
         fab:plusIconColor="#808080"
-        fab:fab_colorNormal="#ffffff" />
+        fab:urv_fab_colorNormal="#ffffff" />
 
     <ViewStub
         android:id="@+id/floatingActionViewStub"
