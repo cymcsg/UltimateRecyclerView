@@ -39,7 +39,7 @@ public class BiAdAdapterSwitcher<
     protected ADMOB withad;
     protected onLoadMore loading_more;
     protected boolean with_the_ad, auto_disable_loadmore = false;
-    protected int page_now = 1, max_pages = 1, layoutLoadMoreResId = 0;
+    protected int page_now = 1, max_pages = 3, layoutLoadMoreResId = 0;
     protected RecyclerView.LayoutManager mManager;
 
     public void setMaxPages(final int n) {
@@ -96,10 +96,10 @@ public class BiAdAdapterSwitcher<
         public void run() {
             reset();
             if (loading_more != null) {
-                final boolean ok = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this, true);
-                if (ok) {
-                    page_now = 1;
-                    max_pages = 1;
+                final boolean success = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this, true);
+                if (success) {
+                    page_now = 2;
+                    max_pages = 3;
                     //notifyDataSetChanged();
                 } else {
                     if (auto_disable_loadmore) listview.disableLoadmore();
@@ -182,14 +182,17 @@ public class BiAdAdapterSwitcher<
                     public void run() {
                         Log.d("loadmore", maxLastVisiblePosition + " position");
                         if (loading_more != null) {
-                            final boolean ok = loading_more.request_start(page_now, itemsCount, maxLastVisiblePosition, BiAdAdapterSwitcher.this, false);
+                            final boolean request_success = loading_more.request_start(page_now, itemsCount, maxLastVisiblePosition, BiAdAdapterSwitcher.this, false);
 
-                            if (ok && page_now < max_pages) {
-                                page_now++;
-                                if (auto_disable_loadmore && listview.isLoadMoreEnabled()) {
+                            if (request_success && page_now < max_pages) {
+
+                                if (auto_disable_loadmore && !listview.isLoadMoreEnabled()) {
                                     listview.reenableLoadmore();
                                 }
+
+                                page_now++;
                             } else {
+                                Log.d("loadmore", "request failed position");
                                 if (auto_disable_loadmore) listview.disableLoadmore();
                             }
                         }

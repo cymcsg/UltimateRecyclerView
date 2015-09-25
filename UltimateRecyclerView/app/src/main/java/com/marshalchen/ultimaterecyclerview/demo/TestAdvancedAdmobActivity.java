@@ -2,6 +2,7 @@ package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -196,6 +197,8 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         return switchable;
     }
 
+    private Handler osh = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,10 +221,18 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                 .EnableAutoDisableLoadMoreByMaxPages()
                 .onEnableLoadmore(R.layout.custom_bottom_progressbar, 2000, new BiAdAdapterSwitcher.onLoadMore() {
                     @Override
-                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, BiAdAdapterSwitcher bi, boolean refresh) {
-                        bi.load_more_data(SampleDataboxset.newList(5));
-                        //test the max pages
-                        bi.setMaxPages(10);
+                    public boolean request_start(int current_page_no, int itemsCount, int maxLastVisiblePosition, final BiAdAdapterSwitcher bi, boolean refresh) {
+
+
+                        osh.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                bi.load_more_data(SampleDataboxset.newList(5));
+                                //test the max pages
+                                bi.setMaxPages(10);
+                            }
+                        }, 2000);
+
                         return true;
                     }
                 });

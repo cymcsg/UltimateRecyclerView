@@ -28,31 +28,34 @@
 
         <activity
             android:name=".MultiViewTypesActivity"
-            android:label="@string/app_name" />
+            android:label="MultiViewTypesActivity" />
+        <activity
+            android:name=".GridLayoutRVTest"
+            android:label="GridLayoutRVTest" />
         <activity
             android:name=".CustomSwipeToRefreshRefreshActivity"
-            android:label="@string/app_name" />
+            android:label="CustomSwipeToRefreshRefreshActivity" />
         <activity
             android:name=".TestAdMob"
-            android:label="@string/app_name" />
+            android:label="TestAdMob" />
         <activity
             android:name=".TestExpandableRV"
-            android:label="@string/app_name" />
+            android:label="TestExpandableRV" />
         <activity
             android:name=".DebugLoadMoreActivity"
-            android:label="@string/app_name" />
+            android:label="DebugLoadMoreActivity" />
         <activity
             android:name=".scrollableobservable.ScrollObservablesActivity"
-            android:label="@string/app_name" />
+            android:label="ScrollObservablesActivity" />
         <activity
             android:name=".DragActivity"
-            android:label="@string/app_name" />
+            android:label="DragActivity" />
         <activity
             android:name=".swipelist.SwipeListViewExampleActivity"
-            android:label="@string/app_name" />
+            android:label="SwipeListViewExampleActivity" />
         <activity
             android:name=".TestAdvancedAdmobActivity"
-            android:label="@string/app_name" />
+            android:label="TestAdvancedAdmobActivity" />
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
