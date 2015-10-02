@@ -107,6 +107,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             return VIEW_TYPES.NORMAL;
     }
 
+    protected boolean hasHeaderView() {
+        return customHeaderView != null;
+    }
 
     /**
      * Returns the total number of items in the data set hold by the adapter.

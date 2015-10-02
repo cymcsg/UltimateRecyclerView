@@ -35,4 +35,9 @@ dependencies {
     compile project(':ultimaterecyclerview')
   //  compile 'com.marshalchen.ultimaterecyclerview:library:0.3.17'
     compile 'com.google.android.gms:play-services:7.3.0'
+
+
+    debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
+    releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
+
 }
