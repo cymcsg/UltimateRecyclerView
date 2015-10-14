@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -27,11 +28,15 @@ public class GridLayoutRVTest extends AppCompatActivity {
     boolean isDrag = true;
     private ItemTouchHelper mItemTouchHelper;
 
+    @LayoutRes
+    protected int getMainLayout() {
+        return R.layout.floatingbutton_grid_layout;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(getMainLayout());
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);

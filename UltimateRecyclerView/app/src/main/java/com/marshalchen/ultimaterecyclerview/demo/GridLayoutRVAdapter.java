@@ -27,8 +27,8 @@ public class GridLayoutRVAdapter extends UltimateViewAdapter {
     }
 
     @Override
-    public HolderGirdCell getViewHolder(View view) {
-        HolderGirdCell g = new HolderGirdCell(view, false);
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
         return g;
     }
 
