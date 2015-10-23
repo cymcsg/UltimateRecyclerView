@@ -23,6 +23,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -131,7 +132,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         initViews();
     }
 
-    public void setRecylerViewBackgroundColor(int color) {
+    public void setRecylerViewBackgroundColor(@ColorInt int color) {
         mRecyclerView.setBackgroundColor(color);
     }
 
@@ -171,12 +172,21 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     }
 
     /**
+     * retrieve the empty view from the core
+     *
+     * @return the view item
+     */
+    public View getEmptyView() {
+        return mEmptyView;
+    }
+
+    /**
      * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero.
      * You can customize it as loading view.
      *
-     * @param emptyResourceId
+     * @param emptyResourceId the Resource Id from the empty view
      */
-    public void setEmptyView(int emptyResourceId) {
+    public void setEmptyView(@LayoutRes int emptyResourceId) {
         mEmptyId = emptyResourceId;
 
         mEmpty.setLayoutResource(mEmptyId);
@@ -549,18 +559,14 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * Note that it still calls onAdapterChanged callbacks.
      *
      * @param adapter                       The new adapter to set, or null to set no adapter.
-     * @param removeAndRecycleExistingViews If set to true, RecyclerView will recycle all existing
-     *                                      Views. If adapters have stable ids and/or you want to
-     *                                      animate the disappearing views, you may prefer to set
-     *                                      this to false.
+     * @param removeAndRecycleExistingViews If set to true, RecyclerView will recycle all existing Views. If adapters have stable ids and/or you want to animate the disappearing views, you may prefer to set this to false.
      */
     public void swapAdapter(UltimateViewAdapter adapter, boolean removeAndRecycleExistingViews) {
         mRecyclerView.swapAdapter(adapter, removeAndRecycleExistingViews);
     }
 
     /**
-     * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views.
-     * <p>Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</p>
+     * Add an {@link RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views. Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.
      *
      * @param itemDecoration Decoration to add
      */
@@ -582,8 +588,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Sets the {@link RecyclerView.ItemAnimator} that will handle animations involving changes
      * to the items in this RecyclerView. By default, RecyclerView instantiates and
-     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}. Whether item animations are
-     * enabled for the RecyclerView depends on the ItemAnimator and whether
+     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}. Whether item animations are enabled for the RecyclerView depends on the ItemAnimator and whether
      * the LayoutManager {@link android.support.v7.widget.RecyclerView.LayoutManager#supportsPredictiveItemAnimations()
      * supports item animations}.
      *
@@ -610,7 +615,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the listener when refresh is triggered and enable the SwipeRefreshLayout
      *
-     * @param listener
+     * @param listener SwipeRefreshLayout
      */
     public void setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
 
@@ -632,7 +637,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the color resources used in the progress animation from color resources. The first color will also be the color of the bar that grows in response to a user swipe gesture.
      *
-     * @param colors
+     * @param colors colors in array
      */
     public void setDefaultSwipeToRefreshColorScheme(int... colors) {
         mSwipeRefreshLayout.setColorSchemeColors(colors);
@@ -641,7 +646,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the load more listener of recyclerview
      *
-     * @param onLoadMoreListener
+     * @param onLoadMoreListener load listen
      */
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
@@ -651,7 +656,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the layout manager to the recycler
      *
-     * @param manager
+     * @param manager lm
      */
     public void setLayoutManager(RecyclerView.LayoutManager manager) {
         mRecyclerView.setLayoutManager(manager);
@@ -660,7 +665,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Get the adapter of UltimateRecyclerview
      *
-     * @return
+     * @return ad
      */
     public RecyclerView.Adapter getAdapter() {
         return mRecyclerView.getAdapter();
@@ -943,6 +948,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
     }
 
+    /**
+     * the observable scroll view call backs
+     *
+     * @param listener listener to set
+     */
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
