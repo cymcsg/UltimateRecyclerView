@@ -3,6 +3,7 @@ package com.marshalchen.ultimaterecyclerview.demo;
 import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,39 +14,34 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
-import java.io.PipedOutputStream;
 import java.util.List;
 
 /**
  * Created by hesk on 24/8/15.
  */
-public class GridAdapter extends UltimateViewAdapter {
-
+public class GridLayoutRVAdapter extends UltimateViewAdapter {
     final private List<String> list;
 
-
-    public GridAdapter(List<String> list) {
+    public GridLayoutRVAdapter(List<String> list) {
         this.list = list;
-
     }
 
     @Override
-    public Gaholder getViewHolder(View view) {
-        Gaholder g = new Gaholder(view, false);
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
         return g;
     }
 
 
     @Override
-    public Gaholder onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.grid_item, parent, false);
-        return new Gaholder(view, true);
+    public HolderGirdCell onCreateViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, parent, false);
+        return new HolderGirdCell(view, true);
     }
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return null;
+        return new UltimateRecyclerviewViewHolder(parent);
     }
 
     @Override
@@ -58,33 +54,36 @@ public class GridAdapter extends UltimateViewAdapter {
         return 0;
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Gaholder h = (Gaholder) holder;
-        h.textViewSample.setText(list.get(position));
-        h.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
+        if (VIEW_TYPES.HEADER == getItemViewType(position)) {
+            onBindHeaderViewHolder(holder, position);
+        } else if (VIEW_TYPES.NORMAL == getItemViewType(position)) {
+            HolderGirdCell h = (HolderGirdCell) holder;
+            h.textViewSample.setText(list.get(hasHeaderView() ? position - 1 : position));
+            h.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
+        }
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        Log.d("ascc", position + " : ");
     }
 
-    public class Gaholder extends UltimateRecyclerviewViewHolder {
+    public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
         View item_view;
 
-        public Gaholder(View itemView, boolean isItem) {
+        public HolderGirdCell(View itemView, boolean isItem) {
             super(itemView);
             if (isItem) {
                 textViewSample = (TextView) itemView.findViewById(R.id.example_row_tv_title);
                 imageViewSample = (ImageView) itemView.findViewById(R.id.example_row_iv_image);
                 item_view = itemView.findViewById(R.id.planview);
-
             }
-
         }
 
         @Override
@@ -101,9 +100,9 @@ public class GridAdapter extends UltimateViewAdapter {
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
         final private int columns;
         final private int intervalRow;
-        final private GridAdapter mGridAdapter;
+        final private GridLayoutRVAdapter mGridAdapter;
 
-        public GridSpan(int col, int intervalRow, GridAdapter mGridAdapter) {
+        public GridSpan(int col, int intervalRow, GridLayoutRVAdapter mGridAdapter) {
             this.columns = col;
             this.intervalRow = intervalRow;
             this.mGridAdapter = mGridAdapter;

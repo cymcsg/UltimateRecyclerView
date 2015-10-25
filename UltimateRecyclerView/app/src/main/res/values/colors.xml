@@ -11,6 +11,8 @@
     <color name="bg_item_swiping_active_state">#ff9999ff</color>
     <color name="bg_item_dragging_state">#ffffdddd</color>
     <color name="bg_item_dragging_active_state">#ffff9999</color>
+    <color name="button_d_active">#5d1c23</color>
+    <color name="button_d_normal">#793042</color>
 
 
     <color name="primary">#009688</color>
