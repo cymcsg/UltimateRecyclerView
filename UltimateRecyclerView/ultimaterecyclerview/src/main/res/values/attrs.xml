@@ -30,40 +30,43 @@
     <declare-styleable name="FloatActionButton">
         <attr name="urv_fab_colorPressed" format="color" />
         <attr name="urv_fab_colorNormal" format="color" />
+        <attr name="urv_fab_alphaPressed" format="float" />
+        <attr name="urv_fab_alphaNormal" format="float" />
         <attr name="icon" />
         <attr name="urv_fab_size" format="enum">
             <enum name="normal" value="0" />
             <enum name="mini" value="1" />
+            <enum name="noshadow" value="2" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="SwipeListView">
-        <attr name="swipeOpenOnLongPress" format="boolean"/>
-        <attr name="onlyOneOpenedWhenSwipe" format="boolean"/>
-        <attr name="swipeAnimationTime" format="integer"/>
-        <attr name="swipeOffsetLeft" format="dimension"/>
-        <attr name="swipeOffsetRight" format="dimension"/>
-        <attr name="swipeCloseAllItemsWhenMoveList" format="boolean"/>
-        <attr name="swipeFrontView" format="reference"/>
-        <attr name="swipeBackView" format="reference"/>
+        <attr name="swipeOpenOnLongPress" format="boolean" />
+        <attr name="onlyOneOpenedWhenSwipe" format="boolean" />
+        <attr name="swipeAnimationTime" format="integer" />
+        <attr name="swipeOffsetLeft" format="dimension" />
+        <attr name="swipeOffsetRight" format="dimension" />
+        <attr name="swipeCloseAllItemsWhenMoveList" format="boolean" />
+        <attr name="swipeFrontView" format="reference" />
+        <attr name="swipeBackView" format="reference" />
         <attr name="swipeMode" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="both" value="1"/>
-            <enum name="right" value="2"/>
-            <enum name="left" value="3"/>
+            <enum name="none" value="0" />
+            <enum name="both" value="1" />
+            <enum name="right" value="2" />
+            <enum name="left" value="3" />
         </attr>
         <attr name="swipeActionLeft" format="enum">
-            <enum name="reveal" value="0"/>
-            <enum name="dismiss" value="1"/>
-            <enum name="choice" value="2"/>
+            <enum name="reveal" value="0" />
+            <enum name="dismiss" value="1" />
+            <enum name="choice" value="2" />
         </attr>
         <attr name="swipeActionRight" format="enum">
-            <enum name="reveal" value="0"/>
-            <enum name="dismiss" value="1"/>
-            <enum name="choice" value="2"/>
+            <enum name="reveal" value="0" />
+            <enum name="dismiss" value="1" />
+            <enum name="choice" value="2" />
         </attr>
-        <attr name="swipeDrawableChecked" format="reference"/>
-        <attr name="swipeDrawableUnchecked" format="reference"/>
+        <attr name="swipeDrawableChecked" format="reference" />
+        <attr name="swipeDrawableUnchecked" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="SwipeLayout">

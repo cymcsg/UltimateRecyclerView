@@ -2,6 +2,7 @@ package com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -123,15 +124,16 @@ public class FloatingActionsMenu extends ViewGroup {
     private void createAddButton(Context context) {
         mAddButton = new AddFloatingActionButton(context) {
             @Override
-            void updateBackground() {
+            protected void updateBackground() {
                 mPlusColor = mAddButtonPlusColor;
                 mColorNormal = mAddButtonColorNormal;
                 mColorPressed = mAddButtonColorPressed;
                 super.updateBackground();
             }
 
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
-            Drawable getIconDrawable() {
+            protected Drawable getIconDrawable() {
                 final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
                 mRotatingDrawable = rotatingDrawable;
 
