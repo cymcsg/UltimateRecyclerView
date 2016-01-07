@@ -30,8 +30,8 @@ public abstract class UltimateDifferentViewTypeAdapter<E extends Enum<E>> extend
 
     @Override
     public void onBindViewHolder(UltimateRecyclerviewViewHolder viewHolder, int position) {
-        int binderPosition = getBinderPosition(position);
-        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
+        //int binderPosition = getBinderPosition(position);
+        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, position);
 
     }
 
