@@ -39,7 +39,7 @@ public class BiAdAdapterSwitcher<
     protected ADMOB withad;
     protected onLoadMore loading_more;
     protected boolean with_the_ad, auto_disable_loadmore = false;
-    protected int page_now = 1, max_pages = 3, layoutLoadMoreResId = 0;
+    protected int page_now = 1, max_pages = 3, layoutLoadMoreResId = 0, container_data_items;
     protected RecyclerView.LayoutManager mManager;
 
     public void setMaxPages(final int n) {
@@ -68,6 +68,17 @@ public class BiAdAdapterSwitcher<
             listview.enableLoadmore();
         }
         listview.setAdapter(adenabled ? this.withad : this.noad);
+        emptyViewControl();
+    }
+
+
+    protected void emptyViewControl() {
+        container_data_items = with_the_ad ? withad.getItemCount() : noad.getItemCount();
+        if (container_data_items > 0) {
+            listview.hideEmptyView();
+        } else {
+            listview.showEmptyView();
+        }
     }
 
     public void scrollToTop() {
@@ -96,11 +107,12 @@ public class BiAdAdapterSwitcher<
         public void run() {
             reset();
             if (loading_more != null) {
-                final boolean success = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this, true);
-                if (success) {
+                final boolean success_onStart = loading_more.request_start(1, 0, 0, BiAdAdapterSwitcher.this, true);
+                if (success_onStart) {
                     page_now = 2;
                     max_pages = 3;
                     //notifyDataSetChanged();
+
                 } else {
                     if (auto_disable_loadmore) listview.disableLoadmore();
                     /** not okay, maybe consider to disable load more. **/
@@ -151,6 +163,8 @@ public class BiAdAdapterSwitcher<
         } else {
             noad.removeAll();
         }
+
+
     }
 
     public void load_more_data(final List<T> new_data_list) {
