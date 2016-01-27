@@ -10,16 +10,19 @@ import android.util.Log;
 import android.view.ActionMode;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.uiUtils.BasicGridLayoutManager;
 
+import java.util.zip.Inflater;
+
 /**
  * Created by hesk on 24/8/15.
  */
 public class GridLayoutRVTest extends AppCompatActivity {
-    private UltimateRecyclerView mUltimateRecyclerView;
+    private UltimateRecyclerView listuv;
     private GridLayoutRVAdapter mGridAdapter = null;
     private BasicGridLayoutManager mGridLayoutManager;
     private int moreNum = 2, columns = 2;
@@ -40,25 +43,25 @@ public class GridLayoutRVTest extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        mUltimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
-        mGridAdapter = new GridLayoutRVAdapter(SampleDataboxset.newListFromGen(67));
+        listuv = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
+        mGridAdapter = new GridLayoutRVAdapter();
         mGridLayoutManager = new BasicGridLayoutManager(this, columns, mGridAdapter);
-        mUltimateRecyclerView.setLayoutManager(mGridLayoutManager);
-        mUltimateRecyclerView.setHasFixedSize(true);
-        mUltimateRecyclerView.setSaveEnabled(true);
-        mUltimateRecyclerView.setClipToPadding(false);
-        mUltimateRecyclerView.setAdapter(mGridAdapter);
-        mUltimateRecyclerView.enableLoadmore();
+        listuv.setLayoutManager(mGridLayoutManager);
+        listuv.setHasFixedSize(true);
+        listuv.setSaveEnabled(true);
+        listuv.setClipToPadding(false);
+        listuv.setAdapter(mGridAdapter);
+        listuv.enableLoadmore();
         mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
-        // mGridAdapter.setCustomHeaderView(new UltimateRecyclerView.CustomRelativeWrapper(this));
-        mUltimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.stick_header_item, mUltimateRecyclerView, false));
-        mUltimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+        listuv.setNormalHeader(setupHeaderView());
+        listuv.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, int maxLastVisiblePosition) {
                 Log.d("start to load more", itemsCount + " :: " + itemsCount);
+                mGridAdapter.insert(SampleDataboxset.newListFromGen(67));
             }
         });
-     /*   mUltimateRecyclerView.setParallaxHeader(LayoutInflater.from(this).inflate(R.layout.empty_view, null));*/
+        addremovecontrol();
     }
 
 
@@ -70,4 +73,29 @@ public class GridLayoutRVTest extends AppCompatActivity {
         float dpWidth = outMetrics.widthPixels / density;
         columns = Math.round(dpWidth / 300);
     }
+
+
+    private View setupHeaderView() {
+        View custom_header = LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
+
+
+        return custom_header;
+    }
+
+    private void addremovecontrol() {
+        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGridAdapter.insert("newly added item");
+            }
+        });
+
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGridAdapter.removeLast();
+            }
+        });
+    }
+
 }

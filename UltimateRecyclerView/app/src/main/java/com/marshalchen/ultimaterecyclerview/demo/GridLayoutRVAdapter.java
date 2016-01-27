@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.UltimateGridLayoutAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
 import java.util.List;
@@ -19,12 +19,12 @@ import java.util.List;
 /**
  * Created by hesk on 24/8/15.
  */
-public class GridLayoutRVAdapter extends UltimateViewAdapter {
-    final private List<String> list;
+public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridLayoutRVAdapter.HolderGirdCell> {
 
-    public GridLayoutRVAdapter(List<String> list) {
-        this.list = list;
+    public GridLayoutRVAdapter() {
+        super();
     }
+
 
     @Override
     public UltimateRecyclerviewViewHolder getViewHolder(View view) {
@@ -32,6 +32,15 @@ public class GridLayoutRVAdapter extends UltimateViewAdapter {
         return g;
     }
 
+    @Override
+    protected int getItemLayoutId() {
+        return 0;
+    }
+
+    @Override
+    public long generateHeaderId(int position) {
+        return 0;
+    }
 
     @Override
     public HolderGirdCell onCreateViewHolder(ViewGroup parent) {
@@ -44,31 +53,11 @@ public class GridLayoutRVAdapter extends UltimateViewAdapter {
         return new UltimateRecyclerviewViewHolder(parent);
     }
 
-    @Override
-    public int getAdapterItemCount() {
-        return list.size();
-    }
 
     @Override
-    public long generateHeaderId(int position) {
-        return 0;
-    }
-
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (VIEW_TYPES.HEADER == getItemViewType(position)) {
-            onBindHeaderViewHolder(holder, position);
-        } else if (VIEW_TYPES.NORMAL == getItemViewType(position)) {
-            HolderGirdCell h = (HolderGirdCell) holder;
-            h.textViewSample.setText(list.get(hasHeaderView() ? position - 1 : position));
-            h.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
-        }
-    }
-
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d("ascc", position + " : ");
+    protected void bindNormal(HolderGirdCell b, String s, int position) {
+        b.textViewSample.setText(list.get(hasHeaderView() ? position - 1 : position));
+        b.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
     }
 
     public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
