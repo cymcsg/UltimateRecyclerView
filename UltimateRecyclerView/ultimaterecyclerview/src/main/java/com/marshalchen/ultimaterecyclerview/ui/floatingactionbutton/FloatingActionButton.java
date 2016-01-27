@@ -34,8 +34,6 @@ import com.marshalchen.ultimaterecyclerview.R;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-import java.lang.reflect.Type;
-
 
 public class FloatingActionButton extends ImageButton {
 
@@ -45,17 +43,25 @@ public class FloatingActionButton extends ImageButton {
 
     private static final int HALF_TRANSPARENT_WHITE = Color.argb(128, 255, 255, 255);
     private static final int HALF_TRANSPARENT_BLACK = Color.argb(128, 0, 0, 0);
-
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     protected int mColorNormal;
     protected int mColorPressed;
     @DrawableRes
     protected int mIcon;
     protected int mSize;
-
     protected float mCircleSize;
     protected float mShadowRadius;
     protected float mShadowOffset;
     protected int mDrawableSize;
+    private boolean mHidden = false;
+    /**
+     * The FAB button's Y position when it is displayed.
+     */
+    private float mYDisplayed = -1;
+    /**
+     * The FAB button's Y position when it is hidden.
+     */
+    private float mYHidden = -1;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -143,7 +149,6 @@ public class FloatingActionButton extends ImageButton {
         setMeasuredDimension(mDrawableSize, mDrawableSize);
     }
 
-
     protected float getCircleSize(int mSize) {
         switch (mSize) {
             case SIZE_NORMAL:
@@ -196,7 +201,6 @@ public class FloatingActionButton extends ImageButton {
             return new ColorDrawable(Color.TRANSPARENT);
         }
     }
-
 
     /**
      * @param circleRect the defined rectangle
@@ -308,17 +312,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private boolean mHidden = false;
-    /**
-     * The FAB button's Y position when it is displayed.
-     */
-    private float mYDisplayed = -1;
-    /**
-     * The FAB button's Y position when it is hidden.
-     */
-    private float mYHidden = -1;
-
     public void hide(boolean hide) {
         // If the hidden state is being updated
         if (mHidden != hide) {
@@ -327,7 +320,8 @@ public class FloatingActionButton extends ImageButton {
             mHidden = hide;
 
             // Animate the FAB to it's new Y position
-            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
+            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "translationY", mHidden ? mYHidden - mYDisplayed : 0).setDuration(500);
+
             animator.setInterpolator(mInterpolator);
             animator.start();
         }
