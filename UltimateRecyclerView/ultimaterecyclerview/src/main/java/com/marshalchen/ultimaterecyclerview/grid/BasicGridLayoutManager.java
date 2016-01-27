@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.uiUtils;
+package com.marshalchen.ultimaterecyclerview.grid;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

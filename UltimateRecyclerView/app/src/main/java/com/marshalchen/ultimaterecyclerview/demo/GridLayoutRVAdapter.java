@@ -25,16 +25,10 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
         super();
     }
 
-
     @Override
     public UltimateRecyclerviewViewHolder getViewHolder(View view) {
         UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
         return g;
-    }
-
-    @Override
-    protected int getItemLayoutId() {
-        return 0;
     }
 
     @Override
@@ -44,15 +38,13 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
 
     @Override
     public HolderGirdCell onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, parent, false);
-        return new HolderGirdCell(view, true);
+        return new HolderGirdCell(getViewById(R.layout.grid_item, parent), true);
     }
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         return new UltimateRecyclerviewViewHolder(parent);
     }
-
 
     @Override
     protected void bindNormal(HolderGirdCell b, String s, int position) {
@@ -61,7 +53,6 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
     }
 
     public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
-
         TextView textViewSample;
         ImageView imageViewSample;
         View item_view;
@@ -85,7 +76,7 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
             itemView.setBackgroundColor(0);
         }
     }
-
+    //https://gist.github.com/yqritc/ccca77dc42f2364777e1
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
         final private int columns;
         final private int intervalRow;

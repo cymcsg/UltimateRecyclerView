@@ -132,10 +132,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     @Override
     public int getItemCount() {
-        int headerOrFooter = 0;
-        if (hasHeaderView()) headerOrFooter++;
-        if (enableLoadMore()) headerOrFooter++;
-        return getAdapterItemCount() + headerOrFooter;
+        int offset = 0;
+        if (hasHeaderView()) offset++;
+        if (enableLoadMore()) offset++;
+        return getAdapterItemCount() + offset;
     }
 
     /**

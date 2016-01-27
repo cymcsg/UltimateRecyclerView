@@ -14,9 +14,7 @@ import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
-import com.marshalchen.ultimaterecyclerview.uiUtils.BasicGridLayoutManager;
-
-import java.util.zip.Inflater;
+import com.marshalchen.ultimaterecyclerview.grid.BasicGridLayoutManager;
 
 /**
  * Created by hesk on 24/8/15.

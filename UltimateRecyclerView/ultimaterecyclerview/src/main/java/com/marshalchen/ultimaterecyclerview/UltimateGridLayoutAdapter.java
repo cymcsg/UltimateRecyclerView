@@ -16,11 +16,42 @@ import java.util.List;
  * Created by hesk on 27/1/16.
  */
 public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
-    final protected List<DATA> list = new ArrayList<>();
+    protected List<DATA> list = new ArrayList<>();
+    private boolean mValid = true;
 
     public UltimateGridLayoutAdapter() {
+        // list =  setData();
+        // new ArrayList<DATA>();
+        //setData();
+
+        registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                mValid = getItemCount() > 0;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                mValid = getItemCount() > 0;
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                mValid = getItemCount() > 0;
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                mValid = getItemCount() > 0;
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
+        });
 
     }
+
 
     @Override
     public UltimateRecyclerviewViewHolder getViewHolder(View view) {
@@ -28,11 +59,8 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         return g;
     }
 
-    @LayoutRes
-    protected abstract int getItemLayoutId();
-
     protected View getViewById(@LayoutRes final int layoutId, ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutId(), parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return view;
     }
 
@@ -43,7 +71,7 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
 
     @Override
     public int getAdapterItemCount() {
-        return list.size();
+        return mValid ? list.size() : 0;
     }
 
     @Override
@@ -82,9 +110,11 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         }
         notifyItemRangeInserted(start, list.size());
     }
-
+    //https://gist.github.com/gabrielemariotti/e81e126227f8a4bb339c
     public void insert(DATA item) {
-        insert(list, item, 0);
+        // insert(list, item, 0)
+        list.add(list.size() - 1, item);
+        //notifyDataSetChanged();
     }
 
     public void insertFirst(DATA item) {
