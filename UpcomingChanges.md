@@ -1,4 +1,5 @@
-###Upcoming changes in 0.4.0:
+### Upcoming changes in 0.4.0:
+
 - [ ] change an other sticky header for optimising
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 - [ ] trigger to bring the item back when swipe to dismiss
@@ -11,14 +12,13 @@
 - [ ] Make adapter more easy to use
 - [x] Expandble feature
 - [ ] Change toolbar into CollapsingToolbarLayout
- 
+- [ ] Swipe with undo action
 
+### Other changes:
 
-###Other changes:
 * More animations
 * add swipe to refresh at the bottom
-* etc...  
-
+* etc...
 
 
 

@@ -14,62 +14,67 @@ import com.marshalchen.ultimaterecyclerview.R;
 
 
 public class AddFloatingActionButton extends FloatingActionButton {
-  int mPlusColor;
+    protected int mPlusColor;
 
-  public AddFloatingActionButton(Context context) {
-    this(context, null);
-  }
-
-  public AddFloatingActionButton(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  public AddFloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
-    super(context, attrs, defStyle);
-  }
-
-  @Override
-  void init(Context context, AttributeSet attributeSet) {
-    if (attributeSet != null) {
-      TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.AddFloatingActionButton, 0, 0);
-      if (attr != null) {
-        try {
-          mPlusColor = attr.getColor(R.styleable.AddFloatingActionButton_plusIconColor, getColor(android.R.color.white));
-        } finally {
-          attr.recycle();
-        }
-      }
-    } else {
-      mPlusColor = getColor(android.R.color.white);
+    public AddFloatingActionButton(Context context) {
+        this(context, null);
     }
 
-    super.init(context, attributeSet);
-  }
+    public AddFloatingActionButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-  @Override
-  Drawable getIconDrawable() {
-    final float iconSize = getDimension(R.dimen.fab_icon_size);
-    final float iconHalfSize = iconSize / 2f;
+    public AddFloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
-    final float plusSize = getDimension(R.dimen.fab_plus_icon_size);
-    final float plusHalfStroke = getDimension(R.dimen.fab_plus_icon_stroke) / 2f;
-    final float plusOffset = (iconSize - plusSize) / 2f;
+    @Override
+    protected void init(Context context, AttributeSet attributeSet) {
+        if (attributeSet != null) {
+            TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.AddFloatingActionButton, 0, 0);
+            if (attr != null) {
+                try {
+                    mPlusColor = attr.getColor(R.styleable.AddFloatingActionButton_plusIconColor, getColor(android.R.color.white));
+                } finally {
+                    attr.recycle();
+                }
+            }
+        } else {
+            mPlusColor = getColor(android.R.color.white);
+        }
 
-    final Shape shape = new Shape() {
-      @Override
-      public void draw(Canvas canvas, Paint paint) {
-        canvas.drawRect(plusOffset, iconHalfSize - plusHalfStroke, iconSize - plusOffset, iconHalfSize + plusHalfStroke, paint);
-        canvas.drawRect(iconHalfSize - plusHalfStroke, plusOffset, iconHalfSize + plusHalfStroke, iconSize - plusOffset, paint);
-      }
-    };
+        super.init(context, attributeSet);
+    }
 
-    ShapeDrawable drawable = new ShapeDrawable(shape);
+    /**
+     * generate the PLUS sign
+     *
+     * @return the drawable product
+     */
+    @Override
+    protected Drawable getIconDrawable() {
+        final float iconSize = getDimension(R.dimen.fab_icon_size);
+        final float iconHalfSize = iconSize / 2f;
 
-    final Paint paint = drawable.getPaint();
-    paint.setColor(mPlusColor);
-    paint.setStyle(Style.FILL);
-    paint.setAntiAlias(true);
+        final float plusSize = getDimension(R.dimen.fab_plus_icon_size);
+        final float plusHalfStroke = getDimension(R.dimen.fab_plus_icon_stroke) / 2f;
+        final float plusOffset = (iconSize - plusSize) / 2f;
 
-    return drawable;
-  }
+        final Shape shape = new Shape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint) {
+                canvas.drawRect(plusOffset, iconHalfSize - plusHalfStroke, iconSize - plusOffset, iconHalfSize + plusHalfStroke, paint);
+                canvas.drawRect(iconHalfSize - plusHalfStroke, plusOffset, iconHalfSize + plusHalfStroke, iconSize - plusOffset, paint);
+            }
+        };
+
+        ShapeDrawable drawable = new ShapeDrawable(shape);
+
+        final Paint paint = drawable.getPaint();
+        paint.setColor(mPlusColor);
+        paint.setStyle(Style.FILL);
+        paint.setAntiAlias(true);
+
+        return drawable;
+    }
 }

@@ -38,21 +38,30 @@ import com.nineoldandroids.view.ViewHelper;
 public class FloatingActionButton extends ImageButton {
 
     public static final int SIZE_NORMAL = 0;
+    public static final int SIZE_NOSHADOW = 2;
     public static final int SIZE_MINI = 1;
 
     private static final int HALF_TRANSPARENT_WHITE = Color.argb(128, 255, 255, 255);
     private static final int HALF_TRANSPARENT_BLACK = Color.argb(128, 0, 0, 0);
-
-    int mColorNormal;
-    int mColorPressed;
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+    protected int mColorNormal;
+    protected int mColorPressed;
     @DrawableRes
-    private int mIcon;
-    private int mSize;
-
-    private float mCircleSize;
-    private float mShadowRadius;
-    private float mShadowOffset;
-    private int mDrawableSize;
+    protected int mIcon;
+    protected int mSize;
+    protected float mCircleSize;
+    protected float mShadowRadius;
+    protected float mShadowOffset;
+    protected int mDrawableSize;
+    private boolean mHidden = false;
+    /**
+     * The FAB button's Y position when it is displayed.
+     */
+    private float mYDisplayed = -1;
+    /**
+     * The FAB button's Y position when it is hidden.
+     */
+    private float mYHidden = -1;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -68,7 +77,7 @@ public class FloatingActionButton extends ImageButton {
         init(context, attrs);
     }
 
-    void init(Context context, AttributeSet attributeSet) {
+    protected void init(Context context, AttributeSet attributeSet) {
         mColorNormal = getColor(android.R.color.holo_blue_dark);
         mColorPressed = getColor(android.R.color.holo_blue_light);
         mIcon = 0;
@@ -77,32 +86,45 @@ public class FloatingActionButton extends ImageButton {
             initAttributes(context, attributeSet);
         }
 
-        mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+        mCircleSize = getCircleSize(mSize);
         mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
         mShadowOffset = getDimension(R.dimen.fab_shadow_offset);
         mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
 
-
-        WindowManager mWindowManager = (WindowManager)
-                context.getSystemService(Context.WINDOW_SERVICE);
+        //point size overhead
+        WindowManager mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = mWindowManager.getDefaultDisplay();
         Point size = new Point();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             display.getSize(size);
             mYHidden = size.y;
         } else mYHidden = display.getHeight();
+
         updateBackground();
     }
 
-    int getColor(@ColorRes int id) {
+    protected void updateBackground() {
+        float circleLeft = mShadowRadius;
+        float circleTop = mShadowRadius - mShadowOffset;
+        final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
+        final LayerDrawable layerDrawable = generateFinalDrawables(circleRect);
+        float iconOffset = (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2f;
+        int iconInsetHorizontal = (int) (mShadowRadius + iconOffset);
+        int iconInsetTop = (int) (circleTop + iconOffset);
+        int iconInsetBottom = (int) (mShadowRadius + mShadowOffset + iconOffset);
+        layerDrawable.setLayerInset(layerDrawable.getNumberOfLayers() - 1, iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
+        setBackgroundCompat(layerDrawable);
+    }
+
+    protected int getColor(@ColorRes int id) {
         return getResources().getColor(id);
     }
 
-    float getDimension(@DimenRes int id) {
+    protected float getDimension(@DimenRes int id) {
         return getResources().getDimension(id);
     }
 
-    private void initAttributes(Context context, AttributeSet attributeSet) {
+    protected void initAttributes(Context context, AttributeSet attributeSet) {
         TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatActionButton, 0, 0);
         if (attr != null) {
             try {
@@ -110,10 +132,15 @@ public class FloatingActionButton extends ImageButton {
                 mColorPressed = attr.getColor(R.styleable.FloatActionButton_urv_fab_colorPressed, getColor(android.R.color.holo_blue_light));
                 mSize = attr.getInt(R.styleable.FloatActionButton_urv_fab_size, SIZE_NORMAL);
                 mIcon = attr.getResourceId(R.styleable.FloatActionButton_icon, 0);
+                load_extended_attributes(attr);
             } finally {
                 attr.recycle();
             }
         }
+    }
+
+    protected void load_extended_attributes(TypedArray attr) {
+
     }
 
     @Override
@@ -122,32 +149,52 @@ public class FloatingActionButton extends ImageButton {
         setMeasuredDimension(mDrawableSize, mDrawableSize);
     }
 
-    void updateBackground() {
-        float circleLeft = mShadowRadius;
-        float circleTop = mShadowRadius - mShadowOffset;
-
-        final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
-
-        LayerDrawable layerDrawable = new LayerDrawable(
-                new Drawable[]{
-                        getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.urv_floating_action_button_fab_bg_normal : R.drawable.urv_floating_action_button_fab_bg_mini),
-                        createFillDrawable(circleRect),
-                        createStrokesDrawable(circleRect),
-                        getIconDrawable()
-                });
-
-        float iconOffset = (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2f;
-
-        int iconInsetHorizontal = (int) (mShadowRadius + iconOffset);
-        int iconInsetTop = (int) (circleTop + iconOffset);
-        int iconInsetBottom = (int) (mShadowRadius + mShadowOffset + iconOffset);
-
-        layerDrawable.setLayerInset(3, iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
-
-        setBackgroundCompat(layerDrawable);
+    protected float getCircleSize(int mSize) {
+        switch (mSize) {
+            case SIZE_NORMAL:
+                return getDimension(R.dimen.fab_size_normal);
+            case SIZE_MINI:
+                return getDimension(R.dimen.fab_size_mini);
+            case SIZE_NOSHADOW:
+                return getDimension(R.dimen.fab_size_normal);
+            default:
+                return getDimension(R.dimen.fab_size_normal);
+        }
     }
 
-    Drawable getIconDrawable() {
+    @DrawableRes
+    protected int getDrawableBySize(int mSize) {
+        switch (mSize) {
+            case SIZE_NORMAL:
+                return R.drawable.urv_floating_action_button_fab_bg_normal;
+            case SIZE_MINI:
+                return R.drawable.urv_floating_action_button_fab_bg_mini;
+            case SIZE_NOSHADOW:
+                return -1;
+        }
+        return -1;
+    }
+
+    protected LayerDrawable generateFinalDrawables(RectF circleRect) {
+        if (mSize == SIZE_NOSHADOW) {
+            return new LayerDrawable(
+                    new Drawable[]{
+                            createFillDrawable(circleRect),
+                            createStrokesDrawable(circleRect),
+                            getIconDrawable()
+                    });
+        } else {
+            return new LayerDrawable(
+                    new Drawable[]{
+                            getResources().getDrawable(getDrawableBySize(mSize)),
+                            createFillDrawable(circleRect),
+                            createStrokesDrawable(circleRect),
+                            getIconDrawable()
+                    });
+        }
+    }
+
+    protected Drawable getIconDrawable() {
         if (mIcon != 0) {
             return getResources().getDrawable(mIcon);
         } else {
@@ -155,31 +202,55 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private StateListDrawable createFillDrawable(RectF circleRect) {
+    /**
+     * @param circleRect the defined rectangle
+     * @param alpha      between  0 - 1
+     * @return StateListDrawable
+     */
+    protected StateListDrawable createFillDrawable(RectF circleRect, float alpha) {
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{android.R.attr.state_pressed}, createAlphaDrawble(circleRect, mColorPressed, alpha));
+        drawable.addState(new int[]{}, createAlphaDrawble(circleRect, mColorNormal, alpha));
+        return drawable;
+    }
+
+    /**
+     * @param circleRect the defined rectangle
+     * @return StateListDrawable
+     */
+    protected StateListDrawable createFillDrawable(RectF circleRect) {
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed}, createCircleDrawable(circleRect, mColorPressed));
         drawable.addState(new int[]{}, createCircleDrawable(circleRect, mColorNormal));
         return drawable;
     }
 
-    private Drawable createCircleDrawable(RectF circleRect, int color) {
+    protected Drawable createCircleDrawable(RectF circleRect, int color) {
         final Bitmap bitmap = Bitmap.createBitmap(mDrawableSize, mDrawableSize, Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
-
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(color);
-
         canvas.drawOval(circleRect, paint);
-
         return new BitmapDrawable(getResources(), bitmap);
     }
 
-    private int opacityToAlpha(float opacity) {
+    protected Drawable createAlphaDrawble(RectF circleRect, int color, float alpha) {
+        final Bitmap bitmap = Bitmap.createBitmap(mDrawableSize, mDrawableSize, Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(color);
+        paint.setAlpha(opacityToAlpha(alpha));
+        canvas.drawOval(circleRect, paint);
+        return new BitmapDrawable(getResources(), bitmap);
+    }
+
+    protected int opacityToAlpha(float opacity) {
         return (int) (255f * opacity);
     }
 
-    private Drawable createStrokesDrawable(RectF circleRect) {
+    protected Drawable createStrokesDrawable(RectF circleRect) {
         final Bitmap bitmap = Bitmap.createBitmap(mDrawableSize, mDrawableSize, Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
 
@@ -241,17 +312,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private boolean mHidden = false;
-    /**
-     * The FAB button's Y position when it is displayed.
-     */
-    private float mYDisplayed = -1;
-    /**
-     * The FAB button's Y position when it is hidden.
-     */
-    private float mYHidden = -1;
-
     public void hide(boolean hide) {
         // If the hidden state is being updated
         if (mHidden != hide) {
@@ -260,7 +320,8 @@ public class FloatingActionButton extends ImageButton {
             mHidden = hide;
 
             // Animate the FAB to it's new Y position
-            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
+            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "translationY", mHidden ? mYHidden - mYDisplayed : 0).setDuration(500);
+
             animator.setInterpolator(mInterpolator);
             animator.start();
         }
