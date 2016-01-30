@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.uiUtils;
+package com.marshalchen.ultimaterecyclerview.grid;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,34 +12,13 @@ public class BasicGridLayoutManager extends GridLayoutManager {
     private final UltimateViewAdapter mAdapter;
     protected int headerSpan = 2;
 
-    protected class VIEW_TYPES {
-        public static final int NORMAL = 0;
-        public static final int HEADER = 1;
-        public static final int FOOTER = 2;
-        public static final int CHANGED_FOOTER = 3;
-    }
-
-    private GridLayoutManager.SpanSizeLookup m = new GridLayoutManager.SpanSizeLookup() {
-        @Override
-        public int getSpanSize(int position) {
-            if (position == 0) return getSpanCount();
-            if (mAdapter.getItemCount() > 2) {
-                if (mAdapter.getItemViewType(position) == VIEW_TYPES.FOOTER) {
-                    return getSpanCount();
-                } else if (mAdapter.getItemViewType(position) == VIEW_TYPES.HEADER) {
-                    return getSpanCount();
-                }
-            }
-            return 1;
-        }
-    };
 
     protected GridLayoutManager.SpanSizeLookup mSpanSizeLookUp = new GridLayoutManager.SpanSizeLookup() {
         @Override
         public int getSpanSize(int position) {
-            if (mAdapter.getItemViewType(position) == VIEW_TYPES.FOOTER) {
+            if (mAdapter.getItemViewType(position) == UltimateViewAdapter.VIEW_TYPES.FOOTER) {
                 return getSpanCount();
-            } else if (mAdapter.getItemViewType(position) == VIEW_TYPES.HEADER) {
+            } else if (mAdapter.getItemViewType(position) == UltimateViewAdapter.VIEW_TYPES.HEADER) {
                 return getSpanCount();
             } else
                 return getNormalSpanCount(position);

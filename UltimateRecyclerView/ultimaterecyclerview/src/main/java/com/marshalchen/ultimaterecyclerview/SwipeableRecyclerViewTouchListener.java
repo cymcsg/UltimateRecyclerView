@@ -20,7 +20,9 @@ package com.marshalchen.ultimaterecyclerview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -145,6 +147,7 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
 
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private boolean handleTouchEvent(MotionEvent motionEvent) {
         if (mViewWidth < 2) {
             mViewWidth = mRecyclerView.getWidth();
@@ -293,6 +296,7 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
         return false;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void performDismiss(final View dismissView, final int dismissPosition) {
         // Animate the dismissed list item to zero-height and fire the dismiss callback when
         // all dismissed list item animations have completed. This triggers layout on each animation

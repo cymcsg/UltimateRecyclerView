@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,4 +16,35 @@ allprojects {
     repositories {
         jcenter()
     }
+}
+
+
+
+ext {
+    //Library configurations
+    libraryCode = 16
+    libraryVersion = '0.3.18'
+    //Application
+    app_test_versionCode = 20
+    app_test_versionName = '1.0.9'
+    //Support and Build tools version
+    minSdk = 8
+    targetSdk = 22
+    buildTools = '22.0.1'
+    supportLibrary = '22.2.1'
+    ftKit = '0.4.1'
+    //Support Libraries dependencies
+    supportDependencies = [
+            percent   : "com.android.support:percent:${supportLibrary}",
+            annotation: "com.android.support:support-annotations:${supportLibrary}",
+            support   : "com.android.support:support-v13:${supportLibrary}",
+            appCompat : "com.android.support:appcompat-v7:${supportLibrary}",
+            rv        : "com.android.support:recyclerview-v7:${supportLibrary}",
+            cardView  : "com.android.support:cardview-v7:${supportLibrary}",
+            kitCore   : "com.52inc:52Kit-core:${ftKit}"
+    ]
+
+    PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
+    PUBLISH_ARTIFACT_ID = 'library'
+    PUBLISH_VERSION = libraryVersion
 }

@@ -19,25 +19,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <ImageButton
                 android:id="@+id/del"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
-                android:text="Del" />
+                android:padding="13dp"
+                android:src="@drawable/ic_remove_24dp" />
 
-            <TextView
+            <ImageButton
                 android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_toLeftOf="@id/del"
                 android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
-                android:text="Add" />
+                android:padding="13dp"
+                android:src="@drawable/ic_add_24dp" />
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>

@@ -16,6 +16,7 @@
 
 package com.marshalchen.ultimaterecyclerview;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -47,8 +48,8 @@ import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
 import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
-import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
+
 
 /**
  * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc.
@@ -333,19 +334,26 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         mVisibleItemCount = layoutManager.getChildCount();
                         mTotalItemCount = layoutManager.getItemCount();
                     case GRID:
-                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                        mFirstVisibleItem = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                        if (layoutManager instanceof GridLayoutManager) {
+                            GridLayoutManager ly = (GridLayoutManager) layoutManager;
+                            lastVisibleItemPosition = ly.findLastVisibleItemPosition();
+                            mFirstVisibleItem = ly.findFirstVisibleItemPosition();
+                        }
                         break;
                     case STAGGERED_GRID:
-                        StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                        if (lastPositions == null)
-                            lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                        if (layoutManager instanceof StaggeredGridLayoutManager) {
+                            StaggeredGridLayoutManager sy = (StaggeredGridLayoutManager) layoutManager;
 
-                        staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
-                        lastVisibleItemPosition = findMax(lastPositions);
+                            if (lastPositions == null)
+                                lastPositions = new int[sy.getSpanCount()];
 
-                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                        mFirstVisibleItem = findMin(lastPositions);
+                            sy.findLastVisibleItemPositions(lastPositions);
+                            lastVisibleItemPosition = findMax(lastPositions);
+
+                            sy.findFirstVisibleItemPositions(lastPositions);
+                            mFirstVisibleItem = findMin(lastPositions);
+                        }
+
                         break;
                 }
 
@@ -356,7 +364,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         previousTotal = mTotalItemCount;
                     }
                 }
-
+                int part1 = mTotalItemCount - mVisibleItemCount;
+                int part2 = mFirstVisibleItem;
                 if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem) {
                     //todo: there are some bugs needs to be adjusted for admob adapter
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
@@ -365,7 +374,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 }
 
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
-
             }
 
         };
@@ -386,7 +394,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
-            mAdapter.isLoadMoreChanged = false;
+            mAdapter.enableLoadMore(false);
         }
         mIsLoadMoreWidgetEnabled = true;
     }
@@ -398,7 +406,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         enableLoadmore();
         if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(customLoadingMoreView);
-            mAdapter.isLoadMoreChanged = false;
+            mAdapter.enableLoadMore(false);
         }
         mIsLoadMoreWidgetEnabled = true;
     }
@@ -1000,22 +1008,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
         return super.onInterceptTouchEvent(ev);
 
-//        if (mCallbacks != null) {
-//            URLogs.d("ev---"+ev.getActionMasked());
-//            switch (ev.getActionMasked()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    // Whether or not motion events are consumed by children,
-//                    // flag initializations which are related to ACTION_DOWN events should be executed.
-//                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
-//                    // passed to parent (this view), the flags will be invalid.
-//                    // Also, applications might implement initialization codes to onDownMotionEvent,
-//                    // so call it here.
-//                    mFirstScroll = mDragging = true;
-//                    mCallbacks.onDownMotionEvent();
-//                    break;
-//            }
-//        }
-//        return super.onInterceptTouchEvent(ev);
     }
 
 

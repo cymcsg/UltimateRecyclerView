@@ -19,10 +19,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         Adv onGenerateAdview();
     }
 
-    protected class VIEW_TYPES extends UltimateViewAdapter.VIEW_TYPES {
-        public static final int ADVIEW = 4;
-    }
-
     protected final Adv advertise_view;
     /**
      * There is an AD between the amount of the data items. adfrequency is known as the amount.
