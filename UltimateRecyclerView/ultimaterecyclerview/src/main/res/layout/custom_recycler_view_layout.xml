@@ -22,7 +22,8 @@
             android:id="@+id/ultimate_list"
             android:background="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
 
     </in.srain.cube.views.ptr.PtrFrameLayout>
 
