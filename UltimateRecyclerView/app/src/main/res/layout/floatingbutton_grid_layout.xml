@@ -7,7 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="#bceeeeee">
 
         <RelativeLayout
@@ -19,25 +19,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
-                android:id="@+id/del"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="13dp"
-                android:src="@drawable/ic_remove_24dp" />
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@id/del"
-                android:background="?attr/selectableItemBackground"
-                android:padding="13dp"
-                android:src="@drawable/ic_add_24dp" />
+                <ImageButton
+                    android:id="@+id/refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_autorenew_24dp" />
+
+                <ImageButton
+                    android:id="@+id/delall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_blur_linear_24dp" />
+
+                <ImageButton
+                    android:id="@+id/del"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_remove_24dp" />
+
+                <ImageButton
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_add_24dp" />
+
+                <ImageButton
+                    android:id="@+id/add_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_exposure_plus_1_24dp" />
+
+
+            </LinearLayout>
+
+
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>

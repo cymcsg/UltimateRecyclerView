@@ -17,6 +17,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -320,19 +321,19 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 if (layoutManagerType == null) {
                     if (layoutManager instanceof GridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
-                    } else if (layoutManager instanceof LinearLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
                     } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                         layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID;
+                    } else if (layoutManager instanceof LinearLayoutManager) {
+                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
                     } else {
                         throw new RuntimeException("Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager");
                     }
                 }
 
+                mTotalItemCount = layoutManager.getItemCount();
+                mVisibleItemCount = layoutManager.getChildCount();
+
                 switch (layoutManagerType) {
-                    case LINEAR:
-                        mVisibleItemCount = layoutManager.getChildCount();
-                        mTotalItemCount = layoutManager.getItemCount();
                     case GRID:
                         if (layoutManager instanceof GridLayoutManager) {
                             GridLayoutManager ly = (GridLayoutManager) layoutManager;
@@ -353,7 +354,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                             sy.findFirstVisibleItemPositions(lastPositions);
                             mFirstVisibleItem = findMin(lastPositions);
                         }
-
                         break;
                 }
 
@@ -364,26 +364,38 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         previousTotal = mTotalItemCount;
                     }
                 }
-                int part1 = mTotalItemCount - mVisibleItemCount;
-                int part2 = mFirstVisibleItem;
+
                 if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem) {
-                    //todo: there are some bugs needs to be adjusted for admob adapter
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     isLoadingMore = true;
                     previousTotal = mTotalItemCount;
                 }
 
+                /**
+                 * TESTING CASES HERE - USE THIS BLOCK DO MAKE ANY FAST TESTING
+                 */
+                 /*
+                 boolean casetest = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+                 if (casetest) {
+                    onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
+                    previousTotal = mTotalItemCount;
+                }
+
+                */
+
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
-
         };
+
         mRecyclerView.addOnScrollListener(mOnScrollListener);
-        if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null)
+
+        if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null) {
             mAdapter.setCustomLoadMoreView(LayoutInflater.from(getContext())
                     .inflate(R.layout.bottom_progressbar, null));
+            mAdapter.enableLoadMore(true);
+        }
 
         mIsLoadMoreWidgetEnabled = true;
-
     }
 
     /**
@@ -406,7 +418,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         enableLoadmore();
         if (mAdapter != null) {
             mAdapter.setCustomLoadMoreView(customLoadingMoreView);
-            mAdapter.enableLoadMore(false);
+            mAdapter.enableLoadMore(true);
         }
         mIsLoadMoreWidgetEnabled = true;
     }
@@ -420,9 +432,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      */
     public void disableLoadmore() {
         setDefaultScrollListener();
-        if (mAdapter != null)
-            mAdapter.swipeCustomLoadMoreView(LayoutInflater.from(getContext())
-                    .inflate(R.layout.empty_progressbar, null));
+        if (mAdapter != null) {
+            // mAdapter.setCustomLoadMoreView(null);
+            //LayoutInflater.from(getContext()).inflate(R.layout.empty_progressbar, null)
+            mAdapter.enableLoadMore(false);
+        }
         mIsLoadMoreWidgetEnabled = false;
     }
 
@@ -751,6 +765,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
         }
 
+        //  if (mAdapter.enableLoadMore()) {
+        //  mAdapter.enableLoadMore(false);
+        // }
+
     }
 
     /**
@@ -758,7 +776,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * @deprecated Short for some ui effects
      */
     @Deprecated
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(final RecyclerView.Adapter adapter) {
         mRecyclerView.setAdapter(adapter);
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setRefreshing(false);
@@ -798,6 +816,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 if (mSwipeRefreshLayout != null)
                     mSwipeRefreshLayout.setRefreshing(false);
 //
+
+                if (adapter instanceof UltimateViewAdapter) {
+                    UltimateViewAdapter ad = (UltimateViewAdapter) adapter;
+                    ad.enableLoadMore(false);
+                }
             }
 
         });
@@ -837,7 +860,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public static enum LAYOUT_MANAGER_TYPE {
         LINEAR,
         GRID,
-        STAGGERED_GRID
+        STAGGERED_GRID,
+        PUZZLE,
     }
 
     private int findMax(int[] lastPositions) {
@@ -1153,6 +1177,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         moveView(mView, ultimateRecyclerView, screenHeight, -mView.getHeight());
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
         if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
             return;
@@ -1173,6 +1198,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         animator.start();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void moveView(final View mView, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
         if (ViewHelper.getTranslationY(mView) == toTranslationY) {
             return;
