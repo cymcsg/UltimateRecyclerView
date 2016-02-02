@@ -1,5 +1,7 @@
 package com.marshalchen.ultimaterecyclerview;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +20,18 @@ import java.util.List;
 public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
     protected List<DATA> list = new ArrayList<>();
     private boolean mValid = true;
+    private int span_columns = 1;
+
+    public UltimateGridLayoutAdapter(List<DATA> items) {
+        list = items;
+    }
 
     public UltimateGridLayoutAdapter() {
         // list =  setData();
         // new ArrayList<DATA>();
         //setData();
 
-        registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        /*registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 mValid = getItemCount() > 0;
@@ -48,8 +55,29 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
                 mValid = getItemCount() > 0;
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
-        });
+        });*/
 
+    }
+
+    public void setSpanColumns(int columns) {
+        span_columns = columns;
+    }
+
+   /* @Override
+    public int getItemCount() {
+        int offset = 0;
+        if (hasHeaderView()) offset += 1;
+        if (enableLoadMore()) offset += 1;
+        int final_offset = getAdapterItemCount() + offset;
+        return final_offset;
+    }
+*/
+
+    private int normalDataConv(final int rpos) {
+        int orgin = rpos;
+        if (hasHeaderView()) orgin -= 1;
+        int out = orgin >= list.size() - 1 ? list.size() - 1 : orgin;
+        return out;
     }
 
 
@@ -74,19 +102,26 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         return mValid ? list.size() : 0;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public long generateHeaderId(int position) {
-        return 0;
+        return View.generateViewId();
     }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (VIEW_TYPES.HEADER == getItemViewType(position)) {
+        final int current_type = getItemViewType(position);
+        if (VIEW_TYPES.HEADER == current_type) {
             onBindHeaderViewHolder(holder, position);
-        } else if (VIEW_TYPES.NORMAL == getItemViewType(position)) {
-            bindNormal((BINDER) holder, list.get(position), position);
+        } else if (VIEW_TYPES.NORMAL == current_type) {
+            bindNormal((BINDER) holder, list.get(normalDataConv(position)), position);
+        } else if (VIEW_TYPES.FOOTER == current_type) {
+            onFooterCustomerization(holder, position);
         }
+    }
+
+    protected void onFooterCustomerization(RecyclerView.ViewHolder view, int position) {
+
     }
 
     /**
@@ -102,19 +137,25 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
 
     protected abstract void bindNormal(BINDER b, DATA data, final int position);
 
-    public void insert(List<DATA> list) {
-        Iterator<DATA> id = list.iterator();
+    public void insert(List<DATA> listz) {
+        Iterator<DATA> id = listz.iterator();
         final int start = list.size();
         while (id.hasNext()) {
             list.add(list.size(), id.next());
         }
-        notifyItemRangeInserted(start, list.size());
+        notifyItemRangeInserted(start, listz.size());
     }
+
     //https://gist.github.com/gabrielemariotti/e81e126227f8a4bb339c
     public void insert(DATA item) {
+        if (list.size() == 0) return;
         // insert(list, item, 0)
-        list.add(list.size() - 1, item);
-        //notifyDataSetChanged();
+        list.add(list.size(), item);
+        // notifyDataSetChanged();
+        //  int index = list.size();
+        notifyItemInserted(list.size());
+        // notifyItemRangeInserted(getItemCount() - 1, 1);
+        //  not
     }
 
     public void insertFirst(DATA item) {
@@ -122,8 +163,8 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
     }
 
     public void removeLast() {
-        list.remove(list.size() - 1);
-        notifyItemRemoved(list.size() - 1);
+        list.remove(getAdapterItemCount() - 1);
+        notifyItemRemoved(getAdapterItemCount() - 1);
     }
 
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {

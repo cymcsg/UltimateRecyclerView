@@ -25,6 +25,10 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
         super();
     }
 
+    public GridLayoutRVAdapter(List<String> hand) {
+        super(hand);
+    }
+
     @Override
     public UltimateRecyclerviewViewHolder getViewHolder(View view) {
         UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
@@ -48,7 +52,7 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
 
     @Override
     protected void bindNormal(HolderGirdCell b, String s, int position) {
-        b.textViewSample.setText(list.get(hasHeaderView() ? position - 1 : position));
+        b.textViewSample.setText(s);
         b.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
     }
 
@@ -76,6 +80,7 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
             itemView.setBackgroundColor(0);
         }
     }
+
     //https://gist.github.com/yqritc/ccca77dc42f2364777e1
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
         final private int columns;
