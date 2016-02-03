@@ -105,6 +105,21 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     public VerticalSwipeRefreshLayout mSwipeRefreshLayout;
 
+
+    private CustomRelativeWrapper mHeader;
+    private int mTotalYScrolled;
+    private final float SCROLL_MULTIPLIER = 0.5f;
+    private OnParallaxScroll mParallaxScroll;
+    private static boolean isParallaxHeader = false;
+
+
+    /**
+     * control to show the loading view first when list is initiated at the beginning
+     * true - assume there is a buffer to load things before and the adapter suppose zero data at the beignning
+     * false - assume there is data to show at the beginning level
+     */
+    private boolean isFirstLoadingOnlineAdapter = false;
+
     // added by Sevan Joe to support scrollbars
     private static final int SCROLLBARS_NONE = 0;
     private static final int SCROLLBARS_VERTICAL = 1;
@@ -147,7 +162,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mSwipeRefreshLayout.setEnabled(false);
 
         if (mRecyclerView != null) {
-
             mRecyclerView.setClipToPadding(mClipToPadding);
             if (mPadding != -1.1f) {
                 mRecyclerView.setPadding(mPadding, mPadding, mPadding, mPadding);
@@ -169,7 +183,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mEmptyId != 0)
             mEmptyView = mEmpty.inflate();
         mEmpty.setVisibility(View.GONE);
-
 
     }
 
@@ -222,7 +235,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mFloatingButtonView = mFloatingButtonViewStub.inflate();
             mFloatingButtonView.setVisibility(View.VISIBLE);
         }
-
     }
 
     /**
@@ -735,10 +747,13 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     updateHelperDisplays();
                 }
             });
-        if ((adapter == null || mAdapter.getAdapterItemCount() == 0) && mEmptyId != 0) {
-            mEmpty.setVisibility(View.VISIBLE);
+        if ((adapter == null || mAdapter.getAdapterItemCount() == 0)) {
+            // mEmpty.setVisibility(View.VISIBLE);
+            setRefreshing(true);
+            isFirstLoadingOnlineAdapter = true;
         }
     }
+
 
     private void updateHelperDisplays() {
         isLoadingMore = false;
@@ -751,10 +766,15 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          * + empty layout is NONE
          * + getItemCount is zero
          */
-        if (mAdapter.getAdapterItemCount() == 0) {
-            mEmpty.setVisibility(mEmptyId != 0 ? View.VISIBLE : View.GONE);
-        } else if (mEmptyId != 0) {
-            mEmpty.setVisibility(View.GONE);
+        if (!isFirstLoadingOnlineAdapter) {
+            if (mAdapter.getAdapterItemCount() == 0) {
+                mEmpty.setVisibility(mEmptyId != 0 ? View.VISIBLE : View.GONE);
+            } else if (mEmptyId != 0) {
+                mEmpty.setVisibility(View.GONE);
+            }
+        } else {
+            isFirstLoadingOnlineAdapter = false;
+            setRefreshing(false);
         }
 
         if (mAdapter.getCustomLoadMoreView() == null) return;
@@ -805,7 +825,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 update();
             }
 
-            @Override
             public void onChanged() {
                 super.onChanged();
                 update();
@@ -882,12 +901,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         return min;
     }
 
-
-    private CustomRelativeWrapper mHeader;
-    private int mTotalYScrolled;
-    private final float SCROLL_MULTIPLIER = 0.5f;
-    private OnParallaxScroll mParallaxScroll;
-    private static boolean isParallaxHeader = false;
 
     /**
      * allow resource layout id to be introduced
