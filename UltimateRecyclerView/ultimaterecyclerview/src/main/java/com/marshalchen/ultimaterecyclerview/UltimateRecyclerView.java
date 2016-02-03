@@ -776,25 +776,25 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             if (mAdapter.getAdapterItemCount() == 0) {
                 mEmpty.setVisibility(mEmptyId != 0 ? View.VISIBLE : View.GONE);
             } else if (mEmptyId != 0) {
+                footerLoadMoreChecker();
                 mEmpty.setVisibility(View.GONE);
             }
         } else {
             isFirstLoadingOnlineAdapter = false;
             setRefreshing(false);
+            footerLoadMoreChecker();
         }
 
-        if (mAdapter.getCustomLoadMoreView() == null) return;
-        if (mAdapter.getAdapterItemCount() >= showLoadMoreItemNum && mAdapter.getCustomLoadMoreView().getVisibility() == View.GONE) {
-            mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
-        }
-        if (mAdapter.getAdapterItemCount() < showLoadMoreItemNum) {
-            mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
-        }
+    }
 
-        //  if (mAdapter.enableLoadMore()) {
-        //  mAdapter.enableLoadMore(false);
-        // }
-
+    private void footerLoadMoreChecker() {
+        if (mAdapter.getCustomLoadMoreView() != null) {
+            if (mAdapter.enableLoadMore()) {
+                mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE);
+            } else {
+                mAdapter.getCustomLoadMoreView().setVisibility(View.GONE);
+            }
+        }
     }
 
     public void setHasFixedSize(boolean hasFixedSize) {

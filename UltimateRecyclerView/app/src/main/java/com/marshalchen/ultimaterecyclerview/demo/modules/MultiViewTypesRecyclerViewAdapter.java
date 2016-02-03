@@ -53,11 +53,11 @@ public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewType
     }
 
     public void insert(String string, int position) {
-        insert(mDataset, string, position);
+        insertInternal(mDataset, string, position);
     }
 
     public void remove(int position) {
-        remove(mDataset, position);
+        removeInternal(mDataset, position);
     }
 
 

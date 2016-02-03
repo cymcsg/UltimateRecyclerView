@@ -8,13 +8,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.demo.gridTools.GridJRAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.modules.JRitem;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.grid.BasicGridLayoutManager;
 
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class GridLayoutRVTest extends AppCompatActivity {
     private UltimateRecyclerView listuv;
-    private GridLayoutRVAdapter mGridAdapter = null;
+    private GridJRAdapter mGridAdapter = null;
     private BasicGridLayoutManager mGridLayoutManager;
     private int moreNum = 2, columns = 2;
     private ActionMode actionMode;
@@ -48,7 +49,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         listuv = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
-        mGridAdapter = new GridLayoutRVAdapter(getItems());
+        mGridAdapter = new GridJRAdapter(getJRList());
         mGridAdapter.setSpanColumns(columns);
         mGridLayoutManager = new BasicGridLayoutManager(this, columns, mGridAdapter);
         listuv.setLayoutManager(mGridLayoutManager);
@@ -68,11 +69,11 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mGridAdapter.insert(SampleDataboxset.newListFromGen(2));
+                        mGridAdapter.insert(SampleDataboxset.genJRList(13));
                         // listuv.disableLoadmore();
                         // listuv.disableLoadmore();
                     }
-                }, 1000);
+                }, 2000);
             }
         });
 
@@ -81,14 +82,10 @@ public class GridLayoutRVTest extends AppCompatActivity {
         harn_controls();
     }
 
-    private List<String> getItems() {
-        List<String> team = new ArrayList<>();
-/*        team.add("1 YU 0");
-        team.add("2 BF H");
-        team.add("3 AF HH");
-        team.add("4 FR HHH");
-        team.add("5 LAST SECOND");
-        team.add("6 FE LAST");*/
+    private List<JRitem> getJRList() {
+        List<JRitem> team = new ArrayList<>();
+        //you can make your own test for starting-zero-data
+        //   team = SampleDataboxset.genJRList(2);
         return team;
     }
 
@@ -113,13 +110,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                List<String> f = new ArrayList<String>();
-                f.add("ONE@1");
-                f.add("ONE@2");
-                f.add("ONE@3");
-
-                mGridAdapter.insert(f);
+                mGridAdapter.insert(SampleDataboxset.genJRList(4));
             }
         });
 
@@ -133,13 +124,13 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.delall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mGridAdapter.removeAll();
             }
         });
         findViewById(R.id.add_one).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGridAdapter.insert("single ONE@PLUS");
+                mGridAdapter.insertFirst(SampleDataboxset.genJRSingle());
             }
         });
 

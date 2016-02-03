@@ -73,15 +73,15 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
 
     public void insert(String string, int position) {
-        insert(stringList, string, position);
+        insertInternal(stringList, string, position);
     }
 
     public void remove(int position) {
-        remove(stringList, position);
+        removeInternal(stringList, position);
     }
 
     public void clear() {
-        clear(stringList);
+        clearInternal(stringList);
     }
 
     @Override
@@ -133,13 +133,13 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         SecureRandom imgGen = new SecureRandom();
         switch (imgGen.nextInt(3)) {
             case 0:
-                imageView.setImageResource(R.drawable.test_back1);
+                imageView.setImageResource(R.drawable.scn1);
                 break;
             case 1:
-                imageView.setImageResource(R.drawable.test_back2);
+                imageView.setImageResource(R.drawable.jr13);
                 break;
             case 2:
-                imageView.setImageResource(R.drawable.test_back);
+                imageView.setImageResource(R.drawable.jr16);
                 break;
         }
 
@@ -180,7 +180,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         ProgressBar progressBarSample;
         View item_view;
 
-        public  SimpleAdapterViewHolder(View itemView, boolean isItem) {
+        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override

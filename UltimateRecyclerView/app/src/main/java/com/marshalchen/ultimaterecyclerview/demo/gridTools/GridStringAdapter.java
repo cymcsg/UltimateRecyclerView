@@ -1,10 +1,7 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.gridTools;
 
 import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +9,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateGridLayoutAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
 import java.util.List;
@@ -19,13 +17,13 @@ import java.util.List;
 /**
  * Created by hesk on 24/8/15.
  */
-public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridLayoutRVAdapter.HolderGirdCell> {
+public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderGirdCell> {
 
-    public GridLayoutRVAdapter() {
+    public GridStringAdapter() {
         super();
     }
 
-    public GridLayoutRVAdapter(List<String> hand) {
+    public GridStringAdapter(List<String> hand) {
         super(hand);
     }
 
@@ -56,38 +54,14 @@ public class GridLayoutRVAdapter extends UltimateGridLayoutAdapter<String, GridL
         b.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
     }
 
-    public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
-        TextView textViewSample;
-        ImageView imageViewSample;
-        View item_view;
-
-        public HolderGirdCell(View itemView, boolean isItem) {
-            super(itemView);
-            if (isItem) {
-                textViewSample = (TextView) itemView.findViewById(R.id.example_row_tv_title);
-                imageViewSample = (ImageView) itemView.findViewById(R.id.example_row_iv_image);
-                item_view = itemView.findViewById(R.id.planview);
-            }
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(0);
-        }
-    }
 
     //https://gist.github.com/yqritc/ccca77dc42f2364777e1
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
         final private int columns;
         final private int intervalRow;
-        final private GridLayoutRVAdapter mGridAdapter;
+        final private GridStringAdapter mGridAdapter;
 
-        public GridSpan(int col, int intervalRow, GridLayoutRVAdapter mGridAdapter) {
+        public GridSpan(int col, int intervalRow, GridStringAdapter mGridAdapter) {
             this.columns = col;
             this.intervalRow = intervalRow;
             this.mGridAdapter = mGridAdapter;

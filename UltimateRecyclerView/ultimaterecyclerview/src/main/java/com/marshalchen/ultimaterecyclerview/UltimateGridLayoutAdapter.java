@@ -80,9 +80,11 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
             onFooterCustomerization(holder, position);
         }
     }
+
     protected void onFooterCustomerization(RecyclerView.ViewHolder view, int position) {
 
     }
+
     /**
      * normally you dont need to do anything for this implementation.
      *
@@ -96,33 +98,28 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
 
     protected abstract void bindNormal(BINDER b, DATA data, final int position);
 
-    public void insert(List<DATA> listz) {
-        Iterator<DATA> id = listz.iterator();
-        final int start = list.size();
-        while (id.hasNext()) {
-            list.add(list.size(), id.next());
-        }
-        notifyItemRangeInserted(start, listz.size());
+    public void insert(List<DATA> new_data) {
+        insertInternal(new_data, list);
     }
 
-    //https://gist.github.com/gabrielemariotti/e81e126227f8a4bb339c
-    public void insert(DATA item) {
-        if (list.size() == 0) return;
-        // insert(list, item, 0)
-        list.add(list.size(), item);
-        // notifyDataSetChanged();
-        //  int index = list.size();
-        notifyItemInserted(list.size());
-        // notifyItemRangeInserted(getItemCount() - 1, 1);
+    public void removeAll() {
+        clearInternal(list);
     }
 
     public void insertFirst(DATA item) {
-        insert(list, item, 0);
+        insertFirstInternal(list, item);
+    }
+
+    public void insertLast(DATA item) {
+        insertLastInternal(list, item);
     }
 
     public void removeLast() {
-        list.remove(getAdapterItemCount() - 1);
-        notifyItemRemoved(getAdapterItemCount() - 1);
+        removeLastInternal(list);
+    }
+
+    public void removeFirst() {
+        removeFirstInternal(list);
     }
 
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
