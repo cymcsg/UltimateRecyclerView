@@ -791,60 +791,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     }
 
-    /**
-     * @param adapter input param
-     * @deprecated Short for some ui effects
-     */
-    @Deprecated
-    public void setAdapter(final RecyclerView.Adapter adapter) {
-        mRecyclerView.setAdapter(adapter);
-        if (mSwipeRefreshLayout != null)
-            mSwipeRefreshLayout.setRefreshing(false);
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeChanged(int positionStart, int itemCount) {
-                super.onItemRangeChanged(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                super.onItemRangeRemoved(positionStart, itemCount);
-                update();
-            }
-
-            @Override
-            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-                super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-                update();
-            }
-
-            public void onChanged() {
-                super.onChanged();
-                update();
-            }
-
-            private void update() {
-                isLoadingMore = false;
-                if (mSwipeRefreshLayout != null)
-                    mSwipeRefreshLayout.setRefreshing(false);
-//
-
-                if (adapter instanceof UltimateViewAdapter) {
-                    UltimateViewAdapter ad = (UltimateViewAdapter) adapter;
-                    ad.enableLoadMore(false);
-                }
-            }
-
-        });
-    }
-
     public void setHasFixedSize(boolean hasFixedSize) {
         mRecyclerView.setHasFixedSize(hasFixedSize);
     }
