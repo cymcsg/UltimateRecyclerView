@@ -57,6 +57,20 @@ public class SampleDataboxset {
         }
     }
 
+    public static List<JRitem> genJRList(int counts) {
+        List<JRitem> items = new ArrayList<>();
+        for (int i = 0; i < counts; i++) {
+            items.add(genJRSingle());
+        }
+        return items;
+    }
+
+    public static JRitem genJRSingle() {
+        Random e = new Random();
+        JRitem bodu = new JRitem(SampleDataboxset.getGirlImageRandom(), girl_name[e.nextInt(girl_name.length)]);
+        return bodu;
+    }
+
     public static int getGirlImageRandom() {
         Random e = new Random();
         return res[e.nextInt(res.length)];
@@ -70,8 +84,17 @@ public class SampleDataboxset {
 
     public static final Integer[] res = new Integer[]{
             R.drawable.test_back2,
-           // R.drawable.test_back1,
-            R.drawable.test_back
+            R.drawable.test_back,
+            R.drawable.test_back1,
+            R.drawable.test_back3,
+            R.drawable.test_back4,
+            R.drawable.test_back5,
+            R.drawable.test_back6,
+            R.drawable.jr1,
+            R.drawable.jr2,
+            R.drawable.jr3,
+            R.drawable.jr4,
+            R.drawable.jr5
     };
     public static final String[] girl_name = new String[]{
             "Anna",
