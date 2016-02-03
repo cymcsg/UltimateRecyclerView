@@ -192,16 +192,37 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-    @Override
-    /**
-     * Insert a item to the list of the adapter
-     *
-     * @param list the data list
-     * @param object the object
-     * @param first_insert_data_pos the object position at the end of the list
-     * @param <T> the generic type
-     */
-    public <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
+    public void insert(List<T> new_data) {
+        insertInternal(new_data, list);
+    }
+
+    public void removeAll() {
+        clearInternal(list);
+    }
+
+    public void insertFirst(T item) {
+        insertFirstInternal(list, item);
+    }
+
+    public void insertLast(T item) {
+        insertLastInternal(list, item);
+    }
+
+    public void removeLast() {
+        removeLastInternal(list);
+    }
+
+    public void removeFirst() {
+        removeFirstInternal(list);
+    }
+
+    public void removeAt(int position) {
+        removeInternal(list, position);
+    }
+
+   /* @Override
+
+    public final <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
         try {
             list.add(first_insert_data_pos, object);
             final int offset = getReverseDataArrayPosition(first_insert_data_pos);
@@ -215,7 +236,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         } catch (IndexOutOfBoundsException e) {
             Log.d("admobErrorMr3", e.getMessage());
         }
-    }
+    }*/
 
     /**
      * to insert data with a new list
@@ -225,7 +246,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param first_insert_pos the first item
      * @param <T>              the list type holder
      */
-    public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
+ /*   public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
         try {
             original_list.addAll(first_insert_pos, new_list);
             final int view_pos_1 = getReverseDataArrayPosition(first_insert_pos);
@@ -236,27 +257,15 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         } catch (IndexOutOfBoundsException e) {
             Log.d("admobErrorMr3", e.getMessage());
         }
-    }
+    }*/
 
     /**
      * default insert that will append the object at the end
      *
      * @param object data object
      */
-    public void insert(final T object) {
-        insert(list, object, list.size());
-    }
 
-    public void insert(final List<T> newlist) {
-        insert(list, newlist, list.size());
-    }
 
-    public void removeAll() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    @Override
     /**
      * Todo: need to resolve this problem when it crash
      * Remove a item of  the list of the adapter
@@ -264,7 +273,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param list the data source
      * @param position with the position on the list
      */
-    public void remove(List<?> list, int position) {
+   /* public void remove(List<?> list, int position) {
         try {
             if (list.size() > 0 && position < list.size()) {
                 list.remove(position);
@@ -283,7 +292,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             Log.d("admobError r2", e.getMessage());
         }
 
-    }
+    }*/
 
     /**
      * this is the mask to calculate whether the position of the item should be proceeded with data binding

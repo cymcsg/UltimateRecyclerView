@@ -73,15 +73,15 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
 
     public void insert(String string, int position) {
-        insert(stringList, string, position);
+        insertInternal(stringList, string, position);
     }
 
     public void remove(int position) {
-        remove(stringList, position);
+        removeInternal(stringList, position);
     }
 
     public void clear() {
-        clear(stringList);
+        clearInternal(stringList);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         ProgressBar progressBarSample;
         View item_view;
 
-        public  SimpleAdapterViewHolder(View itemView, boolean isItem) {
+        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override

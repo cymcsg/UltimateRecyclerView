@@ -78,7 +78,7 @@ public class SampleDataboxset {
 
     public static void insertMore(admobdfpadapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
-            sd.insert("More items " + i);
+            sd.insertFirst("More items " + i);
         }
     }
 

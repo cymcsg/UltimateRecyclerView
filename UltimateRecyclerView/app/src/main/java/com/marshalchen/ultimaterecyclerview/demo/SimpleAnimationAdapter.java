@@ -72,15 +72,15 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
 
 
     public void insert(String string, int position) {
-        insert(stringList, string, position);
+        insertInternal(stringList, string, position);
     }
 
     public void remove(int position) {
-        remove(stringList, position);
+        removeInternal(stringList, position);
     }
 
     public void clear() {
-        clear(stringList);
+        clearInternal(stringList);
     }
 
     @Override

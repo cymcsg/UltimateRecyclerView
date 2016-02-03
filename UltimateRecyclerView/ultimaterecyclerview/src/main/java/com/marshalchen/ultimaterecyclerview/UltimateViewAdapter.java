@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapt
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -219,10 +221,46 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param position position
      * @param <T>      in T
      */
-    public <T> void insert(List<T> list, T object, int position) {
+    public final <T> void insertInternal(List<T> list, T object, final int position) {
         list.add(position, object);
-        if (hasHeaderView()) position++;
-        notifyItemInserted(position);
+        int g = position;
+        if (hasHeaderView()) g++;
+        notifyItemInserted(g);
+    }
+
+
+    public final <T> void insertFirstInternal(List<T> list, T item) {
+        insertInternal(list, item, 0);
+    }
+
+    public final <T> void insertLastInternal(List<T> list, T item) {
+        insertInternal(list, item, getAdapterItemCount());
+    }
+
+
+    /**
+     * insert the new item list after the whole list
+     *
+     * @param insert_data   new list
+     * @param original_list original copy
+     * @param <T>           the type
+     */
+    public final <T> void insertInternal(List<T> insert_data, List<T> original_list) {
+        Iterator<T> id = insert_data.iterator();
+        int g = getItemCount();
+        if (enableLoadMore() && hasHeaderView()) g--;
+        final int start = g;
+        while (id.hasNext()) {
+            original_list.add(original_list.size(), id.next());
+        }
+        int notify_count = insert_data.size();
+        //  if (enableLoadMore()) notify_count++;
+        try {
+            notifyItemRangeInserted(start, notify_count);
+        } catch (Exception e) {
+            String o = e.fillInStackTrace().getCause().getMessage().toString();
+            Log.d("fillInStackTrace", o + " : ");
+        }
     }
 
     /**
@@ -231,11 +269,19 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param list     data list
      * @param position position
      */
-    public void remove(List<?> list, int position) {
+    public final <T> void removeInternal(List<T> list, int position) {
         if (list.size() > 0) {
             list.remove(hasHeaderView() ? position - 1 : position);
             notifyItemRemoved(position);
         }
+    }
+
+    public final <T> void removeFirstInternal(List<T> list) {
+        removeInternal(list, 0);
+    }
+
+    public final <T> void removeLastInternal(List<T> list) {
+        removeInternal(list, getAdapterItemCount() - 1);
     }
 
     /**
@@ -243,10 +289,14 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      *
      * @param list data list
      */
-    public void clear(List<?> list) {
+    public final <T> void clearInternal(List<T> list) {
         int size = list.size();
         list.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    public final <T> void removeAllInternal(List<T> list) {
+        clearInternal(list);
     }
 
     @Override
@@ -319,6 +369,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
 
     @Override
     public void onItemDismiss(int position) {
+        if (hasHeaderView() && getItemViewType(position) == VIEW_TYPES.HEADER) return;
+        if (enableLoadMore() && getItemViewType(position) == VIEW_TYPES.FOOTER) return;
         notifyDataSetChanged();
     }
 

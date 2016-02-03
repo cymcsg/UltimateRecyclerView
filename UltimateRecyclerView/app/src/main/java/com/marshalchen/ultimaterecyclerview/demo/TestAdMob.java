@@ -73,7 +73,8 @@ public class TestAdMob extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things");
+
+                        simpleRecyclerViewAdapter.insertFirst(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -115,7 +116,7 @@ public class TestAdMob extends AppCompatActivity {
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpleRecyclerViewAdapter.remove(3);
+                simpleRecyclerViewAdapter.removeAt(3);
             }
         });
     }

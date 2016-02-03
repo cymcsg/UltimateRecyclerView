@@ -69,11 +69,11 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mGridAdapter.insert(SampleDataboxset.genJRList(3));
+                        mGridAdapter.insert(SampleDataboxset.genJRList(13));
                         // listuv.disableLoadmore();
                         // listuv.disableLoadmore();
                     }
-                }, 5000);
+                }, 2000);
             }
         });
 
@@ -84,7 +84,8 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
     private List<JRitem> getJRList() {
         List<JRitem> team = new ArrayList<>();
-        team = SampleDataboxset.genJRList(2);
+        //you can make your own test for starting-zero-data
+        //   team = SampleDataboxset.genJRList(2);
         return team;
     }
 
@@ -109,9 +110,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mGridAdapter.insert(SampleDataboxset.genJRList(4));
-
             }
         });
 
@@ -125,13 +124,13 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.delall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mGridAdapter.removeAll();
             }
         });
         findViewById(R.id.add_one).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGridAdapter.insert(SampleDataboxset.genJRSingle());
+                mGridAdapter.insertFirst(SampleDataboxset.genJRSingle());
             }
         });
 
