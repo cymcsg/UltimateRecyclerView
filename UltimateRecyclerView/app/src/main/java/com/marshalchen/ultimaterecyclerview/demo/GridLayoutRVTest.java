@@ -83,12 +83,12 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
     private List<String> getItems() {
         List<String> team = new ArrayList<>();
-        team.add("1 YU 0");
+/*        team.add("1 YU 0");
         team.add("2 BF H");
         team.add("3 AF HH");
         team.add("4 FR HHH");
         team.add("5 LAST SECOND");
-        team.add("6 FE LAST");
+        team.add("6 FE LAST");*/
         return team;
     }
 

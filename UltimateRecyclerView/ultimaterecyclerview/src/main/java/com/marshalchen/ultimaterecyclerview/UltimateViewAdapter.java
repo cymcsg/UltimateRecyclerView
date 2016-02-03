@@ -102,7 +102,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         } else if (viewType == VIEW_TYPES.ADVIEW) {
             return getAdViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CUSTOMVIEW) {
-            return getAdViewHolder(customHeaderView);
+            return getCustomViewHolder(customHeaderView);
+        } else if (viewType == VIEW_TYPES.NOVIEW) {
+            return getNoViewHolder(customHeaderView);
         }
         return onCreateViewHolder(parent);
     }
@@ -110,6 +112,15 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public VH getAdViewHolder(View view) {
         return null;
     }
+
+    public VH getCustomViewHolder(View view) {
+        return null;
+    }
+
+    public VH getNoViewHolder(View view) {
+        return null;
+    }
+
 
     public abstract VH getViewHolder(View view);
 
@@ -120,11 +131,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public int getItemViewType(int position) {
         if (getAdapterItemCount() == 0) {
             if (enableLoadMore() && position == 1) {
-                return VIEW_TYPES.NORMAL;
+                return VIEW_TYPES.FOOTER;
             } else if (hasHeaderView() && position == 0) {
-                return VIEW_TYPES.NORMAL;
+                return VIEW_TYPES.HEADER;
             } else {
-                return VIEW_TYPES.NORMAL;
+                return VIEW_TYPES.NOVIEW;
             }
         } else if (getAdapterItemCount() > 0) {
             int last_item = getItemCount() - 1;
@@ -256,7 +267,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         //this is the default loading footer
         public static final int FOOTER = 2;
         //this is the customized footer
-        // public static final int CHANGED_FOOTER = 3;
+        public static final int NOVIEW = 3;
         //this is specialized Ad view
         public static final int ADVIEW = 4;
         public static final int CUSTOMVIEW = 5;
