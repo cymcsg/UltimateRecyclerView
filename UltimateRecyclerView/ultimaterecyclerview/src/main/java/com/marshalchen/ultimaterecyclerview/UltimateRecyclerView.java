@@ -48,6 +48,7 @@ import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
+import com.marshalchen.ultimaterecyclerview.uiUtils.RecyclerViewPositionHelper;
 import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -105,7 +106,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     public VerticalSwipeRefreshLayout mSwipeRefreshLayout;
 
-
+    private RecyclerViewPositionHelper mRecyclerViewHelper;
     private CustomRelativeWrapper mHeader;
     private int mTotalYScrolled;
     private final float SCROLL_MULTIPLIER = 0.5f;
@@ -346,6 +347,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 mVisibleItemCount = layoutManager.getChildCount();
 
                 switch (layoutManagerType) {
+                    case LINEAR:
+                        mFirstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition();
+                        lastVisibleItemPosition = mRecyclerViewHelper.findLastVisibleItemPosition();
+                        break;
                     case GRID:
                         if (layoutManager instanceof GridLayoutManager) {
                             GridLayoutManager ly = (GridLayoutManager) layoutManager;
@@ -376,8 +381,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                         previousTotal = mTotalItemCount;
                     }
                 }
-
-                if (!isLoadingMore && (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem) {
+                boolean casetest = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+                if (!isLoadingMore && casetest) {
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     isLoadingMore = true;
                     previousTotal = mTotalItemCount;
@@ -752,6 +757,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             setRefreshing(true);
             isFirstLoadingOnlineAdapter = true;
         }
+        mRecyclerViewHelper = RecyclerViewPositionHelper.createHelper(mRecyclerView);
     }
 
 
@@ -798,7 +804,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Notify the widget that refresh state has changed. Do not call this when refresh is triggered by a swipe gesture.
      *
-     * @param refreshing
+     * @param refreshing enable the refresh loading icon
      */
     public void setRefreshing(boolean refreshing) {
         if (mSwipeRefreshLayout != null)
@@ -810,7 +816,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * Enable or disable the SwipeRefreshLayout.
      * Default is false
      *
-     * @param isSwipeRefresh
+     * @param isSwipeRefresh is now operating in refresh
      */
     public void enableDefaultSwipeRefresh(boolean isSwipeRefresh) {
         if (mSwipeRefreshLayout != null)
@@ -822,7 +828,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         void loadMore(int itemsCount, final int maxLastVisiblePosition);
     }
 
-    public static enum LAYOUT_MANAGER_TYPE {
+    public enum LAYOUT_MANAGER_TYPE {
         LINEAR,
         GRID,
         STAGGERED_GRID,

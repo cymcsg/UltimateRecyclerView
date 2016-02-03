@@ -28,7 +28,7 @@ ext {
     app_test_versionCode = 20
     app_test_versionName = '1.0.9'
     //Support and Build tools version
-    minSdk = 8
+    minSdk = 13
     targetSdk = 22
     buildTools = '22.0.1'
     supportLibrary = '22.2.1'
