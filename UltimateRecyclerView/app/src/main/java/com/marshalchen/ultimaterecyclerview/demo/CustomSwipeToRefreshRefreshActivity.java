@@ -209,7 +209,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
         storeHouseHeader = new StoreHouseHeader(this);
         //   header.setPadding(0, 15, 0, 0);
 
-        storeHouseHeader.initWithString("Marshal Chen");
+        storeHouseHeader.initWithString("XCode Big Air");
         //  header.initWithStringArray(R.array.akta);
         ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
         ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);

@@ -127,11 +127,9 @@ public abstract class NormalUltimateViewAdapter extends RecyclerView.Adapter<Ult
      */
     public abstract int getAdapterItemCount();
 
-
     public void toggleSelection(int pos) {
         notifyItemChanged(pos);
     }
-
 
     public void clearSelection(int pos) {
         notifyItemChanged(pos);

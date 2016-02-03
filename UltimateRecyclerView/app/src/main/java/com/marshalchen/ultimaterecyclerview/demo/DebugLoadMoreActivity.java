@@ -51,6 +51,8 @@ import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
+import java.util.ArrayList;
+
 /**
  * Created by hesk on 7/1/2015.
  */
@@ -78,7 +80,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
 
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        simpleRecyclerViewAdapter = new SimpleAdapter(SampleDataboxset.newList());
+        simpleRecyclerViewAdapter = new SimpleAdapter(new ArrayList<String>());
         linearLayoutManager = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
@@ -109,8 +111,8 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+                        //ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+                        //simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
@@ -124,6 +126,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                         SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
                         //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
                         //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+                        ultimateRecyclerView.disableLoadmore();
                     }
                 }, 2500);
             }
@@ -147,14 +150,6 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
 
             @Override
             public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
-//                if (observableScrollState == ObservableScrollState.DOWN) {
-//                    ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-//                    ultimateRecyclerView.showFloatingActionMenu();
-//                } else if (observableScrollState == ObservableScrollState.UP) {
-//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-//                    ultimateRecyclerView.hideFloatingActionMenu();
-//                } else if (observableScrollState == ObservableScrollState.STOP) {
-//                }
                 URLogs.d("onUpOrCancelMotionEvent");
                 if (observableScrollState == ObservableScrollState.UP) {
                     ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
