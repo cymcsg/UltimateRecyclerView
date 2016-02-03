@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by hesk on 24/8/15.
  */
-public class GridStringAdapter extends UltimateGridLayoutAdapter<String, GridStringAdapter.HolderGirdCell> {
+public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderGirdCell> {
 
     public GridStringAdapter() {
         super();
@@ -54,30 +54,6 @@ public class GridStringAdapter extends UltimateGridLayoutAdapter<String, GridStr
         b.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
     }
 
-    public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
-        TextView textViewSample;
-        ImageView imageViewSample;
-        View item_view;
-
-        public HolderGirdCell(View itemView, boolean isItem) {
-            super(itemView);
-            if (isItem) {
-                textViewSample = (TextView) itemView.findViewById(R.id.example_row_tv_title);
-                imageViewSample = (ImageView) itemView.findViewById(R.id.example_row_iv_image);
-                item_view = itemView.findViewById(R.id.planview);
-            }
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(0);
-        }
-    }
 
     //https://gist.github.com/yqritc/ccca77dc42f2364777e1
     public static class GridSpan extends GridLayoutManager.SpanSizeLookup {

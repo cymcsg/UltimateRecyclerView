@@ -80,9 +80,11 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
             onFooterCustomerization(holder, position);
         }
     }
+
     protected void onFooterCustomerization(RecyclerView.ViewHolder view, int position) {
 
     }
+
     /**
      * normally you dont need to do anything for this implementation.
      *
@@ -98,11 +100,18 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
 
     public void insert(List<DATA> listz) {
         Iterator<DATA> id = listz.iterator();
-        final int start = list.size();
+        int g = getItemCount();
+        if (enableLoadMore() && hasHeaderView()) g--;
+        final int start = g;
         while (id.hasNext()) {
             list.add(list.size(), id.next());
         }
-        notifyItemRangeInserted(start, listz.size());
+        try {
+            notifyItemRangeInserted(start, listz.size());
+        } catch (Exception e) {
+            String o = e.fillInStackTrace().getCause().getMessage().toString();
+            Log.d("fillInStackTrace", o + " : ");
+        }
     }
 
     //https://gist.github.com/gabrielemariotti/e81e126227f8a4bb339c

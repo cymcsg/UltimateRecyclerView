@@ -73,7 +73,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
                         // listuv.disableLoadmore();
                         // listuv.disableLoadmore();
                     }
-                }, 1000);
+                }, 5000);
             }
         });
 
@@ -84,6 +84,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
     private List<JRitem> getJRList() {
         List<JRitem> team = new ArrayList<>();
+        team = SampleDataboxset.genJRList(2);
         return team;
     }
 

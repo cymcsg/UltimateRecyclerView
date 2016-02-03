@@ -133,13 +133,13 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         SecureRandom imgGen = new SecureRandom();
         switch (imgGen.nextInt(3)) {
             case 0:
-                imageView.setImageResource(R.drawable.test_back1);
+                imageView.setImageResource(R.drawable.scn1);
                 break;
             case 1:
-                imageView.setImageResource(R.drawable.test_back2);
+                imageView.setImageResource(R.drawable.jr13);
                 break;
             case 2:
-                imageView.setImageResource(R.drawable.test_back);
+                imageView.setImageResource(R.drawable.jr16);
                 break;
         }
 

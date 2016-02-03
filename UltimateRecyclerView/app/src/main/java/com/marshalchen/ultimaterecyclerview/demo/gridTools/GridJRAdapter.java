@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by hesk on 3/2/16.
  */
-public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, GridStringAdapter.HolderGirdCell> {
+public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdCell> {
 
     public GridJRAdapter() {
         super();
@@ -38,7 +38,7 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, GridStringA
     }
 
     @Override
-    protected void bindNormal(GridStringAdapter.HolderGirdCell b, JRitem jRitem, int position) {
+    protected void bindNormal(HolderGirdCell b, JRitem jRitem, int position) {
         b.textViewSample.setText(jRitem.train_name);
         b.imageViewSample.setImageResource(jRitem.photo_id);
     }
@@ -52,32 +52,5 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, GridStringA
     public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         return new UltimateRecyclerviewViewHolder(parent);
     }
-
-
-    public class HolderGirdCell extends UltimateRecyclerviewViewHolder {
-        TextView textViewSample;
-        ImageView imageViewSample;
-        View item_view;
-
-        public HolderGirdCell(View itemView, boolean isItem) {
-            super(itemView);
-            if (isItem) {
-                textViewSample = (TextView) itemView.findViewById(R.id.example_row_tv_title);
-                imageViewSample = (ImageView) itemView.findViewById(R.id.example_row_iv_image);
-                item_view = itemView.findViewById(R.id.planview);
-            }
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(0);
-        }
-    }
-
 
 }
