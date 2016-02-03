@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="180dp"
+        android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_back3"
-        android:adjustViewBounds="true" />
+        android:src="@drawable/test_back5" />
+
 </RelativeLayout>
