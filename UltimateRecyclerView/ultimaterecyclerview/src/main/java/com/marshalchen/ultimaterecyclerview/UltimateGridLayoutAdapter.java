@@ -27,51 +27,12 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
     }
 
     public UltimateGridLayoutAdapter() {
-        // list =  setData();
-        // new ArrayList<DATA>();
-        //setData();
-
-        /*registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                mValid = getItemCount() > 0;
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onItemRangeChanged(int positionStart, int itemCount) {
-                mValid = getItemCount() > 0;
-                notifyItemRangeChanged(positionStart, itemCount);
-            }
-
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                mValid = getItemCount() > 0;
-                notifyItemRangeInserted(positionStart, itemCount);
-            }
-
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                mValid = getItemCount() > 0;
-                notifyItemRangeRemoved(positionStart, itemCount);
-            }
-        });*/
-
     }
 
     public void setSpanColumns(int columns) {
         span_columns = columns;
     }
 
-   /* @Override
-    public int getItemCount() {
-        int offset = 0;
-        if (hasHeaderView()) offset += 1;
-        if (enableLoadMore()) offset += 1;
-        int final_offset = getAdapterItemCount() + offset;
-        return final_offset;
-    }
-*/
 
     private int normalDataConv(final int rpos) {
         int orgin = rpos;
@@ -119,11 +80,9 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
             onFooterCustomerization(holder, position);
         }
     }
-
     protected void onFooterCustomerization(RecyclerView.ViewHolder view, int position) {
 
     }
-
     /**
      * normally you dont need to do anything for this implementation.
      *
@@ -155,7 +114,6 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         //  int index = list.size();
         notifyItemInserted(list.size());
         // notifyItemRangeInserted(getItemCount() - 1, 1);
-        //  not
     }
 
     public void insertFirst(DATA item) {
