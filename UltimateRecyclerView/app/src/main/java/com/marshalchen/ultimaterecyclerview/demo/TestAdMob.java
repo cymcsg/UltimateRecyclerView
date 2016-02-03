@@ -73,13 +73,9 @@ public class TestAdMob extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        simpleRecyclerViewAdapter.removeAll();
                         simpleRecyclerViewAdapter.insertFirst(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
@@ -91,10 +87,9 @@ public class TestAdMob extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         Log.d("loadmore", maxLastVisiblePosition + " position");
-                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 1);
-                        //  linearLayoutManager.scrollToPosition(linearLayoutManager.getChildCount() - 1);
+                        simpleRecyclerViewAdapter.insertFirst("fosnoief");
                     }
-                }, 5000);
+                }, 1000);
             }
         });
         simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
@@ -110,7 +105,7 @@ public class TestAdMob extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 1);
+                simpleRecyclerViewAdapter.insert(SampleDataboxset.newListFromGen(2));
             }
         });
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {

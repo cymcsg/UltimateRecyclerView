@@ -143,23 +143,23 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-    @Override
+/*    @Override
     public int getItemViewType(int position) {
         int type = super.getItemViewType(position);
         if (type == VIEW_TYPES.NORMAL) {
             if (!once) {
-                if (position > 0 && isPosOnAdView(position)) {
+                if (position > 0 && isOnAdView(position)) {
                     return VIEW_TYPES.ADVIEW;
                 } else return type;
             } else {
-                if (isPosOnAdView(position) && adfrequency == position + 1) {
+                if (isOnAdView(position) && adfrequency == position + 1) {
                     return VIEW_TYPES.ADVIEW;
                 } else return type;
             }
         } else {
             return type;
         }
-    }
+    }*/
 
     /**
      * Returns the number of items in the adapter bound to the parent RecyclerView.
@@ -226,7 +226,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         try {
             list.add(first_insert_data_pos, object);
             final int offset = getReverseDataArrayPosition(first_insert_data_pos);
-            if (isPosOnAdView(offset) && first_insert_data_pos > 0) {
+            if (isOnAdView(offset) && first_insert_data_pos > 0) {
                 notifyItemRangeChanged(offset, offset + 1);
             } else {
                 notifyItemInserted(offset);
@@ -279,7 +279,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
                 list.remove(position);
                 final int offset = getReverseDataArrayPosition(position);
                 notifyItemRemoved(offset);
-                if (offset > 1 && isPosOnAdView(offset) && position > 0) {
+                if (offset > 1 && isOnAdView(offset) && position > 0) {
                     notifyItemRemoved(offset - 1);
                 }
                 Log.d("normaladmob", "offset final: " + offset);
@@ -361,11 +361,22 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * indicate if the touch position is at the Adview
      *
      * @param pos in raw
-     * @return yes or no
+     * @return in raw
      */
-    public boolean isPosOnAdView(final int pos) {
+    @Override
+    protected boolean isOnAdView(int pos) {
         final int zero_for_admob_selection = (pos + 1) % adfrequency;
         return zero_for_admob_selection == 0;
+    }
+
+    /**
+     * the API access for adview indication
+     *
+     * @param pos position to be final
+     * @return bool
+     */
+    public final boolean isPosOnAdView(final int pos) {
+        return isOnAdView(pos);
     }
 
     /**
