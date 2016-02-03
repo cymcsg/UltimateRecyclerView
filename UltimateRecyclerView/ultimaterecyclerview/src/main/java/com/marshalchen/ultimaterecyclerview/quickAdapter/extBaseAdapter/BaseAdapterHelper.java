@@ -35,16 +35,14 @@ import com.bumptech.glide.Glide;
 
 /**
  * Allows an abstraction of the ViewHolder pattern.<br>
- * <br>
- * <p/>
- * <b>Usage</b>
  * <p/>
  * <p/>
- * <pre>
+ * Usage
+ * <p/>
  * return BaseAdapterHelper.get(context, convertView, parent, R.layout.item)
- * 		.setText(R.id.tvName, contact.getName())
- * 		.setText(R.id.tvEmails, contact.getEmails().toString())
- * 		.setText(R.id.tvNumbers, contact.getNumbers().toString()).getView();
+ * .setText(R.id.tvName, contact.getName())
+ * .setText(R.id.tvEmails, contact.getEmails().toString())
+ * .setText(R.id.tvNumbers, contact.getNumbers().toString()).getView();
  * </pre>
  */
 public class BaseAdapterHelper {
@@ -251,11 +249,11 @@ public class BaseAdapterHelper {
      * @param requestBuilder The Picasso request builder. (e.g.
      *                       Picasso.with(context).load(imageUrl))
      * @return The BaseAdapterHelper for chaining.
-       public BaseAdapterHelper setImageBuilder(int viewId,
-       RequestCreator requestBuilder) {
-       ImageView view = retrieveView(viewId);
-       requestBuilder.into(view);
-       return this;}
+    public BaseAdapterHelper setImageBuilder(int viewId,
+    RequestCreator requestBuilder) {
+    ImageView view = retrieveView(viewId);
+    requestBuilder.into(view);
+    return this;}
      */
 
     /**

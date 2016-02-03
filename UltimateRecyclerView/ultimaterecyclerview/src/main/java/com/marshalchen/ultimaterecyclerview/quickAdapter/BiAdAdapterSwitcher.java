@@ -27,10 +27,15 @@ import java.util.List;
  * Created by hesk on 4/8/15.
  */
 public class BiAdAdapterSwitcher<
+        //DATA TYPE
         T,
+        //The view holder
         B extends UltimateRecyclerviewViewHolder,
+        //THE regular adapter
         EASY extends easyRegularAdapter<T, B>,
+        //THE Viewgroup from the google Adview
         V extends ViewGroup,
+        //the admobdapter
         ADMOB extends simpleAdmobAdapter<T, B, V>>
 
 {
