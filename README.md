@@ -1,5 +1,5 @@
 # UltimateRecyclerView
-###Version:0.3.18
+###Version:0.4.0
 
 ####Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
@@ -32,31 +32,8 @@ Notice that UltimateRecyclerView is a project under development.
 * Support different layout in adapter
 * Loading adapter with animation
 
-###Changes in 0.3.18:
-- [x] new style of drag and swipe
-- [x] normal head view
-- [x] add Generics in the UltimateViewAdapter
-- [x] expandable item of recyclerview
-- [x] quick adapter
-- [x] Change attr name from ``fab_**`` to ``urv_fab_**``
-
-###Changes in 0.3.8:
-- [x] support different layout in adapter
-- [x] loading adapter with animations
-- [x] support minSdk to 8
-- [x] Upgrade recyclerview to 22.2.0
-
-
-###Changes in 0.3.2:
-- [x] add a empty view when the adapter do not have data
-- [x] add some colorful styles of  `swipe to refresh`
-- [x] add swapAdapter() ,getAdapter() etc.
-- [x] Custom FAB style
-- [x] add support for scrollbars of RecyclerView
-- [x] add method set background color of recyclerview
-- [x] add method to set default swipe to dismiss color
-- [x] support easy way to use admob
-
+###Changes in 0.4.0:
+- [ ] a major fix for load more mechanism for both linear layout and gridlayout
 
 ###Upcoming features:
 * More animations
