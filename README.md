@@ -54,8 +54,6 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 
 You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
-[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
-
 > Notice that it might not be the latest version
 
 ###Quick Setup（Basic Usage）
