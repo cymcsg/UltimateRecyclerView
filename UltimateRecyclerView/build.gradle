@@ -22,8 +22,8 @@ allprojects {
 
 ext {
     //Library configurations
-    libraryCode = 16
-    libraryVersion = '0.3.18'
+    libraryCode = 20
+    libraryVersion = '0.4.0'
     //Application
     app_test_versionCode = 20
     app_test_versionName = '1.0.9'
@@ -48,5 +48,5 @@ ext {
     PUBLISH_ARTIFACT_ID = 'library'
     PUBLISH_VERSION = libraryVersion
     BINTRAY_USER = 'jjhesk'
-
+    BINTRAY_APIKEY = ''
 }
