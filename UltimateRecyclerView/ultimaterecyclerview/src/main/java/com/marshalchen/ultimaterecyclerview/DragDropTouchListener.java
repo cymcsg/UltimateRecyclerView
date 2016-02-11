@@ -33,27 +33,20 @@ import android.widget.ImageView;
 /**
  * Implementation of RecyclerView.OnItemTouchListener that allows reordering items in RecyclerView by dragging and dropping.
  * Instance of this class should be added to RecylcerView using {@link RecyclerView#addOnItemTouchListener(RecyclerView.OnItemTouchListener)} method.
- * <p/>
- * <p/>
  * Use something like this:
- * <pre>
- *  {@code
  * dragDropTouchListener = new DragDropTouchListener(recyclerView, this) {
- *       @Override
+ *       Override
  *       protected void onItemSwitch(RecyclerView recyclerView, int from, int to) {
  *           adapter.swapPositions(from, to);
  *           adapter.notifyItemChanged(to);
  *           adapter.notifyItemChanged(from);
- *
- *        @Override
+ *        Override
  *        protected void onItemDrop(RecyclerView recyclerView, int position) {
  *       }
  *  };
  *  }
- *   recyclerView.addOnItemTouchListener(dragDropTouchListener);
- * }
- * </pre>
- * <p/>
+ * recyclerView.addOnItemTouchListener(dragDropTouchListener);
+ *
  * Actual drag is started by calling {@link #startDrag()} somewhere later, for eg. in long touch listener
  */
 public abstract class DragDropTouchListener implements RecyclerView.OnItemTouchListener {
@@ -324,7 +317,7 @@ public abstract class DragDropTouchListener implements RecyclerView.OnItemTouchL
     /**
      * Enable/disable drag/drop
      *
-     * @param enabled
+     * @param enabled     na
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

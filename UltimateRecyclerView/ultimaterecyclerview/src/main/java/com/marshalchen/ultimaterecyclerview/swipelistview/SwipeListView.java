@@ -155,23 +155,29 @@ public class SwipeListView extends RecyclerView {
         super(context);
         this.swipeFrontView = swipeFrontView;
         this.swipeBackView = swipeBackView;
-    //    init(null);
+        //    init(null);
     }
 
     /**
+     * @param context na
+     * @param attrs   na
      * @see ListView#ListView(Context, AttributeSet)
      */
     public SwipeListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-    //    init(attrs);
+        //    init(attrs);
     }
 
     /**
+     * @param context  na
+     * @param attrs    na
+     * @param defStyle na
      * @see ListView#ListView(Context, AttributeSet, int)
      */
+
     public SwipeListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-      //  init(attrs);
+        //  init(attrs);
     }
 
     /**
@@ -263,7 +269,7 @@ public class SwipeListView extends RecyclerView {
      * Get if item is selected
      *
      * @param position position in list
-     * @return
+     * @return na
      */
     public boolean isChecked(int position) {
         return touchListener.isChecked(position);
@@ -272,7 +278,7 @@ public class SwipeListView extends RecyclerView {
     /**
      * Get positions selected
      *
-     * @return
+     * @return na
      */
     public List<Integer> getPositionsSelected() {
         return touchListener.getPositionsSelected();
@@ -281,7 +287,7 @@ public class SwipeListView extends RecyclerView {
     /**
      * Count selected
      *
-     * @return
+     * @return na
      */
     public int getCountSelected() {
         return touchListener.getCountSelected();
@@ -424,7 +430,7 @@ public class SwipeListView extends RecyclerView {
      * Start close item
      *
      * @param position list item
-     * @param right
+     * @param right    na
      */
     protected void onStartClose(int position, boolean right) {
         if (swipeListViewListener != null && position != ListView.INVALID_POSITION) {
@@ -596,7 +602,7 @@ public class SwipeListView extends RecyclerView {
     /**
      * Set if all items opened will be closed when the user moves the ListView
      *
-     * @param swipeCloseAllItemsWhenMoveList
+     * @param swipeCloseAllItemsWhenMoveList na
      */
     public void setSwipeCloseAllItemsWhenMoveList(boolean swipeCloseAllItemsWhenMoveList) {
         touchListener.setSwipeClosesAllItemsWhenListMoves(swipeCloseAllItemsWhenMoveList);
@@ -605,7 +611,7 @@ public class SwipeListView extends RecyclerView {
     /**
      * Sets if the user can open an item with long pressing on cell
      *
-     * @param swipeOpenOnLongPress
+     * @param swipeOpenOnLongPress na
      */
     public void setSwipeOpenOnLongPress(boolean swipeOpenOnLongPress) {
         touchListener.setSwipeOpenOnLongPress(swipeOpenOnLongPress);
@@ -614,7 +620,7 @@ public class SwipeListView extends RecyclerView {
     /**
      * Set swipe mode
      *
-     * @param swipeMode
+     * @param swipeMode na
      */
     public void setSwipeMode(int swipeMode) {
         touchListener.setSwipeMode(swipeMode);

@@ -19,7 +19,6 @@ package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
@@ -29,7 +28,7 @@ import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 
 import java.util.ArrayList;
 

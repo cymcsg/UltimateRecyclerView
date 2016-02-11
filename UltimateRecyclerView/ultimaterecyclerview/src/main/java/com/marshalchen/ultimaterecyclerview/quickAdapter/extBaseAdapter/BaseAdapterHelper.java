@@ -34,18 +34,12 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 
 /**
- * Allows an abstraction of the ViewHolder pattern.<br>
- * <br>
- * <p/>
- * <b>Usage</b>
- * <p/>
- * <p/>
- * <pre>
+ * Allows an abstraction of the ViewHolder pattern.
+ * Usage
  * return BaseAdapterHelper.get(context, convertView, parent, R.layout.item)
- * 		.setText(R.id.tvName, contact.getName())
- * 		.setText(R.id.tvEmails, contact.getEmails().toString())
- * 		.setText(R.id.tvNumbers, contact.getNumbers().toString()).getView();
- * </pre>
+ * .setText(R.id.tvName, contact.getName())
+ * .setText(R.id.tvEmails, contact.getEmails().toString())
+ * .setText(R.id.tvNumbers, contact.getNumbers().toString()).getView();
  */
 public class BaseAdapterHelper {
 
@@ -85,6 +79,7 @@ public class BaseAdapterHelper {
      * @param context     The current context.
      * @param convertView The convertView arg passed to the getView() method.
      * @param parent      The parent arg passed to the getView() method.
+     * @param layoutId    na
      * @return A BaseAdapterHelper instance.
      */
     public static BaseAdapterHelper get(Context context, View convertView,
@@ -94,6 +89,13 @@ public class BaseAdapterHelper {
 
     /**
      * This method is package private and should only be used by QuickAdapter.
+     *
+     * @param context     na
+     * @param convertView na
+     * @param parent      na
+     * @param layoutId    na
+     * @param position    na
+     * @return na
      */
     static BaseAdapterHelper get(Context context, View convertView,
                                  ViewGroup parent, int layoutId, int position) {
@@ -115,11 +117,13 @@ public class BaseAdapterHelper {
 
     /**
      * This method allows you to retrieve a view and perform custom operations
-     * on it, not covered by the BaseAdapterHelper.<br/>
+     * on it, not covered by the BaseAdapterHelper.
      * If you think it's a common use case, please consider creating a new issue
      * at https://github.com/JoanZapata/base-adapter-helper/issues.
      *
      * @param viewId The id of the view you want to retrieve.
+     * @param <T>    na
+     * @return na
      */
     public <T extends View> T getView(int viewId) {
         return retrieveView(viewId);
@@ -227,10 +231,10 @@ public class BaseAdapterHelper {
     }
 
     /**
-     * Will download an image from a URL and put it in an ImageView.<br/>
+     * Will download an image from a URL and put it in an ImageView.
      * It uses Square's Picasso library to download the image asynchronously and
-     * put the result into the ImageView.<br/>
-     * Picasso manages recycling of views in a ListView.<br/>
+     * put the result into the ImageView.
+     * Picasso manages recycling of views in a ListView.
      * If you need more control over the Picasso settings, use
      * {BaseAdapterHelper#setImageBuilder}.
      *
@@ -251,16 +255,20 @@ public class BaseAdapterHelper {
      * @param requestBuilder The Picasso request builder. (e.g.
      *                       Picasso.with(context).load(imageUrl))
      * @return The BaseAdapterHelper for chaining.
-       public BaseAdapterHelper setImageBuilder(int viewId,
-       RequestCreator requestBuilder) {
-       ImageView view = retrieveView(viewId);
-       requestBuilder.into(view);
-       return this;}
+    public BaseAdapterHelper setImageBuilder(int viewId,
+    RequestCreator requestBuilder) {
+    ImageView view = retrieveView(viewId);
+    requestBuilder.into(view);
+    return this;}
      */
 
     /**
      * Add an action to set the image of an image view. Can be called multiple
      * times.
+     *
+     * @param viewId na
+     * @param bitmap na
+     * @return na
      */
     public BaseAdapterHelper setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = retrieveView(viewId);
@@ -271,6 +279,10 @@ public class BaseAdapterHelper {
     /**
      * Add an action to set the alpha of a view. Can be called multiple times.
      * Alpha between 0-1.
+     *
+     * @param viewId na
+     * @param value  na
+     * @return na
      */
     @SuppressLint("NewApi")
     public BaseAdapterHelper setAlpha(int viewId, float value) {
@@ -313,6 +325,10 @@ public class BaseAdapterHelper {
 
     /**
      * Apply the typeface to the given viewId, and enable subpixel rendering.
+     *
+     * @param viewId   na
+     * @param typeface na
+     * @return na
      */
     public BaseAdapterHelper setTypeface(int viewId, Typeface typeface) {
         TextView view = retrieveView(viewId);
@@ -324,6 +340,10 @@ public class BaseAdapterHelper {
     /**
      * Apply the typeface to all the given viewIds, and enable subpixel
      * rendering.
+     *
+     * @param typeface na
+     * @param viewIds  na
+     * @return na
      */
     public BaseAdapterHelper setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
@@ -500,6 +520,8 @@ public class BaseAdapterHelper {
 
     /**
      * Retrieve the convertView
+     *
+     * @return na
      */
     public View getView() {
         return convertView;
@@ -508,6 +530,7 @@ public class BaseAdapterHelper {
     /**
      * Retrieve the overall position of the data in the list.
      *
+     * @return na
      * @throws IllegalArgumentException If the position hasn't been set at the construction of the
      *                                  this helper.
      */
@@ -521,6 +544,8 @@ public class BaseAdapterHelper {
 
     /**
      * Retrieves the last converted object on this view.
+     *
+     * @return na
      */
     public Object getAssociatedObject() {
         return associatedObject;
@@ -528,6 +553,8 @@ public class BaseAdapterHelper {
 
     /**
      * Should be called during convert
+     *
+     * @param associatedObject na
      */
     public void setAssociatedObject(Object associatedObject) {
         this.associatedObject = associatedObject;

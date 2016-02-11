@@ -10,17 +10,10 @@ import java.util.List;
 /**
  * Enhanced Google Admob implementation
  * Created by hesk on 20/5/15.
- * Visit: https://github.com/jjhesk
- * JJHESK HKM. MIT LICENSE
- * {@link {https://github.com/jjhesk/MaterialTabsAdavanced/blob/master/LICENSE.md}}
  */
 public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> {
     public interface AdviewListener<Adv extends ViewGroup> {
         Adv onGenerateAdview();
-    }
-
-    protected class VIEW_TYPES extends UltimateViewAdapter.VIEW_TYPES {
-        public static final int ADVIEW = 4;
     }
 
     protected final Adv advertise_view;
@@ -147,23 +140,23 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-    @Override
+/*    @Override
     public int getItemViewType(int position) {
         int type = super.getItemViewType(position);
         if (type == VIEW_TYPES.NORMAL) {
             if (!once) {
-                if (position > 0 && isPosOnAdView(position)) {
+                if (position > 0 && isOnAdView(position)) {
                     return VIEW_TYPES.ADVIEW;
                 } else return type;
             } else {
-                if (isPosOnAdView(position) && adfrequency == position + 1) {
+                if (isOnAdView(position) && adfrequency == position + 1) {
                     return VIEW_TYPES.ADVIEW;
                 } else return type;
             }
         } else {
             return type;
         }
-    }
+    }*/
 
     /**
      * Returns the number of items in the adapter bound to the parent RecyclerView.
@@ -196,20 +189,41 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-    @Override
-    /**
-     * Insert a item to the list of the adapter
-     *
-     * @param list the data list
-     * @param object the object
-     * @param first_insert_data_pos the object position at the end of the list
-     * @param <T> the generic type
-     */
-    public <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
+    public void insert(List<T> new_data) {
+        insertInternal(new_data, list);
+    }
+
+    public void removeAll() {
+        clearInternal(list);
+    }
+
+    public void insertFirst(T item) {
+        insertFirstInternal(list, item);
+    }
+
+    public void insertLast(T item) {
+        insertLastInternal(list, item);
+    }
+
+    public void removeLast() {
+        removeLastInternal(list);
+    }
+
+    public void removeFirst() {
+        removeFirstInternal(list);
+    }
+
+    public void removeAt(int position) {
+        removeInternal(list, position);
+    }
+
+   /* @Override
+
+    public final <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
         try {
             list.add(first_insert_data_pos, object);
             final int offset = getReverseDataArrayPosition(first_insert_data_pos);
-            if (isPosOnAdView(offset) && first_insert_data_pos > 0) {
+            if (isOnAdView(offset) && first_insert_data_pos > 0) {
                 notifyItemRangeChanged(offset, offset + 1);
             } else {
                 notifyItemInserted(offset);
@@ -219,7 +233,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         } catch (IndexOutOfBoundsException e) {
             Log.d("admobErrorMr3", e.getMessage());
         }
-    }
+    }*/
 
     /**
      * to insert data with a new list
@@ -229,7 +243,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param first_insert_pos the first item
      * @param <T>              the list type holder
      */
-    public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
+ /*   public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
         try {
             original_list.addAll(first_insert_pos, new_list);
             final int view_pos_1 = getReverseDataArrayPosition(first_insert_pos);
@@ -240,27 +254,15 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         } catch (IndexOutOfBoundsException e) {
             Log.d("admobErrorMr3", e.getMessage());
         }
-    }
+    }*/
 
     /**
      * default insert that will append the object at the end
      *
      * @param object data object
      */
-    public void insert(final T object) {
-        insert(list, object, list.size());
-    }
 
-    public void insert(final List<T> newlist) {
-        insert(list, newlist, list.size());
-    }
 
-    public void removeAll() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    @Override
     /**
      * Todo: need to resolve this problem when it crash
      * Remove a item of  the list of the adapter
@@ -268,13 +270,13 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * @param list the data source
      * @param position with the position on the list
      */
-    public void remove(List<?> list, int position) {
+   /* public void remove(List<?> list, int position) {
         try {
             if (list.size() > 0 && position < list.size()) {
                 list.remove(position);
                 final int offset = getReverseDataArrayPosition(position);
                 notifyItemRemoved(offset);
-                if (offset > 1 && isPosOnAdView(offset) && position > 0) {
+                if (offset > 1 && isOnAdView(offset) && position > 0) {
                     notifyItemRemoved(offset - 1);
                 }
                 Log.d("normaladmob", "offset final: " + offset);
@@ -287,7 +289,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             Log.d("admobError r2", e.getMessage());
         }
 
-    }
+    }*/
 
     /**
      * this is the mask to calculate whether the position of the item should be proceeded with data binding
@@ -356,11 +358,22 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * indicate if the touch position is at the Adview
      *
      * @param pos in raw
-     * @return yes or no
+     * @return in raw
      */
-    public boolean isPosOnAdView(final int pos) {
+    @Override
+    protected boolean isOnAdView(int pos) {
         final int zero_for_admob_selection = (pos + 1) % adfrequency;
         return zero_for_admob_selection == 0;
+    }
+
+    /**
+     * the API access for adview indication
+     *
+     * @param pos position to be final
+     * @return bool
+     */
+    public final boolean isPosOnAdView(final int pos) {
+        return isOnAdView(pos);
     }
 
     /**

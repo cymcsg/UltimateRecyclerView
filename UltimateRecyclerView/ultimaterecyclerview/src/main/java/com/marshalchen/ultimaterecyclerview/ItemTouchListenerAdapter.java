@@ -23,15 +23,14 @@ import android.view.View;
 
 /**
  * As RecyclerView does not have standard way to add click listeners to the items,
- * this RecyclerView.OnItemTouchListener intercepts touch events and translates them to simple onItemClick and onItemLongClick callbacks.
- * <p/>
+ * this RecyclerView.OnItemTouchListener intercepts touch events and translates them to simple
  * Simply add it as follows:
- * <pre>
+ *
  * {@code
  *     recyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(recyclerView, this));
  *
  * }
- * </pre>
+ *
  */
 public  class ItemTouchListenerAdapter extends GestureDetector.SimpleOnGestureListener implements RecyclerView.OnItemTouchListener {
 

@@ -118,13 +118,6 @@ public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapte
         }
     }
 
-    public void remove(int position) {
-        remove(list, position);
-    }
-
-    public void clear() {
-        clear(list);
-    }
 
     @Override
     public UltimateRecyclerviewViewHolder getViewHolder(View view) {
