@@ -61,14 +61,20 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 > Notice that it might not be the latest version
 
 ###Quick Setup（Basic Usage）
-######1.Integration
-```groovy
+######1.Integration jcenter
+```gradle
 repositories {
         jcenter()
     }
 dependencies {
     ...
     compile 'com.marshalchen.ultimaterecyclerview:library:0.3.18'
+}
+```
+######2.Bintray integration
+```gradle
+dependencies{
+    compile 'com.marshalchen.ultimaterecyclerview:urvlib:0.4.0'
 }
 ```
 
