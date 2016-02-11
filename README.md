@@ -42,8 +42,12 @@ Notice that UltimateRecyclerView is a project under development.
 ###Upcoming features:
 * More animations
 * Optimise UltimateViewAdapter
-* ...
+* and more.
 
+###Demo App / Sample Code:
+* Due to repit update and developments we have decided to host the demo APK on github
+* check out this link for [demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
+* You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
 [Upcoming changes in UltiamteRecyclerview 0.4.0](UpcomingChanges.md):
 
@@ -53,10 +57,6 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 
 ###If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
-
-###Sample
-
-You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
 > Notice that it might not be the latest version
 
