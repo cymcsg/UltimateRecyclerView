@@ -46,7 +46,7 @@ ext {
 
 
     COMPILE_SDK = 23
-    BUILD_TOOLS = '23.0.2'
+    BUILD_TOOLS = '23.0.1'
     MODULE_NAME = 'urvlib'
 
 
