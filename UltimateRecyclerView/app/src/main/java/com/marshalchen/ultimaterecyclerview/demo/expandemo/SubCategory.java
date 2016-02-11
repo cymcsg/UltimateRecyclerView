@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.expanables;
+package com.marshalchen.ultimaterecyclerview.demo.expandemo;
 
 import android.view.View;
 import android.widget.RelativeLayout;

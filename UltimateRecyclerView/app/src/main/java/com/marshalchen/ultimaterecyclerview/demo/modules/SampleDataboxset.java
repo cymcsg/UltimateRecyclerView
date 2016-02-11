@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

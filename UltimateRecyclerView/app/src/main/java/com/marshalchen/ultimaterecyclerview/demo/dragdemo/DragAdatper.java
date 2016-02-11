@@ -1,6 +1,5 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.dragdemo;
 
-import android.graphics.Color;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.URLogs;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.dragsortadapter.DragSortAdapter;
 import com.marshalchen.ultimaterecyclerview.dragsortadapter.NoForegroundShadowBuilder;
 
-import java.security.SecureRandom;
 import java.util.List;
 
 

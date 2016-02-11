@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.griddemo;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.demo.gridTools.GridJRAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.JRitem;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.grid.BasicGridLayoutManager;

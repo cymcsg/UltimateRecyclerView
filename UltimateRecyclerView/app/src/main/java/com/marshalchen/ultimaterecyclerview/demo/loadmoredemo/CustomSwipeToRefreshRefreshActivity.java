@@ -1,14 +1,11 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -46,6 +43,8 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAnimationAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
 import java.util.ArrayList;
