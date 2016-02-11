@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion targetSdk
-    buildToolsVersion buildTools
+    compileSdkVersion COMPILE_SDK
+    buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 15
-        targetSdkVersion targetSdk
+        minSdkVersion 17
+        targetSdkVersion 23
         versionCode app_test_versionCode
         versionName app_test_versionName
     }

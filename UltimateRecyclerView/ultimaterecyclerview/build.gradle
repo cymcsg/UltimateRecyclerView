@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion targetSdk
-    buildToolsVersion buildTools
+    compileSdkVersion COMPILE_SDK
+    buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
-        minSdkVersion minSdk
-        targetSdkVersion targetSdk
-        versionCode libraryCode
-        versionName libraryVersion
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 20
+        versionName VERSION_NAME
     }
     buildTypes {
         release {
@@ -37,5 +37,5 @@ dependencies {
 }
 
 //apply from: 'android-release-aar.gradle'
-//apply from: 'maven-push.gradle'
-apply from: 'bintray-release-aar.gradle'
+apply from: 'maven-push.gradle'
+//apply from: 'bintray-release-aar.gradle'

@@ -1,49 +1,51 @@
 apply plugin: 'bintray-release'
-publish {
-    userOrg = 'jjhesk'
-    groupId = PUBLISH_GROUP_ID
-    artifactId = PUBLISH_ARTIFACT_ID
-    version = PUBLISH_VERSION
-    uploadName = PUBLISH_ARTIFACT_ID
-    description = 'the best urv'
-    website = 'https://github.com/cymcsg/UltimateRecyclerView'
-    autoPublish = true
-    dryRun = false
-    issueTracker = "${website}/issues"
-    licences = ['MIT']
-    bintrayUser = BINTRAY_USER
-    bintrayKey = BINTRAY_APIKEY
-}
 
-apply plugin: 'maven'
-task createPom << {
-    pom {
-        project {
-            name project.POM_DESCRIPTION
-            packaging project.POM_PACKAGING
-            description project.POM_DESCRIPTION
-            url project.POM_URL
-            version project.VERSION_NAME
+subprojects {
+    group = GROUP_NAME
+    version = VERSION_NAME
 
-            scm {
-                url POM_SCM_URL
-                connection POM_SCM_CONNECTION
-                developerConnection POM_SCM_DEV_CONNECTION
-            }
+    if (IS_UPLOADING && project.name in [MODULE_NAME]) {
+        println project.name
+        apply plugin: 'maven'
 
-            licenses {
-                license {
-                    name POM_LICENCE_NAME
-                }
-            }
+        gradle.taskGraph.whenReady { taskGraph ->
+            taskGraph.getAllTasks().find {
+                it.path == ":$project.name:generatePomFileForMavenPublication"
+            }.doLast {
+                file("build/publications/maven/pom-default.xml").delete()
+                println 'Overriding pom-file to make sure we can sync to maven central!'
+                pom {
+                    //noinspection GroovyAssignabilityCheck
+                    project {
+                        name "$project.name"
+                        artifactId ARTIFACT_ID
+                        packaging project.name == 'compiler' ? 'jar' : 'aar'
+                        description DESCRIPTION
+                        url SITE_URL
+                        version VERSION_NAME
 
-            developers {
-                developer {
-                    id BINTRAY_USER
-                    name 'jjhesk'
-                    email ''
-                }
+                        scm {
+                            url GIT_URL
+                            connection GIT_URL
+                            developerConnection GIT_URL
+                        }
+
+                        licenses {
+                            license {
+                                name LICENSE
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id DEVELOPER_ID
+                                name DEVELOPER_NAME
+                                email DEVELOPER_EMAIL
+                            }
+                        }
+                    }
+                }.writeTo("build/publications/maven/pom-default.xml")
             }
         }
-    }.writeTo("build/publications/maven/pom-default.xml")
+    }
 }
