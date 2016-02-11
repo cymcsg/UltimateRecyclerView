@@ -73,7 +73,7 @@ public final class URLogs {
     /**
      * Send a VERBOSE log message.
      *
-     * @param msg
+     * @param msg na
      */
     public static void v(String msg) {
         if (sIsLogEnabled) {
@@ -84,8 +84,8 @@ public final class URLogs {
     /**
      * Send a DEBUG log message.
      *
-     * @param tag
-     * @param msg
+     * @param tag na
+     * @param msg na
      */
     public static void d(String tag, String msg) {
         if (sIsLogEnabled) {
@@ -96,7 +96,7 @@ public final class URLogs {
     /**
      * Send a DEBUG log message.
      *
-     * @param msg
+     * @param msg na
      */
     public static void d(String msg) {
         if (sIsLogEnabled) {
@@ -107,8 +107,8 @@ public final class URLogs {
     /**
      * Send an INFO log message.
      *
-     * @param tag
-     * @param msg
+     * @param tag na
+     * @param msg na
      */
     public static void i(String tag, String msg) {
         if (sIsLogEnabled) {
@@ -117,8 +117,8 @@ public final class URLogs {
     }
 
     /**
-     * @param message
-     * @param args
+     * @param message na
+     * @param args    na
      */
     public static void d(String message, Object... args) {
         if (sIsLogEnabled) {
@@ -129,8 +129,8 @@ public final class URLogs {
     /**
      * Send a WARN log message.
      *
-     * @param tag
-     * @param msg
+     * @param tag na
+     * @param msg na
      */
     public static void w(String tag, String msg) {
         if (sIsLogEnabled) {
@@ -141,8 +141,8 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param tag
-     * @param msg
+     * @param tag na
+     * @param msg na
      */
     public static void e(String tag, String msg) {
         if (sIsLogEnabled) {
@@ -153,7 +153,7 @@ public final class URLogs {
     /**
      * Send an INFO log message.
      *
-     * @param msg
+     * @param msg na
      */
     public static void i(String msg) {
         if (sIsLogEnabled) {
@@ -164,7 +164,7 @@ public final class URLogs {
     /**
      * Send a WARN log message.
      *
-     * @param msg
+     * @param msg na
      */
     public static void w(String msg) {
         if (sIsLogEnabled) {
@@ -175,7 +175,7 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param msg
+     * @param msg na
      */
     public static void e(String msg) {
         if (sIsLogEnabled) {
@@ -187,7 +187,7 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param exception
+     * @param exception na
      */
     public static void e(Exception exception) {
         if (sIsLogEnabled) {
@@ -199,8 +199,8 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param exception
-     * @param string
+     * @param exception na
+     * @param string    na
      */
     public static void e(Exception exception, String string) {
         if (sIsLogEnabled) {
@@ -212,8 +212,8 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param string
-     * @param exception
+     * @param string    na
+     * @param exception na
      */
     public static void e(String string, Exception exception) {
         if (sIsLogEnabled) {
@@ -225,9 +225,9 @@ public final class URLogs {
     /**
      * Send an ERROR log message.
      *
-     * @param tag
-     * @param message
-     * @param exception
+     * @param tag       na
+     * @param message   na
+     * @param exception na
      */
     public static void e(String tag, String message, Exception exception) {
         if (sIsLogEnabled) {
@@ -245,7 +245,7 @@ public final class URLogs {
     /**
      * Set if the Logs print log or not
      *
-     * @param sIsLogEnabled
+     * @param sIsLogEnabled na
      */
     public static void setsIsLogEnabled(boolean sIsLogEnabled) {
         URLogs.sIsLogEnabled = sIsLogEnabled;

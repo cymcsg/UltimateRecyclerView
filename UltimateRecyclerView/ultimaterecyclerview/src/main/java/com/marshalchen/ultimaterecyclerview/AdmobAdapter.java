@@ -10,9 +10,6 @@ import java.util.List;
 /**
  * Enhanced Google Admob implementation
  * Created by hesk on 20/5/15.
- * Visit: https://github.com/jjhesk
- * JJHESK HKM. MIT LICENSE
- * {@link {https://github.com/jjhesk/MaterialTabsAdavanced/blob/master/LICENSE.md}}
  */
 public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> {
     public interface AdviewListener<Adv extends ViewGroup> {

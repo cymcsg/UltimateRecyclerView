@@ -60,7 +60,7 @@ public interface SwipeListViewListener {
     /**
      * Start close item
      * @param position of the view in the list
-     * @param right
+     * @param right  na
      */
     void onStartClose(int position, boolean right);
 

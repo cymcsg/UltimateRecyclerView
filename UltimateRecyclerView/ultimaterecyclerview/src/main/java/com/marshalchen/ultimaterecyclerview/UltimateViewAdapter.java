@@ -34,6 +34,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
 
     /**
      * Set the header view of the adapter.
+     *
+     * @param customHeaderView na
      */
     public void setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) {
         this.customHeaderView = customHeaderView;
@@ -266,8 +268,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     /**
      * Remove a item of  the list of the adapter
      *
-     * @param list     data list
-     * @param position position
+     * @param list     na
+     * @param position na
+     * @param <T>      na
      */
     public final <T> void removeInternal(List<T> list, int position) {
         if (list.size() > 0) {
@@ -288,6 +291,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * Clear the list of the adapter
      *
      * @param list data list
+     * @param <T>  na
      */
     public final <T> void clearInternal(List<T> list) {
         int size = list.size();
@@ -295,6 +299,12 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         notifyItemRangeRemoved(0, size);
     }
 
+    /**
+     * remove all items
+     *
+     * @param list na
+     * @param <T>  na
+     */
     public final <T> void removeAllInternal(List<T> list) {
         clearInternal(list);
     }

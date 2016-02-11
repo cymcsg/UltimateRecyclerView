@@ -25,6 +25,8 @@ public abstract class NormalUltimateViewAdapter extends RecyclerView.Adapter<Ult
 
     /**
      * Set the header view of the adapter.
+     *
+     * @param customHeaderView na
      */
     public void setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) {
         this.customHeaderView = customHeaderView;
