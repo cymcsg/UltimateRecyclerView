@@ -135,8 +135,10 @@ public class BiAdAdapterSwitcher<
     /**
      * will implement more functions later
      *
+     * @param delay_trigger na
      * @return switchableadapter object
      */
+
     public BiAdAdapterSwitcher onEnableRefresh(final int delay_trigger) {
         listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -430,6 +430,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
+     *
+     * @param customLoadingMoreView na
      */
     public void reenableLoadmore(View customLoadingMoreView) {
         enableLoadmore();
@@ -594,7 +596,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * Swaps the current adapter with the provided one. It is similar to
      * {@link #setAdapter(UltimateViewAdapter)} but assumes existing adapter and the new adapter uses the same
      * ViewHolder and does not clear the RecycledViewPool.
-     * <p/>
      * Note that it still calls onAdapterChanged callbacks.
      *
      * @param adapter                       The new adapter to set, or null to set no adapter.
@@ -882,7 +883,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the normal header of the recyclerview
      *
-     * @param header
+     * @param header na
      */
     public void setNormalHeader(View header) {
         setParallaxHeader(header);
@@ -892,7 +893,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the on scroll method of parallax header
      *
-     * @param parallaxScroll
+     * @param parallaxScroll    na
      */
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
         mParallaxScroll = parallaxScroll;

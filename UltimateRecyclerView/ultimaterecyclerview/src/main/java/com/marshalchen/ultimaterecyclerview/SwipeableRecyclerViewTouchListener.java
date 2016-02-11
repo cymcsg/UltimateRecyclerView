@@ -41,27 +41,22 @@ import java.util.List;
 /**
  * A {@link View.OnTouchListener} that makes the list items in a {@link RecyclerView}
  * dismissable by swiping.
- * <p/>
- * <p>Example usage:</p>
- * <p/>
- * <pre>
+ * Example usage:
  * SwipeDismissRecyclerViewTouchListener touchListener =
- *         new SwipeDismissRecyclerViewTouchListener(
- *                 listView,
- *                 new SwipeDismissRecyclerViewTouchListener.OnDismissCallback() {
- *                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
- *                         for (int position : reverseSortedPositions) {
- *                             adapter.remove(adapter.getItem(position));
- *                         }
- *                         adapter.notifyDataSetChanged();
- *                     }
- *                 });
+ * new SwipeDismissRecyclerViewTouchListener(
+ * listView,
+ * new SwipeDismissRecyclerViewTouchListener.OnDismissCallback() {
+ * public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+ * for (int position : reverseSortedPositions) {
+ * adapter.remove(adapter.getItem(position));
+ * }
+ * adapter.notifyDataSetChanged();
+ * }
+ * });
  * listView.setOnTouchListener(touchListener);
  * listView.setOnScrollListener(touchListener.makeScrollListener());
- * </pre>
- * <p/>
- * <p>This class Requires API level 12 or later due to use of {@link
- * android.view.ViewPropertyAnimator}.</p>
+ * This class Requires API level 12 or later due to use of {@link
+ * android.view.ViewPropertyAnimator}.
  */
 public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTouchListener {
     // Cached ViewConfiguration and system-wide constant values
@@ -142,8 +137,9 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public void onTouchEvent(RecyclerView rv, MotionEvent motionEvent) {
         handleTouchEvent(motionEvent);
     }
+
     @Override
-    public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
 
@@ -375,6 +371,9 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public interface SwipeListener {
         /**
          * Called to determine whether the given position can be swiped.
+         *
+         * @param position position of the swip
+         * @return bool
          */
         boolean canSwipe(int position);
 

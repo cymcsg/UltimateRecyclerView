@@ -47,4 +47,6 @@ ext {
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
     PUBLISH_VERSION = libraryVersion
+    BINTRAY_USER = 'jjhesk'
+
 }

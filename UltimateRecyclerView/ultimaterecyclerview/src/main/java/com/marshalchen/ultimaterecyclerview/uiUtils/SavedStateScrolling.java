@@ -12,7 +12,6 @@ import android.util.SparseIntArray;
  * {@link android.view.AbsSavedState#AbsSavedState(Parcel)} currently passes null
  * as a class loader to read its superstate from Parcelable.
  * This causes {@link android.os.BadParcelableException} when restoring saved states.
- * <p/>
  * The super class "RecyclerView" is a part of the support library,
  * and restoring its saved state requires the class loader that loaded the RecyclerView.
  * It seems that the class loader is not required when restoring from RecyclerView itself,
@@ -27,7 +26,7 @@ public class SavedStateScrolling implements Parcelable {
     public int prevScrolledChildrenHeight;
     public int prevScrollY;
     public int scrollY;
-    public  SparseIntArray childrenHeights;
+    public SparseIntArray childrenHeights;
 
     // This keeps the parent(RecyclerView)'s state
     public Parcelable superState;
@@ -41,6 +40,8 @@ public class SavedStateScrolling implements Parcelable {
 
     /**
      * Called by onSaveInstanceState.
+     *
+     * @param superState Parcelable
      */
     public SavedStateScrolling(Parcelable superState) {
         this.superState = superState != EMPTY_STATE ? superState : null;
@@ -48,6 +49,8 @@ public class SavedStateScrolling implements Parcelable {
 
     /**
      * Called by CREATOR.
+     *
+     * @param in na
      */
     public SavedStateScrolling(Parcel in) {
         // Parcel 'in' has its parent(RecyclerView)'s saved state.
