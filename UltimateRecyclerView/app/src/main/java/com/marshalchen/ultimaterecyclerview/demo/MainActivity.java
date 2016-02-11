@@ -1,6 +1,5 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -20,18 +19,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
-import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
-import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 

@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.modules;
+package com.marshalchen.ultimaterecyclerview.demo.multiitemdemo;
 
 import android.content.res.Resources;
 import android.support.v4.view.ViewPager;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.demo.modules.Sample1Binder;
+import com.marshalchen.ultimaterecyclerview.demo.modules.Sample2Binder;
 
 import java.util.ArrayList;
 import java.util.List;

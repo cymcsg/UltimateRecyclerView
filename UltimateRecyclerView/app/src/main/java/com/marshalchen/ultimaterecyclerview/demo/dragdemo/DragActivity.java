@@ -1,14 +1,10 @@
-package com.marshalchen.ultimaterecyclerview.demo;
-
-import android.content.Intent;
+package com.marshalchen.ultimaterecyclerview.demo.dragdemo;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.URLogs;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
@@ -40,6 +34,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
 
@@ -69,32 +64,23 @@ public class DragActivity extends AppCompatActivity {
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
 
-//        stringList.add("111");
-//        stringList.add("aaa");
-//        stringList.add("222");
-//        stringList.add("33");
-//        stringList.add("44");
-//        stringList.add("55");
-//        stringList.add("66");
-//        stringList.add("11771");
         stringList.add("aa");
         stringList.add("bb");
         stringList.add("cc");
         stringList.add("dd");
+
         List<Integer> data = new ArrayList<>();
+
         data.add(1);
         data.add(2);
         data.add(3);
         data.add(4);
         data.add(15);
+
         simpleRecyclerViewAdapter = new DragAdatper(ultimateRecyclerView, data);
-
-
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
-
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =

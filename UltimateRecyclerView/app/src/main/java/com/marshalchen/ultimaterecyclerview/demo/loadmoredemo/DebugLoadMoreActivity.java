@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -47,6 +47,8 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
+import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;

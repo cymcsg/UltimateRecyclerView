@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo;
+package com.marshalchen.ultimaterecyclerview.demo.multiitemdemo;
 
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -6,16 +6,14 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.demo.modules.MultiViewTypesRecyclerViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.divideritemdecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -46,15 +44,19 @@ public class MultiViewTypesActivity extends AppCompatActivity {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
         List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new MultiViewTypesRecyclerViewAdapter(stringList);
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
+
         stringList.add("111");
         stringList.add("aaa");
         stringList.add("222");
         stringList.add("33");
         stringList.add("44");
         stringList.add("55");
+
+
+        simpleRecyclerViewAdapter = new MultiViewTypesRecyclerViewAdapter(stringList);
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(
+                LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+
 //        stringList.add("66");
 //        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
@@ -85,6 +87,8 @@ public class MultiViewTypesActivity extends AppCompatActivity {
             ultimateRecyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         ultimateRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).paint(paint).build());
+
+      //  simpleRecyclerViewAdapter.ad
 
     }
 

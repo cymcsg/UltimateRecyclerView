@@ -23,11 +23,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 
 import java.util.ArrayList;
 

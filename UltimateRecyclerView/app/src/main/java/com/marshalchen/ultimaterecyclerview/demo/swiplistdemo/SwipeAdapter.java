@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.swipelist;
+package com.marshalchen.ultimaterecyclerview.demo.swiplistdemo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

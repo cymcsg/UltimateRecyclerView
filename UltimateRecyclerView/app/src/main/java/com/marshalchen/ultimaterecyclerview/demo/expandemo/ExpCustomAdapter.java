@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.expanables;
+package com.marshalchen.ultimaterecyclerview.demo.expandemo;
 
 import android.content.Context;
 import android.view.View;

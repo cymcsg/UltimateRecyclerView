@@ -1,11 +1,8 @@
-package com.marshalchen.ultimaterecyclerview.demo.gridTools;
+package com.marshalchen.ultimaterecyclerview.demo.griddemo;
 
-import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateGridLayoutAdapter;

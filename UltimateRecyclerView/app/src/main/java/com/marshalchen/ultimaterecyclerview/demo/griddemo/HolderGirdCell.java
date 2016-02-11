@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.gridTools;
+package com.marshalchen.ultimaterecyclerview.demo.griddemo;
 
 import android.graphics.Color;
 import android.view.View;

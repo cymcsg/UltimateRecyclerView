@@ -16,20 +16,14 @@
  *  limitations under the License.
  */
 
-package com.marshalchen.ultimaterecyclerview.demo.swipelist;
+package com.marshalchen.ultimaterecyclerview.demo.swiplistdemo;
 
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
 
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface;
