@@ -43,10 +43,20 @@ ext {
             cardView  : "com.android.support:cardview-v7:${supportLibrary}",
             kitCore   : "com.52inc:52Kit-core:${ftKit}"
     ]
+    POM_DESCRIPTION = 'the ultimate recycler view all in to package'
 
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
-    PUBLISH_ARTIFACT_ID = 'library'
+    PUBLISH_ARTIFACT_ID = 'urvlib'
     PUBLISH_VERSION = libraryVersion
     BINTRAY_USER = 'jjhesk'
     BINTRAY_APIKEY = ''
+    POM_LICENCE_NAME = 'MIT'
+    POM_LICENCE_URL = 'http://opensource.org/licenses/'
+    POM_LICENCE_DIST = 'repo'
+    POM_DEVELOPER_ID = 'jjhesk'
+    POM_DEVELOPER_NAME = 'jjhesk'
+    POM_URL = 'https://github.com/cymcsg/UltimateRecyclerView/tree/core-recode-redesign'
+    POM_SCM_URL = 'https://github.com/cymcsg/UltimateRecyclerView/tree/core-recode-redesign'
+    POM_SCM_CONNECTION = 'scm:https://github.com/cymcsg/UltimateRecyclerView.git'
+    POM_SCM_DEV_CONNECTION = 'scm:https://github.com/cymcsg/UltimateRecyclerView.git'
 }
