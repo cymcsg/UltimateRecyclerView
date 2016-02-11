@@ -45,7 +45,7 @@ Notice that UltimateRecyclerView is a project under development.
 * and more.
 
 ###Demo App / Sample Code:
-* Due to repit update and developments we have decided to host the demo APK on github
+* Due to rapid updates and developments we have decided to host the demo APK on github
 * check out this link for [demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
