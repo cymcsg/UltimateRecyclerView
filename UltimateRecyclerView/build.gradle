@@ -45,20 +45,10 @@ ext {
     ]
 
 
-   // BINTRAY_USER = 'jjhesk'
-    //BINTRAY_APIKEY = ''
-    DESCRIPTION = 'the ultimate recycler view all in to package'
-
-    SITE_URL = 'https://github.com/HKMOpen/UltimateRecyclerView'
-    GIT_URL = 'https://github.com/HKMOpen/UltimateRecyclerView.git'
-    GROUP_NAME = 'com.hkm.ultimateurv'
     COMPILE_SDK = 23
-    BUILD_TOOLS = '23.0.1'
+    BUILD_TOOLS = '23.0.2'
     MODULE_NAME = 'urvlib'
-    LICENSE = 'MIT'
-    DEVELOPER_ID = 'jjhesk'
-    DEVELOPER_NAME = 'hesk'
-    DEVELOPER_EMAIL = 'poquoson20@hotmail.com'
+
 
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }
