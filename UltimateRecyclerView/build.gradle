@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'com.novoda:bintray-release:0.3.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -22,15 +22,15 @@ allprojects {
 
 ext {
     //Library configurations
-    libraryCode = 20
-    libraryVersion = '0.4.0'
+    ARTIFACT_ID = 'urvlib'
+    VERSION_NAME = '0.4.0'
+    VERSION_CODE = 20
+    //your version
+
     //Application
     app_test_versionCode = 20
     app_test_versionName = '1.0.9'
     //Support and Build tools version
-    minSdk = 13
-    targetSdk = 22
-    buildTools = '22.0.1'
     supportLibrary = '22.2.1'
     ftKit = '0.4.1'
     //Support Libraries dependencies
@@ -43,20 +43,23 @@ ext {
             cardView  : "com.android.support:cardview-v7:${supportLibrary}",
             kitCore   : "com.52inc:52Kit-core:${ftKit}"
     ]
-    POM_DESCRIPTION = 'the ultimate recycler view all in to package'
 
-    PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
-    PUBLISH_ARTIFACT_ID = 'urvlib'
-    PUBLISH_VERSION = libraryVersion
-    BINTRAY_USER = 'jjhesk'
-    BINTRAY_APIKEY = ''
-    POM_LICENCE_NAME = 'MIT'
-    POM_LICENCE_URL = 'http://opensource.org/licenses/'
-    POM_LICENCE_DIST = 'repo'
-    POM_DEVELOPER_ID = 'jjhesk'
-    POM_DEVELOPER_NAME = 'jjhesk'
-    POM_URL = 'https://github.com/cymcsg/UltimateRecyclerView/tree/core-recode-redesign'
-    POM_SCM_URL = 'https://github.com/cymcsg/UltimateRecyclerView/tree/core-recode-redesign'
-    POM_SCM_CONNECTION = 'scm:https://github.com/cymcsg/UltimateRecyclerView.git'
-    POM_SCM_DEV_CONNECTION = 'scm:https://github.com/cymcsg/UltimateRecyclerView.git'
+
+   // BINTRAY_USER = 'jjhesk'
+    //BINTRAY_APIKEY = ''
+    DESCRIPTION = 'the ultimate recycler view all in to package'
+
+    SITE_URL = 'https://github.com/HKMOpen/UltimateRecyclerView'
+    GIT_URL = 'https://github.com/HKMOpen/UltimateRecyclerView.git'
+    GROUP_NAME = 'com.hkm.ultimateurv'
+    COMPILE_SDK = 23
+    BUILD_TOOLS = '23.0.1'
+    MODULE_NAME = 'urvlib'
+    LICENSE = 'MIT'
+    DEVELOPER_ID = 'jjhesk'
+    DEVELOPER_NAME = 'hesk'
+    DEVELOPER_EMAIL = 'poquoson20@hotmail.com'
+
+    IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }
+
