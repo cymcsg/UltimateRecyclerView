@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 
-import com.marshalchen.ultimaterecyclerview.demo.CustomSwipeToRefreshRefreshActivity;
-import com.marshalchen.ultimaterecyclerview.demo.GridLayoutRVTest;
-import com.marshalchen.ultimaterecyclerview.demo.MultiViewTypesActivity;
+import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.CustomSwipeToRefreshRefreshActivity;
+import com.marshalchen.ultimaterecyclerview.demo.griddemo.GridLayoutRVTest;
+import com.marshalchen.ultimaterecyclerview.demo.multiitemdemo.MultiViewTypesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.TestAdMob;
-import com.marshalchen.ultimaterecyclerview.demo.DebugLoadMoreActivity;
-import com.marshalchen.ultimaterecyclerview.demo.TestAdvancedAdmobActivity;
+import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdMob;
+import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.DebugLoadMoreActivity;
+import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdvancedAdmobActivity;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
-import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
-import com.marshalchen.ultimaterecyclerview.demo.TestExpandableRV;
+import com.marshalchen.ultimaterecyclerview.demo.swiplistdemo.SwipeListViewExampleActivity;
+import com.marshalchen.ultimaterecyclerview.demo.expandemo.TestExpandableRV;
 
 /**
  * Created by hesk on 7/1/2015.

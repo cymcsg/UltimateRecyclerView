@@ -27,10 +27,15 @@ import java.util.List;
  * Created by hesk on 4/8/15.
  */
 public class BiAdAdapterSwitcher<
+        //DATA TYPE
         T,
+        //The view holder
         B extends UltimateRecyclerviewViewHolder,
+        //THE regular adapter
         EASY extends easyRegularAdapter<T, B>,
+        //THE Viewgroup from the google Adview
         V extends ViewGroup,
+        //the admobdapter
         ADMOB extends simpleAdmobAdapter<T, B, V>>
 
 {
@@ -130,8 +135,10 @@ public class BiAdAdapterSwitcher<
     /**
      * will implement more functions later
      *
+     * @param delay_trigger na
      * @return switchableadapter object
      */
+
     public BiAdAdapterSwitcher onEnableRefresh(final int delay_trigger) {
         listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -224,16 +231,11 @@ public class BiAdAdapterSwitcher<
 
 
     private void insert_default(EASY sd, List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
-            sd.insert(list.get(i));
-        }
+        sd.insert(list);
     }
 
     private void insert_default(ADMOB sd, List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
-            sd.insert(list.get(i));
-        }
-        // sd.insert(list);
+        sd.insert(list);
     }
 
     public static <V extends ViewGroup> void maximum_size(LinearLayout l, V suppose_tobe_Adview, Activity activity) {

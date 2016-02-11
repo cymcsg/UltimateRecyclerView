@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Abstraction class of a BaseAdapter in which you only need to provide the
- * convert() implementation.<br/>
+ * convert() implementation.
  * Using the provided BaseAdapterHelper, your code is minimalist.
  *
  * @param <T> The type of the items in the list.

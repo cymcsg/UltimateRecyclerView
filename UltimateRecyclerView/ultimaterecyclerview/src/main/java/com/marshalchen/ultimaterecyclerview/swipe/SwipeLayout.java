@@ -401,6 +401,15 @@ public class SwipeLayout extends FrameLayout {
      * the dispatchRevealEvent method may not always get accurate position, it
      * makes the view may not always get the event when the view is totally
      * show( fraction = 1), so , we need to calculate every time.
+     *
+     * @param child            na
+     * @param relativePosition na
+     * @param edge             na
+     * @param surfaceLeft      na
+     * @param surfaceTop       na
+     * @param surfaceRight     na
+     * @param surfaceBottom    na
+     * @return na
      */
     protected boolean isViewTotallyFirstShowed(View child, Rect relativePosition, DragEdge edge, int surfaceLeft,
                                                int surfaceTop, int surfaceRight, int surfaceBottom) {
@@ -1167,7 +1176,7 @@ public class SwipeLayout extends FrameLayout {
      * {@link com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout.ShowMode}.PullOut and
      * {@link com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout.ShowMode}.LayDown.
      *
-     * @param mode
+     * @param mode na
      */
     public void setShowMode(ShowMode mode) {
         mShowMode = mode;
@@ -1187,7 +1196,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     /**
-     * return null if there is no surface view(no children)
+     * @return null if there is no surface view(no children)
      */
     public View getSurfaceView() {
         if (getChildCount() == 0) return null;
@@ -1195,7 +1204,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     /**
-     * return null if there is no bottom view
+     * @return null if there is no bottom view
      */
     @Nullable
     public View getCurrentBottomView() {
@@ -1489,6 +1498,8 @@ public class SwipeLayout extends FrameLayout {
 
     /**
      * Deprecated, use {@link #setDrag(DragEdge, View)}
+     *
+     * @param dragEdge na
      */
     @Deprecated
     public void setDragEdge(DragEdge dragEdge) {
@@ -1499,7 +1510,8 @@ public class SwipeLayout extends FrameLayout {
         setCurrentDragEdge(dragEdge);
     }
 
-    protected void onViewRemoved(View child) {
+    @Override
+    public void onViewRemoved(View child) {
         for (Map.Entry<DragEdge, View> entry : new HashMap<DragEdge, View>(mDragEdges).entrySet()) {
             if (entry.getValue() == child) {
                 mDragEdges.remove(entry.getKey());
@@ -1512,7 +1524,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     /**
-     * Deprecated, use {@link #getDragEdgeMap()}
+     * @return Deprecated, use {@link #getDragEdgeMap()}
      */
     @Deprecated
     public List<DragEdge> getDragEdges() {
@@ -1521,6 +1533,8 @@ public class SwipeLayout extends FrameLayout {
 
     /**
      * Deprecated, use {@link #setDrag(DragEdge, View)}
+     *
+     * @param dragEdges na
      */
     @Deprecated
     public void setDragEdges(List<DragEdge> dragEdges) {
@@ -1538,6 +1552,8 @@ public class SwipeLayout extends FrameLayout {
 
     /**
      * Deprecated, use {@link #addDrag(DragEdge, View)}
+     *
+     * @param mDragEdges na
      */
     @Deprecated
     public void setDragEdges(DragEdge... mDragEdges) {
@@ -1549,6 +1565,11 @@ public class SwipeLayout extends FrameLayout {
      * Deprecated, use {@link #addDrag(DragEdge, View)}
      * When using multiple drag edges it's a good idea to pass the ids of the views that
      * you're using for the left, right, top bottom views (-1 if you're not using a particular view)
+     *
+     * @param leftId   na
+     * @param rightId  na
+     * @param topId    na
+     * @param bottomId na
      */
     @Deprecated
     public void setBottomViewIds(int leftId, int rightId, int topId, int bottomId) {

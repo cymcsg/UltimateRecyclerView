@@ -20,7 +20,9 @@ package com.marshalchen.ultimaterecyclerview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -39,27 +41,22 @@ import java.util.List;
 /**
  * A {@link View.OnTouchListener} that makes the list items in a {@link RecyclerView}
  * dismissable by swiping.
- * <p/>
- * <p>Example usage:</p>
- * <p/>
- * <pre>
+ * Example usage:
  * SwipeDismissRecyclerViewTouchListener touchListener =
- *         new SwipeDismissRecyclerViewTouchListener(
- *                 listView,
- *                 new SwipeDismissRecyclerViewTouchListener.OnDismissCallback() {
- *                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
- *                         for (int position : reverseSortedPositions) {
- *                             adapter.remove(adapter.getItem(position));
- *                         }
- *                         adapter.notifyDataSetChanged();
- *                     }
- *                 });
+ * new SwipeDismissRecyclerViewTouchListener(
+ * listView,
+ * new SwipeDismissRecyclerViewTouchListener.OnDismissCallback() {
+ * public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+ * for (int position : reverseSortedPositions) {
+ * adapter.remove(adapter.getItem(position));
+ * }
+ * adapter.notifyDataSetChanged();
+ * }
+ * });
  * listView.setOnTouchListener(touchListener);
  * listView.setOnScrollListener(touchListener.makeScrollListener());
- * </pre>
- * <p/>
- * <p>This class Requires API level 12 or later due to use of {@link
- * android.view.ViewPropertyAnimator}.</p>
+ * This class Requires API level 12 or later due to use of {@link
+ * android.view.ViewPropertyAnimator}.
  */
 public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTouchListener {
     // Cached ViewConfiguration and system-wide constant values
@@ -140,11 +137,13 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public void onTouchEvent(RecyclerView rv, MotionEvent motionEvent) {
         handleTouchEvent(motionEvent);
     }
+
     @Override
-    public void  onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private boolean handleTouchEvent(MotionEvent motionEvent) {
         if (mViewWidth < 2) {
             mViewWidth = mRecyclerView.getWidth();
@@ -293,6 +292,7 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
         return false;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void performDismiss(final View dismissView, final int dismissPosition) {
         // Animate the dismissed list item to zero-height and fire the dismiss callback when
         // all dismissed list item animations have completed. This triggers layout on each animation
@@ -371,6 +371,9 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public interface SwipeListener {
         /**
          * Called to determine whether the given position can be swiped.
+         *
+         * @param position position of the swip
+         * @return bool
          */
         boolean canSwipe(int position);
 

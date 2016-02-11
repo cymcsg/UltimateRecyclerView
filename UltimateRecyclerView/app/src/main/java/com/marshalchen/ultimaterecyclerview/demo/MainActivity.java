@@ -1,6 +1,5 @@
 package com.marshalchen.ultimaterecyclerview.demo;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -20,18 +19,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
-import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
-import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
-import com.marshalchen.ultimaterecyclerview.demo.swipelist.SwipeListViewExampleActivity;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -42,7 +37,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    SimpleAdapter RVAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
@@ -74,18 +69,19 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         stringList.add("55");
         stringList.add("66");
         stringList.add("11771");
-        simpleRecyclerViewAdapter = new SimpleAdapter(stringList);
+        RVAdapter = new SimpleAdapter(stringList);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+        ultimateRecyclerView.setAdapter(RVAdapter);
 
-        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(RVAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
 //        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
 //        ultimateRecyclerView.showEmptyView();
         ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
+
+        RVAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
 
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
@@ -105,21 +101,21 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        RVAdapter.insert(moreNum++ + "  Refresh things", 0);
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                        ultimateRecyclerView.setAdapter(RVAdapter);
+//                        RVAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
         });
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(simpleRecyclerViewAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(RVAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
-        simpleRecyclerViewAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
+        RVAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
             @Override
             public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
                 mItemTouchHelper.startDrag(viewHolder);
@@ -132,12 +128,9 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-
+                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
+                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
+                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
                     }
                 }, 1000);
             }
@@ -194,17 +187,17 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //                    @Override
 //                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
 //                        for (int position : reverseSortedPositions) {
-//                            simpleRecyclerViewAdapter.remove(position);
+//                            RVAdapter.remove(position);
 //                        }
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                        RVAdapter.notifyDataSetChanged();
 //                    }
 //
 //                    @Override
 //                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
 //                        for (int position : reverseSortedPositions) {
-//                            simpleRecyclerViewAdapter.remove(position);
+//                            RVAdapter.remove(position);
 //                        }
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
+//                        RVAdapter.notifyDataSetChanged();
 //                    }
 //                }));
 
@@ -232,14 +225,14 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpleRecyclerViewAdapter.insert("newly added item", 1);
+                RVAdapter.insert("newly added item", 1);
             }
         });
 
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpleRecyclerViewAdapter.remove(1);
+                RVAdapter.remove(1);
             }
         });
 
@@ -267,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //                ptrFrameLayout.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+//                        RVAdapter.insert("Refresh things", 0);
 //                        //   ultimateRecyclerView.scrollBy(0, -50);
 //                        linearLayoutManager.scrollToPosition(0);
 //                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
@@ -279,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void toggleSelection(int position) {
-        simpleRecyclerViewAdapter.toggleSelection(position);
+        RVAdapter.toggleSelection(position);
         actionMode.setTitle("Selected " + "1");
     }
 

@@ -54,6 +54,9 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     public interface SwipeDismissCallbacks {
         /**
          * Called to determine whether the view can be dismissed.
+         *
+         * @param token na
+         * @return na
          */
         boolean canDismiss(Object token);
 
@@ -242,7 +245,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 lp.height = (Integer) valueAnimator.getAnimatedValue();
                 // if (lp.height > 100)
                 mView.setLayoutParams(lp);
-              //  mView.setVisibility(View.GONE);
+                //  mView.setVisibility(View.GONE);
             }
         });
 

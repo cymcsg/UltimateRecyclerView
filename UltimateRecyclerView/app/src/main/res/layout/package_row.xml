@@ -53,7 +53,7 @@
         <ImageView
             android:id="@+id/example_row_iv_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:src="@drawable/test_back" />
+            android:layout_height="wrap_content" android:src="@drawable/jr16" />
 
 
         <TextView

@@ -37,7 +37,7 @@
             android:layout_marginRight="2dp"
             android:layout_toRightOf="@id/numb_coun"
             android:scaleType="centerCrop"
-            android:src="@drawable/test_back4" />
+            android:src="@drawable/jr14" />
     </RelativeLayout>
 
 

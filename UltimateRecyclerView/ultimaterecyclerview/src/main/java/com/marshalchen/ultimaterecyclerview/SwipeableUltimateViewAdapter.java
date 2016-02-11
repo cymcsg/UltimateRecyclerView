@@ -27,8 +27,8 @@ public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter<U
     /**
      * Don't forget to call super.onBindViewHolder when overriding
      *
-     * @param holder
-     * @param position
+     * @param holder na
+     * @param position  na
      */
     @Override
     public void onBindViewHolder(UltimateRecyclerviewViewHolder holder, int position) {

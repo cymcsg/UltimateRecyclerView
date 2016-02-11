@@ -58,7 +58,7 @@
                 android:layout_height="@dimen/header_bar_height"
                 android:background="@color/primaryDark"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test_back1" />
+                android:src="@drawable/scn1" />
 
             <!--
                         <View

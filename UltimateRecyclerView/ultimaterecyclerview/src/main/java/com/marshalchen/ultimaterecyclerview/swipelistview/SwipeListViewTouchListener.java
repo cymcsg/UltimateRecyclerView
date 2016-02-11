@@ -232,7 +232,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Set if all item opened will be close when the user move ListView
      *
-     * @param swipeClosesAllItemsWhenListMoves
+     * @param swipeClosesAllItemsWhenListMoves na
      */
     public void setSwipeClosesAllItemsWhenListMoves(boolean swipeClosesAllItemsWhenListMoves) {
         this.swipeClosesAllItemsWhenListMoves = swipeClosesAllItemsWhenListMoves;
@@ -241,7 +241,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Set if the user can open an item with long press on cell
      *
-     * @param swipeOpenOnLongPress
+     * @param swipeOpenOnLongPress na
      */
     public void setSwipeOpenOnLongPress(boolean swipeOpenOnLongPress) {
         this.swipeOpenOnLongPress = swipeOpenOnLongPress;
@@ -250,7 +250,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Sets the swipe mode
      *
-     * @param swipeMode
+     * @param swipeMode na
      */
     public void setSwipeMode(int swipeMode) {
         this.swipeMode = swipeMode;
@@ -259,7 +259,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Check is swiping is enabled
      *
-     * @return
+     * @return na
      */
     protected boolean isSwipeEnabled() {
         return swipeMode != SwipeListView.SWIPE_MODE_NONE;
@@ -447,6 +447,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      * Reset the state of front view when the it's recycled by ListView
      *
      * @param frontView view to re-draw
+     * @param position  na
      */
     protected void reloadSwipeStateInView(View frontView, int position) {
         if (!opened.get(position)) {
@@ -465,7 +466,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      * Get if item is selected
      *
      * @param position position in list
-     * @return
+     * @return na
      */
     protected boolean isChecked(int position) {
         return position < checked.size() && checked.get(position);
@@ -474,7 +475,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Count selected
      *
-     * @return
+     * @return na
      */
     protected int getCountSelected() {
         int count = 0;
@@ -492,7 +493,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Get positions selected
      *
-     * @return
+     * @return na
      */
     protected List<Integer> getPositionsSelected() {
         List<Integer> list = new ArrayList<Integer>();
@@ -681,8 +682,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 });
 
 
-
-}
+    }
 
     private void resetCell() {
         if (downPosition != ListView.INVALID_POSITION) {
@@ -700,7 +700,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     /**
      * Set enabled
      *
-     * @param enabled
+     * @param enabled na
      */
     public void setEnabled(boolean enabled) {
         paused = !enabled;
@@ -982,24 +982,25 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         }
 
         if (onlyOneOpenedWhenSwipe) {
-                        closeOtherOpenedItems();
-                        view.onTouchEvent(motionEvent);
-                        return true;
-                    }
+            closeOtherOpenedItems();
+            view.onTouchEvent(motionEvent);
+            return true;
+        }
         return false;
     }
 
     private void closeOtherOpenedItems() {
-        	if (opened != null && downPosition != SwipeListView.NO_POSITION) {
-            	    int start = mLayoutManager.findFirstVisibleItemPosition();
-            	    int end = mLayoutManager.findLastVisibleItemPosition();
-            	    for (int i = start; i <= end; i++) {
-                	        if (opened.get(i) && i != downPosition) {
-                    	            closeAnimate(swipeListView.getChildAt(i - start).findViewById(swipeFrontView), i);
-                    		}
-                	    }
-            	}
+        if (opened != null && downPosition != SwipeListView.NO_POSITION) {
+            int start = mLayoutManager.findFirstVisibleItemPosition();
+            int end = mLayoutManager.findLastVisibleItemPosition();
+            for (int i = start; i <= end; i++) {
+                if (opened.get(i) && i != downPosition) {
+                    closeAnimate(swipeListView.getChildAt(i - start).findViewById(swipeFrontView), i);
+                }
             }
+        }
+    }
+
     private void setActionsTo(int action) {
         oldSwipeActionRight = swipeActionRight;
         oldSwipeActionLeft = swipeActionLeft;
@@ -1063,31 +1064,32 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         }
     }
 
-/**
- * Class that saves pending dismiss data
- */
-class PendingDismissData implements Comparable<PendingDismissData> {
-    public int position;
-    public View view;
+    /**
+     * Class that saves pending dismiss data
+     */
+    class PendingDismissData implements Comparable<PendingDismissData> {
+        public int position;
+        public View view;
 
-    public PendingDismissData(int position, View view) {
-        this.position = position;
-        this.view = view;
+        public PendingDismissData(int position, View view) {
+            this.position = position;
+            this.view = view;
+        }
+
+        @Override
+        public int compareTo(PendingDismissData other) {
+            // Sort by descending position
+            return other.position - position;
+        }
+
     }
-
-    @Override
-    public int compareTo(PendingDismissData other) {
-        // Sort by descending position
-        return other.position - position;
-    }
-
-}
 
     /**
      * Perform dismiss action
      *
-     * @param dismissView     View
-     * @param dismissPosition Position of list
+     * @param dismissView      View
+     * @param dismissPosition  Position of list
+     * @param doPendingDismiss na
      */
     protected void performDismiss(final View dismissView, final int dismissPosition, boolean doPendingDismiss) {
         enableDisableViewGroup((ViewGroup) dismissView, false);

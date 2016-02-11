@@ -28,8 +28,8 @@ public interface ItemTouchHelperAdapter {
 
     /**
      * Called when an item has been dragged far enough to trigger a move. This is called every time
-     * an item is shifted, and <strong>not</strong> at the end of a "drop" event.<br/>
-     * <br/>
+     * an item is shifted, and <strong>not</strong> at the end of a "drop" event.
+     *
      * Implementations should call {@link RecyclerView.Adapter#notifyItemMoved(int, int)} after
      * adjusting the underlying data to reflect this move.
      *
@@ -43,8 +43,7 @@ public interface ItemTouchHelperAdapter {
 
 
     /**
-     * Called when an item has been dismissed by a swipe.<br/>
-     * <br/>
+     * Called when an item has been dismissed by a swipe.
      * Implementations should call {@link RecyclerView.Adapter#notifyItemRemoved(int)} after
      * adjusting the underlying data to reflect this removal.
      *

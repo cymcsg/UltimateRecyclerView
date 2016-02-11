@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +57,20 @@ public class SampleDataboxset {
         }
     }
 
+    public static List<JRitem> genJRList(int counts) {
+        List<JRitem> items = new ArrayList<>();
+        for (int i = 0; i < counts; i++) {
+            items.add(genJRSingle());
+        }
+        return items;
+    }
+
+    public static JRitem genJRSingle() {
+        Random e = new Random();
+        JRitem bodu = new JRitem(SampleDataboxset.getGirlImageRandom(), girl_name[e.nextInt(girl_name.length)]);
+        return bodu;
+    }
+
     public static int getGirlImageRandom() {
         Random e = new Random();
         return res[e.nextInt(res.length)];
@@ -64,14 +78,26 @@ public class SampleDataboxset {
 
     public static void insertMore(admobdfpadapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
-            sd.insert("More items " + i);
+            sd.insertFirst("More items " + i);
         }
     }
 
     public static final Integer[] res = new Integer[]{
-            R.drawable.test_back2,
-           // R.drawable.test_back1,
-            R.drawable.test_back
+            R.drawable.jr13,
+            R.drawable.jr16,
+            R.drawable.jr14,
+            R.drawable.jr15,
+            R.drawable.jr17,
+            R.drawable.jr1,
+            R.drawable.jr2,
+            R.drawable.jr3,
+            R.drawable.jr4,
+            R.drawable.jr5
+    };
+
+    public static final Integer[] res_scn = new Integer[]{
+            R.drawable.scn1,
+            R.drawable.scn2
     };
     public static final String[] girl_name = new String[]{
             "Anna",
