@@ -23,9 +23,9 @@ android:
   components:
     # We are using the latest revision of Android SDK Tools
 
-    - android-22
+    - android-23
     # The BuildTools version we are using for our project
-    - build-tools-22.0.1
+    - build-tools-23.0.2
     
     - platform-tools
     - tools
