@@ -1,6 +1,4 @@
 apply plugin: 'bintray-release'
-
-
 publish {
     userOrg = 'jjhesk'
     groupId = PUBLISH_GROUP_ID
@@ -13,14 +11,8 @@ publish {
     dryRun = false
     issueTracker = "${website}/issues"
     licences = ['MIT']
-}
-
-if (hasProperty(BINTRAY_USER)) {
-    publish.bintrayUser = BINTRAY_USER
-}
-
-if (hasProperty(BINTRAY_APIKEY)) {
-    publish.bintrayKey = BINTRAY_APIKEY
+    bintrayUser = BINTRAY_USER
+    bintrayKey = BINTRAY_APIKEY
 }
 
 apply plugin: 'maven'
@@ -34,22 +26,22 @@ task createPom << {
             version project.VERSION_NAME
 
             scm {
-                url project.POM_SCM_CONNECTION
-                connection project.POM_SCM_CONNECTION
-                developerConnection project.POM_SCM_CONNECTION
+                url POM_SCM_URL
+                connection POM_SCM_CONNECTION
+                developerConnection POM_SCM_DEV_CONNECTION
             }
 
             licenses {
                 license {
-                    name project.POM_LICENCE_NAME
+                    name POM_LICENCE_NAME
                 }
             }
 
             developers {
                 developer {
-                    id project.POM_DEVELOPER_ID
-                    name project.POM_DEVELOPER_NAME
-                    email project.POM_EMAIL
+                    id BINTRAY_USER
+                    name 'jjhesk'
+                    email ''
                 }
             }
         }
