@@ -22,9 +22,12 @@ allprojects {
 
 ext {
     //Library configurations
+    PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
+    PUBLISH_ARTIFACT_ID = 'library'
+
     ARTIFACT_ID = 'urvlib'
     VERSION_NAME = '0.4.0'
-    VERSION_CODE = 20
+    VERSION_CODE = 23
     //your version
 
     //Application
@@ -48,6 +51,9 @@ ext {
     COMPILE_SDK = 23
     BUILD_TOOLS = '23.0.1'
     MODULE_NAME = 'urvlib'
+
+
+
 
 
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
