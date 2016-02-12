@@ -155,7 +155,8 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
     @Override
     public void onItemDismiss(int position) {
-        remove(position);
+        if (position > 0)
+            remove(position);
         // notifyItemRemoved(position);
 //        notifyDataSetChanged();
         super.onItemDismiss(position);

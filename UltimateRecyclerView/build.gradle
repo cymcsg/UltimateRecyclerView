@@ -22,14 +22,17 @@ allprojects {
 
 ext {
     //Library configurations
+    PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
+    PUBLISH_ARTIFACT_ID = 'library'
+
     ARTIFACT_ID = 'urvlib'
     VERSION_NAME = '0.4.0'
-    VERSION_CODE = 20
+    VERSION_CODE = 23
     //your version
 
     //Application
-    app_test_versionCode = 20
-    app_test_versionName = '1.0.9'
+    app_demo_versionCode = 23
+    app_demo_versionName = '1.4.0'
     //Support and Build tools version
     supportLibrary = '22.2.1'
     ftKit = '0.4.1'
@@ -45,20 +48,13 @@ ext {
     ]
 
 
-   // BINTRAY_USER = 'jjhesk'
-    //BINTRAY_APIKEY = ''
-    DESCRIPTION = 'the ultimate recycler view all in to package'
-
-    SITE_URL = 'https://github.com/HKMOpen/UltimateRecyclerView'
-    GIT_URL = 'https://github.com/HKMOpen/UltimateRecyclerView.git'
-    GROUP_NAME = 'com.hkm.ultimateurv'
     COMPILE_SDK = 23
     BUILD_TOOLS = '23.0.1'
     MODULE_NAME = 'urvlib'
-    LICENSE = 'MIT'
-    DEVELOPER_ID = 'jjhesk'
-    DEVELOPER_NAME = 'hesk'
-    DEVELOPER_EMAIL = 'poquoson20@hotmail.com'
+
+
+
+
 
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }

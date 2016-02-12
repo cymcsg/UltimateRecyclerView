@@ -5,7 +5,7 @@ android {
     buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 20
         versionName VERSION_NAME
@@ -32,10 +32,10 @@ dependencies {
     compile supportDependencies.rv
 
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'in.srain.cube:ultra-ptr:1.0.10'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.github.bumptech.glide:glide:3.6.0'
 }
 
 //apply from: 'android-release-aar.gradle'
-apply from: 'maven-push.gradle'
+//apply from: 'maven-push.gradle'
 //apply from: 'bintray-release-aar.gradle'

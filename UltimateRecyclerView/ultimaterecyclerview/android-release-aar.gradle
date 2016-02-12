@@ -1,8 +1,13 @@
 // ./gradlew clean build generateRelease
 apply plugin: 'maven'
 
+
+def groupId = project.PUBLISH_GROUP_ID
+def artifactId = project.PUBLISH_ARTIFACT_ID
+def version = project.VERSION_NAME
+
 def localReleaseDest = "${buildDir}/release/${version}"
-/*
+
 task androidJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
@@ -21,14 +26,14 @@ task androidSourcesJar(type: Jar) {
 
 uploadArchives {
     repositories.mavenDeployer {
-        pom.groupId = GROUP_NAME
-        pom.artifactId = ARTIFACT_ID
-        pom.version = VERSION_NAME
+        pom.groupId = groupId
+        pom.artifactId = artifactId
+        pom.version = version
         // Add other pom properties here if you want (developer details / licenses)
         repository(url: "file://${localReleaseDest}")
     }
 }
-     */
+
 task zipRelease(type: Zip) {
     from localReleaseDest
     destinationDir buildDir

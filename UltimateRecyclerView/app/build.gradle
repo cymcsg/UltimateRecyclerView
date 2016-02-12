@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 23
-        versionCode app_test_versionCode
-        versionName app_test_versionName
+        versionCode app_demo_versionCode
+        versionName app_demo_versionName
     }
     buildTypes {
         release {
@@ -34,7 +34,7 @@ dependencies {
 
 
     compile project(':ultimaterecyclerview')
-    //  compile 'com.marshalchen.ultimaterecyclerview:library:0.3.18'
+  //  compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
     compile 'com.google.android.gms:play-services:7.3.0'
     debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
     releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
