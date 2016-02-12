@@ -23,7 +23,7 @@ public enum FastBinding {
     action_custom(R.id.action_custom, CustomSwipeToRefreshRefreshActivity.class),
     admob(R.id.admob, TestAdMob.class),
     scrollactivity(R.id.scrollactivity, ScrollObservablesActivity.class),
-    swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
+   // swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
     debug_load_more(R.id.debug_load_more, DebugLoadMoreActivity.class),
     advancedAdmob(R.id.adv_admob, TestAdvancedAdmobActivity.class),
     gridlayouttesting(R.id.gridlayoutperformance, GridLayoutRVTest.class),
