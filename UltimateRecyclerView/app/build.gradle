@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 23
-        versionCode app_test_versionCode
-        versionName app_test_versionName
+        versionCode app_demo_versionCode
+        versionName app_demo_versionName
     }
     buildTypes {
         release {

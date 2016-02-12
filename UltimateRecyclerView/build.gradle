@@ -31,8 +31,8 @@ ext {
     //your version
 
     //Application
-    app_test_versionCode = 20
-    app_test_versionName = '1.0.9'
+    app_demo_versionCode = 23
+    app_demo_versionName = '1.4.0'
     //Support and Build tools version
     supportLibrary = '22.2.1'
     ftKit = '0.4.1'
