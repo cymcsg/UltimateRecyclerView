@@ -51,17 +51,10 @@ Notice that UltimateRecyclerView is a project under development.
 * and more.
 
 ### Demo App / Sample Code:
-
 * Due to rapid updates and developments we have decided to host the demo APK on github
-  
-* Check out this link for [demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
-  
-* or you can check it out already compiled at Google Play
-  
-  [![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
-  
-  ​
-  
+* Check out this link for [latest demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
+* Video demo for [grid layout demo](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
+* or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
 [Upcoming changes in UltiamteRecyclerview 0.4.1](UpcomingChanges.md):
@@ -70,8 +63,7 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 
 #### Welcome to fork and pull request.
 
-### If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
+### If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 
 > Notice that it might not be the latest version
@@ -81,11 +73,10 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 ###### 1.Integration jcenter
 
 ``` gradle
-repositories {
-        jcenter()
-    }
+repositories {  jcenter() }
+
+
 dependencies {
-    ...
     compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
 }
 ```
@@ -132,7 +123,6 @@ dependencies {
 
 
 ### Thanks
-
 * Use animators from  [recyclerview-animators](https://github.com/wasabeef/recyclerview-animators)
 * Deal with different types of LayoutManager from[SuperRecyclerView](https://github.com/Malinskiy/SuperRecyclerView)
 * Divider of recyclerview[RecyclerView-FlexibleDivider](https://github.com/yqritc/RecyclerView-FlexibleDivider)
