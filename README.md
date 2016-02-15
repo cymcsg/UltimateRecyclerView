@@ -53,7 +53,7 @@ Notice that UltimateRecyclerView is a project under development.
 ### Demo App / Sample Code:
 * Due to rapid updates and developments we have decided to host the demo APK on github
 * Check out this link for [latest demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
-* Video [demo 1](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
+* Video demo for [grid layout demo](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
 * or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
