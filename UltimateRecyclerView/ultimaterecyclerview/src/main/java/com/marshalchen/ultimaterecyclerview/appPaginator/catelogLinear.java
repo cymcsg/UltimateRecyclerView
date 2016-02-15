@@ -62,6 +62,8 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
 
     protected abstract void onClickItem(final String route);
 
+    protected abstract void onClickItem(final long route_id);
+
     protected abstract int getColumn();
 
     protected abstract adapter getAdatperWithdata();
