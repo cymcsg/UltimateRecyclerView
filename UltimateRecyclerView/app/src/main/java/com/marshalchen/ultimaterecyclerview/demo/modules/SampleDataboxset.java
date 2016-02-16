@@ -53,7 +53,7 @@ public class SampleDataboxset {
 
     public static void insertMore(SimpleAdapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
-            sd.insert("More " + i, sd.getAdapterItemCount());
+            sd.insertLast("More ** " + i);
         }
     }
 

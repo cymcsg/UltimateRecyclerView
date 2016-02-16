@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.dragsortadapter.DragSortAdapter;
 
 import java.util.List;
 
@@ -17,10 +18,6 @@ import java.util.List;
 public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
     private List<T> source;
 
-    @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
-    }
 
     /**
      * dynamic object to start
@@ -38,7 +35,19 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
      */
     protected abstract int getNormalLayoutResId();
 
+    /**
+     * this is the Normal View Holder initiation
+     *
+     * @param view view
+     * @return holder
+     */
     protected abstract BINDHOLDER newViewHolder(View view);
+
+    @Override
+    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
@@ -51,26 +60,48 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         return source.size();
     }
 
+    protected T getItem(final int pos) {
+        return source.get(pos);
+    }
+
     @Override
     public long generateHeaderId(int i) {
-        return 0;
+        //    if (position < stringList.size())
+        // return stringList.get(position);
+        return -1;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == getAdapterItemCount()) return;
-        withBindHolder((BINDHOLDER) holder, source.get(position), position);
+        if (getItemViewType(position) == VIEW_TYPES.NORMAL) {
+            withBindHolder((BINDHOLDER) holder, source.get(position), position);
+        } else if (getItemViewType(position) == VIEW_TYPES.HEADER) {
+            // bindHeader(holder, position);
+        } else if (getItemViewType(position) == VIEW_TYPES.FOOTER) {
+            // bindFooter(holder, position);
+        }
+    }
+
+    protected void bindFooter(RecyclerView.ViewHolder holder, final int pos) {
+
+    }
+
+    protected void bindHeader(RecyclerView.ViewHolder holder, final int pos) {
+
     }
 
     protected abstract void withBindHolder(final BINDHOLDER holder, final T data, final int position);
 
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-        return null;
-    }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+
+    }
+
+    @Override
+    public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        return new UltimateRecyclerviewViewHolder(parent);
     }
 
 
@@ -90,6 +121,11 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         insertLastInternal(source, item);
     }
 
+
+    public final void removeAt(int pos) {
+        removeInternal(source, pos);
+    }
+
     public void removeLast() {
         removeLastInternal(source);
     }
@@ -97,5 +133,9 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
     public void removeFirst() {
         removeFirstInternal(source);
     }
-    
+
+    public final void swapPositions(int from, int to) {
+        swapPositions(source, from, to);
+    }
+
 }

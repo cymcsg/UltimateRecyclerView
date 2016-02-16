@@ -1,36 +1,50 @@
 package com.marshalchen.ultimaterecyclerview.demo.basicdemo;
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
 import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapterViewHolder> {
-    private List<String> stringList;
+public class SimpleAdapter extends easyRegularAdapter<String, Vhcle> {
+    // private List<String> stringList;
 
     public SimpleAdapter(List<String> stringList) {
-        this.stringList = stringList;
+        super(stringList);
+        //  this.stringList = stringList;
+    }
+
+    /**
+     * the layout id for the normal data
+     *
+     * @return the ID
+     */
+    @Override
+    protected int getNormalLayoutResId() {
+        return R.layout.recycler_view_adapter;
+    }
+
+    @Override
+    protected Vhcle newViewHolder(View view) {
+        return new Vhcle(view, true);
+        // return null;
+    }
+
+    @Override
+    public Vhcle getViewHolder(View view) {
+        return new Vhcle(view, true);
     }
 
 
-    @Override
-    public void onBindViewHolder(final SimpleAdapterViewHolder holder, int position) {
+  /*  @Override
+    public void onBindViewHolder(final SHol holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
 
-            ((SimpleAdapterViewHolder) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
+            ((SHol) holder).textViewSample.setText(stringList.get(customHeaderView != null ? position - 1 : position));
             // ((ViewHolder) holder).itemView.setActivated(selectedItems.get(position, false));
             if (mDragStartListener != null) {
 //                ((ViewHolder) holder).imageViewSample.setOnTouchListener(new View.OnTouchListener() {
@@ -43,7 +57,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 //                    }
 //                });
 
-                ((SimpleAdapterViewHolder) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
+                ((SHol) holder).item_view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         return false;
@@ -53,81 +67,52 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         }
 
     }
+*/
 
-    @Override
-    public int getAdapterItemCount() {
-        return stringList.size();
+
+    public final void insertOne(String e) {
+        insertLast(e);
     }
 
-    @Override
-    public SimpleAdapterViewHolder getViewHolder(View view) {
-        return new SimpleAdapterViewHolder(view, false);
+    public final void removeLastOne() {
+        removeLast();
     }
 
-    @Override
-    public SimpleAdapterViewHolder onCreateViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
-        SimpleAdapterViewHolder vh = new SimpleAdapterViewHolder(v, true);
-        return vh;
-    }
-
-
-    public void insert(String string, int position) {
-        insertInternal(stringList, string, position);
-    }
-
-    public void remove(int position) {
-        removeInternal(stringList, position);
-    }
-
-    public void clear() {
-        clearInternal(stringList);
-    }
-
-    @Override
-    public void toggleSelection(int pos) {
-        super.toggleSelection(pos);
-    }
-
-    @Override
-    public void setSelected(int pos) {
-        super.setSelected(pos);
-    }
-
-    @Override
-    public void clearSelection(int pos) {
-        super.clearSelection(pos);
-    }
-
-
-    public void swapPositions(int from, int to) {
-        swapPositions(stringList, from, to);
-    }
-
-
+/*
     @Override
     public long generateHeaderId(int position) {
         // URLogs.d("position--" + position + "   " + getItem(position));
         if (getItem(position).length() > 0)
             return getItem(position).charAt(0);
         else return -1;
-    }
+    }*/
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.stick_header_item, viewGroup, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
+    protected void withBindHolder(Vhcle holder, String data, int position) {
+        holder.textViewSample.setText(data.charAt(0));
+        holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
+        SecureRandom imgGen = new SecureRandom();
+        switch (imgGen.nextInt(3)) {
+            case 0:
+                holder.imageViewSample.setImageResource(R.drawable.scn1);
+                break;
+            case 1:
+                holder.imageViewSample.setImageResource(R.drawable.jr13);
+                break;
+            case 2:
+                holder.imageViewSample.setImageResource(R.drawable.jr16);
+                break;
+        }
     }
+
+
+/*
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.stick_text);
         textView.setText(String.valueOf(getItem(position).charAt(0)));
-//        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AA70DB93"));
         viewHolder.itemView.setBackgroundColor(Color.parseColor("#AAffffff"));
         ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.stick_img);
 
@@ -145,6 +130,7 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
         }
 
     }
+*/
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
@@ -156,11 +142,20 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
     @Override
     public void onItemDismiss(int position) {
         if (position > 0)
-            remove(position);
+            removeAt(position);
         // notifyItemRemoved(position);
-//        notifyDataSetChanged();
+        //        notifyDataSetChanged();
         super.onItemDismiss(position);
     }
+
+   /* public String getItem(int position) {
+        if (customHeaderView != null)
+            position--;
+        if (position < stringList.size())
+            return stringList.get(position);
+        else
+            return "";
+    }*/
 //
 //    private int getRandomColor() {
 //        SecureRandom rgen = new SecureRandom();
@@ -174,58 +169,5 @@ public class SimpleAdapter extends UltimateViewAdapter<SimpleAdapter.SimpleAdapt
 
     }
 
-
-    public class SimpleAdapterViewHolder extends UltimateRecyclerviewViewHolder {
-
-        TextView textViewSample;
-        ImageView imageViewSample;
-        ProgressBar progressBarSample;
-        View item_view;
-
-        public SimpleAdapterViewHolder(View itemView, boolean isItem) {
-            super(itemView);
-//            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
-//                @Override
-//                public boolean canDismiss(Object token) {
-//                    Logs.d("can dismiss");
-//                    return true;
-//                }
-//
-//                @Override
-//                public void onDismiss(View view, Object token) {
-//                   // Logs.d("dismiss");
-//                    remove(getPosition());
-//
-//                }
-//            }));
-            if (isItem) {
-                textViewSample = (TextView) itemView.findViewById(
-                        R.id.textview);
-                imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-                progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-                progressBarSample.setVisibility(View.GONE);
-                item_view = itemView.findViewById(R.id.itemview);
-            }
-
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(0);
-        }
-    }
-
-    public String getItem(int position) {
-        if (customHeaderView != null)
-            position--;
-        if (position < stringList.size())
-            return stringList.get(position);
-        else return "";
-    }
 
 }
