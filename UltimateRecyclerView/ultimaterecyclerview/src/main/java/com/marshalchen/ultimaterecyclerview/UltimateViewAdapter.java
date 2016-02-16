@@ -22,8 +22,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
-        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
+public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
 
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
@@ -113,31 +112,84 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return onCreateViewHolder(parent);
     }
 
+    /**
+     * requirement: ADVIEW
+     *
+     * @param view v
+     * @return holder for this ADVIEW
+     */
     public VH getAdViewHolder(View view) {
         return null;
     }
 
+    /**
+     * requirement: CUSTOMVIEW
+     *
+     * @param view v
+     * @return v
+     */
     public VH getCustomViewHolder(View view) {
         return null;
     }
 
+    /**
+     * requirement: NOVIEW
+     *
+     * @param view v
+     * @return v
+     */
     public VH getNoViewHolder(View view) {
         return null;
     }
 
 
+    /**
+     * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
+     *
+     * @param view v
+     * @return v
+     */
     public abstract VH getViewHolder(View view);
 
+    /**
+     * for all NORMAL type holder
+     *
+     * @param parent view group parent
+     * @return vh
+     */
     public abstract VH onCreateViewHolder(ViewGroup parent);
 
 
     @Override
     public int getItemViewType(int position) {
+        //  int k = getAdapterItemCount();
         if (getAdapterItemCount() == 0) {
-            if (enableLoadMore() && position == 1) {
-                return VIEW_TYPES.FOOTER;
-            } else if (hasHeaderView() && position == 0) {
-                return VIEW_TYPES.HEADER;
+            if (position == 0) {
+                if (enableLoadMore() && hasHeaderView()) {
+                    //both
+                    return VIEW_TYPES.FOOTER;
+                } else if (!enableLoadMore() && hasHeaderView()) {
+                    //only header
+                    return VIEW_TYPES.HEADER;
+                } else if (enableLoadMore() && !hasHeaderView()) {
+                    //only load more
+                    return VIEW_TYPES.FOOTER;
+                } else {
+                    return VIEW_TYPES.NOVIEW;
+                }
+            } else if (position == 1) {
+                if (enableLoadMore() && hasHeaderView()) {
+                    //both
+                    return VIEW_TYPES.FOOTER;
+                } else if (!enableLoadMore() && hasHeaderView()) {
+                    //only header
+                    return VIEW_TYPES.NOVIEW;
+                } else if (enableLoadMore() && !hasHeaderView()) {
+                    //only load more
+                    return VIEW_TYPES.NOVIEW;
+                } else {
+                    return VIEW_TYPES.NOVIEW;
+                }
             } else {
                 return VIEW_TYPES.NOVIEW;
             }
@@ -167,7 +219,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return false;
     }
 
-
     @Override
     public int getItemCount() {
         int offset = 0;
@@ -186,16 +237,16 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public abstract int getAdapterItemCount();
 
 
-    public void toggleSelection(int pos) {
+    public final void toggleSelection(int pos) {
         notifyItemChanged(pos);
     }
 
 
-    public void clearSelection(int pos) {
+    public final void clearSelection(int pos) {
         notifyItemChanged(pos);
     }
 
-    public void setSelected(int pos) {
+    public final void setSelected(int pos) {
         notifyItemChanged(pos);
     }
 
@@ -313,9 +364,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public long getHeaderId(int position) {
         if (hasHeaderView() && position == 0) return -1;
         if (enableLoadMore() && position >= getItemCount() - 1) return -1;
-        if (getAdapterItemCount() > 0)
-            return generateHeaderId(position);
-        else return -1;
+        if (getAdapterItemCount() > 0) {
+            return generateHeaderId(hasHeaderView() ? position - 1 : position);
+        } else return -1;
     }
 
     public abstract long generateHeaderId(int position);

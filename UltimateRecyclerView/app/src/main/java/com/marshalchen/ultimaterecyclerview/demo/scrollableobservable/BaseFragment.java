@@ -28,7 +28,7 @@ import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 
 import java.util.ArrayList;
 
@@ -75,11 +75,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void setDummyData(RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleAdapter(getDummyData()));
+        recyclerView.setAdapter(new sectionZeroAdapter(getDummyData()));
     }
 
     protected void setDummyData(UltimateRecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleAdapter(getDummyData()));
+        recyclerView.setAdapter(new sectionZeroAdapter(getDummyData()));
     }
 
   /*  protected void setDummyDataWithHeader(RecyclerView recyclerView, View headerView) {
