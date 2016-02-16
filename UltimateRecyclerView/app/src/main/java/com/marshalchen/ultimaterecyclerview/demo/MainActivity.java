@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +26,8 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.*;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.adapterCommon;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionCommonAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -40,7 +39,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
-    adapterCommon RVAdapter = null;
+    sectionCommonAdapter RVAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         stringList.add("B66");
         stringList.add("Q17");
 
-        RVAdapter = new adapterCommon(stringList);
+        RVAdapter = new sectionCommonAdapter(stringList);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(RVAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
-        RVAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
+        RVAdapter.setOnDragStartListener(new sectionZeroAdapter.OnStartDragListener() {
             @Override
             public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
                 mItemTouchHelper.startDrag(viewHolder);

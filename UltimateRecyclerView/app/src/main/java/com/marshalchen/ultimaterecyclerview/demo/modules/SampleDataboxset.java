@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class SampleDataboxset {
         }
     }
 
-    public static void insertMore(SimpleAdapter sd, int howmany) {
+    public static void insertMore(sectionZeroAdapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
             sd.insertLast("More ** " + i);
         }

@@ -48,7 +48,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
@@ -61,7 +61,7 @@ import java.util.ArrayList;
 public class DebugLoadMoreActivity extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    sectionZeroAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
@@ -166,7 +166,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
     private void setupUltimateRecyclerView() {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
-        simpleRecyclerViewAdapter = new SimpleAdapter(new ArrayList<String>());
+        simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
         ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         // enableParallaxHeader();
