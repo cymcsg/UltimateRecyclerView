@@ -10,10 +10,10 @@ import java.security.SecureRandom;
 import java.util.List;
 
 
-public class SimpleAdapter extends easyRegularAdapter<String, Vhcle> {
+public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon> {
     // private List<String> stringList;
 
-    public SimpleAdapter(List<String> stringList) {
+    public sectionZeroAdapter(List<String> stringList) {
         super(stringList);
         //  this.stringList = stringList;
     }
@@ -29,14 +29,14 @@ public class SimpleAdapter extends easyRegularAdapter<String, Vhcle> {
     }
 
     @Override
-    protected Vhcle newViewHolder(View view) {
-        return new Vhcle(view, true);
+    protected binderCommon newViewHolder(View view) {
+        return new binderCommon(view, true);
         // return null;
     }
 
     @Override
-    public Vhcle getViewHolder(View view) {
-        return new Vhcle(view, true);
+    public binderCommon getViewHolder(View view) {
+        return new binderCommon(view, true);
     }
 
 
@@ -88,7 +88,7 @@ public class SimpleAdapter extends easyRegularAdapter<String, Vhcle> {
     }*/
 
     @Override
-    protected void withBindHolder(Vhcle holder, String data, int position) {
+    protected void withBindHolder(binderCommon holder, String data, int position) {
         holder.textViewSample.setText(data.charAt(0));
         holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
         SecureRandom imgGen = new SecureRandom();

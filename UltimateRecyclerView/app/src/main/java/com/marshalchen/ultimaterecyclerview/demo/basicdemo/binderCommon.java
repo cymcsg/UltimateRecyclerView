@@ -14,7 +14,7 @@ import com.marshalchen.ultimaterecyclerview.demo.R;
  * Created by hesk on 16/2/16.
  * this is the example holder for the simple adapter
  */
-public class Vhcle extends UltimateRecyclerviewViewHolder {
+public class binderCommon extends UltimateRecyclerviewViewHolder {
 
     public TextView textViewSample;
     public ImageView imageViewSample;
@@ -27,7 +27,7 @@ public class Vhcle extends UltimateRecyclerviewViewHolder {
      * @param itemView view binding
      * @param isItem   bool
      */
-    public Vhcle(View itemView, boolean isItem) {
+    public binderCommon(View itemView, boolean isItem) {
         super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override

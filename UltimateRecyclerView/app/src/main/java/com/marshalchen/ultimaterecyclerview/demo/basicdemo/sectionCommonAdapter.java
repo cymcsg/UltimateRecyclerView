@@ -2,9 +2,7 @@ package com.marshalchen.ultimaterecyclerview.demo.basicdemo;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,14 +18,14 @@ import java.util.List;
 /**
  * Created by hesk on 16/2/16.
  */
-public class adapterCommon extends easyRegularAdapter<String, Vhcle> {
+public class sectionCommonAdapter extends easyRegularAdapter<String, binderCommon> {
 
     /**
      * dynamic object to start
      *
      * @param list the list source
      */
-    public adapterCommon(List<String> list) {
+    public sectionCommonAdapter(List<String> list) {
         super(list);
     }
 
@@ -42,8 +40,8 @@ public class adapterCommon extends easyRegularAdapter<String, Vhcle> {
     }
 
     @Override
-    protected Vhcle newViewHolder(View view) {
-        return new Vhcle(view, true);
+    protected binderCommon newViewHolder(View view) {
+        return new binderCommon(view, true);
     }
 
     /**
@@ -53,8 +51,8 @@ public class adapterCommon extends easyRegularAdapter<String, Vhcle> {
      * @return view
      */
     @Override
-    public Vhcle getViewHolder(View view) {
-        return new Vhcle(view, false);
+    public binderCommon getViewHolder(View view) {
+        return new binderCommon(view, false);
     }
 
     private void setRandomImage(ImageView image) {
@@ -73,7 +71,7 @@ public class adapterCommon extends easyRegularAdapter<String, Vhcle> {
     }
 
     @Override
-    protected void withBindHolder(Vhcle holder, String data, int position) {
+    protected void withBindHolder(binderCommon holder, String data, int position) {
         char Firstletter = data.charAt(0);
         holder.textViewSample.setText(data);
         holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
