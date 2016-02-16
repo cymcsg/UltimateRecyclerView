@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,36 +22,43 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/del"
+                android:id="@+id/toggle"
+                style="@style/TextButtonToolBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
+                android:text="Toggle Load More" />
+
+            <TextView
+                android:id="@+id/del"
+                style="@style/TextButtonToolBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 android:text="Del" />
 
             <TextView
                 android:id="@+id/add"
+                style="@style/TextButtonToolBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/del"
                 android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
+                android:layout_toLeftOf="@id/del"
                 android:text="Add" />
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/ultimate_recycler_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
+        android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
-        app:recyclerviewFloatingActionView="@layout/floating_view"
-        app:recyclerviewScrollbars="vertical"
-        app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
-        android:layout_marginTop="?attr/actionBarSize" />
+        app:recyclerviewEmptyView="@layout/empty_view"
+        app:recyclerviewFloatingActionView="@layout/floating_view"
+        app:recyclerviewScrollbars="vertical" />
 </FrameLayout>

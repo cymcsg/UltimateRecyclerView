@@ -31,12 +31,11 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon>
     @Override
     protected binderCommon newViewHolder(View view) {
         return new binderCommon(view, true);
-        // return null;
     }
 
     @Override
     public binderCommon getViewHolder(View view) {
-        return new binderCommon(view, true);
+        return new binderCommon(view, false);
     }
 
 
@@ -89,7 +88,7 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon>
 
     @Override
     protected void withBindHolder(binderCommon holder, String data, int position) {
-        holder.textViewSample.setText(data.charAt(0));
+        holder.textViewSample.setText(data + "just the sample data");
         holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
         SecureRandom imgGen = new SecureRandom();
         switch (imgGen.nextInt(3)) {
@@ -105,32 +104,6 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon>
         }
     }
 
-
-/*
-
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-
-        TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.stick_text);
-        textView.setText(String.valueOf(getItem(position).charAt(0)));
-        viewHolder.itemView.setBackgroundColor(Color.parseColor("#AAffffff"));
-        ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.stick_img);
-
-        SecureRandom imgGen = new SecureRandom();
-        switch (imgGen.nextInt(3)) {
-            case 0:
-                imageView.setImageResource(R.drawable.scn1);
-                break;
-            case 1:
-                imageView.setImageResource(R.drawable.jr13);
-                break;
-            case 2:
-                imageView.setImageResource(R.drawable.jr16);
-                break;
-        }
-
-    }
-*/
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {

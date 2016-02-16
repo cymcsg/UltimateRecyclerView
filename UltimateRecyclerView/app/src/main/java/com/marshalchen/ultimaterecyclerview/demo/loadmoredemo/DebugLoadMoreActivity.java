@@ -67,7 +67,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
     private ActionMode actionMode;
 
     Toolbar toolbar;
-    boolean isDrag = true;
+    boolean isDrag = true, isEnableAutoLoadMore = false, status_progress = false;
 
     DragDropTouchListener dragDropTouchListener;
 
@@ -91,13 +91,22 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+                status_progress = true;
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
                         //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
                         //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-                        ultimateRecyclerView.disableLoadmore();
+                        /**
+                         * this is the example for making the function test for loading more and disable loading more
+                         */
+                        if (isEnableAutoLoadMore) {
+                            ultimateRecyclerView.enableLoadmore();
+                        } else {
+                            ultimateRecyclerView.disableLoadmore();
+                        }
+                        status_progress = false;
                     }
                 }, 2500);
             }
@@ -256,6 +265,18 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 simpleRecyclerViewAdapter.removeAt(1);
                 // - simpleRecyclerViewAdapter.in
+            }
+        });
+
+        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!status_progress) {
+                    isEnableAutoLoadMore = !isEnableAutoLoadMore;
+                    if (isEnableAutoLoadMore) {
+                        ultimateRecyclerView.enableLoadmore();
+                    }
+                }
             }
         });
 
