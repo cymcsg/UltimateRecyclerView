@@ -124,22 +124,6 @@ public class admobdfpadapter extends AdmobAdapter<AdView, String, admobdfpadapte
         return new UltimateRecyclerviewViewHolder(view);
     }
 
-    @Override
-    public void toggleSelection(int pos) {
-        super.toggleSelection(pos);
-    }
-
-    @Override
-    public void setSelected(int pos) {
-        super.setSelected(pos);
-    }
-
-    @Override
-    public void clearSelection(int pos) {
-        super.clearSelection(pos);
-    }
-
-
     public void swapPositions(int from, int to) {
         swapPositions(list, from, to);
     }

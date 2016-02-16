@@ -48,7 +48,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
@@ -61,38 +61,17 @@ import java.util.ArrayList;
 public class DebugLoadMoreActivity extends AppCompatActivity {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter simpleRecyclerViewAdapter = null;
+    sectionZeroAdapter simpleRecyclerViewAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
 
     Toolbar toolbar;
-    boolean isDrag = true;
+    boolean isDrag = true, isEnableAutoLoadMore = false, status_progress = false;
 
     DragDropTouchListener dragDropTouchListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
-        ultimateRecyclerView.setHasFixedSize(false);
-        simpleRecyclerViewAdapter = new SimpleAdapter(new ArrayList<String>());
-        linearLayoutManager = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
-        ultimateRecyclerView.setLayoutManager(linearLayoutManager);
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-
-        // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
-        // ultimateRecyclerView.addItemDecoration(headersDecor);
-        ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
-
+    protected void enableParallaxHeader() {
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
@@ -102,14 +81,47 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 toolbar.setBackgroundDrawable(c);
             }
         });
-        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffff66ff"));
+    }
+
+    protected void enableLoadMore() {
+        // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
+        // ultimateRecyclerView.addItemDecoration(headersDecor);
+        ultimateRecyclerView.enableLoadmore();
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+                status_progress = true;
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
+                        //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
+                        //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
+                        /**
+                         * this is the example for making the function test for loading more and disable loading more
+                         */
+                        if (isEnableAutoLoadMore) {
+                            ultimateRecyclerView.enableLoadmore();
+                        } else {
+                            ultimateRecyclerView.disableLoadmore();
+                        }
+                        status_progress = false;
+                    }
+                }, 2500);
+            }
+        });
+
+    }
+
+    protected void enableRefresh() {
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert(moreNum++ + "  Refresh things", 0);
+                        simpleRecyclerViewAdapter.insertLast(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
@@ -119,26 +131,20 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
-                        //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
-                        //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-                        ultimateRecyclerView.disableLoadmore();
-                    }
-                }, 2500);
-            }
-        });
-
-//        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
+        //        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
 //                getResources().getColor(android.R.color.holo_green_light),
 //                getResources().getColor(android.R.color.holo_orange_light),
 //                getResources().getColor(android.R.color.holo_red_light));
 
+    }
+
+    protected LinearLayoutManager setupLinearLayoutMgr() {
+        linearLayoutManager = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
+        return linearLayoutManager;
+    }
+
+
+    protected void enableScrollControl() {
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -164,6 +170,20 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         });
 
         ultimateRecyclerView.showFloatingButtonView();
+    }
+
+    private void setupUltimateRecyclerView() {
+        ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
+        ultimateRecyclerView.setHasFixedSize(false);
+        simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
+        ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+        // enableParallaxHeader();
+        enableLoadMore();
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffff66ff"));
+        enableRefresh();
+        enableScrollControl();
+
         ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
                 new SwipeableRecyclerViewTouchListener.SwipeListener() {
                     @Override
@@ -176,7 +196,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                     @Override
                     public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
+                            simpleRecyclerViewAdapter.removeAt(position);
                         }
                         simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
@@ -184,7 +204,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                     @Override
                     public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.remove(position);
+                            simpleRecyclerViewAdapter.removeAt(position);
                         }
                         simpleRecyclerViewAdapter.notifyDataSetChanged();
                     }
@@ -209,8 +229,9 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                     }
                 });
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
+    }
 
-
+    private void setupSpinnerSelection() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -234,17 +255,41 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpleRecyclerViewAdapter.insert("newly added item", 1);
+                simpleRecyclerViewAdapter.insertFirst("rand added item");
+                // - simpleRecyclerViewAdapter.in
             }
         });
 
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simpleRecyclerViewAdapter.remove(1);
+                simpleRecyclerViewAdapter.removeLast();
             }
         });
 
+        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!status_progress) {
+                    isEnableAutoLoadMore = !isEnableAutoLoadMore;
+                    if (isEnableAutoLoadMore) {
+                        ultimateRecyclerView.enableLoadmore();
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_loadmore);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setupUltimateRecyclerView();
+        setupSpinnerSelection();
     }
 
     private void toggleSelection(int position) {

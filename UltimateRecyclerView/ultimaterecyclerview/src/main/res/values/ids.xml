@@ -8,4 +8,8 @@
     <item name="exp_section_notification_number" type="id" />
     <item name="exp_section_ripple_wrapper_click" type="id" />
     <item name="exp_section_adjustment_layout" type="id" />
+
+    <item name="urv_main_list" type="id" />
+    <item name="urv_main_progress_bar" type="id" />
+
 </resources>
