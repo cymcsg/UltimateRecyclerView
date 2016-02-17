@@ -1,4 +1,4 @@
-package com.hkm.slidingmenulib.layoutdesigns.fragment;
+package com.marshalchen.ultimaterecyclerview.appPaginator;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,18 +15,17 @@ import android.view.ViewGroup;
 import com.marshalchen.ultimaterecyclerview.R;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.appPaginator.paginator;
-import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
-
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
+
 /**
- * Created by hesk on 30/6/15.
+ * Created by hesk on 15/2/16.
  */
-public abstract class catelogLinear<adapter extends easyRegularAdapter, binder extends UltimateRecyclerviewViewHolder> extends paginator {
+public abstract class catelogGrid<adapter extends easyRegularAdapter, binder extends UltimateRecyclerviewViewHolder> extends paginator {
     public static String TAG = "catelog";
     public final static String BRAND_NAME = "BrandName", SLUG = "slug", REQUEST_TYPE = "typerequest";
     public UltimateRecyclerView listview_layout;
+
     public static String URL = "data_url";
     public static String FRAGMENTTITLE = "fragment_title";
     public static String SAVELOADDATA = "item_list";
@@ -82,8 +81,9 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
      */
     protected abstract void loadDataInitial(final adapter confirmAdapter);
 
-    protected LinearLayoutManager mLayoutManager;
+    protected GridLayoutManager mLayoutManager;
     protected adapter madapter;
+
 
     protected void renderviewlayout(View view) throws Exception {
         listview_layout = (UltimateRecyclerView) view.findViewById(getUltimate_recycler_viewResId());
@@ -93,13 +93,9 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
         getProgressbar(view, R.id.urv_main_progress_bar);
         setUltimateRecyclerViewExtra(listview_layout, madapter);
         if (mLayoutManager == null) {
-            mLayoutManager = new ScrollSmoothLineaerLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false, getSmoothDuration());
+            mLayoutManager = new GridLayoutManager(view.getContext(), getColumn(), LinearLayoutManager.VERTICAL, false);
         }
         listview_layout.setLayoutManager(mLayoutManager);
-    }
-
-    protected int getSmoothDuration() {
-        return 300;
     }
 
 
@@ -119,6 +115,5 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
         }
 
     }
-
 
 }
