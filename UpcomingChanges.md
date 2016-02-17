@@ -1,6 +1,6 @@
 ### Upcoming changes in 0.4.0:
 
-- [ ] change an other sticky header for optimising
+- [ ] change an other sticky header for optimization
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 - [ ] trigger to bring the item back when swipe to dismiss
 - [ ] auto judge loadmore or header in adatper
@@ -9,10 +9,11 @@
 - [ ] Customize height and width
 - [ ] Traditional header
 - [ ] Swipe to dismiss color
-- [ ] Make adapter more easy to use
+- [x] Make adapter more easy to use
 - [x] Expandble feature
 - [ ] Change toolbar into CollapsingToolbarLayout
 - [ ] Swipe with undo action
+- [ ] fix related bugs
 
 ### Other changes:
 
