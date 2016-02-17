@@ -60,14 +60,14 @@ import java.util.ArrayList;
  */
 public class DebugLoadMoreActivity extends AppCompatActivity {
 
-    UltimateRecyclerView ultimateRecyclerView;
-    sectionZeroAdapter simpleRecyclerViewAdapter = null;
-    LinearLayoutManager linearLayoutManager;
-    int moreNum = 2;
+    private UltimateRecyclerView ultimateRecyclerView;
+    private sectionZeroAdapter simpleRecyclerViewAdapter = null;
+    private LinearLayoutManager linearLayoutManager;
+    private int moreNum = 2;
     private ActionMode actionMode;
 
     Toolbar toolbar;
-    boolean isDrag = true, isEnableAutoLoadMore = false, status_progress = false;
+    boolean isDrag = true, isEnableAutoLoadMore = true, status_progress = false;
 
     DragDropTouchListener dragDropTouchListener;
 
@@ -95,7 +95,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 10);
+                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 2);
                         //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
                         //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
                         /**
