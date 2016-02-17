@@ -3,7 +3,7 @@
 - [ ] change an other sticky header for optimization
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
 - [ ] trigger to bring the item back when swipe to dismiss
-- [ ] auto judge loadmore or header in adatper
+- [x] auto judge loadmore or header in adatper
 - [ ] swipe position judge
 - [ ] make ``swapAdapter`` more intelligent 
 - [ ] Customize height and width
