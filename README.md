@@ -57,7 +57,7 @@ Notice that UltimateRecyclerView is a project under development.
 * or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
-[Upcoming changes in UltiamteRecyclerview 0.4.1](UpcomingChanges.md):
+[Upcoming changes in UltiamteRecyclerview 0.4.2](UpcomingChanges.md):
 
 If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
 
