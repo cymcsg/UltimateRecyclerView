@@ -42,8 +42,9 @@ Notice that UltimateRecyclerView is a project under development.
 - [x] a major fix for load more mechanism for both linear layout and gridlayout
 
 ### Upcoming features:
-* Refer to discussion on [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
-* Refer to discussion for the core [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
+* Refer to discussion for headers [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
+* Refer to discussion for the loading more [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
+* Swipe issue and discussion [#296](https://github.com/cymcsg/UltimateRecyclerView/issues/296)
 * Wishlist for [UltiamteRecyclerview 0.4.2](UpcomingChanges.md)
 * and more.
 
@@ -55,6 +56,7 @@ Notice that UltimateRecyclerView is a project under development.
 * Video demo for [grid layout demo](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
 * or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
+* You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki) and welcome to make your own tutorials in here.
 
 
 #### Welcome to fork and PR (pull request)
@@ -66,7 +68,6 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 
 ``` gradle
 repositories {  jcenter() }
-
 
 dependencies {
     compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
@@ -85,15 +86,6 @@ dependencies {
        >
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
-
-#### You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki)
-
-
-
-##### If you want to see more details,you can check the demo.
-
-
-
 
 
 ### Screenshot
