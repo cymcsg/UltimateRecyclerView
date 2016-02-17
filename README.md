@@ -18,8 +18,6 @@
 
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
 
-
-
 Notice that UltimateRecyclerView is a project under development.
 
 [Your donations is highly appreciated. Thank you!](#donations)
@@ -41,14 +39,15 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading adapter with animation
 
 ### Changes in 0.4.0:
-
-- [ ] a major fix for load more mechanism for both linear layout and gridlayout
+- [x] a major fix for load more mechanism for both linear layout and gridlayout
 
 ### Upcoming features:
-
-* More animations
-* Optimise UltimateViewAdapter
+* Refer to discussion on [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
+* Refer to discussion for the core [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
+* Wishlist for [UltiamteRecyclerview 0.4.2](UpcomingChanges.md)
 * and more.
+
+> Notice that it might not be the latest version
 
 ### Demo App / Sample Code:
 * Due to rapid updates and developments we have decided to host the demo APK on github
@@ -57,16 +56,9 @@ Notice that UltimateRecyclerView is a project under development.
 * or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 
-[Upcoming changes in UltiamteRecyclerview 0.4.2](UpcomingChanges.md):
 
-If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
-
-#### Welcome to fork and pull request.
-
-### If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
-
-> Notice that it might not be the latest version
+#### Welcome to fork and PR (pull request)
+If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue. If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 ### Quick Setup（Basic Usage）
 
