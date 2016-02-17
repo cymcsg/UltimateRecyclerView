@@ -1,4 +1,4 @@
-### Upcoming changes in 0.4.0:
+### Upcoming changes in 0.4.2:
 
 - [ ] change an other sticky header for optimization
 - [ ] setSwipeToDismissCallback() throws a null pointer exception if there is no adapter set;
