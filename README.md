@@ -90,6 +90,8 @@ dependencies {
 
 ### Screenshot
 
+![grid_layout](http://i.giphy.com/UVKEWEGu64z60.gif)
+
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview11.gif)
 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview12.gif)
