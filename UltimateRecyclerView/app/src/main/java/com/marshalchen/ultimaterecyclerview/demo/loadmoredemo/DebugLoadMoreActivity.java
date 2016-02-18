@@ -232,7 +232,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
     }
 
     private void setupSpinnerSelection() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        /*Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         for (Type type : Type.values()) {
@@ -251,7 +251,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,7 +322,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    enum Type {
+  /*  enum Type {
         FadeIn(new FadeInAnimator()),
         FadeInDown(new FadeInDownAnimator()),
         FadeInUp(new FadeInUpAnimator()),
@@ -354,6 +354,6 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         public BaseItemAnimator getAnimator() {
             return mAnimator;
         }
-    }
+    }*/
 
 }

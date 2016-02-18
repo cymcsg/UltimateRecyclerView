@@ -160,7 +160,10 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //                }));
 
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+      /*
+
+
+      Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         for (Type type : Type.values()) {
@@ -180,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
             }
         });
+
+
+        */
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -367,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         return super.onOptionsItemSelected(item);
     }
 
-    enum Type {
+   /* enum Type {
         FadeIn(new FadeInAnimator()),
         FadeInDown(new FadeInDownAnimator()),
         FadeInUp(new FadeInUpAnimator()),
@@ -399,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         public BaseItemAnimator getAnimator() {
             return mAnimator;
         }
-    }
+    }*/
 
 
 }

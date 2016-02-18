@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.modules;
+package com.marshalchen.ultimaterecyclerview.demo.multiitemdemo;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,10 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
 

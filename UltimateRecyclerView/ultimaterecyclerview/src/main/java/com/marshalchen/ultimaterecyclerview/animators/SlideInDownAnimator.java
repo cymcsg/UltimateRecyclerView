@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class SlideInDownAnimator extends BaseItemAnimator {
 
+    public SlideInDownAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -30,9 +34,17 @@ public class SlideInDownAnimator extends BaseItemAnimator {
                 .setListener(new DefaultRemoveVpaListener(holder))
                 .start();
     }
+/*
 
     @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setTranslationY(holder.itemView, -holder.itemView.getHeight());
+        ViewCompat.setAlpha(holder.itemView, 0);
+    }
+*/
+
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setTranslationY(holder.itemView, -holder.itemView.getHeight());
         ViewCompat.setAlpha(holder.itemView, 0);
     }

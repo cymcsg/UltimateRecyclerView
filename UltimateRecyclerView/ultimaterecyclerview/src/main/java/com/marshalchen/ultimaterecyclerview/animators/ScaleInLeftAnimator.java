@@ -20,14 +20,19 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 
 public class ScaleInLeftAnimator extends BaseItemAnimator {
+    public ScaleInLeftAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
 
-    @Override
+  /*  @Override
     protected void preAnimateRemoveImpl(RecyclerView.ViewHolder holder) {
         ViewCompat.setPivotX(holder.itemView, 0);
-    }
+    }*/
 
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
+        ViewCompat.setPivotX(holder.itemView, 0);
+
         ViewCompat.animate(holder.itemView)
                 .scaleX(0).scaleY(0)
                 .setDuration(getRemoveDuration())
@@ -35,8 +40,17 @@ public class ScaleInLeftAnimator extends BaseItemAnimator {
                 .start();
     }
 
+/*
     @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setPivotX(holder.itemView, 0);
+        ViewCompat.setScaleX(holder.itemView, 0);
+        ViewCompat.setScaleY(holder.itemView, 0);
+    }
+*/
+
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setPivotX(holder.itemView, 0);
         ViewCompat.setScaleX(holder.itemView, 0);
         ViewCompat.setScaleY(holder.itemView, 0);

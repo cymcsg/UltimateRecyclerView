@@ -2,18 +2,19 @@ package com.marshalchen.ultimaterecyclerview.animators.adapters;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
  * Copyright (C) 2015 Wasabeef
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,16 +22,31 @@ import android.view.View;
  * limitations under the License.
  */
 
-public class SlideInLeftAnimationAdapter extends AnimationAdapter {
+public class SlideInLeftAnimationAdapter <T extends RecyclerView.ViewHolder>extends AnimationAdapter<T> {
 
-    public SlideInLeftAnimationAdapter(RecyclerView.Adapter adapter) {
+   /* public SlideInLeftAnimationAdapter(RecyclerView.Adapter adapter) {
         super(adapter);
     }
 
+    @NonNull
     @Override
-    protected Animator[] getAnimators(View view) {
+    public Animator[] getAnimators(View view) {
         return new Animator[]{
                 ObjectAnimator.ofFloat(view, "translationX", -view.getRootView().getWidth(), 0)
         };
+    }*/
+
+
+    private static final String TRANSLATION_X = "translationX";
+
+    public SlideInLeftAnimationAdapter(RecyclerView.Adapter<T> adapter,
+                                      RecyclerView recyclerView) {
+        super(adapter, recyclerView);
+    }
+
+    @NonNull
+    @Override
+    public Animator[] getAnimators(@NonNull View view) {
+        return new Animator[]{ObjectAnimator.ofFloat(view, TRANSLATION_X, 0 - mRecyclerView.getLayoutManager().getWidth(), 0)};
     }
 }

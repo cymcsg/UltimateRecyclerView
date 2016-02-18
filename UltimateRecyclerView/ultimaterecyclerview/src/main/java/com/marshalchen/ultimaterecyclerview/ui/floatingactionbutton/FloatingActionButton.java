@@ -1,5 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,6 +24,7 @@ import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.WindowManager;
@@ -31,8 +33,7 @@ import android.view.animation.Interpolator;
 import android.widget.ImageButton;
 
 import com.marshalchen.ultimaterecyclerview.R;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
+
 
 
 public class FloatingActionButton extends ImageButton {
@@ -331,7 +332,7 @@ public class FloatingActionButton extends ImageButton {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mYDisplayed == -1) {
-            mYDisplayed = ViewHelper.getY(this);
+            mYDisplayed =    ViewCompat.getY(this);
         }
     }
 }

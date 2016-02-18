@@ -27,6 +27,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,13 +45,14 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.marshalchen.ultimaterecyclerview.animators.internal.ViewHelper;
 import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu;
 import com.marshalchen.ultimaterecyclerview.uiUtils.RecyclerViewPositionHelper;
 import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
-import com.nineoldandroids.view.ViewHelper;
+//import com.nineoldandroids.view.ViewHelper;
 
 
 /**
@@ -893,7 +895,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the on scroll method of parallax header
      *
-     * @param parallaxScroll    na
+     * @param parallaxScroll na
      */
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
         mParallaxScroll = parallaxScroll;
@@ -955,6 +957,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mCallbacks = listener;
     }
 
+    public void setItemViewCacheSize(final int off_screen_items) {
+        mRecyclerView.setItemViewCacheSize(off_screen_items);
+    }
+
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         SavedStateScrolling ss = (SavedStateScrolling) state;
@@ -964,6 +970,18 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mPrevScrollY = ss.prevScrollY;
         mScrollY = ss.scrollY;
         mChildrenHeights = ss.childrenHeights;
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+
+        /**
+         * enhanced and store the previous scroll position
+         */
+        if (layoutManager != null) {
+            int count = layoutManager.getChildCount();
+            if (mPrevScrollY != RecyclerView.NO_POSITION && mPrevScrollY < count) {
+                layoutManager.scrollToPosition(mPrevScrollY);
+            }
+        }
+
         super.onRestoreInstanceState(ss.getSuperState());
     }
 
@@ -1108,11 +1126,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     }
 
     public boolean toolbarIsShown(Toolbar mToolbar) {
-        return ViewHelper.getTranslationY(mToolbar) == 0;
+        return ViewCompat.getTranslationY(mToolbar) == 0;
     }
 
     public boolean toolbarIsHidden(Toolbar mToolbar) {
-        return ViewHelper.getTranslationY(mToolbar) == -mToolbar.getHeight();
+        return ViewCompat.getTranslationY(mToolbar) == -mToolbar.getHeight();
     }
 
     @Deprecated
@@ -1145,16 +1163,16 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void moveToolbar(final Toolbar mToolbar, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
-        if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
+        if (ViewCompat.getTranslationY(mToolbar) == toTranslationY) {
             return;
         }
-        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mToolbar), toTranslationY).setDuration(200);
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewCompat.getTranslationY(mToolbar), toTranslationY).setDuration(200);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float translationY = (float) animation.getAnimatedValue();
-                ViewHelper.setTranslationY(mToolbar, translationY);
-                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                ViewCompat.setTranslationY(mToolbar, translationY);
+                ViewCompat.setTranslationY((View) ultimateRecyclerView, translationY);
                 // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;
@@ -1166,16 +1184,16 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void moveView(final View mView, final UltimateRecyclerView ultimateRecyclerView, final int screenheight, float toTranslationY) {
-        if (ViewHelper.getTranslationY(mView) == toTranslationY) {
+        if (ViewCompat.getTranslationY(mView) == toTranslationY) {
             return;
         }
-        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mView), toTranslationY).setDuration(200);
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewCompat.getTranslationY(mView), toTranslationY).setDuration(200);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float translationY = (float) animation.getAnimatedValue();
-                ViewHelper.setTranslationY(mView, translationY);
-                ViewHelper.setTranslationY((View) ultimateRecyclerView, translationY);
+                ViewCompat.setTranslationY(mView, translationY);
+                ViewCompat.setTranslationY((View) ultimateRecyclerView, translationY);
                 // FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams();
                 layoutParams.height = (int) -translationY + screenheight - layoutParams.topMargin;

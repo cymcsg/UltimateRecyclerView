@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class ScaleInAnimator extends BaseItemAnimator {
 
+    public ScaleInAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -30,8 +34,14 @@ public class ScaleInAnimator extends BaseItemAnimator {
                 .start();
     }
 
-    @Override
+  /*  @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setScaleX(holder.itemView, 0);
+        ViewCompat.setScaleY(holder.itemView, 0);
+    }
+*/
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setScaleX(holder.itemView, 0);
         ViewCompat.setScaleY(holder.itemView, 0);
     }

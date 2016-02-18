@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class FlipInTopXAnimator extends BaseItemAnimator {
 
+    public FlipInTopXAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -30,8 +34,13 @@ public class FlipInTopXAnimator extends BaseItemAnimator {
                 .start();
     }
 
-    @Override
+   /* @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setRotationX(holder.itemView, 90);
+    }
+*/
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setRotationX(holder.itemView, 90);
     }
 

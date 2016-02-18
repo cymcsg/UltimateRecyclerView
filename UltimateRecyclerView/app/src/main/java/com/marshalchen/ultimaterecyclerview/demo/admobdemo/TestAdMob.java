@@ -4,10 +4,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ActionMode;
@@ -21,29 +19,26 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
-import com.marshalchen.ultimaterecyclerview.demo.modules.admobdfpadapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hesk on 20/5/15.
  */
 public class TestAdMob extends AppCompatActivity {
 
-    UltimateRecyclerView ultimateRecyclerView;
-    admobdfpadapter simpleRecyclerViewAdapter = null;
-    LinearLayoutManager linearLayoutManager;
-    int moreNum = 2;
+    private UltimateRecyclerView ultimateRecyclerView;
+    private admobdfpadapter simpleRecyclerViewAdapter = null;
+    private LinearLayoutManager linearLayoutManager;
+    private int moreNum = 2;
     private ActionMode actionMode;
 
-    Toolbar toolbar;
-    boolean isDrag = true;
+    private Toolbar toolbar;
+    private boolean isDrag = true;
 
     private boolean admob_test_mode = false;
 
@@ -67,7 +62,7 @@ public class TestAdMob extends AppCompatActivity {
 
     }
 
-    private void enableRefreshAndLoadMore() {
+    private void enableRefresh() {
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -75,27 +70,34 @@ public class TestAdMob extends AppCompatActivity {
                     @Override
                     public void run() {
                         simpleRecyclerViewAdapter.removeAll();
-                        simpleRecyclerViewAdapter.insertFirst(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
                     }
                 }, 1000);
             }
         });
+
+    }
+
+    private void enableLoadMore() {
+        ultimateRecyclerView.enableLoadmore();
+        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Log.d("loadmore", maxLastVisiblePosition + " position");
-                        simpleRecyclerViewAdapter.insertFirst("fosnoief");
+                        ArrayList<String> li = new ArrayList<String>();
+                        li.add("i " + moreNum++);
+                        li.add("i " + moreNum++);
+                        li.add("i " + moreNum++);
+                        simpleRecyclerViewAdapter.insert(li);
                     }
                 }, 1000);
             }
         });
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
-        ultimateRecyclerView.enableLoadmore();
     }
+
 
     private void enableClick() {
 
@@ -142,8 +144,10 @@ public class TestAdMob extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-        enableRefreshAndLoadMore();
+        ultimateRecyclerView.setItemViewCacheSize(10);
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#f5f5ff"));
+        enableRefresh();
+        enableLoadMore();
         enableClick();
         impleAddDrop();
     }

@@ -1,5 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,8 +26,7 @@ import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.widget.SlidingTabLayout;
 import com.marshalchen.ultimaterecyclerview.uiUtils.CacheFragmentStatePagerAdapter;
 import com.marshalchen.ultimaterecyclerview.uiUtils.TouchInterceptionLayout;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewPropertyAnimator;
+
 
 /**
  * Created by hesk on 12/6/15.
@@ -94,7 +94,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                 }
             }
             float headerTranslationY = ScrollUtils.getFloat(mBaseTranslationY - scrollY, -headerBannerHeight, 0);
-            ViewPropertyAnimator.animate(mHeaderContainer).cancel();
+            ViewCompat.animate(mHeaderContainer).cancel();
             ViewCompat.setTranslationY(mHeaderContainer, headerTranslationY);
             //todo: need some more works on this
             setpagertoppadding(totalfullheight - headerTranslationY);

@@ -2,18 +2,19 @@ package com.marshalchen.ultimaterecyclerview.animators.adapters;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
  * Copyright (C) 2015 Wasabeef
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +22,9 @@ import android.view.View;
  * limitations under the License.
  */
 
-public class AlphaInAnimationAdapter extends AnimationAdapter {
+public class AlphaInAnimationAdapter<T extends RecyclerView.ViewHolder> extends AnimationAdapter<T> {
 
-    private static final float DEFAULT_ALPHA_FROM = 0f;
+  /*  private static final float DEFAULT_ALPHA_FROM = 0f;
     private final float mFrom;
 
     public AlphaInAnimationAdapter(RecyclerView.Adapter adapter) {
@@ -35,8 +36,22 @@ public class AlphaInAnimationAdapter extends AnimationAdapter {
         mFrom = from;
     }
 
+    @NonNull
     @Override
-    protected Animator[] getAnimators(View view) {
+    public Animator[] getAnimators(View view) {
         return new Animator[]{ObjectAnimator.ofFloat(view, "alpha", mFrom, 1f)};
+    }*/
+
+
+
+    public AlphaInAnimationAdapter(RecyclerView.Adapter<T> adapter, RecyclerView recyclerView) {
+        super(adapter, recyclerView);
     }
+
+    @NonNull
+    @Override
+    public Animator[] getAnimators(@NonNull View view) {
+        return new Animator[0];
+    }
+
 }

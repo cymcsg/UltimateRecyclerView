@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class SlideInRightAnimator extends BaseItemAnimator {
 
+    public SlideInRightAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -30,8 +34,15 @@ public class SlideInRightAnimator extends BaseItemAnimator {
                 .start();
     }
 
+/*
     @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setTranslationX(holder.itemView, holder.itemView.getRootView().getWidth());
+    }
+*/
+
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setTranslationX(holder.itemView, holder.itemView.getRootView().getWidth());
     }
 
