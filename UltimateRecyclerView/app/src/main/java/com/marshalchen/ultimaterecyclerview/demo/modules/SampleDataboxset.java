@@ -58,6 +58,15 @@ public class SampleDataboxset {
         }
     }
 
+    public static void insertMoreWhole(sectionZeroAdapter sd, int howmany) {
+        List<String> items = new ArrayList<>();
+        for (int i = 0; i < howmany; i++) {
+            items.add("More ** " + i);
+        }
+        sd.insert(items);
+    }
+
+
     public static List<JRitem> genJRList(int counts) {
         List<JRitem> items = new ArrayList<>();
         for (int i = 0; i < counts; i++) {

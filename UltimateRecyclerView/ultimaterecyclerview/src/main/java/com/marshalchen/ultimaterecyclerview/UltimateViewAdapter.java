@@ -3,12 +3,10 @@ package com.marshalchen.ultimaterecyclerview;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,7 +27,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     private boolean customHeader = false;
     private int loadmoresetingswatch = 0;
     public boolean enabled_custom_load_more_view = false;
-
+    private int mEmptyViewPolicy;
 
     /**
      * Set the header view of the adapter.
@@ -85,6 +83,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         loadmoresetingswatch++;
     }
 
+    public void setEmptyViewPolicy(final int policy) {
+        mEmptyViewPolicy = policy;
+    }
 
     /**
      * the basic view holder creation
@@ -97,6 +98,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
             VH viewHolder = getViewHolder(customLoadMoreView);
+            /**
+             * this is only for the first time rendering of the adapter
+             */
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.INVISIBLE);
             return viewHolder;
@@ -146,7 +150,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     /**
      * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
      *
-     * @param view v
+     * @param view with no binding view of nothing
      * @return v
      */
     public abstract VH getViewHolder(View view);
@@ -221,12 +225,14 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
 
     @Override
     public int getItemCount() {
+        return getAdapterItemCount() + totalAdditionalItems();
+    }
+
+    protected int totalAdditionalItems() {
         int offset = 0;
         if (hasHeaderView()) offset++;
         if (enableLoadMore()) offset++;
-        // boolean a = enableLoadMore();
-        // boolean b = hasHeaderView();
-        return getAdapterItemCount() + offset;
+        return offset;
     }
 
     /**
@@ -299,17 +305,18 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>           the type
      */
     public final <T> void insertInternal(List<T> insert_data, List<T> original_list) {
-        Iterator<T> id = insert_data.iterator();
-        int g = getItemCount();
-        if (enableLoadMore() && hasHeaderView()) g--;
-        final int start = g;
-        while (id.hasNext()) {
-            original_list.add(original_list.size(), id.next());
-        }
-        int notify_count = insert_data.size();
-        //  if (enableLoadMore()) notify_count++;
         try {
-            notifyItemRangeInserted(start, notify_count);
+            Iterator<T> id = insert_data.iterator();
+            int g = getItemCount();
+            if (enableLoadMore() && hasHeaderView()) g--;
+            final int start = g;
+            while (id.hasNext()) {
+                original_list.add(original_list.size(), id.next());
+            }
+
+            notifyItemRangeInserted(start, getItemCount());
+
+
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
             Log.d("fillInStackTrace", o + " : ");
@@ -347,7 +354,21 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public final <T> void clearInternal(List<T> list) {
         int size = list.size();
         list.clear();
-        notifyItemRangeRemoved(0, size);
+        final int notify_start_item = hasHeaderView() ? 1 : 0;
+        final int notify_last_item_all = size + totalAdditionalItems();
+        if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+            notifyItemRangeRemoved(notify_start_item, size);
+        } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+            notifyItemRangeRemoved(notify_start_item, notify_last_item_all);
+        } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+            notifyItemRangeRemoved(0, notify_last_item_all);
+        } else {
+            notifyItemRangeRemoved(0, notify_last_item_all);
+        }
+    }
+
+    public final int getEmptyViewPolicy() {
+        return mEmptyViewPolicy;
     }
 
     /**

@@ -10,13 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
@@ -25,32 +21,10 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
-import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
+import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 import java.util.ArrayList;
@@ -65,11 +39,9 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private int moreNum = 2;
     private ActionMode actionMode;
-
-    Toolbar toolbar;
+    private Toolbar toolbar;
     boolean isDrag = true, isEnableAutoLoadMore = true, status_progress = false;
-
-    DragDropTouchListener dragDropTouchListener;
+    private DragDropTouchListener dragDropTouchListener;
 
     protected void enableParallaxHeader() {
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
@@ -87,7 +59,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         // ultimateRecyclerView.addItemDecoration(headersDecor);
         ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
@@ -95,17 +67,22 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 2);
+
+                        //    SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 2);
+
+                        SampleDataboxset.insertMoreWhole(simpleRecyclerViewAdapter, 2);
+
                         //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
+
                         //  linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
                         /**
                          * this is the example for making the function test for loading more and disable loading more
                          */
-                        if (isEnableAutoLoadMore) {
+                        /* if (isEnableAutoLoadMore) {
                             ultimateRecyclerView.enableLoadmore();
                         } else {
                             ultimateRecyclerView.disableLoadmore();
-                        }
+                        }*/
                         status_progress = false;
                     }
                 }, 2500);
@@ -121,12 +98,15 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insertLast(moreNum++ + "  Refresh things");
+                        // simpleRecyclerViewAdapter.insertLast(moreNum++ + "  Refresh things");
                         ultimateRecyclerView.setRefreshing(false);
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         //ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
                         //simpleRecyclerViewAdapter.notifyDataSetChanged();
+                        simpleRecyclerViewAdapter.removeAll();
+                        simpleRecyclerViewAdapter.enableLoadMore(false);
+                        ultimateRecyclerView.showEmptyView();
                     }
                 }, 1000);
             }
@@ -172,6 +152,13 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         ultimateRecyclerView.showFloatingButtonView();
     }
 
+    private void enableEmptyViewPolicy() {
+        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+    }
+
     private void setupUltimateRecyclerView() {
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
@@ -179,6 +166,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         // enableParallaxHeader();
+        enableEmptyViewPolicy();
         enableLoadMore();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffff66ff"));
         enableRefresh();
