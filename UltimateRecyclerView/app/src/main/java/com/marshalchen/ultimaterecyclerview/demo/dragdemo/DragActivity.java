@@ -81,6 +81,7 @@ public class DragActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+/*
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -102,6 +103,7 @@ public class DragActivity extends AppCompatActivity {
 
             }
         });
+*/
 
 
     }
@@ -127,7 +129,7 @@ public class DragActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    enum Type {
+  /*  enum Type {
         FadeIn(new FadeInAnimator()),
         FadeInDown(new FadeInDownAnimator()),
         FadeInUp(new FadeInUpAnimator()),
@@ -160,6 +162,6 @@ public class DragActivity extends AppCompatActivity {
             return mAnimator;
         }
     }
-
+*/
 
 }

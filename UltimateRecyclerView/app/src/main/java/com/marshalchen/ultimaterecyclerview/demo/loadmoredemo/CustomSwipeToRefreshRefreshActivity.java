@@ -158,7 +158,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
             }
         });
 
-
+/*
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -179,7 +179,8 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
+
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -482,6 +483,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
         return super.onOptionsItemSelected(item);
     }
 
+/*
 
     enum Type {
         FadeIn("FadeIn", new FadeInAnimator()),
@@ -522,6 +524,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
             return mTitle;
         }
     }
+*/
 
 
 }

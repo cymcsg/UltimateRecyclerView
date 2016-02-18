@@ -22,6 +22,10 @@ import android.view.animation.OvershootInterpolator;
 
 public class OvershootInLeftAnimator extends BaseItemAnimator {
 
+    public OvershootInLeftAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -31,8 +35,15 @@ public class OvershootInLeftAnimator extends BaseItemAnimator {
                 .start();
     }
 
+/*
     @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setTranslationX(holder.itemView, -holder.itemView.getRootView().getWidth());
+    }
+*/
+
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setTranslationX(holder.itemView, -holder.itemView.getRootView().getWidth());
     }
 

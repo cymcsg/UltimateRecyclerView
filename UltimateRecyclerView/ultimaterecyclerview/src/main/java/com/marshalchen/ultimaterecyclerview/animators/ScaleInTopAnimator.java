@@ -20,16 +20,21 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 
 public class ScaleInTopAnimator extends BaseItemAnimator {
+    public ScaleInTopAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
 
-    @Override
+/*    @Override
     protected void preAnimateRemoveImpl(RecyclerView.ViewHolder holder) {
         // @TODO https://code.google.com/p/android/issues/detail?id=80863
 //        ViewCompat.setPivotY(holder.itemView, 0);
         holder.itemView.setPivotY(0);
-    }
+    }*/
 
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
+        holder.itemView.setPivotY(0);
+
         ViewCompat.animate(holder.itemView)
                 .scaleX(0).scaleY(0)
                 .setDuration(getRemoveDuration())
@@ -37,10 +42,17 @@ public class ScaleInTopAnimator extends BaseItemAnimator {
                 .start();
     }
 
-    @Override
+/*    @Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
         // @TODO https://code.google.com/p/android/issues/detail?id=80863
 //        ViewCompat.setPivotY(holder.itemView, 0);
+        holder.itemView.setPivotY(0);
+        ViewCompat.setScaleX(holder.itemView, 0);
+        ViewCompat.setScaleY(holder.itemView, 0);
+    }*/
+
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         holder.itemView.setPivotY(0);
         ViewCompat.setScaleX(holder.itemView, 0);
         ViewCompat.setScaleY(holder.itemView, 0);

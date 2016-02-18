@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.demo.admobdemo.admobdfpadapter;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 
 import java.util.ArrayList;

@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class FadeInUpAnimator extends BaseItemAnimator {
 
+    public FadeInUpAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -31,8 +35,10 @@ public class FadeInUpAnimator extends BaseItemAnimator {
                 .start();
     }
 
+
+
     @Override
-    protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setTranslationY(holder.itemView, holder.itemView.getHeight() * .25f);
         ViewCompat.setAlpha(holder.itemView, 0);
     }

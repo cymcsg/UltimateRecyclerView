@@ -21,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 
 public class LandingAnimator extends BaseItemAnimator {
 
+    public LandingAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -31,8 +35,15 @@ public class LandingAnimator extends BaseItemAnimator {
                 .start();
     }
 
-    @Override
+    /*@Override
     protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setAlpha(holder.itemView, 0);
+        ViewCompat.setScaleX(holder.itemView, 1.5f);
+        ViewCompat.setScaleY(holder.itemView, 1.5f);
+    }
+*/
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
         ViewCompat.setAlpha(holder.itemView, 0);
         ViewCompat.setScaleX(holder.itemView, 1.5f);
         ViewCompat.setScaleY(holder.itemView, 1.5f);

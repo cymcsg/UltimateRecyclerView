@@ -20,7 +20,36 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 
 public class FadeInLeftAnimator extends BaseItemAnimator {
+    public FadeInLeftAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
 
+    @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
+        ViewCompat.setTranslationX(holder.itemView,
+                -holder.itemView.getRootView().getWidth() * .25f);
+        ViewCompat.setAlpha(holder.itemView, 0);
+    }
+
+    @Override
+    protected void animateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.animate(holder.itemView)
+                .translationX(0)
+                .alpha(1)
+                .setDuration(getAddDuration())
+                .setListener(new DefaultAddVpaListener(holder)).start();
+    }
+
+    @Override
+    protected void animateRemoveImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.animate(holder.itemView)
+                .translationX(-holder.itemView.getRootView().getWidth() * .25f)
+                .alpha(0)
+                .setDuration(getRemoveDuration())
+                .setListener(new DefaultRemoveVpaListener(holder))
+                .start();
+    }
+/*
     @Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
@@ -45,5 +74,5 @@ public class FadeInLeftAnimator extends BaseItemAnimator {
                 .alpha(1)
                 .setDuration(getAddDuration())
                 .setListener(new DefaultAddVpaListener(holder)).start();
-    }
+    }*/
 }

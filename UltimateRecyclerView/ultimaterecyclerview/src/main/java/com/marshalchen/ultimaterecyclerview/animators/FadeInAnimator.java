@@ -18,15 +18,43 @@ package com.marshalchen.ultimaterecyclerview.animators;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 public class FadeInAnimator extends BaseItemAnimator {
 
+    public FadeInAnimator(RecyclerView recyclerView) {
+        super(recyclerView);
+    }
+
     @Override
+    protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
+        ViewCompat.setAlpha(holder.itemView, 0);
+    }
+
+    @Override
+    protected void animateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.animate(holder.itemView)
+                .alpha(1)
+                .setDuration(getAddDuration())
+                .setListener(new DefaultAddVpaListener(holder)).start();
+    }
+
+    @Override
+    protected void animateRemoveImpl(RecyclerView.ViewHolder holder) {
+        final View view = holder.itemView;
+        ViewCompat.animate(view)
+                .alpha(0)
+                .setDuration(getRemoveDuration())
+                .setListener(new DefaultRemoveVpaListener(holder))
+                .start();
+    }
+
+    /*@Override
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         ViewCompat.animate(holder.itemView)
                 .alpha(0)
                 .setDuration(getRemoveDuration())
-                .setListener(new DefaultRemoveVpaListener(holder))
+                .setListener(new VpaListenerAdapter(holder))
                 .start();
     }
 
@@ -41,5 +69,9 @@ public class FadeInAnimator extends BaseItemAnimator {
                 .alpha(1)
                 .setDuration(getAddDuration())
                 .setListener(new DefaultAddVpaListener(holder)).start();
-    }
+    }*/
+
+
+
+
 }
