@@ -44,14 +44,14 @@
                 android:layout_toLeftOf="@id/del"
                 android:text="Add" />
 
-            <TextView
+            <ImageButton
                 android:id="@+id/toggle"
                 style="@style/TextButtonToolBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:layout_toLeftOf="@id/add"
-                android:text="Toggle Load More" />
+                android:src="@drawable/ic_autorenew_24dp" />
 
         </RelativeLayout>
 

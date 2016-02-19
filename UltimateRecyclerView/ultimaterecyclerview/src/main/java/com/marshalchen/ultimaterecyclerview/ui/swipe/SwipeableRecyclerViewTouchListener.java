@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.marshalchen.ultimaterecyclerview;
+package com.marshalchen.ultimaterecyclerview.ui.swipe;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

@@ -33,6 +33,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
 
     private boolean isFirstOnly = true;
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < getItemCount() && (customHeaderView != null ? position <= stringList.size() : position < stringList.size()) && (customHeaderView != null ? position > 0 : true)) {
@@ -51,7 +52,6 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
         }
 
     }
-
 
     @Override
     public int getAdapterItemCount() {

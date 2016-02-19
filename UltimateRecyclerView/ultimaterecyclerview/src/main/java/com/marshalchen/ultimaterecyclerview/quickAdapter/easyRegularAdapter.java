@@ -138,4 +138,9 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         swapPositions(source, from, to);
     }
 
+    public void setStableId(boolean b){
+        if(!hasObservers()){
+            setHasStableIds(b);
+        }
+    }
 }

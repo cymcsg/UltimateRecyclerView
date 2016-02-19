@@ -3,15 +3,14 @@ package com.marshalchen.ultimaterecyclerview;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.animators.internal.ViewHelper;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -27,9 +26,12 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
     private boolean customHeader = false;
+    /**
+     * this watches how many times does this loading more triggered
+     */
     private int loadmoresetingswatch = 0;
     public boolean enabled_custom_load_more_view = false;
-
+    private int mEmptyViewPolicy;
 
     /**
      * Set the header view of the adapter.
@@ -79,12 +81,18 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     public void enableLoadMore(boolean b) {
         enabled_custom_load_more_view = b;
-        if (loadmoresetingswatch > 0 && !b && customLoadMoreView != null) {
+        if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
             notifyItemRemoved(getItemCount() - 1);
+        }
+        if (b && customLoadMoreView == null) {
+            enabled_custom_load_more_view = false;
         }
         loadmoresetingswatch++;
     }
 
+    public void setEmptyViewPolicy(final int policy) {
+        mEmptyViewPolicy = policy;
+    }
 
     /**
      * the basic view holder creation
@@ -97,6 +105,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
             VH viewHolder = getViewHolder(customLoadMoreView);
+            /**
+             * this is only for the first time rendering of the adapter
+             */
             if (getAdapterItemCount() == 0)
                 viewHolder.itemView.setVisibility(View.INVISIBLE);
             return viewHolder;
@@ -146,7 +157,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     /**
      * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
      *
-     * @param view v
+     * @param view with no binding view of nothing
      * @return v
      */
     public abstract VH getViewHolder(View view);
@@ -219,20 +230,31 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return false;
     }
 
+    /**
+     * retrieve the amount of the total items in the urv for display that will be including all data items as well as the decorative items
+     *
+     * @return the int
+     */
     @Override
     public int getItemCount() {
+        return getAdapterItemCount() + totalAdditionalItems();
+    }
+
+    public int getAdditionalItems() {
+        return totalAdditionalItems();
+    }
+
+    protected int totalAdditionalItems() {
         int offset = 0;
         if (hasHeaderView()) offset++;
         if (enableLoadMore()) offset++;
-        // boolean a = enableLoadMore();
-        // boolean b = hasHeaderView();
-        return getAdapterItemCount() + offset;
+        return offset;
     }
 
     /**
      * Returns the number of items in the adapter bound to the parent RecyclerView.
      *
-     * @return The number of items in the bound adapter
+     * @return The number of data items in the bound adapter
      */
     public abstract int getAdapterItemCount();
 
@@ -262,6 +284,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             from--;
             to--;
         }
+        if (enableLoadMore() && to == getItemCount() - 1) return;
+        if (hasHeaderView() && to == 0) return;
+        if (hasHeaderView() && from == 0) return;
+        if (enableLoadMore() && from == getItemCount() - 1) return;
         Collections.swap(list, from, to);
     }
 
@@ -299,17 +325,20 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>           the type
      */
     public final <T> void insertInternal(List<T> insert_data, List<T> original_list) {
-        Iterator<T> id = insert_data.iterator();
-        int g = getItemCount();
-        if (enableLoadMore() && hasHeaderView()) g--;
-        final int start = g;
-        while (id.hasNext()) {
-            original_list.add(original_list.size(), id.next());
-        }
-        int notify_count = insert_data.size();
-        //  if (enableLoadMore()) notify_count++;
         try {
-            notifyItemRangeInserted(start, notify_count);
+            Iterator<T> id = insert_data.iterator();
+            int g = getItemCount();
+            //   if (hasHeaderView()) g--;
+            if (enableLoadMore()) g--;
+            final int start = g;
+            while (id.hasNext()) {
+                original_list.add(original_list.size(), id.next());
+            }
+            if (insert_data.size() == 1) {
+                notifyItemInserted(start);
+            } else if (insert_data.size() > 1) {
+                notifyItemRangeInserted(start, insert_data.size());
+            }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
             Log.d("fillInStackTrace", o + " : ");
@@ -324,6 +353,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>      na
      */
     public final <T> void removeInternal(List<T> list, int position) {
+        if (hasHeaderView() && position == 0) return;
+        if (enableLoadMore() && position == getItemCount() - 1) return;
         if (list.size() > 0) {
             list.remove(hasHeaderView() ? position - 1 : position);
             notifyItemRemoved(position);
@@ -346,8 +377,48 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     public final <T> void clearInternal(List<T> list) {
         int size = list.size();
+        final int total_display_items = getItemCount();
         list.clear();
-        notifyItemRangeRemoved(0, size);
+        notifyAfterRemoveAllData(size, total_display_items);
+    }
+
+    /**
+     * works on API v23
+     * there is a high  chance to crash this
+     *
+     * @param totalitems                   original size before removed
+     * @param after_remove_all_items_count the counts for display items
+     *                                     <code>
+     *                                     http://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position</code>
+     */
+
+    protected void notifyAfterRemoveAllData(final int totalitems, final int after_remove_all_items_count) {
+        try {
+            final int notify_start_item = hasHeaderView() ? 1 : 0;
+            // final int totalitems = size - (enableLoadMore() ? 1 : 0);
+            if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+                //notifyItemRangeChanged(notify_start_item, size);
+                if (hasHeaderView())
+                    notifyItemRangeChanged(notify_start_item, totalitems);
+                else {
+                    notifyDataSetChanged();
+                    //notifyItemRangeChanged(notify_start_item, totalitems);
+                }
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                notifyItemRangeRemoved(notify_start_item, totalitems);
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+                notifyItemRangeRemoved(0, totalitems);
+            } else {
+                notifyItemRangeRemoved(0, totalitems);
+            }
+        } catch (Exception e) {
+            String o = e.fillInStackTrace().getCause().getMessage().toString();
+            Log.d("fillInStackTrace", o + " : ");
+        }
+    }
+
+    public final int getEmptyViewPolicy() {
+        return mEmptyViewPolicy;
     }
 
     /**
@@ -422,6 +493,16 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         }
         return null;
     }
+
+
+/*
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ViewHelper.clear(holder.itemView);
+
+    }
+    */
+
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {

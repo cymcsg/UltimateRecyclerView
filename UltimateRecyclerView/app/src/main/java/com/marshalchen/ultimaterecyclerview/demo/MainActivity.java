@@ -257,8 +257,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void enableLoadMore() {
-        ultimateRecyclerView.enableLoadmore();
-        RVAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {

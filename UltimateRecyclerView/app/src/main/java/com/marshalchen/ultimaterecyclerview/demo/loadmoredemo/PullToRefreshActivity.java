@@ -45,6 +45,7 @@ import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
 import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAnimationAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
 import java.util.ArrayList;
@@ -59,147 +60,41 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 
-public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity implements ActionMode.Callback {
+public class PullToRefreshActivity extends BasicFunctions implements ActionMode.Callback {
 
-    CustomUltimateRecyclerview ultimateRecyclerView;
-    SimpleAnimationAdapter simpleRecyclerViewAdapter = null;
-    LinearLayoutManager linearLayoutManager;
-    int moreNum = 100;
-    private ActionMode actionMode;
+    private CustomUltimateRecyclerview ultimateRecyclerView;
+    private sectionZeroAdapter simpleRecyclerViewAdapter = null;
+    private View floatingButton = null;
 
-    Toolbar toolbar;
-    boolean isDrag = true;
-    View floatingButton = null;
+    @Override
+    protected void onLoadmore() {
+
+    }
+
+    @Override
+    protected void onFireRefresh() {
+        simpleRecyclerViewAdapter.insertLast("Refresh things");
+        //   ultimateRecyclerView.scrollBy(0, -50);
+        linearLayoutManager.scrollToPosition(0);
+        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+        changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
+    }
+
+    @Override
+    protected void addButtonTrigger() {
+
+    }
+
+    @Override
+    protected void removeButtonTrigger() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.custom_refresh_activity);
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
         ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
-        ultimateRecyclerView.setHasFixedSize(false);
-        floatingButton = findViewById(R.id.custom_urv_add_floating_button);
-        List<String> stringList = new ArrayList<>();
-        simpleRecyclerViewAdapter = new SimpleAnimationAdapter(stringList);
-
-        stringList.add("111");
-        stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
-        linearLayoutManager = new LinearLayoutManager(this);
-        ultimateRecyclerView.setLayoutManager(linearLayoutManager);
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-
-        ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
-
-        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
-            @Override
-            public void onParallaxScroll(float percentage, float offset, View parallax) {
-                Drawable c = toolbar.getBackground();
-                c.setAlpha(Math.round(127 + percentage * 128));
-                toolbar.setBackgroundDrawable(c);
-            }
-        });
-
-        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        simpleRecyclerViewAdapter.insert("More " + moreNum++, simpleRecyclerViewAdapter.getAdapterItemCount());
-                        // linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition,-1);
-                        //   linearLayoutManager.scrollToPosition(maxLastVisiblePosition);
-
-                    }
-                }, 1000);
-            }
-        });
-        // ultimateRecyclerView.hideDefaultFloatingActionButton();
-        // ultimateRecyclerView.hideFloatingActionMenu();
-        ultimateRecyclerView.displayCustomFloatingActionView(false);
-        ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
-            @Override
-            public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-
-            }
-
-            @Override
-            public void onDownMotionEvent() {
-
-            }
-
-            @Override
-            public void onUpOrCancelMotionEvent(ObservableScrollState observableScrollState) {
-                if (observableScrollState == ObservableScrollState.DOWN) {
-                    //  ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    //  ultimateRecyclerView.showView(floatingButton, ultimateRecyclerView, getScreenHeight());
-                } else if (observableScrollState == ObservableScrollState.UP) {
-//                    ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-//                    ultimateRecyclerView.hideFloatingActionMenu();
-                    //   ultimateRecyclerView.hideView(floatingButton, ultimateRecyclerView, getScreenHeight());
-
-                } else if (observableScrollState == ObservableScrollState.STOP) {
-                }
-            }
-        });
-
-/*
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        for (Type type : Type.values()) {
-            spinnerAdapter.add(type.getTitle());
-        }
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                URLogs.d("selected---" + Type.values()[position].getTitle());
-                ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
-                ultimateRecyclerView.getItemAnimator().setAddDuration(300);
-                ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simpleRecyclerViewAdapter.insert("newly added item", 1);
-            }
-        });
-
-        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simpleRecyclerViewAdapter.remove(1);
-            }
-        });
-
-//        ultimateRecyclerView.addItemDecoration(
-//                new HorizontalDividerItemDecoration.Builder(this).build());
-
+        super.onCreate(savedInstanceState);
         ultimateRecyclerView.setCustomSwipeToRefresh();
-
         // refreshingMaterial();
         refreshingString();
 
@@ -227,11 +122,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                        changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
+                        onFireRefresh();
                     }
                 }, 1800);
             }
@@ -296,7 +187,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
@@ -336,26 +227,17 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
     MaterialHeader materialHeader;
     //  RentalsSunHeaderView rentalsSunHeaderView;
 
-    void refreshingStringArray() {
+    private void refreshingStringArray() {
         storeHouseHeader = new StoreHouseHeader(this);
         storeHouseHeader.setPadding(0, 15, 0, 0);
 
         // using string array from resource xml file
         storeHouseHeader.initWithStringArray(R.array.storehouse);
-
         ultimateRecyclerView.mPtrFrameLayout.setDurationToCloseHeader(1500);
         ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
         ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(storeHouseHeader);
-
-
         ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
-//        ultimateRecyclerView.mPtrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
 
         // change header after loaded
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(new PtrUIHandler() {
@@ -406,7 +288,7 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
                     @Override
                     public void run() {
                         // frame.refreshComplete();
-                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
+                        simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
@@ -432,6 +314,11 @@ public class CustomSwipeToRefreshRefreshActivity extends AppCompatActivity imple
 
     public int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();
+    }
+
+    @Override
+    protected void doURV(UltimateRecyclerView urv) {
+
     }
 
     @Override
