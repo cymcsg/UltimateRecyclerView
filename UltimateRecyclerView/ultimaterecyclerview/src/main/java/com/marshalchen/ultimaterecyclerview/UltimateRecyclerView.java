@@ -58,10 +58,21 @@ import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
  * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc.
  */
 public class UltimateRecyclerView extends FrameLayout implements Scrollable {
+    /**
+     * TRIGGERED ON NOTIFIY ITEMS
+     */
     public static int EMPTY_CLEAR_ALL = 0;
     public static int EMPTY_SHOW_LOADMORE_ONLY = 1;
     public static int EMPTY_KEEP_HEADER = 2;
     public static int EMPTY_KEEP_HEADER_AND_LOARMORE = 3;
+
+    /**
+     * TRIGGERED ON SETTING ADAPTER TO THE URV
+     */
+    public static int STARTWITH_OFFLINE_ITEMS = 0;
+    public static int STARTWITH_ONLINE_ITEMS = 1;
+
+
     public RecyclerView mRecyclerView;
     protected FloatingActionButton defaultFloatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
@@ -212,13 +223,23 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         return mEmptyView;
     }
 
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int mEmptyViewInitPolicy) {
+        setEmptyView(emptyResourceId, emptyViewPolicy);
+        if (mAdapter != null) {
+            mAdapter.setEmptyViewOnInitPolicy(mEmptyViewInitPolicy);
+        } else {
+            Log.d(VIEW_LOG_TAG, "unabled to empty view policy because the adapter is null");
+        }
+    }
+
     /**
      * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero.
      * You can customize it as loading view.
      *
      * @param emptyResourceId the Resource Id from the empty view
+     * @param emptyViewPolicy the Resource Id from the empty view
      */
-    public void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy) {
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy) {
         //  mEmptyViewPolicy = emptyViewPolicy;
         if (mEmptyView == null && emptyResourceId != 0) {
             mEmptyId = emptyResourceId;
@@ -229,16 +250,23 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
         if (mAdapter != null) {
             mAdapter.setEmptyViewPolicy(emptyViewPolicy);
+            mAdapter.setEmptyViewOnInitPolicy(UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
         } else {
             Log.d(VIEW_LOG_TAG, "unabled to empty view policy because the adapter is null");
         }
         mEmpty.setVisibility(View.GONE);
     }
 
-    public void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final emptyViewOnShownListener listener) {
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final emptyViewOnShownListener listener) {
         setEmptyView(emptyResourceId, emptyViewPolicy);
         mEmptyViewListener = listener;
     }
+
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int emptyViewInitPolicy, final emptyViewOnShownListener listener) {
+        setEmptyView(emptyResourceId, emptyViewPolicy, emptyViewInitPolicy);
+        mEmptyViewListener = listener;
+    }
+
 
     /**
      * Show the custom or default empty view
@@ -770,11 +798,14 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     updateHelperDisplays();
                 }
             });
-        if ((adapter == null || mAdapter.getAdapterItemCount() == 0)) {
+        if (mAdapter.getAdapterItemCount() == 0 && adapter.getEmptyViewInitPolicy() == STARTWITH_OFFLINE_ITEMS) {
             // mEmpty.setVisibility(View.VISIBLE);
-            setRefreshing(true);
-            isFirstLoadingOnlineAdapter = true;
+            //setRefreshing(true);
+            // isFirstLoadingOnlineAdapter = true;
+            showEmptyView();
         }
+
+
         mRecyclerViewHelper = RecyclerViewPositionHelper.createHelper(mRecyclerView);
     }
 
