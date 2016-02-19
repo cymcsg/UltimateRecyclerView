@@ -32,6 +32,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     private int loadmoresetingswatch = 0;
     public boolean enabled_custom_load_more_view = false;
     private int mEmptyViewPolicy;
+    private int mEmptyViewOnInitPolicy;
 
     /**
      * Set the header view of the adapter.
@@ -93,6 +94,19 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public void setEmptyViewPolicy(final int policy) {
         mEmptyViewPolicy = policy;
     }
+
+    public void setEmptyViewOnInitPolicy(final int policy) {
+        mEmptyViewOnInitPolicy = policy;
+    }
+
+    public final int getEmptyViewPolicy() {
+        return mEmptyViewPolicy;
+    }
+
+    public final int getEmptyViewInitPolicy() {
+        return mEmptyViewOnInitPolicy;
+    }
+
 
     /**
      * the basic view holder creation
@@ -417,9 +431,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-    public final int getEmptyViewPolicy() {
-        return mEmptyViewPolicy;
-    }
 
     /**
      * remove all items
