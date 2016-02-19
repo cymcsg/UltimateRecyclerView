@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.marshalchen.ultimaterecyclerview.animators.internal.ViewHelper;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 

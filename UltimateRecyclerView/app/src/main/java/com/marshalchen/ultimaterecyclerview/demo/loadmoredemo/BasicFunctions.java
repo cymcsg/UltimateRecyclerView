@@ -23,6 +23,7 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.ui.AnimationType;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 /**
@@ -155,7 +156,7 @@ public abstract class BasicFunctions extends AppCompatActivity {
     protected void enableEmptyViewPolicy() {
         //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
         //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-      //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
+        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
         ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
     }
 
@@ -207,6 +208,30 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
             }
         });
+    }
+
+    protected void setupSpinnerAnimationSelection(Spinner spinner, ArrayAdapter<String> adapter) {
+        adapter.add("- animator -");
+        for (AnimationType type : AnimationType.values()) {
+            adapter.add(type.name());
+        }
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    ultimateRecyclerView.setItemAnimator(AnimationType.values()[position - 1].getAnimator());
+                    ultimateRecyclerView.getItemAnimator().setAddDuration(300);
+                    ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     private void bButtons() {

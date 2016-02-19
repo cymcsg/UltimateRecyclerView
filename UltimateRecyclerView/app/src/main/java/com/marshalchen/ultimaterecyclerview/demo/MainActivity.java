@@ -24,8 +24,6 @@ import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.*;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionCommonAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
@@ -371,40 +369,5 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
     }
-
-   /* enum Type {
-        FadeIn(new FadeInAnimator()),
-        FadeInDown(new FadeInDownAnimator()),
-        FadeInUp(new FadeInUpAnimator()),
-        FadeInLeft(new FadeInLeftAnimator()),
-        FadeInRight(new FadeInRightAnimator()),
-        Landing(new LandingAnimator()),
-        ScaleIn(new ScaleInAnimator()),
-        ScaleInTop(new ScaleInTopAnimator()),
-        ScaleInBottom(new ScaleInBottomAnimator()),
-        ScaleInLeft(new ScaleInLeftAnimator()),
-        ScaleInRight(new ScaleInRightAnimator()),
-        FlipInTopX(new FlipInTopXAnimator()),
-        FlipInBottomX(new FlipInBottomXAnimator()),
-        FlipInLeftY(new FlipInLeftYAnimator()),
-        FlipInRightY(new FlipInRightYAnimator()),
-        SlideInLeft(new SlideInLeftAnimator()),
-        SlideInRight(new SlideInRightAnimator()),
-        SlideInDown(new SlideInDownAnimator()),
-        SlideInUp(new SlideInUpAnimator()),
-        OvershootInRight(new OvershootInRightAnimator()),
-        OvershootInLeft(new OvershootInLeftAnimator());
-
-        private BaseItemAnimator mAnimator;
-
-        Type(BaseItemAnimator animator) {
-            mAnimator = animator;
-        }
-
-        public BaseItemAnimator getAnimator() {
-            return mAnimator;
-        }
-    }*/
-
 
 }
