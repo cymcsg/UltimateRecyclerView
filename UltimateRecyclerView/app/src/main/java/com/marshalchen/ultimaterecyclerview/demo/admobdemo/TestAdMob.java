@@ -79,8 +79,8 @@ public class TestAdMob extends AppCompatActivity {
     }
 
     private void enableLoadMore() {
-        ultimateRecyclerView.enableLoadmore();
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
+
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
@@ -98,6 +98,9 @@ public class TestAdMob extends AppCompatActivity {
         });
     }
 
+    private void enableEmptyView() {
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+    }
 
     private void enableClick() {
 
@@ -128,6 +131,7 @@ public class TestAdMob extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
+
         /**
          * wokring example 1 implementation of Admob banner with static Adview
          */
@@ -135,7 +139,7 @@ public class TestAdMob extends AppCompatActivity {
         /**
          * working example 2 with multiple called Adviews
          */
-        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 3, SampleDataboxset.newListFromGen(), new AdmobAdapter.AdviewListener() {
+        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 11, SampleDataboxset.newListFromGen(), new AdmobAdapter.AdviewListener() {
             @Override
             public AdView onGenerateAdview() {
                 return createadmob();
@@ -144,8 +148,9 @@ public class TestAdMob extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
-        ultimateRecyclerView.setItemViewCacheSize(10);
+        ultimateRecyclerView.setItemViewCacheSize(3);
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#f5f5ff"));
+        enableEmptyView();
         enableRefresh();
         enableLoadMore();
         enableClick();

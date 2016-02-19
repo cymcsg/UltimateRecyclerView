@@ -18,13 +18,14 @@ import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
-import com.marshalchen.ultimaterecyclerview.SwipeableRecyclerViewTouchListener;
+import com.marshalchen.ultimaterecyclerview.ui.swipe.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
+import com.marshalchen.ultimaterecyclerview.ui.swipe.defaultRegularSwipe;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 import java.util.ArrayList;
@@ -58,8 +59,8 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
     protected void enableLoadMore() {
         // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         // ultimateRecyclerView.addItemDecoration(headersDecor);
-        ultimateRecyclerView.enableLoadmore();
         ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
+
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
@@ -85,7 +86,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                         }*/
                         status_progress = false;
                     }
-                }, 2500);
+                }, 500);
             }
         });
 
@@ -105,7 +106,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                         //ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
                         //simpleRecyclerViewAdapter.notifyDataSetChanged();
                         simpleRecyclerViewAdapter.removeAll();
-                        simpleRecyclerViewAdapter.enableLoadMore(false);
+                        ultimateRecyclerView.disableLoadmore();
                         ultimateRecyclerView.showEmptyView();
                     }
                 }, 1000);
@@ -154,9 +155,13 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
 
     private void enableEmptyViewPolicy() {
         // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
         // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+    }
+
+    private void enableSwipe() {
+        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView, new defaultRegularSwipe<>(simpleRecyclerViewAdapter)));
     }
 
     private void setupUltimateRecyclerView() {
@@ -171,33 +176,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffff66ff"));
         enableRefresh();
         enableScrollControl();
-
-        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
-                new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                    @Override
-                    public boolean canSwipe(int position) {
-                        if (position > 0)
-                            return true;
-                        else return false;
-                    }
-
-                    @Override
-                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.removeAt(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            simpleRecyclerViewAdapter.removeAt(position);
-                        }
-                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-                }));
-
+        enableSwipe();
 
         ItemTouchListenerAdapter itemTouchListenerAdapter = new ItemTouchListenerAdapter(ultimateRecyclerView.mRecyclerView,
                 new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
@@ -244,6 +223,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleRecyclerViewAdapter.insertFirst("rand added item");
+                ultimateRecyclerView.reenableLoadmore();
                 // - simpleRecyclerViewAdapter.in
             }
         });
@@ -261,7 +241,7 @@ public class DebugLoadMoreActivity extends AppCompatActivity {
                 if (!status_progress) {
                     isEnableAutoLoadMore = !isEnableAutoLoadMore;
                     if (isEnableAutoLoadMore) {
-                        ultimateRecyclerView.enableLoadmore();
+                        ultimateRecyclerView.reenableLoadmore();
                     }
                 }
             }

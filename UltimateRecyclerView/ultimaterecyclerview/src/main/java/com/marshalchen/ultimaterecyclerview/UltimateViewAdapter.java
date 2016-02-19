@@ -25,6 +25,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
     private boolean customHeader = false;
+    /**
+     * this watches how many times does this loading more triggered
+     */
     private int loadmoresetingswatch = 0;
     public boolean enabled_custom_load_more_view = false;
     private int mEmptyViewPolicy;
@@ -77,8 +80,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     public void enableLoadMore(boolean b) {
         enabled_custom_load_more_view = b;
-        if (loadmoresetingswatch > 0 && !b && customLoadMoreView != null) {
+        if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
             notifyItemRemoved(getItemCount() - 1);
+        }
+        if (b && customLoadMoreView == null) {
+            enabled_custom_load_more_view = false;
         }
         loadmoresetingswatch++;
     }
@@ -223,6 +229,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return false;
     }
 
+    /**
+     * retrieve the amount of the total items in the urv for display that will be including all data items as well as the decorative items
+     *
+     * @return the int
+     */
     @Override
     public int getItemCount() {
         return getAdapterItemCount() + totalAdditionalItems();
@@ -238,7 +249,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     /**
      * Returns the number of items in the adapter bound to the parent RecyclerView.
      *
-     * @return The number of items in the bound adapter
+     * @return The number of data items in the bound adapter
      */
     public abstract int getAdapterItemCount();
 
@@ -268,6 +279,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             from--;
             to--;
         }
+        if (enableLoadMore() && to == getItemCount() - 1) return;
+        if (hasHeaderView() && to == 0) return;
+        if (hasHeaderView() && from == 0) return;
+        if (enableLoadMore() && from == getItemCount() - 1) return;
         Collections.swap(list, from, to);
     }
 
@@ -313,10 +328,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             while (id.hasNext()) {
                 original_list.add(original_list.size(), id.next());
             }
-
             notifyItemRangeInserted(start, getItemCount());
-
-
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
             Log.d("fillInStackTrace", o + " : ");
@@ -331,6 +343,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>      na
      */
     public final <T> void removeInternal(List<T> list, int position) {
+        if (hasHeaderView() && position == 0) return;
+        if (enableLoadMore() && position == getItemCount() - 1) return;
         if (list.size() > 0) {
             list.remove(hasHeaderView() ? position - 1 : position);
             notifyItemRemoved(position);

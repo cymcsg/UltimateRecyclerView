@@ -98,7 +98,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * custom load more progress bar
      */
-    private int mLoadMoreLayoutId;
     private View mLoadMoreView;
     /**
      * empty view group
@@ -277,7 +276,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * @param layout the res layout
      */
     public void setLoadMoreView(@LayoutRes final int layout) {
-        mLoadMoreLayoutId = layout;
         mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout, null);
         enableLoadmore();
     }
@@ -340,25 +338,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     }
 
 
-    protected void setDefaultScrollListener() {
-        mRecyclerView.removeOnScrollListener(mOnScrollListener);
-        mOnScrollListener = new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (mHeader != null) {
-                    mTotalYScrolled += dy;
-                    if (isParallaxHeader)
-                        translateHeader(mTotalYScrolled);
-                }
-                enableShoworHideToolbarAndFloatingButton(recyclerView);
-            }
-        };
-
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
-    }
-
     private void setObserableScrollListener() {
         mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -371,13 +350,75 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
-    /**
-     * Enable loading more of the recyclerview
-     */
-    public void enableLoadmore() {
+    private int[] mlastPositionsStaggeredGridLayout;
+
+    private void scroll_load_more_detection(RecyclerView recyclerView) {
+
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+
+        if (layoutManagerType == null) {
+            if (layoutManager instanceof GridLayoutManager) {
+                layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID;
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
+            } else {
+                throw new RuntimeException("Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager");
+            }
+        }
+
+        mTotalItemCount = layoutManager.getItemCount();
+        mVisibleItemCount = layoutManager.getChildCount();
+
+        switch (layoutManagerType) {
+            case LINEAR:
+                mFirstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition();
+                lastVisibleItemPosition = mRecyclerViewHelper.findLastVisibleItemPosition();
+                break;
+            case GRID:
+                if (layoutManager instanceof GridLayoutManager) {
+                    GridLayoutManager ly = (GridLayoutManager) layoutManager;
+                    lastVisibleItemPosition = ly.findLastVisibleItemPosition();
+                    mFirstVisibleItem = ly.findFirstVisibleItemPosition();
+                }
+                break;
+            case STAGGERED_GRID:
+                if (layoutManager instanceof StaggeredGridLayoutManager) {
+                    StaggeredGridLayoutManager sy = (StaggeredGridLayoutManager) layoutManager;
+
+                    if (mlastPositionsStaggeredGridLayout == null)
+                        mlastPositionsStaggeredGridLayout = new int[sy.getSpanCount()];
+
+                    sy.findLastVisibleItemPositions(mlastPositionsStaggeredGridLayout);
+                    lastVisibleItemPosition = findMax(mlastPositionsStaggeredGridLayout);
+
+                    sy.findFirstVisibleItemPositions(mlastPositionsStaggeredGridLayout);
+                    mFirstVisibleItem = findMin(mlastPositionsStaggeredGridLayout);
+                }
+                break;
+        }
+
+        if (isLoadingMore) {
+            //todo: there are some bugs needs to be adjusted for admob adapter
+            if (mTotalItemCount > previousTotal) {
+                isLoadingMore = false;
+                previousTotal = mTotalItemCount;
+            }
+        }
+
+        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+        if (!isLoadingMore && bottomEdgeHit) {
+            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
+            isLoadingMore = true;
+            previousTotal = mTotalItemCount;
+        }
+
+    }
+
+    protected void setDefaultScrollListener() {
         mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
-            private int[] lastPositions;
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -387,87 +428,26 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     if (isParallaxHeader)
                         translateHeader(mTotalYScrolled);
                 }
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-
-                if (layoutManagerType == null) {
-                    if (layoutManager instanceof GridLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.GRID;
-                    } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID;
-                    } else if (layoutManager instanceof LinearLayoutManager) {
-                        layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR;
-                    } else {
-                        throw new RuntimeException("Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager");
-                    }
+                if (mIsLoadMoreWidgetEnabled) {
+                    scroll_load_more_detection(recyclerView);
                 }
-
-                mTotalItemCount = layoutManager.getItemCount();
-                mVisibleItemCount = layoutManager.getChildCount();
-
-                switch (layoutManagerType) {
-                    case LINEAR:
-                        mFirstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition();
-                        lastVisibleItemPosition = mRecyclerViewHelper.findLastVisibleItemPosition();
-                        break;
-                    case GRID:
-                        if (layoutManager instanceof GridLayoutManager) {
-                            GridLayoutManager ly = (GridLayoutManager) layoutManager;
-                            lastVisibleItemPosition = ly.findLastVisibleItemPosition();
-                            mFirstVisibleItem = ly.findFirstVisibleItemPosition();
-                        }
-                        break;
-                    case STAGGERED_GRID:
-                        if (layoutManager instanceof StaggeredGridLayoutManager) {
-                            StaggeredGridLayoutManager sy = (StaggeredGridLayoutManager) layoutManager;
-
-                            if (lastPositions == null)
-                                lastPositions = new int[sy.getSpanCount()];
-
-                            sy.findLastVisibleItemPositions(lastPositions);
-                            lastVisibleItemPosition = findMax(lastPositions);
-
-                            sy.findFirstVisibleItemPositions(lastPositions);
-                            mFirstVisibleItem = findMin(lastPositions);
-                        }
-                        break;
-                }
-
-                if (isLoadingMore) {
-                    //todo: there are some bugs needs to be adjusted for admob adapter
-                    if (mTotalItemCount > previousTotal) {
-                        isLoadingMore = false;
-                        previousTotal = mTotalItemCount;
-                    }
-                }
-                boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-                if (!isLoadingMore && bottomEdgeHit) {
-                    onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
-                    isLoadingMore = true;
-                    previousTotal = mTotalItemCount;
-                }
-
-                /**
-                 * TESTING CASES HERE - USE THIS BLOCK DO MAKE ANY FAST TESTING
-                 */
-                 /*
-                 boolean casetest = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-                 if (casetest) {
-                    onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
-                    previousTotal = mTotalItemCount;
-                }
-
-                */
-
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
         };
 
         mRecyclerView.addOnScrollListener(mOnScrollListener);
+    }
 
+    /**
+     * Enable loading more of the recyclerview
+     */
+    private void enableLoadmore() {
         if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null && mLoadMoreView != null) {
             mAdapter.setCustomLoadMoreView(mLoadMoreView);
             mAdapter.enableLoadMore(true);
             mAdapter.notifyDataSetChanged();
+        } else {
+
         }
         mIsLoadMoreWidgetEnabled = true;
     }
@@ -476,10 +456,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
      */
     public void reenableLoadmore() {
-        enableLoadmore();
         if (mAdapter != null && mLoadMoreView != null) {
-            mAdapter.setCustomLoadMoreView(mLoadMoreView);
-            mAdapter.enableLoadMore(false);
+            mAdapter.enableLoadMore(true);
         }
         mIsLoadMoreWidgetEnabled = true;
     }
@@ -492,13 +470,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * Remove loading more scroll listener
      */
     public void disableLoadmore() {
-        setDefaultScrollListener();
-        if (mAdapter != null) {
-            // mAdapter.setCustomLoadMoreView(null);
-            //LayoutInflater.from(getContext()).inflate(R.layout.empty_progressbar, null)
+        mIsLoadMoreWidgetEnabled = false;
+        if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
         }
-        mIsLoadMoreWidgetEnabled = false;
     }
 
 

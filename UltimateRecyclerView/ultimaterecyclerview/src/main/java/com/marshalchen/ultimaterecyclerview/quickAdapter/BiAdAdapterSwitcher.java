@@ -65,13 +65,10 @@ public class BiAdAdapterSwitcher<
 
     public void init(final boolean adenabled) {
         this.with_the_ad = adenabled;
-        if (layoutLoadMoreResId != 0) {
-            if (adenabled) {
-                withad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
-            } else
-                noad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
+      /*  if (layoutLoadMoreResId != 0) {
             listview.enableLoadmore();
         }
+        */
         listview.setAdapter(adenabled ? this.withad : this.noad);
         emptyViewControl();
     }
@@ -195,7 +192,7 @@ public class BiAdAdapterSwitcher<
             final int delay_trigger,
             final onLoadMore loading_more_trigger_interface) {
         loading_more = loading_more_trigger_interface;
-        listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+      /*  listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
@@ -220,7 +217,7 @@ public class BiAdAdapterSwitcher<
                     }
                 }, delay_trigger);
             }
-        });
+        });*/
         this.layoutLoadMoreResId = layoutResId;
         return this;
     }
