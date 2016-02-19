@@ -239,6 +239,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return getAdapterItemCount() + totalAdditionalItems();
     }
 
+    public int getAdditionalItems() {
+        return totalAdditionalItems();
+    }
+
     protected int totalAdditionalItems() {
         int offset = 0;
         if (hasHeaderView()) offset++;
@@ -323,12 +327,17 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         try {
             Iterator<T> id = insert_data.iterator();
             int g = getItemCount();
-            if (enableLoadMore() && hasHeaderView()) g--;
+            //   if (hasHeaderView()) g--;
+            if (enableLoadMore()) g--;
             final int start = g;
             while (id.hasNext()) {
                 original_list.add(original_list.size(), id.next());
             }
-            notifyItemRangeInserted(start, getItemCount());
+            if (insert_data.size() == 1) {
+                notifyItemInserted(start);
+            } else if (insert_data.size() > 1) {
+                notifyItemRangeInserted(start, insert_data.size());
+            }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
             Log.d("fillInStackTrace", o + " : ");
@@ -369,15 +378,20 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         int size = list.size();
         list.clear();
         final int notify_start_item = hasHeaderView() ? 1 : 0;
-        final int notify_last_item_all = size + totalAdditionalItems();
+        final int totalitems = size - (enableLoadMore() ? 1 : 0);
         if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
-            notifyItemRangeRemoved(notify_start_item, size);
+            //notifyItemRangeRemoved(notify_start_item, size);
+            if (hasHeaderView())
+                notifyDataSetChanged();
+            else {
+                notifyItemRangeRemoved(notify_start_item, size);
+            }
         } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
-            notifyItemRangeRemoved(notify_start_item, notify_last_item_all);
+            notifyItemRangeRemoved(notify_start_item, totalitems);
         } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
-            notifyItemRangeRemoved(0, notify_last_item_all);
+            notifyItemRangeRemoved(0, size);
         } else {
-            notifyItemRangeRemoved(0, notify_last_item_all);
+            notifyItemRangeRemoved(0, size);
         }
     }
 
