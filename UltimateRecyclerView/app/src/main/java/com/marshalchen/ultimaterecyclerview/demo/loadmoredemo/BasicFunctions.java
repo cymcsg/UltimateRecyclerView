@@ -1,5 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
@@ -24,6 +29,35 @@ import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutMan
  * Created by hesk on 19/2/16.
  */
 public abstract class BasicFunctions extends AppCompatActivity {
+    enum Route {
+        CUSTOM_PULL_HEADER("Custom Pull", PullToRefreshActivity.class),
+        LOADMORE_TEST("No Header", DNoHeaderLoadMoreActivity.class),
+        LOADMORE_HEADER("Header Pallx", DebugLoadMoreActivity.class),;
+
+        private String name;
+        private Class<?> clazzna;
+
+        Route(String name, Class<?> clazz) {
+            this.name = name;
+            this.clazzna = clazz;
+        }
+
+        public Route getAnimator() {
+
+            return this;
+        }
+
+
+        public String getNameDisplay() {
+            return name;
+        }
+
+        public void start(final Context ctx) {
+            Intent intent = new Intent(ctx, clazzna);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ctx.startActivity(intent);
+        }
+    }
 
     protected UltimateRecyclerView ultimateRecyclerView;
 
@@ -63,7 +97,7 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
     protected abstract void onLoadmore();
 
-    protected abstract void onRefresh();
+    protected abstract void onFireRefresh();
 
     protected void enableRefresh() {
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -72,7 +106,7 @@ public abstract class BasicFunctions extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onRefresh();
+                        onFireRefresh();
                     }
                 }, 1000);
             }
@@ -119,10 +153,10 @@ public abstract class BasicFunctions extends AppCompatActivity {
     }
 
     protected void enableEmptyViewPolicy() {
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
-        // ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+      //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
     }
 
     protected void enableSwipe() {
@@ -150,9 +184,59 @@ public abstract class BasicFunctions extends AppCompatActivity {
         ultimateRecyclerView.mRecyclerView.addOnItemTouchListener(itemTouchListenerAdapter);
     }
 
-    protected void getURV() {
+    protected abstract void addButtonTrigger();
 
+    protected abstract void removeButtonTrigger();
+
+    protected void setupSpinnerSelection(Spinner sp, ArrayAdapter<String> adapter) {
+        adapter.add("- select -");
+        for (Route type : Route.values()) {
+            adapter.add(type.getNameDisplay());
+        }
+        sp.setAdapter(adapter);
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    Route.values()[position - 1].start(getApplication());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
+
+    private void bButtons() {
+        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addButtonTrigger();
+            }
+        });
+
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeButtonTrigger();
+            }
+        });
+
+        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!status_progress) {
+                    isEnableAutoLoadMore = !isEnableAutoLoadMore;
+                    if (isEnableAutoLoadMore) {
+                        ultimateRecyclerView.reenableLoadmore();
+                    }
+                }
+            }
+        });
+    }
+
     protected ActionMode actionMode;
     protected Toolbar toolbar;
     protected LinearLayoutManager linearLayoutManager;
@@ -172,7 +256,9 @@ public abstract class BasicFunctions extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         doURV(ultimateRecyclerView);
-        //setupSpinnerSelection();
+        bButtons();
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        setupSpinnerSelection((Spinner) findViewById(R.id.spinner), spinnerAdapter);
     }
 
     public int getScreenHeight() {
@@ -181,4 +267,6 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
 
     protected abstract void doURV(UltimateRecyclerView urv);
+
+
 }

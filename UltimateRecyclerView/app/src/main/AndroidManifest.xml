@@ -34,8 +34,11 @@
             android:name=".griddemo.GridLayoutRVTest"
             android:label="GridLayoutRVTest" />
         <activity
-            android:name=".loadmoredemo.CustomSwipeToRefreshRefreshActivity"
+            android:name=".loadmoredemo.PullToRefreshActivity"
             android:label="CustomSwipeToRefreshRefreshActivity" />
+        <activity
+            android:name=".loadmoredemo.DNoHeaderLoadMoreActivity"
+            android:label="NO Header Load More" />
         <activity
             android:name=".admobdemo.TestAdMob"
             android:label="TestAdMob" />

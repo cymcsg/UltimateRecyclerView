@@ -13,6 +13,9 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
@@ -28,6 +31,7 @@ import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.ui.swipe.defaultRegularSwipe;
 import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +40,13 @@ import java.util.ArrayList;
 public class DebugLoadMoreActivity extends BasicFunctions {
 
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
+    @Override
+    protected void enableEmptyViewPolicy() {
+        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
+    }
+
 
     @Override
     protected void onLoadmore() {
@@ -64,7 +75,18 @@ public class DebugLoadMoreActivity extends BasicFunctions {
     }
 
     @Override
-    protected void onRefresh() {
+    protected void addButtonTrigger() {
+        simpleRecyclerViewAdapter.insertFirst("rand added item");
+        ultimateRecyclerView.reenableLoadmore();
+    }
+
+    @Override
+    protected void removeButtonTrigger() {
+        simpleRecyclerViewAdapter.removeLast();
+    }
+
+    @Override
+    protected void onFireRefresh() {
         // simpleRecyclerViewAdapter.insertLast(moreNum++ + "  Refresh things");
         ultimateRecyclerView.setRefreshing(false);
         //   ultimateRecyclerView.scrollBy(0, -50);
@@ -93,57 +115,6 @@ public class DebugLoadMoreActivity extends BasicFunctions {
         ultimateRecyclerView.setItemViewCacheSize(simpleRecyclerViewAdapter.getAdditionalItems());
     }
 
-    private void setupSpinnerSelection() {
-        /*Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        for (Type type : Type.values()) {
-            spinnerAdapter.add(type.name());
-        }
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ultimateRecyclerView.setItemAnimator(Type.values()[position].getAnimator());
-                ultimateRecyclerView.getItemAnimator().setAddDuration(300);
-                ultimateRecyclerView.getItemAnimator().setRemoveDuration(300);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simpleRecyclerViewAdapter.insertFirst("rand added item");
-                ultimateRecyclerView.reenableLoadmore();
-                // - simpleRecyclerViewAdapter.in
-            }
-        });
-
-        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simpleRecyclerViewAdapter.removeLast();
-            }
-        });
-
-        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!status_progress) {
-                    isEnableAutoLoadMore = !isEnableAutoLoadMore;
-                    if (isEnableAutoLoadMore) {
-                        ultimateRecyclerView.reenableLoadmore();
-                    }
-                }
-            }
-        });
-
-    }
-
 
     private void toggleSelection(int position) {
         simpleRecyclerViewAdapter.toggleSelection(position);
@@ -158,7 +129,7 @@ public class DebugLoadMoreActivity extends BasicFunctions {
     }
 
     //
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -169,7 +140,7 @@ public class DebugLoadMoreActivity extends BasicFunctions {
     public boolean onOptionsItemSelected(MenuItem item) {
         FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
   /*  enum Type {
         FadeIn(new FadeInAnimator()),

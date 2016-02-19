@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.animators.internal.ViewHelper;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -376,22 +377,43 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     public final <T> void clearInternal(List<T> list) {
         int size = list.size();
+        final int total_display_items = getItemCount();
         list.clear();
-        final int notify_start_item = hasHeaderView() ? 1 : 0;
-        final int totalitems = size - (enableLoadMore() ? 1 : 0);
-        if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
-            //notifyItemRangeRemoved(notify_start_item, size);
-            if (hasHeaderView())
-                notifyDataSetChanged();
-            else {
-                notifyItemRangeRemoved(notify_start_item, size);
+        notifyAfterRemoveAllData(size, total_display_items);
+    }
+
+    /**
+     * works on API v23
+     * there is a high  chance to crash this
+     *
+     * @param totalitems                   original size before removed
+     * @param after_remove_all_items_count the counts for display items
+     *                                     <code>
+     *                                     http://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position</code>
+     */
+
+    protected void notifyAfterRemoveAllData(final int totalitems, final int after_remove_all_items_count) {
+        try {
+            final int notify_start_item = hasHeaderView() ? 1 : 0;
+            // final int totalitems = size - (enableLoadMore() ? 1 : 0);
+            if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+                //notifyItemRangeChanged(notify_start_item, size);
+                if (hasHeaderView())
+                    notifyItemRangeChanged(notify_start_item, totalitems);
+                else {
+                    notifyDataSetChanged();
+                    //notifyItemRangeChanged(notify_start_item, totalitems);
+                }
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                notifyItemRangeRemoved(notify_start_item, totalitems);
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+                notifyItemRangeRemoved(0, totalitems);
+            } else {
+                notifyItemRangeRemoved(0, totalitems);
             }
-        } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
-            notifyItemRangeRemoved(notify_start_item, totalitems);
-        } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
-            notifyItemRangeRemoved(0, size);
-        } else {
-            notifyItemRangeRemoved(0, size);
+        } catch (Exception e) {
+            String o = e.fillInStackTrace().getCause().getMessage().toString();
+            Log.d("fillInStackTrace", o + " : ");
         }
     }
 
@@ -471,6 +493,16 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         }
         return null;
     }
+
+
+/*
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ViewHelper.clear(holder.itemView);
+
+    }
+    */
+
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
