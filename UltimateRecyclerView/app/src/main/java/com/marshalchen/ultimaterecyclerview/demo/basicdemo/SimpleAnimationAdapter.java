@@ -14,11 +14,12 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-import com.marshalchen.ultimaterecyclerview.animators.internal.ViewHelper;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 
 import java.security.SecureRandom;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 
 public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.ViewHolder> {

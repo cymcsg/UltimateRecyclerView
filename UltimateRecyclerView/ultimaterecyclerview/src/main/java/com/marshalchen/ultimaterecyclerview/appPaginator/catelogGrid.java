@@ -90,12 +90,12 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
         listview_layout.setHasFixedSize(true);
         listview_layout.setSaveEnabled(true);
         listview_layout.setAdapter(madapter = getAdatperWithdata());
-        getProgressbar(view, R.id.urv_main_progress_bar);
-        setUltimateRecyclerViewExtra(listview_layout, madapter);
         if (mLayoutManager == null) {
             mLayoutManager = new GridLayoutManager(view.getContext(), getColumn(), LinearLayoutManager.VERTICAL, false);
         }
         listview_layout.setLayoutManager(mLayoutManager);
+        getProgressbar(view, R.id.urv_main_progress_bar);
+        setUltimateRecyclerViewExtra(listview_layout, madapter);
     }
 
 

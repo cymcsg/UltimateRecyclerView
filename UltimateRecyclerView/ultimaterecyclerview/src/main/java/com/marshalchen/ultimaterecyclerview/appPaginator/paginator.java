@@ -57,7 +57,6 @@ public class paginator extends Fragment {
         pagePerItems = getItemsShownPerPage();
         enable_load_more = false;
         is_new_search = false;
-
     }
 
 

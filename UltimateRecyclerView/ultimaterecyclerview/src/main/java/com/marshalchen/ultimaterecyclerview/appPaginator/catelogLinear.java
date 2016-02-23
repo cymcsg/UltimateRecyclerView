@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +15,8 @@ import com.marshalchen.ultimaterecyclerview.R;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.appPaginator.paginator;
-import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
-
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 /**
  * Created by hesk on 30/6/15.
@@ -90,12 +88,12 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
         listview_layout.setHasFixedSize(true);
         listview_layout.setSaveEnabled(true);
         listview_layout.setAdapter(madapter = getAdatperWithdata());
-        getProgressbar(view, R.id.urv_main_progress_bar);
-        setUltimateRecyclerViewExtra(listview_layout, madapter);
         if (mLayoutManager == null) {
             mLayoutManager = new ScrollSmoothLineaerLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false, getSmoothDuration());
         }
         listview_layout.setLayoutManager(mLayoutManager);
+        getProgressbar(view, R.id.urv_main_progress_bar);
+        setUltimateRecyclerViewExtra(listview_layout, madapter);
     }
 
     protected int getSmoothDuration() {
