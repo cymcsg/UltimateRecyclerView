@@ -201,8 +201,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          * empty view setup
          */
         mEmpty = (ViewStub) view.findViewById(R.id.emptyview);
-        mEmpty.setLayoutResource(mEmptyId);
         if (mEmptyId != 0) {
+            mEmpty.setLayoutResource(mEmptyId);
             mEmptyView = mEmpty.inflate();
             mEmpty.setVisibility(View.GONE);
         }

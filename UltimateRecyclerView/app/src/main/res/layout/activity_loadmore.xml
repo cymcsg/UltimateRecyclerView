@@ -16,44 +16,7 @@
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-
-            <TextView
-                android:id="@+id/del"
-                style="@style/TextButtonToolBar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:text="Del" />
-
-            <TextView
-                android:id="@+id/add"
-                style="@style/TextButtonToolBar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@id/del"
-                android:text="Add" />
-
-            <ImageButton
-                android:id="@+id/toggle"
-                style="@style/TextButtonToolBar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@id/add"
-                android:src="@drawable/ic_autorenew_24dp" />
-
-        </RelativeLayout>
+        <include layout="@layout/toolbar_loadmore" />
 
     </android.support.v7.widget.Toolbar>
 

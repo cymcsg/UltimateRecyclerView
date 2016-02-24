@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 public abstract class paginator extends Fragment {
     private int currentPage, totalPages, pagePerItems, landscape_common_colums = 4, portrait_common_colums = 2;
     private String tag_keyword, fullEndPoint, searchKeyword;
-    private boolean enable_load_more, is_new_search;
+    private boolean enable_load_more, is_new_search, status_refresh, status_initization;
     protected ProgressBar mProgress;
 
     protected void getProgressbar(View view, @IdRes final int progress_bar_id) {
@@ -32,6 +32,23 @@ public abstract class paginator extends Fragment {
             //unable to find loading progress bar
         }
     }
+
+    public final void cancelInitalization() {
+        status_initization = false;
+    }
+
+    public final boolean isInitization() {
+        return status_initization;
+    }
+
+    public final void setIsStatusRefresh(boolean b) {
+        status_refresh = b;
+    }
+
+    public final boolean isStatusRefresh() {
+        return status_refresh;
+    }
+
 
     @IdRes
     protected abstract int getRefresherProgressBarId();
