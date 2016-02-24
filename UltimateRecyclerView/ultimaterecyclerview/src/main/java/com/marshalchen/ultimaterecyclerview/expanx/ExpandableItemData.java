@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class ExpandableItemData<T extends ExpandableItemData> implements Comparable<T> {
     private String uuid;
-    private int type;// 显示类型
+    private int type;
     private String text;
-    private String path;// 路径
-    private int treeDepth = 0;// 路径的深度
+    private String path;
+    private int treeDepth = 0;
     private List<T> children;
-    private boolean expand;// 是否展开
+    private boolean expand;
 
     public boolean isExpand() {
         return expand;
