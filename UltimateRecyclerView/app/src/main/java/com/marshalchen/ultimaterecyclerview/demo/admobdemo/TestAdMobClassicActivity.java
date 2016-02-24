@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
@@ -95,7 +94,10 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
     }
 
     private void enableEmptyView() {
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE, UltimateRecyclerView.STARTWITH_ONLINE_ITEMS);
+        ultimateRecyclerView.setEmptyView(
+                R.layout.empty_view,
+                UltimateRecyclerView.EMPTY_CLEAR_ALL,
+                UltimateRecyclerView.STARTWITH_ONLINE_ITEMS);
     }
 
     private void enableClick() {
@@ -114,6 +116,13 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleRecyclerViewAdapter.removeAt(3);
+            }
+        });
+        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleRecyclerViewAdapter.removeAll();
+                ultimateRecyclerView.showEmptyView();
             }
         });
     }

@@ -235,11 +235,8 @@ public abstract class BasicFunctions extends AppCompatActivity {
     protected Toolbar toolbar;
     protected LinearLayoutManager linearLayoutManager;
     private int moreNum = 2;
-
-
     boolean isDrag = true, isEnableAutoLoadMore = true, status_progress = false;
     private DragDropTouchListener dragDropTouchListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

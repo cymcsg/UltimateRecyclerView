@@ -24,14 +24,15 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
 
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
+    protected View customLoadMoreItemView = null;
     private boolean customHeader = false;
     /**
      * this watches how many times does this loading more triggered
      */
     private int loadmoresetingswatch = 0;
     public boolean enabled_custom_load_more_view = false;
-    private int mEmptyViewPolicy;
-    private int mEmptyViewOnInitPolicy;
+    protected int mEmptyViewPolicy;
+    protected int mEmptyViewOnInitPolicy;
 
     /**
      * Set the header view of the adapter.
@@ -121,8 +122,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             /**
              * this is only for the first time rendering of the adapter
              */
-            if (getAdapterItemCount() == 0)
-                viewHolder.itemView.setVisibility(View.INVISIBLE);
+            customLoadMoreItemView = viewHolder.itemView;
+            if (getAdapterItemCount() == 0) {
+                customLoadMoreItemView.setVisibility(View.INVISIBLE);
+            }
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
             return getViewHolder(customHeaderView);
@@ -389,40 +392,96 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param <T>  na
      */
     public final <T> void clearInternal(List<T> list) {
-        int size = list.size();
-        final int total_display_items = getItemCount();
+        int data_size_before_remove = list.size();
+        final int display_size_before_remove = getItemCount();
         list.clear();
-        notifyAfterRemoveAllData(size, total_display_items);
+        notifyAfterRemoveAllData(data_size_before_remove, display_size_before_remove);
+    }
+
+    /**
+     * @param data_size_before_remove    data size
+     * @param display_size_before_remove display item size
+     * @return TRUE for this is done and no more further processing
+     */
+    protected boolean detectDispatchLoadMoreDisplay(final int data_size_before_remove, final int display_size_before_remove) {
+        if (data_size_before_remove == 0) {
+            if (display_size_before_remove == 2) {
+
+                if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                    removeDispatchLoadMoreView();
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+                    removeDispatchLoadMoreView();
+                }
+
+            } else if (display_size_before_remove == 1) {
+
+                if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                    removeDispatchLoadMoreView();
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+                    removeDispatchLoadMoreView();
+                }
+
+                return true;
+
+            } else if (display_size_before_remove == 0) {
+                if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+                    notifyDataSetChanged();
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                    notifyDataSetChanged();
+                } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY) {
+                    notifyDataSetChanged();
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    protected void removeDispatchLoadMoreView() {
+        if (customLoadMoreItemView != null) {
+            customLoadMoreItemView.setVisibility(View.GONE);
+        }
     }
 
     /**
      * works on API v23
      * there is a high  chance to crash this
      *
-     * @param totalitems                   original size before removed
-     * @param after_remove_all_items_count the counts for display items
-     *                                     <code>
-     *                                     http://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position</code>
+     * @param data_size_before_remove    original size before removed
+     * @param display_size_before_remove the counts for display items
+     *                                   <code>
+     *                                   http://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position</code>
      */
 
-    protected void notifyAfterRemoveAllData(final int totalitems, final int after_remove_all_items_count) {
+    protected void notifyAfterRemoveAllData(final int data_size_before_remove, final int display_size_before_remove) {
         try {
             final int notify_start_item = hasHeaderView() ? 1 : 0;
-            // final int totalitems = size - (enableLoadMore() ? 1 : 0);
+
+            if (detectDispatchLoadMoreDisplay(data_size_before_remove, display_size_before_remove))
+                return;
+
+            if (data_size_before_remove == 0) return;
+
             if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
-                //notifyItemRangeChanged(notify_start_item, size);
                 if (hasHeaderView())
-                    notifyItemRangeChanged(notify_start_item, totalitems);
+                    notifyItemRangeChanged(notify_start_item, data_size_before_remove);
                 else {
                     notifyDataSetChanged();
-                    //notifyItemRangeChanged(notify_start_item, totalitems);
                 }
             } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
-                notifyItemRangeRemoved(notify_start_item, totalitems);
+                notifyItemRangeRemoved(notify_start_item, data_size_before_remove);
+                removeDispatchLoadMoreView();
             } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
-                notifyItemRangeRemoved(0, totalitems);
+                notifyItemRangeRemoved(0, data_size_before_remove);
+                removeDispatchLoadMoreView();
             } else {
-                notifyItemRangeRemoved(0, totalitems);
+                notifyItemRangeRemoved(0, data_size_before_remove);
             }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();

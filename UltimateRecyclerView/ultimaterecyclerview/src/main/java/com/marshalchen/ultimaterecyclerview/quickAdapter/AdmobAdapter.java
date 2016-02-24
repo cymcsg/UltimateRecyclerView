@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+
 import java.util.List;
 
 /**
@@ -110,10 +112,25 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      * get the display item count
      *
      * @return the final items for display
+     * @Override public int getItemCount() {
+     * final int base = super.getItemCount();
+     * if (once) {
+     * if (adfrequency > 0) {
+     * return base + 1;
+     * } else {
+     * return base;
+     * }
+     * } else {
+     * final int check_sum = (adfrequency > 0 ? atAdPos(base) : 0) + base;
+     * Log.d("getItemCountE2", check_sum + "");
+     * return check_sum;
+     * }
+     * }
      */
+
     @Override
-    public int getItemCount() {
-        final int base = super.getItemCount();
+    public int totalAdditionalItems() {
+        final int base = super.totalAdditionalItems();
         if (once) {
             if (adfrequency > 0) {
                 return base + 1;
@@ -127,7 +144,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
         }
     }
 
-
     /**
      * indicate if the touch position is at the Adview
      *
@@ -140,13 +156,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
         return zero_for_admob_selection == 0;
     }
 
-    /**
-     * Todo: need to resolve this problem when it crash
-     * Remove a item of  the list of the adapter
-     *
-     * @param list the data source
-     * @param position with the position on the list
-     */
+
    /* public void remove(List<?> list, int position) {
         try {
             if (list.size() > 0 && position < list.size()) {
@@ -168,6 +178,38 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
 
     }*/
 
+    @Override
+    protected void notifyAfterRemoveAllData(int data_size_before_remove, int display_size_before_remove) {
+        try {
+
+            final int n_start = hasHeaderView() ? 1 : 0;
+
+            final int n_end = hasHeaderView() ? display_size_before_remove - 1 : display_size_before_remove;
+
+            if (detectDispatchLoadMoreDisplay(data_size_before_remove, display_size_before_remove))
+                return;
+
+            if (data_size_before_remove == 0) return;
+
+
+            if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
+                notifyItemRangeRemoved(n_start, n_end);
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
+                notifyItemRangeRemoved(n_start, n_end);
+                removeDispatchLoadMoreView();
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
+                notifyItemRangeRemoved(0, display_size_before_remove);
+                removeDispatchLoadMoreView();
+            } else {
+                notifyItemRangeRemoved(0, display_size_before_remove);
+            }
+
+
+        } catch (Exception e) {
+            String o = e.fillInStackTrace().getCause().getMessage().toString();
+            Log.d("fillInStackTrace", o + " : ");
+        }
+    }
 
     /**
      * data binding related position shifting
