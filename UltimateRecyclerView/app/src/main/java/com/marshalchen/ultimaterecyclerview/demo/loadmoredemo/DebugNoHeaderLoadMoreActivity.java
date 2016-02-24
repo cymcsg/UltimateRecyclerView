@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by hesk on 19/2/16.
  */
-public class DNoHeaderLoadMoreActivity extends BasicFunctions {
+public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
 
     @Override

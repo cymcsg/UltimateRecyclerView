@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,7 @@ public class BiAdAdapterSwitcher<
         //THE Viewgroup from the google Adview
         V extends ViewGroup,
         //the admobdapter
-        ADMOB extends simpleAdmobAdapter<T, B, V>>
+        ADMOB extends AdmobAdapter<V,T,B>>
 
 {
     protected UltimateRecyclerView listview;

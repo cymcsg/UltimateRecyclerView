@@ -37,10 +37,10 @@
             android:name=".loadmoredemo.PullToRefreshActivity"
             android:label="CustomSwipeToRefreshRefreshActivity" />
         <activity
-            android:name=".loadmoredemo.DNoHeaderLoadMoreActivity"
+            android:name=".loadmoredemo.DebugNoHeaderLoadMoreActivity"
             android:label="NO Header Load More" />
         <activity
-            android:name=".admobdemo.TestAdMob"
+            android:name=".admobdemo.TestAdMobClassicActivity"
             android:label="TestAdMob" />
         <activity
             android:name=".expandemo.TestExpandableRV"

@@ -30,6 +30,12 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
     public static String FRAGMENTTITLE = "fragment_title";
     public static String SAVELOADDATA = "item_list";
     public static String HASSAVEFILTER = "filter";
+    protected GridLayoutManager mLayoutManager;
+    protected adapter madapter;
+
+    protected abstract adapter getAdatperWithdata();
+
+    protected abstract void setUltimateRecyclerViewExtra(final UltimateRecyclerView listview, final adapter madapter);
 
     @Override
     public void onAttach(Activity activity) {
@@ -46,23 +52,20 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
         return inflater.inflate(getFragmentResId(), container, false);
     }
 
+    @Override
     @IdRes
     protected int getUltimate_recycler_viewResId() {
         return R.id.urv_main_list;
     }
 
-    @LayoutRes
-    protected abstract int getFragmentResId();
-
-    protected abstract void onClickItem(final String route);
-
-    protected abstract void onClickItem(final long route_id);
+    @Override
+    @IdRes
+    protected int getRefresherProgressBarId() {
+        return R.id.urv_main_progress_bar;
+    }
 
     protected abstract int getColumn();
 
-    protected abstract adapter getAdatperWithdata();
-
-    protected abstract void setUltimateRecyclerViewExtra(final UltimateRecyclerView listview, final adapter madapter);
 
     /**
      * step 1:
@@ -81,20 +84,17 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
      */
     protected abstract void loadDataInitial(final adapter confirmAdapter);
 
-    protected GridLayoutManager mLayoutManager;
-    protected adapter madapter;
-
 
     protected void renderviewlayout(View view) throws Exception {
         listview_layout = (UltimateRecyclerView) view.findViewById(getUltimate_recycler_viewResId());
         listview_layout.setHasFixedSize(true);
         listview_layout.setSaveEnabled(true);
-        listview_layout.setAdapter(madapter = getAdatperWithdata());
         if (mLayoutManager == null) {
             mLayoutManager = new GridLayoutManager(view.getContext(), getColumn(), LinearLayoutManager.VERTICAL, false);
         }
         listview_layout.setLayoutManager(mLayoutManager);
-        getProgressbar(view, R.id.urv_main_progress_bar);
+        getProgressbar(view);
+        listview_layout.setAdapter(madapter = getAdatperWithdata());
         setUltimateRecyclerViewExtra(listview_layout, madapter);
     }
 

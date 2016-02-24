@@ -1,7 +1,7 @@
-package com.marshalchen.ultimaterecyclerview;
+package com.marshalchen.ultimaterecyclerview.quickAdapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Enhanced Google Admob implementation
  * Created by hesk on 20/5/15.
  */
-public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> {
+public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends AdItemHolder> extends easyRegularAdapter<T, BINDHOLDER> {
     public interface AdviewListener<Adv extends ViewGroup> {
         Adv onGenerateAdview();
     }
@@ -25,9 +25,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
      * The ad is only insert once and no more.
      */
     protected boolean once;
-    protected List<T> list;
     protected AdviewListener adviewlistener;
-
     public static final int POSITION_ON_AD = -1;
 
     /**
@@ -48,97 +46,55 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
     /**
      * This is same to the above method
      *
-     * @param adview      The AD mob view
-     * @param insertOnce  only insert once and hold into the adapter object, that means the ad will only shown once in the list view
-     * @param setInterval the order of item to show the ad. if @insertOnce=false the ad will show on interval bases.
-     * @param L           the data source
-     * @param listener    The listener for the admob cell to reveal when the cell is close to appear on the screen
+     * @param advertisement_view The AD mob view
+     * @param insertOnce         only insert once and hold into the adapter object, that means the ad will only shown once in the list view
+     * @param setInterval        the order of item to show the ad. if @insertOnce=false the ad will show on interval bases.
+     * @param L                  the data source
+     * @param listener           The listener for the admob cell to reveal when the cell is close to appear on the screen
      */
-    public AdmobAdapter(Adv adview, boolean insertOnce, int setInterval, List<T> L, AdviewListener listener) {
-        advertise_view = adview;
-        // setHasStableIds(true);
+    public AdmobAdapter(
+            Adv advertisement_view,
+            boolean insertOnce,
+            int setInterval,
+            List<T> L,
+            AdviewListener listener) {
+        super(L);
 
+        // setHasStableIds(true);
         /**
          * Disable focus for sub-views of the AdView to avoid problems with
          * trackpad navigation of the list.
          */
-        for (int i = 0; i < advertise_view.getChildCount(); i++) {
-            advertise_view.getChildAt(i).setFocusable(false);
+        for (int i = 0; i < advertisement_view.getChildCount(); i++) {
+            advertisement_view.getChildAt(i).setFocusable(false);
         }
-        advertise_view.setFocusable(false);
-
+        advertisement_view.setFocusable(false);
         once = insertOnce;
         adfrequency = setInterval + 1;
-        /*  registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        advertise_view = advertisement_view;
+    }
+
+    /**
+     * requirement: ADVIEW
+     *
+     * @param view v
+     * @return holder for this ADVIEW
+     */
+    @Override
+    public RecyclerView.ViewHolder getAdViewHolder(View view) {
+        return new AdItemHolder(adviewlistener.onGenerateAdview(), VIEW_TYPES.ADVIEW) {
             @Override
-            public void onChanged() {
-                super.onChanged();
-                notifyDataSetChanged();
+            protected void bindNormal(View view) {
+
             }
-        });*/
-        list = L;
-    }
 
-    /**
-     * the layout id for the normal data
-     *
-     * @return the ID
-     */
-    protected abstract int getNormalLayoutResId();
+            @Override
+            protected void bindAd(View view) {
 
-    /**
-     * create a new view holder for data binding
-     *
-     * @param mview the view layout with resource initialized
-     * @return the view type
-     */
-    // @Deprecated
-    protected abstract V newViewHolder(View mview);
-
-    /*
-        @Override
-        public V getViewHolder(View view) { return  }
-    */
-    public static class AdHolder extends UltimateRecyclerviewViewHolder {
-        public AdHolder(AdviewListener adviewlistener) {
-            super(adviewlistener.onGenerateAdview());
-        }
-    }
-
-    /**
-     * only on the first creation
-     *
-     * @param parent parent resource
-     * @return the UtimateView
-     */
-    @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
-        return newViewHolder(v);
-    }
-
-    @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //   if (parent == null)
-        //       Log.d("getItemCountE2", "parent is null on viewType: " + viewType);
-        if (viewType == VIEW_TYPES.ADVIEW) {
-            UltimateRecyclerviewViewHolder adview_holder;
-            if (adviewlistener != null) {
-                try {
-                    adview_holder = new AdHolder(adviewlistener);
-                } catch (NullPointerException e) {
-                    adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
-                } catch (Exception e) {
-                    adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
-                }
-            } else {
-                adview_holder = new UltimateRecyclerviewViewHolder(advertise_view);
             }
-            return adview_holder;
-        } else {
-            return super.onCreateViewHolder(parent, viewType);
-        }
+        };
     }
+
 
 /*    @Override
     public int getItemViewType(int position) {
@@ -157,16 +113,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
             return type;
         }
     }*/
-
-    /**
-     * Returns the number of items in the adapter bound to the parent RecyclerView.
-     *
-     * @return The number of items in the bound adapter
-     */
-    @Override
-    public int getAdapterItemCount() {
-        return list.size();
-    }
 
     /**
      * get the display item count
@@ -189,52 +135,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-    public void insert(List<T> new_data) {
-        insertInternal(new_data, list);
-    }
-
-    public void removeAll() {
-        clearInternal(list);
-    }
-
-    public void insertFirst(T item) {
-        insertFirstInternal(list, item);
-    }
-
-    public void insertLast(T item) {
-        insertLastInternal(list, item);
-    }
-
-    public void removeLast() {
-        removeLastInternal(list);
-    }
-
-    public void removeFirst() {
-        removeFirstInternal(list);
-    }
-
-    public void removeAt(int position) {
-        removeInternal(list, position);
-    }
-
-   /* @Override
-
-    public final <T> void insert(final List<T> list, final T object, final int first_insert_data_pos) {
-        try {
-            list.add(first_insert_data_pos, object);
-            final int offset = getReverseDataArrayPosition(first_insert_data_pos);
-            if (isOnAdView(offset) && first_insert_data_pos > 0) {
-                notifyItemRangeChanged(offset, offset + 1);
-            } else {
-                notifyItemInserted(offset);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Log.d("admobErrorMr3", e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            Log.d("admobErrorMr3", e.getMessage());
-        }
-    }*/
-
     /**
      * to insert data with a new list
      *
@@ -256,12 +156,18 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }*/
 
-    /**
-     * default insert that will append the object at the end
-     *
-     * @param object data object
-     */
 
+    /**
+     * indicate if the touch position is at the Adview
+     *
+     * @param pos in raw
+     * @return in raw
+     */
+    @Override
+    protected boolean isOnAdView(int pos) {
+        final int zero_for_admob_selection = (pos + 1) % adfrequency;
+        return zero_for_admob_selection == 0;
+    }
 
     /**
      * Todo: need to resolve this problem when it crash
@@ -311,10 +217,9 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         }
     }
 
-
-    protected T getItem(int pos) {
+    /*protected T getItem(int pos) {
         return list.get(getDataArrayPosition(pos));
-    }
+    }*/
 
     /**
      * data binding related position shifting
@@ -354,17 +259,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, V extends UltimateR
         return dataPos + shift;
     }
 
-    /**
-     * indicate if the touch position is at the Adview
-     *
-     * @param pos in raw
-     * @return in raw
-     */
-    @Override
-    protected boolean isOnAdView(int pos) {
-        final int zero_for_admob_selection = (pos + 1) % adfrequency;
-        return zero_for_admob_selection == 0;
-    }
 
     /**
      * the API access for adview indication

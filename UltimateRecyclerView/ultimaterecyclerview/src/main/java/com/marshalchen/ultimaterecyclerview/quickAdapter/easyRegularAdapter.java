@@ -48,7 +48,12 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         return new UltimateRecyclerviewViewHolder(view);
     }
 
-
+    /**
+     * this MUST BE USING THE NORMAL VIEW
+     *
+     * @param parent view group parent
+     * @return THE HOLDER
+     */
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
@@ -91,6 +96,13 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
 
     }
 
+    /**
+     * binding normal view holder
+     *
+     * @param holder   holder class
+     * @param data     data
+     * @param position position
+     */
     protected abstract void withBindHolder(final BINDHOLDER holder, final T data, final int position);
 
 
@@ -138,8 +150,8 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         swapPositions(source, from, to);
     }
 
-    public void setStableId(boolean b){
-        if(!hasObservers()){
+    public void setStableId(boolean b) {
+        if (!hasObservers()) {
             setHasStableIds(b);
         }
     }

@@ -3,6 +3,7 @@ package com.marshalchen.ultimaterecyclerview.appPaginator;
 import android.app.Fragment;
 import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -11,7 +12,7 @@ import com.marshalchen.ultimaterecyclerview.R;
 /**
  * Created by hesk on 15/2/16.
  */
-public class paginator extends Fragment {
+public abstract class paginator extends Fragment {
     private int currentPage, totalPages, pagePerItems, landscape_common_colums = 4, portrait_common_colums = 2;
     private String tag_keyword, fullEndPoint, searchKeyword;
     private boolean enable_load_more, is_new_search;
@@ -24,6 +25,28 @@ public class paginator extends Fragment {
             //unable to find loading progress bar
         }
     }
+
+    protected void getProgressbar(View view) {
+        try {
+            mProgress = (ProgressBar) view.findViewById(getRefresherProgressBarId());
+        } catch (Exception e) {
+            //unable to find loading progress bar
+        }
+    }
+
+    @IdRes
+    protected abstract int getRefresherProgressBarId();
+
+    @IdRes
+    protected abstract int getUltimate_recycler_viewResId();
+
+    @LayoutRes
+    protected abstract int getFragmentResId();
+
+    protected abstract void onClickItem(final String route);
+
+    protected abstract void onClickItem(final long route_id);
+
 
     protected void showLoadingCircle() {
         if (mProgress != null) {
