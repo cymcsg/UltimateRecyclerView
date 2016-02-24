@@ -97,7 +97,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
     }
 
     private void enableEmptyView() {
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE, UltimateRecyclerView.STARTWITH_ONLINE_ITEMS);
     }
 
     private void enableClick() {
@@ -137,12 +137,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
         /**
          * working example 2 with multiple called Adviews
          */
-        simpleRecyclerViewAdapter = new ZeroStickyAdvertistmentAdapter(createadmob(), 11, SampleDataboxset.newListFromGen(), new AdmobAdapter.AdviewListener() {
-            @Override
-            public AdView onGenerateAdview() {
-                return createadmob();
-            }
-        });
+        simpleRecyclerViewAdapter = new ZeroStickyAdvertistmentAdapter(createadmob(), SampleDataboxset.newListFromGen());
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);

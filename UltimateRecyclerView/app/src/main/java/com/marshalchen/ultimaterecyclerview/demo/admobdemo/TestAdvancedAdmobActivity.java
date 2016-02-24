@@ -47,8 +47,8 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
     public static class adap extends AdmobAdapter<RelativeLayout, String, SingleItemHolder> {
 
-        public adap(RelativeLayout v, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
-            super(v, insertOnce, setInterval, L, listener);
+        public adap(RelativeLayout v, List<String> L) {
+            super(v, false, 13, L, null);
         }
 
 
@@ -72,7 +72,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
          */
         @Override
         protected void withBindHolder(SingleItemHolder holder, String data, int position) {
-
+            bindthisInhere(holder, data, position);
         }
 
     }
@@ -166,13 +166,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 10, new ArrayList<String>(),
-                new AdmobAdapter.AdviewListener() {
-                    @Override
-                    public RelativeLayout onGenerateAdview() {
-                        return createadmob();
-                    }
-                });
+        final adap adp1 = new adap(createadmob(), new ArrayList<String>());
         final regular adp2 = new regular(new ArrayList<String>());
         final BiAdAdapterSwitcher switchable = new BiAdAdapterSwitcher(rv, adp2, adp1);
         return switchable;

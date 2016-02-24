@@ -31,6 +31,7 @@ public class ZeroStickyAdvertistmentAdapter extends AdmobAdapter<AdView, String,
     }
 
 
+
     @Override
     protected int getNormalLayoutResId() {
         return R.layout.recycler_view_adapter;

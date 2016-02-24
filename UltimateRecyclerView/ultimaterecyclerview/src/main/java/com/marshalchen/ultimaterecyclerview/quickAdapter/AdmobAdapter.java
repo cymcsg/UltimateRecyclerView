@@ -1,5 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.quickAdapter;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -53,11 +54,11 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      * @param listener           The listener for the admob cell to reveal when the cell is close to appear on the screen
      */
     public AdmobAdapter(
-            Adv advertisement_view,
+            final Adv advertisement_view,
             boolean insertOnce,
             int setInterval,
             List<T> L,
-            AdviewListener listener) {
+            @Nullable AdviewListener listener) {
         super(L);
 
         // setHasStableIds(true);
@@ -72,6 +73,15 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
         once = insertOnce;
         adfrequency = setInterval + 1;
         advertise_view = advertisement_view;
+        if (listener == null) {
+            adviewlistener = new AdviewListener() {
+                @Override
+                public ViewGroup onGenerateAdview() {
+                    return advertisement_view;
+                }
+            };
+        } else
+            adviewlistener = listener;
     }
 
     /**
@@ -276,7 +286,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      * @param pos raw touch position
      * @return the placement for the ad position
      */
-    public int atAdPos(final int pos) {
+    public final int atAdPos(final int pos) {
         final int take_int = (int) Math.floor((pos + 1) / adfrequency);
         Log.d("atAdPosE2", take_int + "");
         return take_int;
@@ -288,7 +298,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      * @param pos initial number
      * @return the number
      */
-    public int getFinalShiftPosition(int pos) {
+    public final int getFinalShiftPosition(int pos) {
         return getDataArrayPosition(pos);
     }
 }

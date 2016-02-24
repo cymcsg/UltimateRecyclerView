@@ -29,7 +29,7 @@ public class BiAdAdapterSwitcher<
         //DATA TYPE
         T,
         //The view holder
-        B extends UltimateRecyclerviewViewHolder,
+        B extends AdItemHolder,
         //THE regular adapter
         EASY extends easyRegularAdapter<T, B>,
         //THE Viewgroup from the google Adview
