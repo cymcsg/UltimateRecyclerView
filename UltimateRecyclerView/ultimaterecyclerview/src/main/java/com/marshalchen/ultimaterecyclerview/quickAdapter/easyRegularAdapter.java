@@ -48,7 +48,12 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         return new UltimateRecyclerviewViewHolder(view);
     }
 
-
+    /**
+     * this MUST BE USING THE NORMAL VIEW
+     *
+     * @param parent view group parent
+     * @return THE HOLDER
+     */
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(getNormalLayoutResId(), parent, false);
@@ -73,29 +78,64 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position == getAdapterItemCount()) return;
-        if (getItemViewType(position) == VIEW_TYPES.NORMAL) {
-            withBindHolder((BINDHOLDER) holder, source.get(position), position);
+        //    if (position >= getAdapterItemCount()) return;
+        if (getItemViewType(position) == VIEW_TYPES.ADVIEW) {
+            onBindAdViewHolder(holder, position);
+        } else if (getItemViewType(position) == VIEW_TYPES.CUSTOMVIEW) {
+            onBindCustomViewHolder(holder, position);
         } else if (getItemViewType(position) == VIEW_TYPES.HEADER) {
-            // bindHeader(holder, position);
+            onBindHeaderViewHolder(holder, position);
         } else if (getItemViewType(position) == VIEW_TYPES.FOOTER) {
-            // bindFooter(holder, position);
+            onBindFooterViewHolder(holder, position);
+        } else if (getItemViewType(position) == VIEW_TYPES.NORMAL) {
+            // if (position >= getAdapterItemCount()) return;
+            withBindHolder((BINDHOLDER) holder, source.get(getItemDataPosFromInternalPos(position)), position);
         }
     }
 
-    protected void bindFooter(RecyclerView.ViewHolder holder, final int pos) {
 
+    protected int getItemDataPosFromInternalPos(final int touch_position) {
+        int shift = 0;
+        if (hasHeaderView()) shift--;
+        int prefinal = touch_position + shift;
+        if (prefinal >= getAdapterItemCount()) {
+            return 0;
+        } else if (prefinal < 0) {
+            return 0;
+        }
+        return prefinal;
     }
 
-    protected void bindHeader(RecyclerView.ViewHolder holder, final int pos) {
 
-    }
-
+    /**
+     * binding normal view holder
+     *
+     * @param holder   holder class
+     * @param data     data
+     * @param position position
+     */
     protected abstract void withBindHolder(final BINDHOLDER holder, final T data, final int position);
 
-
+    /**
+     * this is the implementation from sticky viewholder interface
+     *
+     * @param viewHolder ViewHolder
+     * @param pos        position
+     */
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int pos) {
+
+    }
+
+    protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, final int pos) {
+
+    }
+
+    protected void onBindCustomViewHolder(RecyclerView.ViewHolder holder, final int pos) {
+
+    }
+
+    protected void onBindAdViewHolder(RecyclerView.ViewHolder holder, final int pos) {
 
     }
 
@@ -138,8 +178,8 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         swapPositions(source, from, to);
     }
 
-    public void setStableId(boolean b){
-        if(!hasObservers()){
+    public void setStableId(boolean b) {
+        if (!hasObservers()) {
             setHasStableIds(b);
         }
     }

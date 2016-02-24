@@ -1,10 +1,9 @@
-package com.marshalchen.ultimaterecyclerview.appPaginator;
+package com.marshalchen.ultimaterecyclerview.appPaginator.v4;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;

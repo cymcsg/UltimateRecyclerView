@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.admobdemo.admobdfpadapter;
+import com.marshalchen.ultimaterecyclerview.demo.admobdemo.ZeroStickyAdvertistmentAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 
 import java.util.ArrayList;
@@ -45,10 +45,10 @@ public class SampleDataboxset {
         return s;
     }
 
-    private static void genItems(final int howmany, final List<String> list) {
+    public static void genItems(final int howmany, final List<String> list) {
         for (int i = 0; i < howmany; i++) {
             Random e = new Random();
-            list.add(girl_name[e.nextInt(girl_name.length)]);
+            list.add("No." + i + " " + girl_name[e.nextInt(girl_name.length)]);
         }
     }
 
@@ -86,7 +86,7 @@ public class SampleDataboxset {
         return res[e.nextInt(res.length)];
     }
 
-    public static void insertMore(admobdfpadapter sd, int howmany) {
+    public static void insertMore(ZeroStickyAdvertistmentAdapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
             sd.insertFirst("More items " + i);
         }

@@ -1,11 +1,9 @@
-package com.marshalchen.ultimaterecyclerview.appPaginator;
+package com.marshalchen.ultimaterecyclerview.appPaginator.v4;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,21 +14,20 @@ import com.marshalchen.ultimaterecyclerview.R;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 /**
- * Created by hesk on 15/2/16.
+ * Created by hesk on 30/6/15.
  */
-public abstract class catelogGrid<adapter extends easyRegularAdapter, binder extends UltimateRecyclerviewViewHolder> extends paginator {
+public abstract class catelogLinear<adapter extends easyRegularAdapter, binder extends UltimateRecyclerviewViewHolder> extends paginator {
     public static String TAG = "catelog";
     public final static String BRAND_NAME = "BrandName", SLUG = "slug", REQUEST_TYPE = "typerequest";
     public UltimateRecyclerView listview_layout;
-
     public static String URL = "data_url";
     public static String FRAGMENTTITLE = "fragment_title";
     public static String SAVELOADDATA = "item_list";
     public static String HASSAVEFILTER = "filter";
-    protected GridLayoutManager mLayoutManager;
+    protected LinearLayoutManager mLayoutManager;
     protected adapter madapter;
 
     protected abstract adapter getAdatperWithdata();
@@ -52,20 +49,15 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
         return inflater.inflate(getFragmentResId(), container, false);
     }
 
-    @Override
     @IdRes
     protected int getUltimate_recycler_viewResId() {
         return R.id.urv_main_list;
     }
 
-    @Override
     @IdRes
     protected int getRefresherProgressBarId() {
         return R.id.urv_main_progress_bar;
     }
-
-    protected abstract int getColumn();
-
 
     /**
      * step 1:
@@ -90,14 +82,17 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
         listview_layout.setHasFixedSize(true);
         listview_layout.setSaveEnabled(true);
         if (mLayoutManager == null) {
-            mLayoutManager = new GridLayoutManager(view.getContext(), getColumn(), LinearLayoutManager.VERTICAL, false);
+            mLayoutManager = new ScrollSmoothLineaerLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false, getSmoothDuration());
         }
         listview_layout.setLayoutManager(mLayoutManager);
-        getProgressbar(view);
         listview_layout.setAdapter(madapter = getAdatperWithdata());
+        getProgressbar(view);
         setUltimateRecyclerViewExtra(listview_layout, madapter);
     }
 
+    protected int getSmoothDuration() {
+        return 300;
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -115,5 +110,6 @@ public abstract class catelogGrid<adapter extends easyRegularAdapter, binder ext
         }
 
     }
+
 
 }

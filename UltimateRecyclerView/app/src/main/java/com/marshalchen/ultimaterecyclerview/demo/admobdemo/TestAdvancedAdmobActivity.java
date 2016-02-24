@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -21,14 +22,13 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.marshalchen.ultimaterecyclerview.quickAdapter.simpleAdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.BiAdAdapterSwitcher;
 import com.marshalchen.ultimaterecyclerview.ui.AdGoogleDisplaySupport;
 
@@ -45,16 +45,12 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private BiAdAdapterSwitcher bi_sw;
 
-    public static class adap extends simpleAdmobAdapter<String, VMoler, RelativeLayout> {
+    public static class adap extends AdmobAdapter<RelativeLayout, String, SingleItemHolder> {
 
-        public adap(RelativeLayout v, boolean insertOnce, int setInterval, List<String> L, AdviewListener listener) {
-            super(v, insertOnce, setInterval, L, listener);
+        public adap(RelativeLayout v, List<String> L) {
+            super(v, false, 13, L, null);
         }
 
-        @Override
-        protected void withBindHolder(VMoler var1, String var2, int var3) {
-            bindthisInhere(var1, var2, var3);
-        }
 
         @Override
         protected int getNormalLayoutResId() {
@@ -63,13 +59,25 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
 
         @Override
-        protected VMoler newViewHolder(View mview) {
-            return new VMoler(mview);
+        protected SingleItemHolder newViewHolder(View mview) {
+            return new SingleItemHolder(mview, VIEW_TYPES.NORMAL);
+        }
+
+        /**
+         * binding normal view holder
+         *
+         * @param holder   holder class
+         * @param data     data
+         * @param position position
+         */
+        @Override
+        protected void withBindHolder(SingleItemHolder holder, String data, int position) {
+            bindthisInhere(holder, data, position);
         }
 
     }
 
-    public static class regular extends easyRegularAdapter<String, VMoler> {
+    public static class regular extends easyRegularAdapter<String, SingleItemHolder> {
 
         public regular(List list) {
             super(list);
@@ -81,17 +89,17 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         }
 
         @Override
-        protected VMoler newViewHolder(View view) {
-            return new VMoler(view);
+        protected SingleItemHolder newViewHolder(View view) {
+            return new SingleItemHolder(view, VIEW_TYPES.NORMAL);
         }
 
         @Override
-        protected void withBindHolder(VMoler holderm, String data, int position) {
+        protected void withBindHolder(SingleItemHolder holderm, String data, int position) {
             bindthisInhere(holderm, data, position);
         }
     }
 
-    private static void bindthisInhere(VMoler d, String data, int pos) {
+    private static void bindthisInhere(SingleItemHolder d, String data, int pos) {
         d.textViewSample.setText(data);
         d.num.setText("@:" + pos);
     }
@@ -154,45 +162,11 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     }
 
 
-    public static class VMoler extends UltimateRecyclerviewViewHolder implements
-            View.OnClickListener, View.OnLongClickListener {
-        public TextView textViewSample, num;
-        public ImageView imageViewSample;
-        public ProgressBar progressBarSample;
-
-        public VMoler(View itemView) {
-            super(itemView);
-            textViewSample = (TextView) itemView.findViewById(R.id.textview);
-            num = (TextView) itemView.findViewById(R.id.numb_coun);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-            progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            progressBarSample.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onClick(@NonNull View v) {
-            URLogs.d(textViewSample.getText() + " clicked!");
-        }
-
-        @Override
-        public boolean onLongClick(@NonNull View v) {
-            URLogs.d(textViewSample.getText() + " long clicked!");
-            return true;
-        }
-    }
-
-
     /**
      * example 1 implementation of the switch view
      */
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
-        final adap adp1 = new adap(createadmob(), false, 10, new ArrayList<String>(),
-                new AdmobAdapter.AdviewListener() {
-                    @Override
-                    public RelativeLayout onGenerateAdview() {
-                        return createadmob();
-                    }
-                });
+        final adap adp1 = new adap(createadmob(), new ArrayList<String>());
         final regular adp2 = new regular(new ArrayList<String>());
         final BiAdAdapterSwitcher switchable = new BiAdAdapterSwitcher(rv, adp2, adp1);
         return switchable;

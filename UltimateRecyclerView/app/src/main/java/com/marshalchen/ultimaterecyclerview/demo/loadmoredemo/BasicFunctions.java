@@ -1,7 +1,5 @@
 package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,35 +28,6 @@ import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutMan
  * Created by hesk on 19/2/16.
  */
 public abstract class BasicFunctions extends AppCompatActivity {
-    enum Route {
-        CUSTOM_PULL_HEADER("Custom Pull", PullToRefreshActivity.class),
-        LOADMORE_TEST("No Header", DNoHeaderLoadMoreActivity.class),
-        LOADMORE_HEADER("Header Pallx", DebugLoadMoreActivity.class),;
-
-        private String name;
-        private Class<?> clazzna;
-
-        Route(String name, Class<?> clazz) {
-            this.name = name;
-            this.clazzna = clazz;
-        }
-
-        public Route getAnimator() {
-
-            return this;
-        }
-
-
-        public String getNameDisplay() {
-            return name;
-        }
-
-        public void start(final Context ctx) {
-            Intent intent = new Intent(ctx, clazzna);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            ctx.startActivity(intent);
-        }
-    }
 
     protected UltimateRecyclerView ultimateRecyclerView;
 

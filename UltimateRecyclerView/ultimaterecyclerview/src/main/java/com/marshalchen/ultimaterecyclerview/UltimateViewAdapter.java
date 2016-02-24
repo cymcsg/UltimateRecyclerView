@@ -56,12 +56,12 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      *
      * @param customview the inflated view
      */
-    public void setCustomLoadMoreView(@Nullable View customview) {
+    public final void setCustomLoadMoreView(@Nullable View customview) {
         customLoadMoreView = customview;
     }
 
 
-    public View getCustomLoadMoreView() {
+    public final View getCustomLoadMoreView() {
         return customLoadMoreView;
     }
 
@@ -70,7 +70,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      *
      * @return determine this is a get function
      */
-    public boolean enableLoadMore() {
+    public final boolean enableLoadMore() {
         return enabled_custom_load_more_view;
     }
 
@@ -79,7 +79,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      *
      * @param b bool
      */
-    public void enableLoadMore(boolean b) {
+    public final void enableLoadMore(boolean b) {
         enabled_custom_load_more_view = b;
         if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
             notifyItemRemoved(getItemCount() - 1);
@@ -90,11 +90,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         loadmoresetingswatch++;
     }
 
-    public void setEmptyViewPolicy(final int policy) {
+    public final void setEmptyViewPolicy(final int policy) {
         mEmptyViewPolicy = policy;
     }
 
-    public void setEmptyViewOnInitPolicy(final int policy) {
+    public final void setEmptyViewOnInitPolicy(final int policy) {
         mEmptyViewOnInitPolicy = policy;
     }
 

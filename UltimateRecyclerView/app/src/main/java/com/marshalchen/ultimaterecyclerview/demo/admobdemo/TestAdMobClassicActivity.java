@@ -7,9 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +16,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.marshalchen.ultimaterecyclerview.AdmobAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
@@ -29,10 +27,10 @@ import java.util.ArrayList;
 /**
  * Created by hesk on 20/5/15.
  */
-public class TestAdMob extends AppCompatActivity {
+public class TestAdMobClassicActivity extends AppCompatActivity {
 
     private UltimateRecyclerView ultimateRecyclerView;
-    private admobdfpadapter simpleRecyclerViewAdapter = null;
+    private ZeroStickyAdvertistmentAdapter simpleRecyclerViewAdapter = null;
     private LinearLayoutManager linearLayoutManager;
     private int moreNum = 2;
     private ActionMode actionMode;
@@ -79,18 +77,16 @@ public class TestAdMob extends AppCompatActivity {
     }
 
     private void enableLoadMore() {
-
         ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+            public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         ArrayList<String> li = new ArrayList<String>();
-                        li.add("i " + moreNum++);
-                        li.add("i " + moreNum++);
-                        li.add("i " + moreNum++);
+                        li.add("No. ====" + itemsCount + "=======");
+                        SampleDataboxset.genItems(10, li);
                         simpleRecyclerViewAdapter.insert(li);
                     }
                 }, 1000);
@@ -99,7 +95,7 @@ public class TestAdMob extends AppCompatActivity {
     }
 
     private void enableEmptyView() {
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE, UltimateRecyclerView.STARTWITH_ONLINE_ITEMS);
     }
 
     private void enableClick() {
@@ -139,12 +135,7 @@ public class TestAdMob extends AppCompatActivity {
         /**
          * working example 2 with multiple called Adviews
          */
-        simpleRecyclerViewAdapter = new admobdfpadapter(createadmob(), 11, SampleDataboxset.newListFromGen(), new AdmobAdapter.AdviewListener() {
-            @Override
-            public AdView onGenerateAdview() {
-                return createadmob();
-            }
-        });
+        simpleRecyclerViewAdapter = new ZeroStickyAdvertistmentAdapter(createadmob(), SampleDataboxset.newListFromGen());
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);

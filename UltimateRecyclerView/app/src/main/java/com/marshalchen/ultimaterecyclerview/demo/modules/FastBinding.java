@@ -8,7 +8,7 @@ import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.PullToRefreshActiv
 import com.marshalchen.ultimaterecyclerview.demo.griddemo.GridLayoutRVTest;
 import com.marshalchen.ultimaterecyclerview.demo.multiitemdemo.MultiViewTypesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdMob;
+import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdMobClassicActivity;
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.DebugLoadMoreActivity;
 import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdvancedAdmobActivity;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
@@ -20,7 +20,7 @@ import com.marshalchen.ultimaterecyclerview.demo.expandemo.TestExpandableRV;
 public enum FastBinding {
     action_bottom(R.id.action_bottom, MultiViewTypesActivity.class),
     action_custom(R.id.action_custom, PullToRefreshActivity.class),
-    admob(R.id.admob, TestAdMob.class),
+    admob(R.id.admob, TestAdMobClassicActivity.class),
     scrollactivity(R.id.scrollactivity, ScrollObservablesActivity.class),
    // swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
     debug_load_more(R.id.debug_load_more, DebugLoadMoreActivity.class),
