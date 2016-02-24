@@ -37,3 +37,4 @@ dependencies {
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'
 //apply from: 'bintray-release-aar.gradle'
+apply from: 'bintray_3_4.gradle'
