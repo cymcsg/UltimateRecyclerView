@@ -1,0 +1,280 @@
+<html>
+<head>
+<title>SwipeDismissTouchListener.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(104,151,187); }
+.s4 { color: rgb(98,151,85); font-style: italic; }
+.s5 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s6 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+SwipeDismissTouchListener.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ * Copyright 2013 Google Inc. 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">android.animation.Animator</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.animation.AnimatorListenerAdapter</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.animation.ValueAnimator</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.MotionEvent</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.VelocityTracker</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.View</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.ViewConfiguration</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.ViewGroup</span><span class="s2">;</span><span class="s1"> 
+ 
+@Deprecated 
+</span><span class="s2">public class </span><span class="s1">SwipeDismissTouchListener </span><span class="s2">implements </span><span class="s1">View.OnTouchListener { 
+    </span><span class="s0">// Cached ViewConfiguration and system-wide constant values</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mSlop</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mMinFlingVelocity</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mMaxFlingVelocity</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private long </span><span class="s1">mAnimationTime</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s0">// Fixed properties</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">View mView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">SwipeDismissCallbacks mCallbacks</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mViewWidth = </span><span class="s3">1</span><span class="s2">; </span><span class="s0">// 1 and not 0 to prevent dividing by zero</span><span class="s1"> 
+ 
+    </span><span class="s0">// Transient properties</span><span class="s1"> 
+    </span><span class="s2">private float </span><span class="s1">mDownX</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private float </span><span class="s1">mDownY</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">mSwiping</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mSwipingSlop</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">Object mToken</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">VelocityTracker mVelocityTracker</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private float </span><span class="s1">mTranslationX</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s4">/** 
+     * The callback interface used by {</span><span class="s5">@link </span><span class="s4">com.marshalchen.ultimaterecyclerview.SwipeDismissTouchListener} to inform its client 
+     * about a successful dismissal of the view for which it was created. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public interface </span><span class="s1">SwipeDismissCallbacks { 
+        </span><span class="s4">/** 
+         * Called to determine whether the view can be dismissed. 
+         * 
+         * </span><span class="s5">@param </span><span class="s4">token na 
+         * </span><span class="s5">@return </span><span class="s4">na 
+         */</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">canDismiss(Object token)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s4">/** 
+         * Called when the user has indicated they she would like to dismiss the view. 
+         * 
+         * </span><span class="s5">@param </span><span class="s4">view  The originating {</span><span class="s5">@link </span><span class="s4">android.view.View} to be dismissed. 
+         * </span><span class="s5">@param </span><span class="s4">token The optional token passed to this object's constructor. 
+         */</span><span class="s1"> 
+        </span><span class="s2">void </span><span class="s1">onDismiss(View view</span><span class="s2">, </span><span class="s1">Object token)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s4">/** 
+     * Constructs a new swipe-to-dismiss touch listener for the given view. 
+     * 
+     * </span><span class="s5">@param </span><span class="s4">view      The view to make dismissable. 
+     * </span><span class="s5">@param </span><span class="s4">token     An optional token/cookie object to be passed through to the callback. 
+     * </span><span class="s5">@param </span><span class="s4">callbacks The callback to trigger when the user has indicated that she would like to 
+     *                  dismiss this view. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">SwipeDismissTouchListener(View view</span><span class="s2">, </span><span class="s1">Object token</span><span class="s2">, </span><span class="s1">SwipeDismissCallbacks callbacks) { 
+        ViewConfiguration vc = ViewConfiguration.get(view.getContext())</span><span class="s2">;</span><span class="s1"> 
+        mSlop = vc.getScaledTouchSlop()</span><span class="s2">;</span><span class="s1"> 
+        mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * </span><span class="s3">16</span><span class="s2">;</span><span class="s1"> 
+        mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity()</span><span class="s2">;</span><span class="s1"> 
+        mAnimationTime = view.getContext().getResources().getInteger( 
+                android.R.integer.config_shortAnimTime)</span><span class="s2">;</span><span class="s1"> 
+        mView = view</span><span class="s2">;</span><span class="s1"> 
+        mToken = token</span><span class="s2">;</span><span class="s1"> 
+        mCallbacks = callbacks</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onTouch(View view</span><span class="s2">, </span><span class="s1">MotionEvent motionEvent) { 
+        </span><span class="s0">// offset because the view is translated during swipe</span><span class="s1"> 
+        motionEvent.offsetLocation(mTranslationX</span><span class="s2">, </span><span class="s3">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(mViewWidth &lt; </span><span class="s3">2</span><span class="s1">) { 
+            mViewWidth = mView.getWidth()</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">switch </span><span class="s1">(motionEvent.getActionMasked()) { 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_DOWN: { 
+                </span><span class="s0">// TODO: ensure this is a finger, and set a flag</span><span class="s1"> 
+                mDownX = motionEvent.getRawX()</span><span class="s2">;</span><span class="s1"> 
+                mDownY = motionEvent.getRawY()</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(mCallbacks.canDismiss(mToken)) { 
+                    mVelocityTracker = VelocityTracker.obtain()</span><span class="s2">;</span><span class="s1"> 
+                    mVelocityTracker.addMovement(motionEvent)</span><span class="s2">;</span><span class="s1"> 
+                } 
+                </span><span class="s2">return true;</span><span class="s1"> 
+            } 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_UP: { 
+                </span><span class="s2">if </span><span class="s1">(mVelocityTracker == </span><span class="s2">null</span><span class="s1">) { 
+                    </span><span class="s2">break;</span><span class="s1"> 
+                } 
+ 
+                </span><span class="s2">float </span><span class="s1">deltaX = motionEvent.getRawX() - mDownX</span><span class="s2">;</span><span class="s1"> 
+                mVelocityTracker.addMovement(motionEvent)</span><span class="s2">;</span><span class="s1"> 
+                mVelocityTracker.computeCurrentVelocity(</span><span class="s3">1000</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">float </span><span class="s1">velocityX = mVelocityTracker.getXVelocity()</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">float </span><span class="s1">absVelocityX = Math.abs(velocityX)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">float </span><span class="s1">absVelocityY = Math.abs(mVelocityTracker.getYVelocity())</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">boolean </span><span class="s1">dismiss = </span><span class="s2">false;</span><span class="s1"> 
+                </span><span class="s2">boolean </span><span class="s1">dismissRight = </span><span class="s2">false;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(Math.abs(deltaX) &gt; mViewWidth / </span><span class="s3">2 </span><span class="s1">&amp;&amp; mSwiping) { 
+                    dismiss = </span><span class="s2">true;</span><span class="s1"> 
+                    dismissRight = deltaX &gt; </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                } </span><span class="s2">else if </span><span class="s1">(mMinFlingVelocity &lt;= absVelocityX &amp;&amp; absVelocityX &lt;= mMaxFlingVelocity 
+                        &amp;&amp; absVelocityY &lt; absVelocityX 
+                        &amp;&amp; absVelocityY &lt; absVelocityX &amp;&amp; mSwiping) { 
+                    </span><span class="s0">// dismiss only if flinging in the same direction as dragging</span><span class="s1"> 
+                    dismiss = (velocityX &lt; </span><span class="s3">0</span><span class="s1">) == (deltaX &lt; </span><span class="s3">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                    dismissRight = mVelocityTracker.getXVelocity() &gt; </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                } 
+                </span><span class="s2">if </span><span class="s1">(dismiss) { 
+                    </span><span class="s0">// dismiss</span><span class="s1"> 
+                    mView.animate() 
+                            .translationX(dismissRight ? mViewWidth : -mViewWidth) 
+                            .alpha(</span><span class="s3">0</span><span class="s1">) 
+                            .setDuration(mAnimationTime) 
+                            .setListener(</span><span class="s2">new </span><span class="s1">AnimatorListenerAdapter() { 
+                                @Override 
+                                </span><span class="s2">public void </span><span class="s1">onAnimationEnd(Animator animation) { 
+                                    performDismiss()</span><span class="s2">;</span><span class="s1"> 
+                                } 
+                            })</span><span class="s2">;</span><span class="s1"> 
+                } </span><span class="s2">else if </span><span class="s1">(mSwiping) { 
+                    </span><span class="s0">// cancel</span><span class="s1"> 
+                    mView.animate() 
+                            .translationX(</span><span class="s3">0</span><span class="s1">) 
+                            .alpha(</span><span class="s3">1</span><span class="s1">) 
+                            .setDuration(mAnimationTime) 
+                            .setListener(</span><span class="s2">null</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                } 
+                mVelocityTracker.recycle()</span><span class="s2">;</span><span class="s1"> 
+                mVelocityTracker = </span><span class="s2">null;</span><span class="s1"> 
+                mTranslationX = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mDownX = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mDownY = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mSwiping = </span><span class="s2">false;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+            } 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_CANCEL: { 
+                </span><span class="s2">if </span><span class="s1">(mVelocityTracker == </span><span class="s2">null</span><span class="s1">) { 
+                    </span><span class="s2">break;</span><span class="s1"> 
+                } 
+ 
+                mView.animate() 
+                        .translationX(</span><span class="s3">0</span><span class="s1">) 
+                        .alpha(</span><span class="s3">1</span><span class="s1">) 
+                        .setDuration(mAnimationTime) 
+                        .setListener(</span><span class="s2">null</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                mVelocityTracker.recycle()</span><span class="s2">;</span><span class="s1"> 
+                mVelocityTracker = </span><span class="s2">null;</span><span class="s1"> 
+                mTranslationX = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mDownX = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mDownY = </span><span class="s3">0</span><span class="s2">;</span><span class="s1"> 
+                mSwiping = </span><span class="s2">false;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+            } 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_MOVE: { 
+                </span><span class="s2">if </span><span class="s1">(mVelocityTracker == </span><span class="s2">null</span><span class="s1">) { 
+                    </span><span class="s2">break;</span><span class="s1"> 
+                } 
+ 
+                mVelocityTracker.addMovement(motionEvent)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">float </span><span class="s1">deltaX = motionEvent.getRawX() - mDownX</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">float </span><span class="s1">deltaY = motionEvent.getRawY() - mDownY</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(Math.abs(deltaX) &gt; mSlop &amp;&amp; Math.abs(deltaY) &lt; Math.abs(deltaX) / </span><span class="s3">2</span><span class="s1">) { 
+                    mSwiping = </span><span class="s2">true;</span><span class="s1"> 
+                    mSwipingSlop = (deltaX &gt; </span><span class="s3">0 </span><span class="s1">? mSlop : -mSlop)</span><span class="s2">;</span><span class="s1"> 
+                    mView.getParent().requestDisallowInterceptTouchEvent(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+ 
+                    </span><span class="s0">// Cancel listview's touch</span><span class="s1"> 
+                    MotionEvent cancelEvent = MotionEvent.obtain(motionEvent)</span><span class="s2">;</span><span class="s1"> 
+                    cancelEvent.setAction(MotionEvent.ACTION_CANCEL | 
+                            (motionEvent.getActionIndex() &lt;&lt; 
+                                    MotionEvent.ACTION_POINTER_INDEX_SHIFT))</span><span class="s2">;</span><span class="s1"> 
+                    mView.onTouchEvent(cancelEvent)</span><span class="s2">;</span><span class="s1"> 
+                    cancelEvent.recycle()</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                </span><span class="s2">if </span><span class="s1">(mSwiping) { 
+                    mTranslationX = deltaX</span><span class="s2">;</span><span class="s1"> 
+                    mView.setTranslationX(deltaX - mSwipingSlop)</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s0">// TODO: use an ease-out interpolator or such</span><span class="s1"> 
+                    mView.setAlpha(Math.max(</span><span class="s3">0f</span><span class="s2">, </span><span class="s1">Math.min(</span><span class="s3">1f</span><span class="s2">,</span><span class="s1"> 
+                            </span><span class="s3">1f </span><span class="s1">- </span><span class="s3">2f </span><span class="s1">* Math.abs(deltaX) / mViewWidth)))</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">return true;</span><span class="s1"> 
+                } 
+                </span><span class="s2">break;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">performDismiss() { 
+        </span><span class="s0">// Animate the dismissed view to zero-height and then fire the dismiss callback.</span><span class="s1"> 
+        </span><span class="s0">// This triggers layout on each animation frame; in the future we may want to do something</span><span class="s1"> 
+        </span><span class="s0">// smarter and more performant.</span><span class="s1"> 
+        URLogs.d(</span><span class="s6">&quot;performDismiss&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">final </span><span class="s1">ViewGroup.LayoutParams lp = mView.getLayoutParams()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">originalHeight = mView.getHeight()</span><span class="s2">;</span><span class="s1"> 
+ 
+        ValueAnimator animator = ValueAnimator.ofInt(originalHeight</span><span class="s2">, </span><span class="s3">1</span><span class="s1">).setDuration(mAnimationTime)</span><span class="s2">;</span><span class="s1"> 
+ 
+        animator.addListener(</span><span class="s2">new </span><span class="s1">AnimatorListenerAdapter() { 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onAnimationEnd(Animator animation) { 
+                mCallbacks.onDismiss(mView</span><span class="s2">, </span><span class="s1">mToken)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s0">// Reset view presentation</span><span class="s1"> 
+                mView.setAlpha(</span><span class="s3">1f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                mView.setTranslationX(</span><span class="s3">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                lp.height = originalHeight</span><span class="s2">;</span><span class="s1"> 
+                mView.setLayoutParams(lp)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        })</span><span class="s2">;</span><span class="s1"> 
+ 
+        animator.addUpdateListener(</span><span class="s2">new </span><span class="s1">ValueAnimator.AnimatorUpdateListener() { 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onAnimationUpdate(ValueAnimator valueAnimator) { 
+                lp.height = (Integer) valueAnimator.getAnimatedValue()</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s0">// if (lp.height &gt; 100)</span><span class="s1"> 
+                mView.setLayoutParams(lp)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s0">//  mView.setVisibility(View.GONE);</span><span class="s1"> 
+            } 
+        })</span><span class="s2">;</span><span class="s1"> 
+ 
+        animator.start()</span><span class="s2">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

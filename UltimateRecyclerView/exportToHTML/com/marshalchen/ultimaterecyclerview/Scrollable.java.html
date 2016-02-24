@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Scrollable.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Scrollable.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Provides common API for observable and scrollable widgets. 
+ */</span><span class="s1"> 
+</span><span class="s0">public interface </span><span class="s1">Scrollable { 
+    </span><span class="s2">/** 
+     * Sets a callback listener. 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">listener listener to set 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setScrollViewCallbacks(ObservableScrollViewCallbacks listener)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Scrolls vertically to the absolute Y. 
+     * Implemented classes are expected to scroll to the exact Y pixels from the top, 
+     * but it depends on the type of the widget. 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">y vertical position to scroll to 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">scrollVerticallyTo(</span><span class="s0">int </span><span class="s1">y)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Returns the current Y of the scrollable view. 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">current Y pixel 
+     */</span><span class="s1"> 
+    </span><span class="s0">int </span><span class="s1">getCurrentScrollY()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Sets a touch motion event delegation ViewGroup. 
+     * This is used to pass motion events back to parent view. 
+     * It's up to the implementation classes whether or not it works. 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">viewGroup ViewGroup object to dispatch motion events 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setTouchInterceptionViewGroup(ViewGroup viewGroup)</span><span class="s0">;</span><span class="s1"> 
+}</span></pre>
+</body>
+</html>

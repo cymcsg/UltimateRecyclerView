@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>SwipeableUltimateViewAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+SwipeableUltimateViewAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.animation.Animator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.animation.ObjectAnimator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.annotation.TargetApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerImpl</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.Collections</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * An abstract adapter which can be extended for Recyclerview 
+ */</span><span class="s1"> 
+</span><span class="s0">public abstract class </span><span class="s1">SwipeableUltimateViewAdapter </span><span class="s0">extends </span><span class="s1">UltimateViewAdapter&lt;UltimateRecyclerviewViewHolder&gt; </span><span class="s0">implements </span><span class="s1">SwipeItemManagerInterface { 
+ 
+    </span><span class="s0">protected </span><span class="s1">SwipeItemManagerImpl mItemManger = </span><span class="s0">new </span><span class="s1">SwipeItemManagerImpl(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Don't forget to call super.onBindViewHolder when overriding 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">holder na 
+     * </span><span class="s3">@param </span><span class="s2">position  na 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onBindViewHolder(UltimateRecyclerviewViewHolder holder</span><span class="s0">, int </span><span class="s1">position) { 
+        mItemManger.updateConvertView(holder</span><span class="s0">, </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">openItem(</span><span class="s0">int </span><span class="s1">position) { 
+        mItemManger.openItem(position)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">closeItem(</span><span class="s0">int </span><span class="s1">position) { 
+        mItemManger.closeItem(position)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">closeAllExcept(SwipeLayout layout) { 
+        mItemManger.closeAllExcept(layout)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">List&lt;Integer&gt; getOpenItems() { 
+        </span><span class="s0">return </span><span class="s1">mItemManger.getOpenItems()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">List&lt;SwipeLayout&gt; getOpenLayouts() { 
+        </span><span class="s0">return </span><span class="s1">mItemManger.getOpenLayouts()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">removeShownLayouts(SwipeLayout layout) { 
+        mItemManger.removeShownLayouts(layout)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">isOpen(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">return </span><span class="s1">mItemManger.isOpen(position)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">SwipeItemManagerImpl.Mode getMode() { 
+        </span><span class="s0">return </span><span class="s1">mItemManger.getMode()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setMode(SwipeItemManagerImpl.Mode mode) { 
+        mItemManger.setMode(mode)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public static class </span><span class="s1">BaseSwipeableViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder { 
+ 
+        </span><span class="s0">public </span><span class="s1">SwipeLayout               swipeLayout      = </span><span class="s0">null;</span><span class="s1"> 
+        </span><span class="s0">public </span><span class="s1">SwipeLayout.OnLayout      onLayoutListener = </span><span class="s0">null;</span><span class="s1"> 
+        </span><span class="s0">public </span><span class="s1">SwipeLayout.SwipeListener swipeMemory      = </span><span class="s0">null;</span><span class="s1"> 
+        </span><span class="s0">public int                       </span><span class="s1">position         = -</span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">public </span><span class="s1">BaseSwipeableViewHolder(View itemView) { 
+            </span><span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span><span class="s1"> 
+ 
+            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.recyclerview_swipe)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+} 
+</span></pre>
+</body>
+</html>

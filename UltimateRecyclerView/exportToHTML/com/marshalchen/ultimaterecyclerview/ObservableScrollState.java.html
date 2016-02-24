@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>ObservableScrollState.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(98,151,85); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ObservableScrollState.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ * Copyright 2014 Soichiro Kashima 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s3">/** 
+ * Constants that indicates the scroll state of the Scrollable widgets. 
+ */</span><span class="s1"> 
+</span><span class="s2">public enum </span><span class="s1">ObservableScrollState { 
+    </span><span class="s3">/** 
+     * Widget is stopped. 
+     * This state does not always mean that this widget have never been scrolled. 
+     */</span><span class="s1"> 
+    STOP</span><span class="s2">,</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * Widget is scrolled up by swiping it down. 
+     */</span><span class="s1"> 
+    UP</span><span class="s2">,</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * Widget is scrolled down by swiping it up. 
+     */</span><span class="s1"> 
+    DOWN</span><span class="s2">,</span><span class="s1"> 
+} 
+</span></pre>
+</body>
+</html>
