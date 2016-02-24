@@ -106,24 +106,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
     }
 
 
-/*    @Override
-    public int getItemViewType(int position) {
-        int type = super.getItemViewType(position);
-        if (type == VIEW_TYPES.NORMAL) {
-            if (!once) {
-                if (position > 0 && isOnAdView(position)) {
-                    return VIEW_TYPES.ADVIEW;
-                } else return type;
-            } else {
-                if (isOnAdView(position) && adfrequency == position + 1) {
-                    return VIEW_TYPES.ADVIEW;
-                } else return type;
-            }
-        } else {
-            return type;
-        }
-    }*/
-
     /**
      * get the display item count
      *
@@ -144,27 +126,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
             return check_sum;
         }
     }
-
-    /**
-     * to insert data with a new list
-     *
-     * @param original_list    the original list
-     * @param new_list         the list that items are in it
-     * @param first_insert_pos the first item
-     * @param <T>              the list type holder
-     */
- /*   public <T> void insert(final List<T> original_list, final List<T> new_list, final int first_insert_pos) {
-        try {
-            original_list.addAll(first_insert_pos, new_list);
-            final int view_pos_1 = getReverseDataArrayPosition(first_insert_pos);
-            final int view_pos_2 = getReverseDataArrayPosition(first_insert_pos + new_list.size());
-            notifyItemRangeChanged(view_pos_1, view_pos_2);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Log.d("admobErrorMr3", e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            Log.d("admobErrorMr3", e.getMessage());
-        }
-    }*/
 
 
     /**
@@ -207,47 +168,25 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
 
     }*/
 
-    /**
-     * this is the mask to calculate whether the position of the item should be proceeded with data binding
-     *
-     * @param pos  machine loaded position in int
-     * @param list the source data list
-     * @return the decision to tell whether the data binding should be taken place
-     */
-    protected boolean onActionToBindData(final int pos, final List<T> list) {
-        int getType = getItemViewType(pos);
-        if (pos < getItemCount() && getType == VIEW_TYPES.NORMAL)
-            if (customHeaderView != null) {
-                return pos <= list.size() && pos > 0;
-            } else {
-                return pos < list.size();
-            }
-        else {
-            return false;
-        }
-    }
-
-    /*protected T getItem(int pos) {
-        return list.get(getDataArrayPosition(pos));
-    }*/
 
     /**
      * data binding related position shifting
      *
-     * @param pos machine loaded position in int
+     * @param touch_position pos machine loaded position in int
      * @return the final confirmed position for data binding
      */
-    protected int getDataArrayPosition(final int pos) {
+    @Override
+    protected int getItemDataPosFromInternalPos(int touch_position) {
         int shift = 0;
-        if (customHeaderView != null) shift--;
+        if (hasHeaderView()) shift--;
         if (adfrequency > 0) {
             if (once) {
-                if (pos >= adfrequency) shift--;
+                if (touch_position >= adfrequency) shift--;
             } else {
-                shift -= atAdPos(pos);
+                shift -= atAdPos(touch_position);
             }
         }
-        return pos + shift;
+        return touch_position + shift;
     }
 
     /**
@@ -258,7 +197,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      */
     protected int getReverseDataArrayPosition(final int dataPos) {
         int shift = 0;
-        if (customHeaderView != null) shift++;
+        if (hasHeaderView()) shift++;
         if (adfrequency > 0) {
             if (once) {
                 if (dataPos >= adfrequency) shift++;
@@ -299,6 +238,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
      * @return the number
      */
     public final int getFinalShiftPosition(int pos) {
-        return getDataArrayPosition(pos);
+        return getItemDataPosFromInternalPos(pos);
     }
 }

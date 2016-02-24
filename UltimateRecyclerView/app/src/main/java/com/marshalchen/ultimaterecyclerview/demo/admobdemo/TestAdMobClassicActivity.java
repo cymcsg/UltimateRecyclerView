@@ -77,18 +77,16 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
     }
 
     private void enableLoadMore() {
-
         ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+            public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         ArrayList<String> li = new ArrayList<String>();
-                        li.add("i " + moreNum++);
-                        li.add("i " + moreNum++);
-                        li.add("i " + moreNum++);
+                        li.add("No. ====" + itemsCount + "=======");
+                        SampleDataboxset.genItems(10, li);
                         simpleRecyclerViewAdapter.insert(li);
                     }
                 }, 1000);

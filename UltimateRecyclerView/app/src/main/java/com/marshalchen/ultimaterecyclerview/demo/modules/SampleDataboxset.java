@@ -45,10 +45,10 @@ public class SampleDataboxset {
         return s;
     }
 
-    private static void genItems(final int howmany, final List<String> list) {
+    public static void genItems(final int howmany, final List<String> list) {
         for (int i = 0; i < howmany; i++) {
             Random e = new Random();
-            list.add(girl_name[e.nextInt(girl_name.length)]);
+            list.add("No." + i + " " + girl_name[e.nextInt(girl_name.length)]);
         }
     }
 
