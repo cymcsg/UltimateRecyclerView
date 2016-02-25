@@ -15,23 +15,51 @@ import java.util.List;
  */
 public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdCell> {
 
-    public GridJRAdapter() {
-        super();
-    }
-
     public GridJRAdapter(List<JRitem> hand) {
         super(hand);
     }
 
+    /**
+     * the layout id for the normal data
+     *
+     * @return the ID
+     */
     @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
-        return g;
+    protected int getNormalLayoutResId() {
+        return R.layout.grid_item;
+    }
+
+    /**
+     * this is the Normal View Holder initiation
+     *
+     * @param view view
+     * @return holder
+     */
+    @Override
+    protected HolderGirdCell newViewHolder(View view) {
+        return new HolderGirdCell(view, true);
+    }
+
+    @Override
+    public HolderGirdCell getViewHolder(View view) {
+        return new HolderGirdCell(view, false);
     }
 
     @Override
     public long generateHeaderId(int position) {
         return 0;
+    }
+
+    /**
+     * binding normal view holder
+     *
+     * @param holder   holder class
+     * @param data     data
+     * @param position position
+     */
+    @Override
+    protected void withBindHolder(HolderGirdCell holder, JRitem data, int position) {
+
     }
 
     @Override
@@ -40,10 +68,6 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdC
         b.imageViewSample.setImageResource(jRitem.photo_id);
     }
 
-    @Override
-    public HolderGirdCell onCreateViewHolder(ViewGroup parent) {
-        return new HolderGirdCell(getViewById(R.layout.grid_item, parent), true);
-    }
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {

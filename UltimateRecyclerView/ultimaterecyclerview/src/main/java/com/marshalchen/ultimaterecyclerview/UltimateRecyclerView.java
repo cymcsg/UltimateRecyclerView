@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -223,13 +224,28 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         return mEmptyView;
     }
 
-    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int mEmptyViewInitPolicy) {
-        setEmptyView(emptyResourceId, emptyViewPolicy);
+    private void setPolices(final int policyEmtpyView, final int policyInitialization) {
         if (mAdapter != null) {
-            mAdapter.setEmptyViewOnInitPolicy(mEmptyViewInitPolicy);
+            mAdapter.setEmptyViewPolicy(policyEmtpyView);
+            mAdapter.setEmptyViewOnInitPolicy(policyInitialization);
         } else {
             Log.d(VIEW_LOG_TAG, "unabled to empty view policy because the adapter is null");
         }
+    }
+
+    private void setEmptyView(@LayoutRes final int emptyResourceId) {
+        if (mEmptyView == null && emptyResourceId > 0) {
+            mEmptyId = emptyResourceId;
+            mEmpty.setLayoutResource(emptyResourceId);
+            mEmptyView = mEmpty.inflate();
+        } else {
+            Log.d(VIEW_LOG_TAG, "unabled to set empty view because the empty has been set");
+        }
+    }
+
+    private void setEmptyView(@Nullable View mInflatedView) {
+        if (mInflatedView != null)
+            mEmptyView = mInflatedView;
     }
 
     /**
@@ -241,32 +257,27 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      */
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy) {
         //  mEmptyViewPolicy = emptyViewPolicy;
-        if (mEmptyView == null && emptyResourceId != 0) {
-            mEmptyId = emptyResourceId;
-            mEmpty.setLayoutResource(mEmptyId);
-            mEmptyView = mEmpty.inflate();
-        } else {
-            Log.d(VIEW_LOG_TAG, "unabled to set empty view because the empty has been set");
-        }
-        if (mAdapter != null) {
-            mAdapter.setEmptyViewPolicy(emptyViewPolicy);
-            mAdapter.setEmptyViewOnInitPolicy(UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
-        } else {
-            Log.d(VIEW_LOG_TAG, "unabled to empty view policy because the adapter is null");
-        }
+        setEmptyView(emptyResourceId);
+        setPolices(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
         mEmpty.setVisibility(View.GONE);
     }
 
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int mEmptyViewInitPolicy) {
+        setEmptyView(emptyResourceId);
+        setPolices(emptyViewPolicy, mEmptyViewInitPolicy);
+    }
+
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final emptyViewOnShownListener listener) {
-        setEmptyView(emptyResourceId, emptyViewPolicy);
+        setEmptyView(emptyResourceId);
+        setPolices(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
         mEmptyViewListener = listener;
     }
 
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int emptyViewInitPolicy, final emptyViewOnShownListener listener) {
-        setEmptyView(emptyResourceId, emptyViewPolicy, emptyViewInitPolicy);
+        setEmptyView(emptyResourceId);
+        setPolices(emptyViewPolicy, emptyViewInitPolicy);
         mEmptyViewListener = listener;
     }
-
 
     /**
      * Show the custom or default empty view
@@ -474,8 +485,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.setCustomLoadMoreView(mLoadMoreView);
             mAdapter.enableLoadMore(true);
             mAdapter.notifyDataSetChanged();
-        } else {
-
         }
         mIsLoadMoreWidgetEnabled = true;
     }

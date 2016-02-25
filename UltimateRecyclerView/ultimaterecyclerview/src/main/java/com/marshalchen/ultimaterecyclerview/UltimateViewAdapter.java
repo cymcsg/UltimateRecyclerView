@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,7 @@ import java.util.List;
  * An abstract adapter which can be extended for Recyclerview
  */
 public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
-
+    protected Handler timer = new Handler();
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
     protected View customLoadMoreItemView = null;
@@ -75,20 +76,57 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return enabled_custom_load_more_view;
     }
 
+
+    private class delayenableloadmore implements Runnable {
+        private boolean enabled;
+
+        public delayenableloadmore(final boolean b) {
+            enabled = b;
+        }
+
+        @Override
+        public void run() {
+            if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
+                final int displaySize = getItemCount();
+                final int dataSize = getAdapterItemCount();
+                if (dataSize > 0 && customLoadMoreItemView != null) {
+                    notifyItemRemoved(displaySize - 1);
+                }
+                detectDispatchLoadMoreDisplay(getAdapterItemCount(), getItemCount());
+            }
+            enabled_custom_load_more_view = enabled;
+            if (enabled && customLoadMoreView == null) {
+                enabled_custom_load_more_view = false;
+            }
+            if (enabled) {
+                revealDispatchLoadMoreView();
+            }
+        }
+    }
+
+    public delayenableloadmore cbloadmore;
+
     /**
      * as the set function to switching load more feature
      *
      * @param b bool
      */
-    public final void enableLoadMore(boolean b) {
-        enabled_custom_load_more_view = b;
-        if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
-            notifyItemRemoved(getItemCount() - 1);
-        }
-        if (b && customLoadMoreView == null) {
-            enabled_custom_load_more_view = false;
-        }
+    public final void enableLoadMore(final boolean b) {
+        cbloadmore = new delayenableloadmore(b);
+        timer.postDelayed(cbloadmore, 1000);
         loadmoresetingswatch++;
+    }
+
+    /**
+     * Called by RecyclerView when it stops observing this Adapter.
+     *
+     * @param recyclerView The RecyclerView instance which stopped observing this adapter.
+     * @see #onAttachedToRecyclerView(RecyclerView)
+     */
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        timer.removeCallbacks(cbloadmore);
     }
 
     public final void setEmptyViewPolicy(final int policy) {
@@ -124,7 +162,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
              */
             customLoadMoreItemView = viewHolder.itemView;
             if (getAdapterItemCount() == 0) {
-                customLoadMoreItemView.setVisibility(View.INVISIBLE);
+                removeDispatchLoadMoreView();
+            } else if (enabled_custom_load_more_view = true) {
+                revealDispatchLoadMoreView();
             }
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
@@ -332,7 +372,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         insertInternal(list, item, getAdapterItemCount());
     }
 
-
     /**
      * insert the new item list after the whole list
      *
@@ -354,6 +393,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
                 notifyItemInserted(start);
             } else if (insert_data.size() > 1) {
                 notifyItemRangeInserted(start, insert_data.size());
+            }
+            if (enabled_custom_load_more_view) {
+                revealDispatchLoadMoreView();
             }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
@@ -443,9 +485,19 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return false;
     }
 
+    protected void revealDispatchLoadMoreView() {
+        if (customLoadMoreItemView != null) {
+            if (customLoadMoreItemView.getVisibility() != View.VISIBLE) {
+                customLoadMoreItemView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     protected void removeDispatchLoadMoreView() {
         if (customLoadMoreItemView != null) {
-            customLoadMoreItemView.setVisibility(View.GONE);
+            if (customLoadMoreItemView.getVisibility() != View.GONE) {
+                customLoadMoreItemView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -462,7 +514,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected void notifyAfterRemoveAllData(final int data_size_before_remove, final int display_size_before_remove) {
         try {
             final int notify_start_item = hasHeaderView() ? 1 : 0;
-
+            final int notifiy_n_plus = hasHeaderView() ? data_size_before_remove + 1 : data_size_before_remove;
             if (detectDispatchLoadMoreDisplay(data_size_before_remove, display_size_before_remove))
                 return;
 
@@ -478,10 +530,13 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
                 notifyItemRangeRemoved(notify_start_item, data_size_before_remove);
                 removeDispatchLoadMoreView();
             } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
-                notifyItemRangeRemoved(0, data_size_before_remove);
+                notifyItemRangeRemoved(0, notifiy_n_plus);
                 removeDispatchLoadMoreView();
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY) {
+                notifyItemRangeRemoved(0, notifiy_n_plus);
+                revealDispatchLoadMoreView();
             } else {
-                notifyItemRangeRemoved(0, data_size_before_remove);
+                notifyItemRangeRemoved(0, notifiy_n_plus);
             }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();

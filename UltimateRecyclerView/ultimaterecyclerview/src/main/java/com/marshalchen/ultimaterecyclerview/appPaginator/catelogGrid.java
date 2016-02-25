@@ -23,13 +23,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
  */
 public abstract class catelogGrid<adapter extends easyRegularAdapter, binder extends UltimateRecyclerviewViewHolder> extends paginator {
     public static String TAG = "catelog";
-    public final static String BRAND_NAME = "BrandName", SLUG = "slug", REQUEST_TYPE = "typerequest";
     public UltimateRecyclerView listview_layout;
-
-    public static String URL = "data_url";
-    public static String FRAGMENTTITLE = "fragment_title";
-    public static String SAVELOADDATA = "item_list";
-    public static String HASSAVEFILTER = "filter";
     protected GridLayoutManager mLayoutManager;
     protected adapter madapter;
 

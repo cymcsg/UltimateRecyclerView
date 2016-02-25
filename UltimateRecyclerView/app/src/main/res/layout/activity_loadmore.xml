@@ -27,7 +27,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
-        app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewFloatingActionView="@layout/floating_view"
         app:recyclerviewScrollbars="vertical" />
 </FrameLayout>

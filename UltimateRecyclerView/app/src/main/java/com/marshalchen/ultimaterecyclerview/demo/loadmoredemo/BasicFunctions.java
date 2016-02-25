@@ -221,21 +221,25 @@ public abstract class BasicFunctions extends AppCompatActivity {
         findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!status_progress) {
-                    isEnableAutoLoadMore = !isEnableAutoLoadMore;
-                    if (isEnableAutoLoadMore) {
-                        ultimateRecyclerView.reenableLoadmore();
-                    }
-                }
+                toggleButtonTrigger();
             }
         });
+    }
+
+    protected void toggleButtonTrigger() {
+        if (!status_progress) {
+            isEnableAutoLoadMore = !isEnableAutoLoadMore;
+            if (isEnableAutoLoadMore) {
+                ultimateRecyclerView.reenableLoadmore();
+            }
+        }
     }
 
     protected ActionMode actionMode;
     protected Toolbar toolbar;
     protected LinearLayoutManager linearLayoutManager;
     private int moreNum = 2;
-    boolean isDrag = true, isEnableAutoLoadMore = true, status_progress = false;
+    protected boolean isDrag = true, isEnableAutoLoadMore = true, status_progress = false;
     private DragDropTouchListener dragDropTouchListener;
 
     @Override

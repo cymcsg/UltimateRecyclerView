@@ -6,4 +6,5 @@
     <item name="str_item_view" type="id" />
     <item name="str_sticky_headr_img" type="id" />
     <item name="str_sticky_headr_tv" type="id" />
+    <item name="empty_view_loc" type="id" />
 </resources>
