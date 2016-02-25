@@ -1,0 +1,185 @@
+<html>
+<head>
+<title>UltimateDifferentViewTypeAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UltimateDifferentViewTypeAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Map</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * An adapter which support different layout 
+ */</span><span class="s1"> 
+</span><span class="s0">public abstract class </span><span class="s1">UltimateDifferentViewTypeAdapter&lt;E </span><span class="s0">extends </span><span class="s1">Enum&lt;E&gt;&gt; </span><span class="s0">extends </span><span class="s1">UltimateViewAdapter&lt;UltimateRecyclerviewViewHolder&gt; { 
+    </span><span class="s0">private </span><span class="s1">Map&lt;E</span><span class="s0">, </span><span class="s1">DataBinder&gt; mBinderMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">protected class </span><span class="s1">VIEW_TYPES </span><span class="s0">extends </span><span class="s1">UltimateViewAdapter.VIEW_TYPES { 
+        </span><span class="s0">public static final int </span><span class="s1">MULTI_VIEWS = </span><span class="s3">5</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent</span><span class="s0">, int </span><span class="s1">viewType) { 
+</span><span class="s4">//        if (viewType == VIEW_TYPES.HEADER||viewType ==VIEW_TYPES.FOOTER</span><span class="s1"> 
+</span><span class="s4">//                ||viewType==VIEW_TYPES.CHANGED_FOOTER) {</span><span class="s1"> 
+</span><span class="s4">//            return super.onCreateViewHolder(parent, viewType);</span><span class="s1"> 
+</span><span class="s4">//        } else</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s1">getDataBinder(viewType).newViewHolder(parent)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onBindViewHolder(UltimateRecyclerviewViewHolder viewHolder</span><span class="s0">, int </span><span class="s1">position) { 
+        </span><span class="s4">//int binderPosition = getBinderPosition(position);</span><span class="s1"> 
+        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder</span><span class="s0">, </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemCount() { 
+        </span><span class="s0">int </span><span class="s1">itemCount = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(DataBinder binder : mBinderMap.values()) { 
+            itemCount += binder.getItemCount()</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return </span><span class="s1">itemCount</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemViewType(</span><span class="s0">int </span><span class="s1">position) { 
+</span><span class="s4">//        int type = super.getItemViewType(position);</span><span class="s1"> 
+</span><span class="s4">//        if (type == VIEW_TYPES.NORMAL) {</span><span class="s1"> 
+</span><span class="s4">//            return getEnumFromPosition(position).ordinal();</span><span class="s1"> 
+</span><span class="s4">//        } else {</span><span class="s1"> 
+</span><span class="s4">//            return type;</span><span class="s1"> 
+</span><span class="s4">//        }</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">getEnumFromPosition(position).ordinal()</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">&lt;T </span><span class="s0">extends </span><span class="s1">DataBinder&gt; T getDataBinder(</span><span class="s0">int </span><span class="s1">viewType) { 
+        </span><span class="s0">return </span><span class="s1">getDataBinder(getEnumFromOrdinal(viewType))</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public int </span><span class="s1">getPosition(DataBinder binder</span><span class="s0">, int </span><span class="s1">binderPosition) { 
+        E targetViewType = getEnumFromBinder(binder)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt; getItemCount()</span><span class="s0">; </span><span class="s1">i++) { 
+            </span><span class="s0">if </span><span class="s1">(targetViewType == getEnumFromPosition(i)) { 
+                binderPosition--</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(binderPosition &lt;= </span><span class="s3">0</span><span class="s1">) { 
+                    </span><span class="s0">return </span><span class="s1">i</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        } 
+        </span><span class="s0">return </span><span class="s1">getItemCount()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public int </span><span class="s1">getBinderPosition(</span><span class="s0">int </span><span class="s1">position) { 
+        E targetViewType = getEnumFromPosition(position)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">binderPosition = -</span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt;= position</span><span class="s0">; </span><span class="s1">i++) { 
+            </span><span class="s0">if </span><span class="s1">(targetViewType == getEnumFromPosition(i)) { 
+                binderPosition++</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(binderPosition == -</span><span class="s3">1</span><span class="s1">) { 
+            </span><span class="s0">throw new </span><span class="s1">IllegalArgumentException(</span><span class="s5">&quot;Invalid Argument&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return </span><span class="s1">binderPosition</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemRangeChanged(DataBinder binder</span><span class="s0">, int </span><span class="s1">positionStart</span><span class="s0">, int </span><span class="s1">itemCount) { 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = positionStart</span><span class="s0">; </span><span class="s1">i &lt;= itemCount</span><span class="s0">; </span><span class="s1">i++) { 
+            notifyItemChanged(getPosition(binder</span><span class="s0">, </span><span class="s1">i))</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemRangeInserted(DataBinder binder</span><span class="s0">, int </span><span class="s1">positionStart</span><span class="s0">, int </span><span class="s1">itemCount) { 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = positionStart</span><span class="s0">; </span><span class="s1">i &lt;= itemCount</span><span class="s0">; </span><span class="s1">i++) { 
+            notifyItemInserted(getPosition(binder</span><span class="s0">, </span><span class="s1">i))</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemRangeRemoved(DataBinder binder</span><span class="s0">, int </span><span class="s1">positionStart</span><span class="s0">, int </span><span class="s1">itemCount) { 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = positionStart</span><span class="s0">; </span><span class="s1">i &lt;= itemCount</span><span class="s0">; </span><span class="s1">i++) { 
+            notifyItemRemoved(getPosition(binder</span><span class="s0">, </span><span class="s1">i))</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemChanged(DataBinder binder</span><span class="s0">, int </span><span class="s1">binderPosition) { 
+        notifyItemChanged(getPosition(binder</span><span class="s0">, </span><span class="s1">binderPosition))</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemInserted(DataBinder binder</span><span class="s0">, int </span><span class="s1">binderPosition) { 
+        notifyItemInserted(getPosition(binder</span><span class="s0">, </span><span class="s1">binderPosition))</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemMoved(DataBinder binder</span><span class="s0">, int </span><span class="s1">fromPosition</span><span class="s0">, int </span><span class="s1">toPosition) { 
+        notifyItemMoved(getPosition(binder</span><span class="s0">, </span><span class="s1">fromPosition)</span><span class="s0">, </span><span class="s1">getPosition(binder</span><span class="s0">, </span><span class="s1">toPosition))</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public void </span><span class="s1">notifyBinderItemRemoved(DataBinder binder</span><span class="s0">, int </span><span class="s1">binderPosition) { 
+        notifyItemRemoved(getPosition(binder</span><span class="s0">, </span><span class="s1">binderPosition))</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public abstract </span><span class="s1">E getEnumFromPosition(</span><span class="s0">int </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public abstract </span><span class="s1">E getEnumFromOrdinal(</span><span class="s0">int </span><span class="s1">ordinal)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">E getEnumFromBinder(DataBinder binder) { 
+        </span><span class="s0">for </span><span class="s1">(Map.Entry&lt;E</span><span class="s0">, </span><span class="s1">DataBinder&gt; entry : mBinderMap.entrySet()) { 
+            </span><span class="s0">if </span><span class="s1">(entry.getValue().equals(binder)) { 
+                </span><span class="s0">return </span><span class="s1">entry.getKey()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s0">throw new </span><span class="s1">IllegalArgumentException(</span><span class="s5">&quot;Invalid Data Binder&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">&lt;T </span><span class="s0">extends </span><span class="s1">DataBinder&gt; T getDataBinder(E e) { 
+        </span><span class="s0">return </span><span class="s1">(T) mBinderMap.get(e)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">Map&lt;E</span><span class="s0">, </span><span class="s1">DataBinder&gt; getBinderMap() { 
+        </span><span class="s0">return </span><span class="s1">mBinderMap</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">putBinder(E e</span><span class="s0">, </span><span class="s1">DataBinder binder) { 
+        mBinderMap.put(e</span><span class="s0">, </span><span class="s1">binder)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">removeBinder(E e) { 
+        mBinderMap.remove(e)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">clearBinderMap() { 
+        mBinderMap.clear()</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

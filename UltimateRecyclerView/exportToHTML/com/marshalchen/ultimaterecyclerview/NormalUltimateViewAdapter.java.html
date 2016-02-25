@@ -1,0 +1,307 @@
+<html>
+<head>
+<title>NormalUltimateViewAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+NormalUltimateViewAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.animation.Animator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.animation.ObjectAnimator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.annotation.TargetApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.Collections</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * An abstract adapter which can be extended for Recyclerview 
+ */</span><span class="s1"> 
+</span><span class="s0">public abstract class </span><span class="s1">NormalUltimateViewAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;UltimateRecyclerviewViewHolder&gt; 
+        </span><span class="s0">implements </span><span class="s1">StickyRecyclerHeadersAdapter&lt;RecyclerView.ViewHolder&gt;</span><span class="s0">, </span><span class="s1">ItemTouchHelperAdapter { 
+ 
+ 
+    </span><span class="s0">protected </span><span class="s1">View customLoadMoreView = </span><span class="s0">null;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Set the header view of the adapter. 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">customHeaderView na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) { 
+        </span><span class="s0">this</span><span class="s1">.customHeaderView = customHeaderView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerView.CustomRelativeWrapper getCustomHeaderView() { 
+        </span><span class="s0">return </span><span class="s1">customHeaderView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected </span><span class="s1">UltimateRecyclerView.CustomRelativeWrapper customHeaderView = </span><span class="s0">null;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent</span><span class="s0">, int </span><span class="s1">viewType) { 
+ 
+        </span><span class="s0">if </span><span class="s1">(viewType == VIEW_TYPES.FOOTER) { 
+            UltimateRecyclerviewViewHolder viewHolder = </span><span class="s0">new </span><span class="s1">UltimateRecyclerviewViewHolder(customLoadMoreView)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() == </span><span class="s4">0</span><span class="s1">) 
+                viewHolder.itemView.setVisibility(View.GONE)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s1">viewHolder</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.HEADER) { 
+            </span><span class="s0">if </span><span class="s1">(customHeaderView != </span><span class="s0">null</span><span class="s1">) 
+                </span><span class="s0">return new </span><span class="s1">UltimateRecyclerviewViewHolder(customHeaderView)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.CHANGED_FOOTER) { 
+            UltimateRecyclerviewViewHolder viewHolder = </span><span class="s0">new </span><span class="s1">UltimateRecyclerviewViewHolder(customLoadMoreView)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() == </span><span class="s4">0</span><span class="s1">) 
+                viewHolder.itemView.setVisibility(View.GONE)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s1">viewHolder</span><span class="s0">;</span><span class="s1"> 
+        } 
+</span><span class="s5">//        else if (viewType==VIEW_TYPES.STICKY_HEADER){</span><span class="s1"> 
+</span><span class="s5">//            return new UltimateRecyclerviewViewHolder(LayoutInflater.from(parent.getContext())</span><span class="s1"> 
+</span><span class="s5">//                    .inflate(R.layout.stick_header_item, parent, false));</span><span class="s1"> 
+</span><span class="s5">//        }</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">onCreateViewHolder(parent)</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">public abstract </span><span class="s1">UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Using a custom LoadMoreView 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">customview the inflated view 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setCustomLoadMoreView(View customview) { 
+        customLoadMoreView = customview</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Changing the loadmore view 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">customview the inflated view 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">swipeCustomLoadMoreView(View customview) { 
+        customLoadMoreView = customview</span><span class="s0">;</span><span class="s1"> 
+        isLoadMoreChanged = </span><span class="s0">true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">View getCustomLoadMoreView() { 
+        </span><span class="s0">return </span><span class="s1">customLoadMoreView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public boolean </span><span class="s1">isLoadMoreChanged = </span><span class="s0">false;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemViewType(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(position == getItemCount() - </span><span class="s4">1 </span><span class="s1">&amp;&amp; customLoadMoreView != </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">if </span><span class="s1">(isLoadMoreChanged) { 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.CHANGED_FOOTER</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.FOOTER</span><span class="s0">;</span><span class="s1"> 
+            } 
+ 
+ 
+        } </span><span class="s0">else if </span><span class="s1">(position == </span><span class="s4">0 </span><span class="s1">&amp;&amp; customHeaderView != </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return </span><span class="s1">VIEW_TYPES.HEADER</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NORMAL</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * Returns the total number of items in the data set hold by the adapter. 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">The total number of items in this adapter. 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemCount() { 
+        </span><span class="s0">int </span><span class="s1">headerOrFooter = </span><span class="s4">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(customHeaderView != </span><span class="s0">null</span><span class="s1">) headerOrFooter++</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(customLoadMoreView != </span><span class="s0">null</span><span class="s1">) headerOrFooter++</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">getAdapterItemCount() + headerOrFooter</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Returns the number of items in the adapter bound to the parent RecyclerView. 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">The number of items in the bound adapter 
+     */</span><span class="s1"> 
+    </span><span class="s0">public abstract int </span><span class="s1">getAdapterItemCount()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public void </span><span class="s1">toggleSelection(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">clearSelection(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setSelected(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Swap the item of list 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">list data list 
+     * </span><span class="s3">@param </span><span class="s2">from position from 
+     * </span><span class="s3">@param </span><span class="s2">to   position to 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">swapPositions(List&lt;?&gt; list</span><span class="s0">, int </span><span class="s1">from</span><span class="s0">, int </span><span class="s1">to) { 
+        </span><span class="s0">if </span><span class="s1">(customHeaderView != </span><span class="s0">null</span><span class="s1">) { 
+            from--</span><span class="s0">;</span><span class="s1"> 
+            to--</span><span class="s0">;</span><span class="s1"> 
+        } 
+        Collections.swap(list</span><span class="s0">, </span><span class="s1">from</span><span class="s0">, </span><span class="s1">to)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * Insert a item to the list of the adapter 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">list     data list 
+     * </span><span class="s3">@param </span><span class="s2">object   object T 
+     * </span><span class="s3">@param </span><span class="s2">position position 
+     * </span><span class="s3">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;      </span><span class="s2">in T 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">insert(List&lt;T&gt; list</span><span class="s0">, </span><span class="s1">T object</span><span class="s0">, int </span><span class="s1">position) { 
+        list.add(position</span><span class="s0">, </span><span class="s1">object)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(customHeaderView != </span><span class="s0">null</span><span class="s1">) position++</span><span class="s0">;</span><span class="s1"> 
+        notifyItemInserted(position)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Remove a item of  the list of the adapter 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">list     data list 
+     * </span><span class="s3">@param </span><span class="s2">position position 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">remove(List&lt;?&gt; list</span><span class="s0">, int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(list.size() &gt; </span><span class="s4">0</span><span class="s1">) { 
+            list.remove(customHeaderView != </span><span class="s0">null </span><span class="s1">? position - </span><span class="s4">1 </span><span class="s1">: position)</span><span class="s0">;</span><span class="s1"> 
+            notifyItemRemoved(position)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Clear the list of the adapter 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">list data list 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">clear(List&lt;?&gt; list) { 
+        </span><span class="s0">int </span><span class="s1">size = list.size()</span><span class="s0">;</span><span class="s1"> 
+        list.clear()</span><span class="s0">;</span><span class="s1"> 
+        notifyItemRangeRemoved(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">size)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public long </span><span class="s1">getHeaderId(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(customHeaderView != </span><span class="s0">null </span><span class="s1">&amp;&amp; position == </span><span class="s4">0</span><span class="s1">) </span><span class="s0">return </span><span class="s1">-</span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(customLoadMoreView != </span><span class="s0">null </span><span class="s1">&amp;&amp; position &gt;= getItemCount() - </span><span class="s4">1</span><span class="s1">) </span><span class="s0">return </span><span class="s1">-</span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() &gt; </span><span class="s4">0</span><span class="s1">) 
+            </span><span class="s0">return </span><span class="s1">generateHeaderId(position)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">else return </span><span class="s1">-</span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public abstract long </span><span class="s1">generateHeaderId(</span><span class="s0">int </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s0">protected class </span><span class="s1">VIEW_TYPES { 
+        </span><span class="s0">public static final int </span><span class="s1">NORMAL = </span><span class="s4">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">HEADER = </span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">FOOTER = </span><span class="s4">2</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">CHANGED_FOOTER = </span><span class="s4">3</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected enum </span><span class="s1">AdapterAnimationType { 
+        AlphaIn</span><span class="s0">,</span><span class="s1"> 
+        SlideInBottom</span><span class="s0">,</span><span class="s1"> 
+        ScaleIn</span><span class="s0">,</span><span class="s1"> 
+        SlideInLeft</span><span class="s0">,</span><span class="s1"> 
+        SlideInRight</span><span class="s0">,</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Animations when loading the adapter 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">view the view 
+     * </span><span class="s3">@param </span><span class="s2">type the type of the animation 
+     * </span><span class="s3">@return </span><span class="s2">the animator in array 
+     */</span><span class="s1"> 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
+    </span><span class="s0">protected </span><span class="s1">Animator[] getAdapterAnimations(View view</span><span class="s0">, </span><span class="s1">AdapterAnimationType type) { 
+        </span><span class="s0">if </span><span class="s1">(type == AdapterAnimationType.ScaleIn) { 
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;scaleX&quot;</span><span class="s0">, </span><span class="s4">.5f</span><span class="s0">, </span><span class="s4">1f</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;scaleY&quot;</span><span class="s0">, </span><span class="s4">.5f</span><span class="s0">, </span><span class="s4">1f</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return new </span><span class="s1">ObjectAnimator[]{scaleX</span><span class="s0">, </span><span class="s1">scaleY}</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.AlphaIn) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;alpha&quot;</span><span class="s0">, </span><span class="s4">.5f</span><span class="s0">, </span><span class="s4">1f</span><span class="s1">)}</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInBottom) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationY&quot;</span><span class="s0">, </span><span class="s1">view.getMeasuredHeight()</span><span class="s0">, </span><span class="s4">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInLeft) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationX&quot;</span><span class="s0">, </span><span class="s1">-view.getRootView().getWidth()</span><span class="s0">, </span><span class="s4">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInRight) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationX&quot;</span><span class="s0">, </span><span class="s1">view.getRootView().getWidth()</span><span class="s0">, </span><span class="s4">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemMove(</span><span class="s0">int </span><span class="s1">fromPosition</span><span class="s0">, int </span><span class="s1">toPosition) { 
+        notifyItemMoved(fromPosition</span><span class="s0">, </span><span class="s1">toPosition)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemDismiss(</span><span class="s0">int </span><span class="s1">position) { 
+        notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">protected </span><span class="s1">OnStartDragListener mDragStartListener = </span><span class="s0">null;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Listener for manual initiation of a drag. 
+     */</span><span class="s1"> 
+    </span><span class="s0">public interface </span><span class="s1">OnStartDragListener { 
+ 
+        </span><span class="s2">/** 
+         * Called when a view is requesting a start of a drag. 
+         * 
+         * </span><span class="s3">@param </span><span class="s2">viewHolder The holder of the view to drag. 
+         */</span><span class="s1"> 
+        </span><span class="s0">void </span><span class="s1">onStartDrag(RecyclerView.ViewHolder viewHolder)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

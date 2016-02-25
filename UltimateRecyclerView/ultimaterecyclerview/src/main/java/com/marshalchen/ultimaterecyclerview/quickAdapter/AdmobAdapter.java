@@ -108,25 +108,7 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
     }
 
 
-    /**
-     * get the display item count
-     *
-     * @return the final items for display
-     * @Override public int getItemCount() {
-     * final int base = super.getItemCount();
-     * if (once) {
-     * if (adfrequency > 0) {
-     * return base + 1;
-     * } else {
-     * return base;
-     * }
-     * } else {
-     * final int check_sum = (adfrequency > 0 ? atAdPos(base) : 0) + base;
-     * Log.d("getItemCountE2", check_sum + "");
-     * return check_sum;
-     * }
-     * }
-     */
+
 
     @Override
     public int totalAdditionalItems() {

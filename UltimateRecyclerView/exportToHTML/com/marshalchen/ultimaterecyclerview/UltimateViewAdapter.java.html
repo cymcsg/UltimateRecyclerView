@@ -1,0 +1,630 @@
+<html>
+<head>
+<title>UltimateViewAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(106,135,89); }
+.s7 { color: rgb(119,183,103); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UltimateViewAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.animation.Animator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.animation.ObjectAnimator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.annotation.TargetApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.Nullable</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.Collections</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Iterator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * An abstract adapter which can be extended for Recyclerview 
+ */</span><span class="s1"> 
+</span><span class="s0">public abstract class </span><span class="s1">UltimateViewAdapter&lt;VH </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder&gt; </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;VH&gt; </span><span class="s0">implements </span><span class="s1">StickyRecyclerHeadersAdapter&lt;RecyclerView.ViewHolder&gt;</span><span class="s0">, </span><span class="s1">ItemTouchHelperAdapter { 
+ 
+    </span><span class="s0">protected </span><span class="s1">UltimateRecyclerView.CustomRelativeWrapper customHeaderView = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">protected </span><span class="s1">View customLoadMoreView = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">protected </span><span class="s1">View customLoadMoreItemView = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">private boolean </span><span class="s1">customHeader = </span><span class="s0">false;</span><span class="s1"> 
+    </span><span class="s2">/** 
+     * this watches how many times does this loading more triggered 
+     */</span><span class="s1"> 
+    </span><span class="s0">private int </span><span class="s1">loadmoresetingswatch = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">public boolean </span><span class="s1">enabled_custom_load_more_view = </span><span class="s0">false;</span><span class="s1"> 
+    </span><span class="s0">protected int </span><span class="s1">mEmptyViewPolicy</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">protected int </span><span class="s1">mEmptyViewOnInitPolicy</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Set the header view of the adapter. 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">customHeaderView na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setCustomHeaderView(UltimateRecyclerView.CustomRelativeWrapper customHeaderView) { 
+        </span><span class="s0">this</span><span class="s1">.customHeaderView = customHeaderView</span><span class="s0">;</span><span class="s1"> 
+        customHeader = </span><span class="s0">true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerView.CustomRelativeWrapper getCustomHeaderView() { 
+        </span><span class="s0">return </span><span class="s1">customHeaderView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public boolean </span><span class="s1">hasHeaderView() { 
+        </span><span class="s0">return </span><span class="s1">customHeader</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Using a custom LoadMoreView 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">customview the inflated view 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final void </span><span class="s1">setCustomLoadMoreView(@Nullable View customview) { 
+        customLoadMoreView = customview</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public final </span><span class="s1">View getCustomLoadMoreView() { 
+        </span><span class="s0">return </span><span class="s1">customLoadMoreView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * the get function to get load more 
+     * 
+     * </span><span class="s4">@return </span><span class="s2">determine this is a get function 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final boolean </span><span class="s1">enableLoadMore() { 
+        </span><span class="s0">return </span><span class="s1">enabled_custom_load_more_view</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * as the set function to switching load more feature 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">b bool 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final void </span><span class="s1">enableLoadMore(</span><span class="s0">boolean </span><span class="s1">b) { 
+        enabled_custom_load_more_view = b</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(!b &amp;&amp; loadmoresetingswatch &gt; </span><span class="s3">0 </span><span class="s1">&amp;&amp; customLoadMoreView != </span><span class="s0">null</span><span class="s1">) { 
+            notifyItemRemoved(getItemCount() - </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">if </span><span class="s1">(b &amp;&amp; customLoadMoreView == </span><span class="s0">null</span><span class="s1">) { 
+            enabled_custom_load_more_view = </span><span class="s0">false;</span><span class="s1"> 
+        } 
+        loadmoresetingswatch++</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final void </span><span class="s1">setEmptyViewPolicy(</span><span class="s0">final int </span><span class="s1">policy) { 
+        mEmptyViewPolicy = policy</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final void </span><span class="s1">setEmptyViewOnInitPolicy(</span><span class="s0">final int </span><span class="s1">policy) { 
+        mEmptyViewOnInitPolicy = policy</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final int </span><span class="s1">getEmptyViewPolicy() { 
+        </span><span class="s0">return </span><span class="s1">mEmptyViewPolicy</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final int </span><span class="s1">getEmptyViewInitPolicy() { 
+        </span><span class="s0">return </span><span class="s1">mEmptyViewOnInitPolicy</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * the basic view holder creation 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">parent   coming from the bottom api 
+     * </span><span class="s4">@param </span><span class="s2">viewType coming the bottom api as well 
+     * </span><span class="s4">@return </span><span class="s2">expected a typed view holder 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">VH onCreateViewHolder(ViewGroup parent</span><span class="s0">, int </span><span class="s1">viewType) { 
+        </span><span class="s0">if </span><span class="s1">(viewType == VIEW_TYPES.FOOTER) { 
+            VH viewHolder = getViewHolder(customLoadMoreView)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s2">/** 
+             * this is only for the first time rendering of the adapter 
+             */</span><span class="s1"> 
+            customLoadMoreItemView = viewHolder.itemView</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() == </span><span class="s3">0</span><span class="s1">) { 
+                customLoadMoreItemView.setVisibility(View.INVISIBLE)</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return </span><span class="s1">viewHolder</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.HEADER) { 
+            </span><span class="s0">return </span><span class="s1">getViewHolder(customHeaderView)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.ADVIEW) { 
+            </span><span class="s0">return </span><span class="s1">getAdViewHolder(customHeaderView)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.CUSTOMVIEW) { 
+            </span><span class="s0">return </span><span class="s1">getCustomViewHolder(customHeaderView)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(viewType == VIEW_TYPES.NOVIEW) { 
+            </span><span class="s0">return </span><span class="s1">getNoViewHolder(customHeaderView)</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return </span><span class="s1">onCreateViewHolder(parent)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * requirement: ADVIEW 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">view v 
+     * </span><span class="s4">@return </span><span class="s2">holder for this ADVIEW 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">VH getAdViewHolder(View view) { 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * requirement: CUSTOMVIEW 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">view v 
+     * </span><span class="s4">@return </span><span class="s2">v 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">VH getCustomViewHolder(View view) { 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * requirement: NOVIEW 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">view v 
+     * </span><span class="s4">@return </span><span class="s2">v 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">VH getNoViewHolder(View view) { 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">view with no binding view of nothing 
+     * </span><span class="s4">@return </span><span class="s2">v 
+     */</span><span class="s1"> 
+    </span><span class="s0">public abstract </span><span class="s1">VH getViewHolder(View view)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * for all NORMAL type holder 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">parent view group parent 
+     * </span><span class="s4">@return </span><span class="s2">vh 
+     */</span><span class="s1"> 
+    </span><span class="s0">public abstract </span><span class="s1">VH onCreateViewHolder(ViewGroup parent)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemViewType(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s5">//  int k = getAdapterItemCount();</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() == </span><span class="s3">0</span><span class="s1">) { 
+            </span><span class="s0">if </span><span class="s1">(position == </span><span class="s3">0</span><span class="s1">) { 
+                </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; hasHeaderView()) { 
+                    </span><span class="s5">//both</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.FOOTER</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(!enableLoadMore() &amp;&amp; hasHeaderView()) { 
+                    </span><span class="s5">//only header</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.HEADER</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(enableLoadMore() &amp;&amp; !hasHeaderView()) { 
+                    </span><span class="s5">//only load more</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.FOOTER</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NOVIEW</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } </span><span class="s0">else if </span><span class="s1">(position == </span><span class="s3">1</span><span class="s1">) { 
+                </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; hasHeaderView()) { 
+                    </span><span class="s5">//both</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.FOOTER</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(!enableLoadMore() &amp;&amp; hasHeaderView()) { 
+                    </span><span class="s5">//only header</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NOVIEW</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(enableLoadMore() &amp;&amp; !hasHeaderView()) { 
+                    </span><span class="s5">//only load more</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NOVIEW</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NOVIEW</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NOVIEW</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } </span><span class="s0">else if </span><span class="s1">(getAdapterItemCount() &gt; </span><span class="s3">0</span><span class="s1">) { 
+            </span><span class="s0">int </span><span class="s1">last_item = getItemCount() - </span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(position == last_item &amp;&amp; enableLoadMore()) { 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.FOOTER</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else if </span><span class="s1">(position == </span><span class="s3">0 </span><span class="s1">&amp;&amp; hasHeaderView()) { 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.HEADER</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else if </span><span class="s1">(isOnCustomView(position)) { 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.ADVIEW</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else if </span><span class="s1">(isOnAdView(position)) { 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.ADVIEW</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NORMAL</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">return </span><span class="s1">VIEW_TYPES.NORMAL</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">protected boolean </span><span class="s1">isOnCustomView(</span><span class="s0">final int </span><span class="s1">pos) { 
+        </span><span class="s0">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected boolean </span><span class="s1">isOnAdView(</span><span class="s0">final int </span><span class="s1">pos) { 
+        </span><span class="s0">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * retrieve the amount of the total items in the urv for display that will be including all data items as well as the decorative items 
+     * 
+     * </span><span class="s4">@return </span><span class="s2">the int 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getItemCount() { 
+        </span><span class="s0">return </span><span class="s1">getAdapterItemCount() + totalAdditionalItems()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public int </span><span class="s1">getAdditionalItems() { 
+        </span><span class="s0">return </span><span class="s1">totalAdditionalItems()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected int </span><span class="s1">totalAdditionalItems() { 
+        </span><span class="s0">int </span><span class="s1">offset = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView()) offset++</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore()) offset++</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">offset</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Returns the number of items in the adapter bound to the parent RecyclerView. 
+     * 
+     * </span><span class="s4">@return </span><span class="s2">The number of data items in the bound adapter 
+     */</span><span class="s1"> 
+    </span><span class="s0">public abstract int </span><span class="s1">getAdapterItemCount()</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s0">public final void </span><span class="s1">toggleSelection(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public final void </span><span class="s1">clearSelection(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final void </span><span class="s1">setSelected(</span><span class="s0">int </span><span class="s1">pos) { 
+        notifyItemChanged(pos)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Swap the item of list 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">list data list 
+     * </span><span class="s4">@param </span><span class="s2">from position from 
+     * </span><span class="s4">@param </span><span class="s2">to   position to 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">swapPositions(List&lt;?&gt; list</span><span class="s0">, int </span><span class="s1">from</span><span class="s0">, int </span><span class="s1">to) { 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView()) { 
+            from--</span><span class="s0">;</span><span class="s1"> 
+            to--</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; to == getItemCount() - </span><span class="s3">1</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView() &amp;&amp; to == </span><span class="s3">0</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView() &amp;&amp; from == </span><span class="s3">0</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; from == getItemCount() - </span><span class="s3">1</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        Collections.swap(list</span><span class="s0">, </span><span class="s1">from</span><span class="s0">, </span><span class="s1">to)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * Insert a item to the list of the adapter 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">list     data list 
+     * </span><span class="s4">@param </span><span class="s2">object   object T 
+     * </span><span class="s4">@param </span><span class="s2">position position 
+     * </span><span class="s4">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;      </span><span class="s2">in T 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">insertInternal(List&lt;T&gt; list</span><span class="s0">, </span><span class="s1">T object</span><span class="s0">, final int </span><span class="s1">position) { 
+        list.add(position</span><span class="s0">, </span><span class="s1">object)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">g = position</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView()) g++</span><span class="s0">;</span><span class="s1"> 
+        notifyItemInserted(g)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">insertFirstInternal(List&lt;T&gt; list</span><span class="s0">, </span><span class="s1">T item) { 
+        insertInternal(list</span><span class="s0">, </span><span class="s1">item</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">insertLastInternal(List&lt;T&gt; list</span><span class="s0">, </span><span class="s1">T item) { 
+        insertInternal(list</span><span class="s0">, </span><span class="s1">item</span><span class="s0">, </span><span class="s1">getAdapterItemCount())</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * insert the new item list after the whole list 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">insert_data   new list 
+     * </span><span class="s4">@param </span><span class="s2">original_list original copy 
+     * </span><span class="s4">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;           </span><span class="s2">the type 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">insertInternal(List&lt;T&gt; insert_data</span><span class="s0">, </span><span class="s1">List&lt;T&gt; original_list) { 
+        </span><span class="s0">try </span><span class="s1">{ 
+            Iterator&lt;T&gt; id = insert_data.iterator()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">int </span><span class="s1">g = getItemCount()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s5">//   if (hasHeaderView()) g--;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(enableLoadMore()) g--</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">final int </span><span class="s1">start = g</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">while </span><span class="s1">(id.hasNext()) { 
+                original_list.add(original_list.size()</span><span class="s0">, </span><span class="s1">id.next())</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">if </span><span class="s1">(insert_data.size() == </span><span class="s3">1</span><span class="s1">) { 
+                notifyItemInserted(start)</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else if </span><span class="s1">(insert_data.size() &gt; </span><span class="s3">1</span><span class="s1">) { 
+                notifyItemRangeInserted(start</span><span class="s0">, </span><span class="s1">insert_data.size())</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            String o = e.fillInStackTrace().getCause().getMessage().toString()</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s6">&quot;fillInStackTrace&quot;</span><span class="s0">, </span><span class="s1">o + </span><span class="s6">&quot; : &quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Remove a item of  the list of the adapter 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">list     na 
+     * </span><span class="s4">@param </span><span class="s2">position na 
+     * </span><span class="s4">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;      </span><span class="s2">na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">removeInternal(List&lt;T&gt; list</span><span class="s0">, int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView() &amp;&amp; position == </span><span class="s3">0</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; position == getItemCount() - </span><span class="s3">1</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(list.size() &gt; </span><span class="s3">0</span><span class="s1">) { 
+            list.remove(hasHeaderView() ? position - </span><span class="s3">1 </span><span class="s1">: position)</span><span class="s0">;</span><span class="s1"> 
+            notifyItemRemoved(position)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">removeFirstInternal(List&lt;T&gt; list) { 
+        removeInternal(list</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">removeLastInternal(List&lt;T&gt; list) { 
+        removeInternal(list</span><span class="s0">, </span><span class="s1">getAdapterItemCount() - </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Clear the list of the adapter 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">list data list 
+     * </span><span class="s4">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;  </span><span class="s2">na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">clearInternal(List&lt;T&gt; list) { 
+        </span><span class="s0">int </span><span class="s1">data_size_before_remove = list.size()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final int </span><span class="s1">display_size_before_remove = getItemCount()</span><span class="s0">;</span><span class="s1"> 
+        list.clear()</span><span class="s0">;</span><span class="s1"> 
+        notifyAfterRemoveAllData(data_size_before_remove</span><span class="s0">, </span><span class="s1">display_size_before_remove)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * </span><span class="s4">@param </span><span class="s2">data_size_before_remove    data size 
+     * </span><span class="s4">@param </span><span class="s2">display_size_before_remove display item size 
+     * </span><span class="s4">@return </span><span class="s2">TRUE for this is done and no more further processing 
+     */</span><span class="s1"> 
+    </span><span class="s0">protected boolean </span><span class="s1">detectDispatchLoadMoreDisplay(</span><span class="s0">final int </span><span class="s1">data_size_before_remove</span><span class="s0">, final int </span><span class="s1">display_size_before_remove) { 
+        </span><span class="s0">if </span><span class="s1">(data_size_before_remove == </span><span class="s3">0</span><span class="s1">) { 
+            </span><span class="s0">if </span><span class="s1">(display_size_before_remove == </span><span class="s3">2</span><span class="s1">) { 
+ 
+                </span><span class="s0">if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) { 
+ 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) { 
+                    removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) { 
+                    removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+                } 
+ 
+            } </span><span class="s0">else if </span><span class="s1">(display_size_before_remove == </span><span class="s3">1</span><span class="s1">) { 
+ 
+                </span><span class="s0">if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) { 
+ 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) { 
+                    removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) { 
+                    removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+                } 
+ 
+                </span><span class="s0">return true;</span><span class="s1"> 
+ 
+            } </span><span class="s0">else if </span><span class="s1">(display_size_before_remove == </span><span class="s3">0</span><span class="s1">) { 
+                </span><span class="s0">if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) { 
+                    notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) { 
+                    notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY) { 
+                    notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">return true;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">return false;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s0">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected void </span><span class="s1">removeDispatchLoadMoreView() { 
+        </span><span class="s0">if </span><span class="s1">(customLoadMoreItemView != </span><span class="s0">null</span><span class="s1">) { 
+            customLoadMoreItemView.setVisibility(View.GONE)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * works on API v23 
+     * there is a high  chance to crash this 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">data_size_before_remove    original size before removed 
+     * </span><span class="s4">@param </span><span class="s2">display_size_before_remove the counts for display items 
+     *                                   </span><span class="s7">&lt;code&gt;</span><span class="s2"> 
+     *                                   http://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position</span><span class="s7">&lt;/code&gt;</span><span class="s2"> 
+     */</span><span class="s1"> 
+ 
+    </span><span class="s0">protected void </span><span class="s1">notifyAfterRemoveAllData(</span><span class="s0">final int </span><span class="s1">data_size_before_remove</span><span class="s0">, final int </span><span class="s1">display_size_before_remove) { 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">final int </span><span class="s1">notify_start_item = hasHeaderView() ? </span><span class="s3">1 </span><span class="s1">: </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">if </span><span class="s1">(detectDispatchLoadMoreDisplay(data_size_before_remove</span><span class="s0">, </span><span class="s1">display_size_before_remove)) 
+                </span><span class="s0">return;</span><span class="s1"> 
+ 
+            </span><span class="s0">if </span><span class="s1">(data_size_before_remove == </span><span class="s3">0</span><span class="s1">) </span><span class="s0">return;</span><span class="s1"> 
+ 
+            </span><span class="s0">if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) { 
+                </span><span class="s0">if </span><span class="s1">(hasHeaderView()) 
+                    notifyItemRangeChanged(notify_start_item</span><span class="s0">, </span><span class="s1">data_size_before_remove)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">else </span><span class="s1">{ 
+                    notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) { 
+                notifyItemRangeRemoved(notify_start_item</span><span class="s0">, </span><span class="s1">data_size_before_remove)</span><span class="s0">;</span><span class="s1"> 
+                removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else if </span><span class="s1">(mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) { 
+                notifyItemRangeRemoved(</span><span class="s3">0</span><span class="s0">, </span><span class="s1">data_size_before_remove)</span><span class="s0">;</span><span class="s1"> 
+                removeDispatchLoadMoreView()</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                notifyItemRangeRemoved(</span><span class="s3">0</span><span class="s0">, </span><span class="s1">data_size_before_remove)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            String o = e.fillInStackTrace().getCause().getMessage().toString()</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s6">&quot;fillInStackTrace&quot;</span><span class="s0">, </span><span class="s1">o + </span><span class="s6">&quot; : &quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * remove all items 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">list na 
+     * </span><span class="s4">@param </span><span class="s1">&lt;</span><span class="s2">T</span><span class="s1">&gt;  </span><span class="s2">na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public final </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">removeAllInternal(List&lt;T&gt; list) { 
+        clearInternal(list)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public long </span><span class="s1">getHeaderId(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView() &amp;&amp; position == </span><span class="s3">0</span><span class="s1">) </span><span class="s0">return </span><span class="s1">-</span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; position &gt;= getItemCount() - </span><span class="s3">1</span><span class="s1">) </span><span class="s0">return </span><span class="s1">-</span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(getAdapterItemCount() &gt; </span><span class="s3">0</span><span class="s1">) { 
+            </span><span class="s0">return </span><span class="s1">generateHeaderId(hasHeaderView() ? position - </span><span class="s3">1 </span><span class="s1">: position)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else return </span><span class="s1">-</span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public abstract long </span><span class="s1">generateHeaderId(</span><span class="s0">int </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s0">public static class </span><span class="s1">VIEW_TYPES { 
+        </span><span class="s0">public static final int </span><span class="s1">NORMAL = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">HEADER = </span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">//this is the default loading footer</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">FOOTER = </span><span class="s3">2</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">//this is the customized footer</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">NOVIEW = </span><span class="s3">3</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">//this is specialized Ad view</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">ADVIEW = </span><span class="s3">4</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">public static final int </span><span class="s1">CUSTOMVIEW = </span><span class="s3">5</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected enum </span><span class="s1">AdapterAnimationType { 
+        AlphaIn</span><span class="s0">,</span><span class="s1"> 
+        SlideInBottom</span><span class="s0">,</span><span class="s1"> 
+        ScaleIn</span><span class="s0">,</span><span class="s1"> 
+        SlideInLeft</span><span class="s0">,</span><span class="s1"> 
+        SlideInRight</span><span class="s0">,</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Animations when loading the adapter 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">view the view 
+     * </span><span class="s4">@param </span><span class="s2">type the type of the animation 
+     * </span><span class="s4">@return </span><span class="s2">the animator in array 
+     */</span><span class="s1"> 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
+    </span><span class="s0">protected </span><span class="s1">Animator[] getAdapterAnimations(View view</span><span class="s0">, </span><span class="s1">AdapterAnimationType type) { 
+        </span><span class="s0">if </span><span class="s1">(type == AdapterAnimationType.ScaleIn) { 
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;scaleX&quot;</span><span class="s0">, </span><span class="s3">.5f</span><span class="s0">, </span><span class="s3">1f</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;scaleY&quot;</span><span class="s0">, </span><span class="s3">.5f</span><span class="s0">, </span><span class="s3">1f</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return new </span><span class="s1">ObjectAnimator[]{scaleX</span><span class="s0">, </span><span class="s1">scaleY}</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.AlphaIn) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;alpha&quot;</span><span class="s0">, </span><span class="s3">.5f</span><span class="s0">, </span><span class="s3">1f</span><span class="s1">)}</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInBottom) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationY&quot;</span><span class="s0">, </span><span class="s1">view.getMeasuredHeight()</span><span class="s0">, </span><span class="s3">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInLeft) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationX&quot;</span><span class="s0">, </span><span class="s1">-view.getRootView().getWidth()</span><span class="s0">, </span><span class="s3">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(type == AdapterAnimationType.SlideInRight) { 
+            </span><span class="s0">return new </span><span class="s1">Animator[]{ 
+                    ObjectAnimator.ofFloat(view</span><span class="s0">, </span><span class="s6">&quot;translationX&quot;</span><span class="s0">, </span><span class="s1">view.getRootView().getWidth()</span><span class="s0">, </span><span class="s3">0</span><span class="s1">) 
+            }</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+ 
+</span><span class="s5">/* 
+    @Override 
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) { 
+        ViewHelper.clear(holder.itemView); 
+ 
+    } 
+    */</span><span class="s1"> 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemMove(</span><span class="s0">int </span><span class="s1">fromPosition</span><span class="s0">, int </span><span class="s1">toPosition) { 
+        notifyItemMoved(fromPosition</span><span class="s0">, </span><span class="s1">toPosition)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemDismiss(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView() &amp;&amp; getItemViewType(position) == VIEW_TYPES.HEADER) </span><span class="s0">return;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(enableLoadMore() &amp;&amp; getItemViewType(position) == VIEW_TYPES.FOOTER) </span><span class="s0">return;</span><span class="s1"> 
+        notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">protected </span><span class="s1">OnStartDragListener mDragStartListener = </span><span class="s0">null;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Listener for manual initiation of a drag. 
+     */</span><span class="s1"> 
+    </span><span class="s0">public interface </span><span class="s1">OnStartDragListener { 
+ 
+        </span><span class="s2">/** 
+         * Called when a view is requesting a start of a drag. 
+         * 
+         * </span><span class="s4">@param </span><span class="s2">viewHolder The holder of the view to drag. 
+         */</span><span class="s1"> 
+        </span><span class="s0">void </span><span class="s1">onStartDrag(RecyclerView.ViewHolder viewHolder)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

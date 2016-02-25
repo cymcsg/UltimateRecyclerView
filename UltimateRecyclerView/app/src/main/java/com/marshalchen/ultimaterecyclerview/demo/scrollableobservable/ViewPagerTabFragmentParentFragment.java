@@ -93,7 +93,7 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                     mBaseTranslationY = scrollY;
                 }
             }
-            float headerTranslationY = ScrollUtils.getFloat(mBaseTranslationY - scrollY, -headerBannerHeight, 0);
+            final float headerTranslationY = ScrollUtils.getFloat(mBaseTranslationY - scrollY, -headerBannerHeight, 0);
             ViewCompat.animate(mHeaderContainer).cancel();
             ViewCompat.setTranslationY(mHeaderContainer, headerTranslationY);
             //todo: need some more works on this
@@ -106,14 +106,14 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
     }
 
     @Override
-    public void onUpOrCancelMotionEvent(ObservableScrollState scrollState) {
+    public void onUpOrCancelMotionEvent(final ObservableScrollState scrollState) {
         if (!mScrolled) {
             // This event can be used only when TouchInterceptionFrameLayout
             // doesn't handle the consecutive events.
             // toolbarAdjustment(scrollState);
             mBaseTranslationY = 0;
 
-            Fragment fragment = getCurrentFragment();
+            final Fragment fragment = getCurrentFragment();
             if (fragment == null) {
                 return;
             }

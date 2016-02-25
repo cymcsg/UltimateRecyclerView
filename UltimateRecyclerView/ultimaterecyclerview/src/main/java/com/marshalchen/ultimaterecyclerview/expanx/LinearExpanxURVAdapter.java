@@ -265,13 +265,13 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
     public void delete(int pos) {
         if (pos >= 0 && pos < mDataSet.size()) {
             if (mDataSet.get(pos).getType() == ExpandableViewTypes.ITEM_TYPE_PARENT
-                    && mDataSet.get(pos).isExpand()) {// 父组件并且子节点已经展开
+                    && mDataSet.get(pos).isExpand()) {
                 for (int i = 0; i < mDataSet.get(pos).getChildren().size() + 1; i++) {
                     mDataSet.remove(pos);
                 }
                 notifyItemRangeRemoved(pos, mDataSet.get(pos).getChildren()
                         .size() + 1);
-            } else {// 孩子节点，或没有展开的父节点
+            } else {
                 mDataSet.remove(pos);
                 notifyItemRemoved(pos);
             }
@@ -291,7 +291,7 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
             if (children == null) {
                 return;
             }
-            addAll(children, position + 1); // 插入到点击点的下方
+            addAll(children, position + 1);
             triggerSingleEventScrollTo(position + 1);
             triggerBoardCastEventScrollTo(position + 1);
         }
@@ -318,7 +318,7 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
                 return;
             }
 
-            addAll(children, position + 1);// 插入到点击点的下方
+            addAll(children, position + 1);
             itemData.setChildren(children);
             triggerSingleEventScrollTo(position + 1);
             triggerBoardCastEventScrollTo(position + 1);

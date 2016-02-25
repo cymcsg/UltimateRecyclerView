@@ -8,7 +8,7 @@ buildscript {
         // - @ https://oss.sonatype.org/
         classpath 'com.android.tools.build:gradle:1.5.0'
         // - tutorials  @https://github.com/novoda/bintray-release
-        classpath 'com.novoda:bintray-release:0.3.5'
+        classpath 'com.novoda:bintray-release:0.3.4'
     }
 }
 

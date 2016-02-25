@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>ObservableScrollViewCallbacks.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(98,151,85); font-style: italic; }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ObservableScrollViewCallbacks.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ * Copyright 2014 Soichiro Kashima 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s3">/** 
+ * Callbacks for Scrollable widgets. 
+ */</span><span class="s1"> 
+</span><span class="s2">public interface </span><span class="s1">ObservableScrollViewCallbacks { 
+    </span><span class="s3">/** 
+     * Called when the scroll change events occurred. 
+     * This won't be called just after the view is laid out, so if you'd like to 
+     * initialize the position of your views with this method, you should call this manually 
+     * or invoke scroll as appropriate. 
+     * 
+     * </span><span class="s4">@param </span><span class="s3">scrollY     scroll position in Y axis 
+     * </span><span class="s4">@param </span><span class="s3">firstScroll true when this is called for the first time in the consecutive motion events 
+     * </span><span class="s4">@param </span><span class="s3">dragging    true when the view is dragged and false when the view is scrolled in the inertia 
+     */</span><span class="s1"> 
+    </span><span class="s2">void </span><span class="s1">onScrollChanged(</span><span class="s2">int </span><span class="s1">scrollY</span><span class="s2">, boolean </span><span class="s1">firstScroll</span><span class="s2">, boolean </span><span class="s1">dragging)</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * Called when the down motion event occurred. 
+     */</span><span class="s1"> 
+    </span><span class="s2">void </span><span class="s1">onDownMotionEvent()</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * Called when the dragging ended or canceled. 
+     * 
+     * </span><span class="s4">@param </span><span class="s3">observableScrollState state to indicate the scroll direction 
+     */</span><span class="s1"> 
+    </span><span class="s2">void </span><span class="s1">onUpOrCancelMotionEvent(ObservableScrollState observableScrollState)</span><span class="s2">;</span><span class="s1"> 
+} 
+</span></pre>
+</body>
+</html>

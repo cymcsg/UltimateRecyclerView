@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
  * Created by hesk on 15/2/16.
  */
 public abstract class paginator extends Fragment {
+
     private int currentPage, totalPages, pagePerItems, landscape_common_colums = 4, portrait_common_colums = 2;
     private String tag_keyword, fullEndPoint, searchKeyword;
     private boolean enable_load_more, is_new_search, status_refresh, status_initization;
@@ -47,6 +48,7 @@ public abstract class paginator extends Fragment {
     public final boolean isStatusRefresh() {
         return status_refresh;
     }
+
 
     @IdRes
     protected abstract int getRefresherProgressBarId();
@@ -94,7 +96,6 @@ public abstract class paginator extends Fragment {
         pagePerItems = getItemsShownPerPage();
         enable_load_more = false;
         is_new_search = false;
-        status_refresh = false;
         status_initization = true;
     }
 
@@ -180,5 +181,6 @@ public abstract class paginator extends Fragment {
         nextPage();
         makeBasicRequest();
     }
+
 
 }

@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>CustomLinearLayoutManager.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+CustomLinearLayoutManager.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.LinearLayoutManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by cym on 15/5/27. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">CustomLinearLayoutManager </span><span class="s0">extends </span><span class="s1">LinearLayoutManager { 
+ 
+    </span><span class="s0">public </span><span class="s1">CustomLinearLayoutManager(Context context</span><span class="s0">, int </span><span class="s1">orientation</span><span class="s0">, boolean </span><span class="s1">reverseLayout)    { 
+        </span><span class="s0">super</span><span class="s1">(context</span><span class="s0">, </span><span class="s1">orientation</span><span class="s0">, </span><span class="s1">reverseLayout)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private int</span><span class="s1">[] mMeasuredDimension = </span><span class="s0">new int</span><span class="s1">[</span><span class="s3">2</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onMeasure(RecyclerView.Recycler recycler</span><span class="s0">, </span><span class="s1">RecyclerView.State state</span><span class="s0">,</span><span class="s1"> 
+                          </span><span class="s0">int </span><span class="s1">widthSpec</span><span class="s0">, int </span><span class="s1">heightSpec) { 
+        </span><span class="s0">final int </span><span class="s1">widthMode = View.MeasureSpec.getMode(widthSpec)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final int </span><span class="s1">heightMode = View.MeasureSpec.getMode(heightSpec)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final int </span><span class="s1">widthSize = View.MeasureSpec.getSize(widthSpec)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final int </span><span class="s1">heightSize = View.MeasureSpec.getSize(heightSpec)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">width = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">height = </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt; getItemCount()</span><span class="s0">; </span><span class="s1">i++) { 
+            measureScrapChild(recycler</span><span class="s0">, </span><span class="s1">i</span><span class="s0">,</span><span class="s1"> 
+                    View.MeasureSpec.makeMeasureSpec(i</span><span class="s0">, </span><span class="s1">View.MeasureSpec.UNSPECIFIED)</span><span class="s0">,</span><span class="s1"> 
+                    View.MeasureSpec.makeMeasureSpec(i</span><span class="s0">, </span><span class="s1">View.MeasureSpec.UNSPECIFIED)</span><span class="s0">,</span><span class="s1"> 
+                    mMeasuredDimension)</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">if </span><span class="s1">(getOrientation() == HORIZONTAL) { 
+                width = width + mMeasuredDimension[</span><span class="s3">0</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(i == </span><span class="s3">0</span><span class="s1">) { 
+                    height = mMeasuredDimension[</span><span class="s3">1</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                height = height + mMeasuredDimension[</span><span class="s3">1</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(i == </span><span class="s3">0</span><span class="s1">) { 
+                    width = mMeasuredDimension[</span><span class="s3">0</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        } 
+        </span><span class="s0">switch </span><span class="s1">(widthMode) { 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.EXACTLY: 
+                width = widthSize</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.AT_MOST: 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.UNSPECIFIED: 
+        } 
+ 
+        </span><span class="s0">switch </span><span class="s1">(heightMode) { 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.EXACTLY: 
+                height = heightSize</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.AT_MOST: 
+            </span><span class="s0">case </span><span class="s1">View.MeasureSpec.UNSPECIFIED: 
+        } 
+ 
+        setMeasuredDimension(width</span><span class="s0">, </span><span class="s1">height)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">measureScrapChild(RecyclerView.Recycler recycler</span><span class="s0">, int </span><span class="s1">position</span><span class="s0">, int </span><span class="s1">widthSpec</span><span class="s0">,</span><span class="s1"> 
+                                   </span><span class="s0">int </span><span class="s1">heightSpec</span><span class="s0">, int</span><span class="s1">[] measuredDimension) { 
+        View view = recycler.getViewForPosition(position)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(view != </span><span class="s0">null</span><span class="s1">) { 
+            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">int </span><span class="s1">childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec</span><span class="s0">,</span><span class="s1"> 
+                    getPaddingLeft() + getPaddingRight()</span><span class="s0">, </span><span class="s1">p.width)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">int </span><span class="s1">childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec</span><span class="s0">,</span><span class="s1"> 
+                    getPaddingTop() + getPaddingBottom()</span><span class="s0">, </span><span class="s1">p.height)</span><span class="s0">;</span><span class="s1"> 
+            view.measure(childWidthSpec</span><span class="s0">, </span><span class="s1">childHeightSpec)</span><span class="s0">;</span><span class="s1"> 
+            measuredDimension[</span><span class="s3">0</span><span class="s1">] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin</span><span class="s0">;</span><span class="s1"> 
+            measuredDimension[</span><span class="s3">1</span><span class="s1">] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin</span><span class="s0">;</span><span class="s1"> 
+            recycler.recycleView(view)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+} 
+</span></pre>
+</body>
+</html>
