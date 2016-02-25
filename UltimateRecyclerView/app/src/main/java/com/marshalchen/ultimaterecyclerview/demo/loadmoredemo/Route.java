@@ -8,7 +8,9 @@ import android.content.Intent;
  */
 public enum Route {
     CUSTOM_PULL_HEADER("Custom Pull", PullToRefreshActivity.class),
+    LOADLOADING_CUT("Stop loading", FirstPageCancelLoadMore.class),
     LOADMORE_TEST("No Header", DebugNoHeaderLoadMoreActivity.class),
+    FinalEmptyViewDisplayActivity("Empty View", FinalEmptyViewDisplayActivity.class),
     LOADMORE_HEADER("Header Pallx", DebugLoadMoreActivity.class),;
 
     private String name;

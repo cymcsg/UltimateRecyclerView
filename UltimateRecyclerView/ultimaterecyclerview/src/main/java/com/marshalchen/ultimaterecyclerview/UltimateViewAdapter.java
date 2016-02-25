@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,7 @@ import java.util.List;
  * An abstract adapter which can be extended for Recyclerview
  */
 public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
-
+    protected Handler timer = new Handler();
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
     protected View customLoadMoreItemView = null;
@@ -75,37 +76,57 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return enabled_custom_load_more_view;
     }
 
+
+    private class delayenableloadmore implements Runnable {
+        private boolean enabled;
+
+        public delayenableloadmore(final boolean b) {
+            enabled = b;
+        }
+
+        @Override
+        public void run() {
+            if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
+                final int displaySize = getItemCount();
+                final int dataSize = getAdapterItemCount();
+                if (dataSize > 0 && customLoadMoreItemView != null) {
+                    notifyItemRemoved(displaySize - 1);
+                }
+                detectDispatchLoadMoreDisplay(getAdapterItemCount(), getItemCount());
+            }
+            enabled_custom_load_more_view = enabled;
+            if (enabled && customLoadMoreView == null) {
+                enabled_custom_load_more_view = false;
+            }
+            if (enabled) {
+                revealDispatchLoadMoreView();
+            }
+        }
+    }
+
+    public delayenableloadmore cbloadmore;
+
     /**
      * as the set function to switching load more feature
      *
      * @param b bool
      */
-    public final void enableLoadMore(boolean b) {
-        enabled_custom_load_more_view = b;
-        if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
-          /*  final int LastItem = getItemCount() - 1;
-            final boolean EMPTY_SHOW_LOADMORE_ONLY = getEmptyViewPolicy() == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY;
-            final boolean EMPTY_KEEP_HEADER_AND_LOARMORE = getEmptyViewPolicy() == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE;
-            if (EMPTY_SHOW_LOADMORE_ONLY && getAdapterItemCount() == 0) {
-                if (LastItem > -1) {
-                    notifyItemRemoved(LastItem);
-                }
-            }
-            removeDispatchLoadMoreView();*/
-            final int displaySize = getItemCount();
-            final int dataSize = getAdapterItemCount();
-            if (dataSize > 0 && hasHeaderView() && customLoadMoreItemView != null) {
-                notifyItemRemoved(displaySize - 1);
-            }
-            detectDispatchLoadMoreDisplay(getAdapterItemCount(), getItemCount());
-        }
-        if (b && customLoadMoreView == null) {
-            enabled_custom_load_more_view = false;
-        }
-        if (b) {
-            revealDispatchLoadMoreView();
-        }
+    public final void enableLoadMore(final boolean b) {
+        cbloadmore = new delayenableloadmore(b);
+        timer.postDelayed(cbloadmore, 1000);
         loadmoresetingswatch++;
+    }
+
+    /**
+     * Called by RecyclerView when it stops observing this Adapter.
+     *
+     * @param recyclerView The RecyclerView instance which stopped observing this adapter.
+     * @see #onAttachedToRecyclerView(RecyclerView)
+     */
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        timer.removeCallbacks(cbloadmore);
     }
 
     public final void setEmptyViewPolicy(final int policy) {
