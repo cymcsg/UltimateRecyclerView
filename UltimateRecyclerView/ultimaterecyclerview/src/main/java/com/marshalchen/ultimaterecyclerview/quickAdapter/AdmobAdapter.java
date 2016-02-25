@@ -138,28 +138,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
         return zero_for_admob_selection == 0;
     }
 
-
-   /* public void remove(List<?> list, int position) {
-        try {
-            if (list.size() > 0 && position < list.size()) {
-                list.remove(position);
-                final int offset = getReverseDataArrayPosition(position);
-                notifyItemRemoved(offset);
-                if (offset > 1 && isOnAdView(offset) && position > 0) {
-                    notifyItemRemoved(offset - 1);
-                }
-                Log.d("normaladmob", "offset final: " + offset);
-            } else {
-                throw new ArrayIndexOutOfBoundsException("no data or the remove position is not exist p:" + position + ", list size:" + list.size());
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Log.d("admobError r1", e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            Log.d("admobError r2", e.getMessage());
-        }
-
-    }*/
-
     @Override
     protected void notifyAfterRemoveAllData(int data_size_before_remove, int display_size_before_remove) {
         try {
@@ -173,7 +151,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
 
             if (data_size_before_remove == 0) return;
 
-
             if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE) {
                 notifyItemRangeRemoved(n_start, n_end);
             } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_KEEP_HEADER) {
@@ -185,7 +162,6 @@ public abstract class AdmobAdapter<Adv extends ViewGroup, T, BINDHOLDER extends 
             } else {
                 notifyItemRangeRemoved(0, display_size_before_remove);
             }
-
 
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
