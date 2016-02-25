@@ -83,10 +83,27 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public final void enableLoadMore(boolean b) {
         enabled_custom_load_more_view = b;
         if (!b && loadmoresetingswatch > 0 && customLoadMoreView != null) {
-            notifyItemRemoved(getItemCount() - 1);
+          /*  final int LastItem = getItemCount() - 1;
+            final boolean EMPTY_SHOW_LOADMORE_ONLY = getEmptyViewPolicy() == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY;
+            final boolean EMPTY_KEEP_HEADER_AND_LOARMORE = getEmptyViewPolicy() == UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE;
+            if (EMPTY_SHOW_LOADMORE_ONLY && getAdapterItemCount() == 0) {
+                if (LastItem > -1) {
+                    notifyItemRemoved(LastItem);
+                }
+            }
+            removeDispatchLoadMoreView();*/
+            final int displaySize = getItemCount();
+            final int dataSize = getAdapterItemCount();
+            if (dataSize > 0 && hasHeaderView() && customLoadMoreItemView != null) {
+                notifyItemRemoved(displaySize - 1);
+            }
+            detectDispatchLoadMoreDisplay(getAdapterItemCount(), getItemCount());
         }
         if (b && customLoadMoreView == null) {
             enabled_custom_load_more_view = false;
+        }
+        if (b) {
+            revealDispatchLoadMoreView();
         }
         loadmoresetingswatch++;
     }
@@ -124,7 +141,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
              */
             customLoadMoreItemView = viewHolder.itemView;
             if (getAdapterItemCount() == 0) {
-                customLoadMoreItemView.setVisibility(View.INVISIBLE);
+                removeDispatchLoadMoreView();
+            } else if (enabled_custom_load_more_view = true) {
+                revealDispatchLoadMoreView();
             }
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
@@ -332,7 +351,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         insertInternal(list, item, getAdapterItemCount());
     }
 
-
     /**
      * insert the new item list after the whole list
      *
@@ -354,6 +372,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
                 notifyItemInserted(start);
             } else if (insert_data.size() > 1) {
                 notifyItemRangeInserted(start, insert_data.size());
+            }
+            if (enabled_custom_load_more_view) {
+                revealDispatchLoadMoreView();
             }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
@@ -443,9 +464,19 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return false;
     }
 
+    protected void revealDispatchLoadMoreView() {
+        if (customLoadMoreItemView != null) {
+            if (customLoadMoreItemView.getVisibility() != View.VISIBLE) {
+                customLoadMoreItemView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     protected void removeDispatchLoadMoreView() {
         if (customLoadMoreItemView != null) {
-            customLoadMoreItemView.setVisibility(View.GONE);
+            if (customLoadMoreItemView.getVisibility() != View.GONE) {
+                customLoadMoreItemView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -462,7 +493,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected void notifyAfterRemoveAllData(final int data_size_before_remove, final int display_size_before_remove) {
         try {
             final int notify_start_item = hasHeaderView() ? 1 : 0;
-
+            final int notifiy_n_plus = hasHeaderView() ? data_size_before_remove + 1 : data_size_before_remove;
             if (detectDispatchLoadMoreDisplay(data_size_before_remove, display_size_before_remove))
                 return;
 
@@ -478,10 +509,13 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
                 notifyItemRangeRemoved(notify_start_item, data_size_before_remove);
                 removeDispatchLoadMoreView();
             } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_CLEAR_ALL) {
-                notifyItemRangeRemoved(0, data_size_before_remove);
+                notifyItemRangeRemoved(0, notifiy_n_plus);
                 removeDispatchLoadMoreView();
+            } else if (mEmptyViewPolicy == UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY) {
+                notifyItemRangeRemoved(0, notifiy_n_plus);
+                revealDispatchLoadMoreView();
             } else {
-                notifyItemRangeRemoved(0, data_size_before_remove);
+                notifyItemRangeRemoved(0, notifiy_n_plus);
             }
         } catch (Exception e) {
             String o = e.fillInStackTrace().getCause().getMessage().toString();
