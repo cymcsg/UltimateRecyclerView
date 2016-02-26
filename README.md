@@ -58,7 +58,6 @@ Notice that UltimateRecyclerView is a project under development.
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
 * You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki) and welcome to make your own tutorials in here.
 
-
 #### Welcome to fork and PR (pull request)
 If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue. If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
@@ -73,8 +72,6 @@ dependencies {
     compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
 }
 ```
-
-
 
 ###### 2.Usage:
 
@@ -140,7 +137,7 @@ Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc104
 ## License
 
 ``` 
-Copyright 2015 Marshal Chen
+Copyright 2015
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
