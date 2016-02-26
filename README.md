@@ -137,7 +137,7 @@ Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc104
 ## License
 
 ``` 
-Copyright 2015
+Copyright 2015 MarsellChan
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
