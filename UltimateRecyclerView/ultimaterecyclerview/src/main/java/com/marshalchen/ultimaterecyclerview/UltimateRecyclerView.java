@@ -282,6 +282,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Show the custom or default empty view
      * You can customize it as loading view
+     *
+     * @return is the empty shown
      */
     public boolean showEmptyView() {
         if (mEmpty != null && mEmptyView != null && mAdapter != null) {
@@ -309,16 +311,34 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
     }
 
+    public void setLoadMoreView(View mlayoutView) {
+        if (mLoadMoreView != null) {
+            Log.d(VIEW_LOG_TAG, "The loading more layout has already been initiated.");
+            return;
+        }
+        if (mlayoutView == null) {
+            mLoadMoreView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_progressbar, null);
+            enableLoadmore();
+            Log.d(VIEW_LOG_TAG, "Layout Resource view is null. This system will use the default loading view instead.");
+        } else {
+            mLoadMoreView = mlayoutView;
+            enableLoadmore();
+        }
+    }
+
     /**
      * setting up the loading more layout
      *
      * @param layout the res layout
      */
     public void setLoadMoreView(@LayoutRes final int layout) {
-        mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout, null);
-        enableLoadmore();
+        if (layout > 0) {
+            mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout, null);
+            enableLoadmore();
+        } else {
+            Log.d(VIEW_LOG_TAG, "Layout Resource Id is not found for load more view for ulitmaterecyclerview");
+        }
     }
-
 
     /**
      * Show the custom floating button view.
@@ -1004,6 +1024,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mOffset = offset;
             invalidate();
         }
+
     }
 
     /**
