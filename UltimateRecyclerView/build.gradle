@@ -8,7 +8,7 @@ buildscript {
         // - @ https://oss.sonatype.org/
         classpath 'com.android.tools.build:gradle:1.5.0'
         // - tutorials  @https://github.com/novoda/bintray-release
-        classpath 'com.novoda:bintray-release:0.3.5'
+        classpath 'com.novoda:bintray-release:0.3.4'
     }
 }
 
@@ -34,7 +34,8 @@ ext {
     app_demo_versionCode = 23
     app_demo_versionName = '1.4.0'
     //Support and Build tools version
-    supportLibrary = '22.2.1'
+    //  supportLibrary = '22.2.1'
+    supportLibrary = '23.1.1'
     ftKit = '0.4.1'
     //Support Libraries dependencies
     supportDependencies = [

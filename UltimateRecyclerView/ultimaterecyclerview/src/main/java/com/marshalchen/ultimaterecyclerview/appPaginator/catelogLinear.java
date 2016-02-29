@@ -1,11 +1,10 @@
-package com.hkm.slidingmenulib.layoutdesigns.fragment;
+package com.marshalchen.ultimaterecyclerview.appPaginator;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +15,8 @@ import com.marshalchen.ultimaterecyclerview.R;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.appPaginator.paginator;
-import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
-
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
+import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
 
 /**
  * Created by hesk on 30/6/15.
@@ -31,6 +29,12 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
     public static String FRAGMENTTITLE = "fragment_title";
     public static String SAVELOADDATA = "item_list";
     public static String HASSAVEFILTER = "filter";
+    protected LinearLayoutManager mLayoutManager;
+    protected adapter madapter;
+
+    protected abstract adapter getAdatperWithdata();
+
+    protected abstract void setUltimateRecyclerViewExtra(final UltimateRecyclerView listview, final adapter madapter);
 
     @Override
     public void onAttach(Activity activity) {
@@ -52,18 +56,10 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
         return R.id.urv_main_list;
     }
 
-    @LayoutRes
-    protected abstract int getFragmentResId();
-
-    protected abstract void onClickItem(final String route);
-
-    protected abstract void onClickItem(final long route_id);
-
-    protected abstract int getColumn();
-
-    protected abstract adapter getAdatperWithdata();
-
-    protected abstract void setUltimateRecyclerViewExtra(final UltimateRecyclerView listview, final adapter madapter);
+    @IdRes
+    protected int getRefresherProgressBarId() {
+        return R.id.urv_main_progress_bar;
+    }
 
     /**
      * step 1:
@@ -82,26 +78,23 @@ public abstract class catelogLinear<adapter extends easyRegularAdapter, binder e
      */
     protected abstract void loadDataInitial(final adapter confirmAdapter);
 
-    protected LinearLayoutManager mLayoutManager;
-    protected adapter madapter;
 
     protected void renderviewlayout(View view) throws Exception {
         listview_layout = (UltimateRecyclerView) view.findViewById(getUltimate_recycler_viewResId());
         listview_layout.setHasFixedSize(true);
         listview_layout.setSaveEnabled(true);
-        listview_layout.setAdapter(madapter = getAdatperWithdata());
-        getProgressbar(view, R.id.urv_main_progress_bar);
-        setUltimateRecyclerViewExtra(listview_layout, madapter);
         if (mLayoutManager == null) {
             mLayoutManager = new ScrollSmoothLineaerLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false, getSmoothDuration());
         }
         listview_layout.setLayoutManager(mLayoutManager);
+        listview_layout.setAdapter(madapter = getAdatperWithdata());
+        getProgressbar(view);
+        setUltimateRecyclerViewExtra(listview_layout, madapter);
     }
 
     protected int getSmoothDuration() {
         return 300;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

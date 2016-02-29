@@ -1,0 +1,373 @@
+<html>
+<head>
+<title>DragDropTouchListener.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(98,151,85); font-style: italic; }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(106,135,89); }
+.s6 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+DragDropTouchListener.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ *  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at 
+ * 
+ *  http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ * 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">android.animation.Animator</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.animation.AnimatorListenerAdapter</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.app.Activity</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.graphics.Bitmap</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.graphics.Canvas</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.graphics.drawable.Drawable</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.util.DisplayMetrics</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.util.Log</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.MotionEvent</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.View</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.ViewGroup</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.widget.FrameLayout</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.widget.ImageView</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s3">/** 
+ * Implementation of RecyclerView.OnItemTouchListener that allows reordering items in RecyclerView by dragging and dropping. 
+ * Instance of this class should be added to RecylcerView using {</span><span class="s4">@link </span><span class="s3">RecyclerView#addOnItemTouchListener(RecyclerView.OnItemTouchListener)} method. 
+ * Use something like this: 
+ * dragDropTouchListener = new DragDropTouchListener(recyclerView, this) { 
+ *       Override 
+ *       protected void onItemSwitch(RecyclerView recyclerView, int from, int to) { 
+ *           adapter.swapPositions(from, to); 
+ *           adapter.notifyItemChanged(to); 
+ *           adapter.notifyItemChanged(from); 
+ *        Override 
+ *        protected void onItemDrop(RecyclerView recyclerView, int position) { 
+ *       } 
+ *  }; 
+ *  } 
+ * recyclerView.addOnItemTouchListener(dragDropTouchListener); 
+ * 
+ * Actual drag is started by calling {</span><span class="s4">@link </span><span class="s3">#startDrag()} somewhere later, for eg. in long touch listener 
+ */</span><span class="s1"> 
+</span><span class="s2">public abstract class </span><span class="s1">DragDropTouchListener </span><span class="s2">implements </span><span class="s1">RecyclerView.OnItemTouchListener { 
+    </span><span class="s2">private static final </span><span class="s1">String LOG_TAG = </span><span class="s5">&quot;DRAG-DROP&quot;</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private static final int </span><span class="s1">MOVE_DURATION = </span><span class="s6">150</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">private </span><span class="s1">RecyclerView recyclerView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">Activity activity</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">Drawable dragHighlight</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">DisplayMetrics displayMetrics</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">private final int </span><span class="s1">scrollAmount</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">downY = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">downX = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">View mobileView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mobileViewStartY = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mobileViewCurrentPos = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">activePointerId</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">dragging</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">enabled = </span><span class="s2">true;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s2">public </span><span class="s1">DragDropTouchListener(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">Activity activity) { 
+        </span><span class="s2">this</span><span class="s1">.recyclerView = recyclerView</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.activity = activity</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.displayMetrics = recyclerView.getResources().getDisplayMetrics()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.scrollAmount = (</span><span class="s2">int</span><span class="s1">) (</span><span class="s6">50 </span><span class="s1">/ displayMetrics.density)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.dragHighlight = recyclerView.getResources().getDrawable(R.drawable.drag_frame)</span><span class="s2">;</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s2">public </span><span class="s1">DragDropTouchListener(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">Activity activity</span><span class="s2">, </span><span class="s1">Drawable dragHighlight) { 
+        </span><span class="s2">this</span><span class="s1">(recyclerView</span><span class="s2">, </span><span class="s1">activity)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.dragHighlight = dragHighlight</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onInterceptTouchEvent(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">MotionEvent event) { 
+        </span><span class="s2">if </span><span class="s1">(!enabled) </span><span class="s2">return false;</span><span class="s1"> 
+ 
+        </span><span class="s2">switch </span><span class="s1">(event.getAction() &amp; MotionEvent.ACTION_MASK) { 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_DOWN: 
+                </span><span class="s2">return </span><span class="s1">down(event)</span><span class="s2">;</span><span class="s1"> 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_MOVE: 
+                </span><span class="s2">return </span><span class="s1">dragging &amp;&amp; move(event)</span><span class="s2">;</span><span class="s1"> 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_UP: 
+                </span><span class="s2">return </span><span class="s1">up(event)</span><span class="s2">;</span><span class="s1"> 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_CANCEL: 
+                </span><span class="s2">return </span><span class="s1">cancel(event)</span><span class="s2">;</span><span class="s1"> 
+ 
+        } 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">onTouchEvent(RecyclerView view</span><span class="s2">, </span><span class="s1">MotionEvent event) { 
+        </span><span class="s2">if </span><span class="s1">(!dragging) </span><span class="s2">return;</span><span class="s1"> 
+ 
+        </span><span class="s2">switch </span><span class="s1">(event.getAction() &amp; MotionEvent.ACTION_MASK) { 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_MOVE: 
+                move(event)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_UP: 
+                up(event)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+ 
+            </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_CANCEL: 
+                cancel(event)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+ 
+        } 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Call this to indicate drag start 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">startDrag() { 
+        View viewUnder = recyclerView.findChildViewUnder(downX</span><span class="s2">, </span><span class="s1">downY)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(viewUnder == </span><span class="s2">null</span><span class="s1">) </span><span class="s2">return;</span><span class="s1"> 
+        dragging = </span><span class="s2">true;</span><span class="s1"> 
+ 
+        mobileViewCurrentPos = recyclerView.getChildPosition(viewUnder)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">int</span><span class="s1">[] viewRawCoords = getViewRawCoords(viewUnder)</span><span class="s2">;</span><span class="s1"> 
+        mobileView = copyViewAsImage(viewUnder)</span><span class="s2">;</span><span class="s1"> 
+        mobileView.setX(viewRawCoords[</span><span class="s6">0</span><span class="s1">])</span><span class="s2">;</span><span class="s1"> 
+        mobileView.setY(viewRawCoords[</span><span class="s6">1</span><span class="s1">])</span><span class="s2">;</span><span class="s1"> 
+        mobileViewStartY = viewRawCoords[</span><span class="s6">1</span><span class="s1">]</span><span class="s2">;</span><span class="s1"> 
+ 
+        ViewGroup.LayoutParams lp = </span><span class="s2">new </span><span class="s1">ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT</span><span class="s2">, </span><span class="s1">ViewGroup.LayoutParams.WRAP_CONTENT)</span><span class="s2">;</span><span class="s1"> 
+        activity.addContentView(mobileView</span><span class="s2">, </span><span class="s1">lp)</span><span class="s2">;</span><span class="s1"> 
+        mobileView.bringToFront()</span><span class="s2">;</span><span class="s1"> 
+        viewUnder.setVisibility(View.INVISIBLE)</span><span class="s2">;</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s2">private boolean </span><span class="s1">down(MotionEvent event) { 
+        activePointerId = event.getPointerId(</span><span class="s6">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        downY = (</span><span class="s2">int</span><span class="s1">) event.getY()</span><span class="s2">;</span><span class="s1"> 
+        downX = (</span><span class="s2">int</span><span class="s1">) event.getX()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">private boolean </span><span class="s1">move(MotionEvent event) { 
+        </span><span class="s2">if </span><span class="s1">(activePointerId == -</span><span class="s6">1</span><span class="s1">) { 
+            </span><span class="s2">return false;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">int </span><span class="s1">pointerIndex = event.findPointerIndex(activePointerId)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">currentY = (</span><span class="s2">int</span><span class="s1">) event.getY(pointerIndex)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">deltaY = currentY - downY</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">mobileViewY = mobileViewStartY + deltaY</span><span class="s2">;</span><span class="s1"> 
+        mobileView.setY(mobileViewY)</span><span class="s2">;</span><span class="s1"> 
+ 
+        switchViewsIfNeeded()</span><span class="s2">;</span><span class="s1"> 
+        scrollIfNeeded()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">switchViewsIfNeeded() { 
+        </span><span class="s2">int </span><span class="s1">pos = mobileViewCurrentPos</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">abovePos = pos - </span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">belowPos = pos + </span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+ 
+        View aboveView = getViewByPosition(abovePos)</span><span class="s2">;</span><span class="s1"> 
+        View belowView = getViewByPosition(belowPos)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">int </span><span class="s1">mobileViewY = (</span><span class="s2">int</span><span class="s1">) mobileView.getY()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(aboveView != </span><span class="s2">null </span><span class="s1">&amp;&amp; aboveView.getTop() &gt; -</span><span class="s6">1 </span><span class="s1">&amp;&amp; mobileViewY &lt; aboveView.getTop()) { 
+            Log.d(LOG_TAG</span><span class="s2">, </span><span class="s1">String.format(</span><span class="s5">&quot;Got aboveView with top = %s, for position = %s, %s&quot;</span><span class="s2">, </span><span class="s1">aboveView.getTop()</span><span class="s2">, </span><span class="s1">abovePos</span><span class="s2">, </span><span class="s1">aboveView))</span><span class="s2">;</span><span class="s1"> 
+            doSwitch(aboveView</span><span class="s2">, </span><span class="s1">pos</span><span class="s2">, </span><span class="s1">abovePos)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">if </span><span class="s1">(belowView != </span><span class="s2">null </span><span class="s1">&amp;&amp; belowView.getTop() &gt; -</span><span class="s6">1 </span><span class="s1">&amp;&amp; mobileViewY &gt; belowView.getTop()) { 
+            Log.d(LOG_TAG</span><span class="s2">, </span><span class="s1">String.format(</span><span class="s5">&quot;Got belowView with top = %s, for position = %s, %s&quot;</span><span class="s2">, </span><span class="s1">belowView.getTop()</span><span class="s2">, </span><span class="s1">belowPos</span><span class="s2">, </span><span class="s1">belowView))</span><span class="s2">;</span><span class="s1"> 
+            doSwitch(belowView</span><span class="s2">, </span><span class="s1">pos</span><span class="s2">, </span><span class="s1">belowPos)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">doSwitch(</span><span class="s2">final </span><span class="s1">View switchView</span><span class="s2">, final int </span><span class="s1">originalViewPos</span><span class="s2">, final int </span><span class="s1">switchViewPos) { 
+        View originalView = getViewByPosition(originalViewPos)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">switchViewTop = switchView.getTop()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">originalViewTop = originalView.getTop()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">delta = originalViewTop - switchViewTop</span><span class="s2">;</span><span class="s1"> 
+ 
+        onItemSwitch(recyclerView</span><span class="s2">, </span><span class="s1">originalViewPos</span><span class="s2">, </span><span class="s1">switchViewPos)</span><span class="s2">;</span><span class="s1"> 
+ 
+        switchView.setVisibility(View.INVISIBLE)</span><span class="s2">;</span><span class="s1"> 
+        originalView.setVisibility(View.VISIBLE)</span><span class="s2">;</span><span class="s1"> 
+ 
+        originalView.setTranslationY(-delta)</span><span class="s2">;</span><span class="s1"> 
+        originalView.animate().translationYBy(delta).setDuration(MOVE_DURATION)</span><span class="s2">;</span><span class="s1"> 
+ 
+        mobileViewCurrentPos = switchViewPos</span><span class="s2">;</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s2">private boolean </span><span class="s1">up(MotionEvent event) { 
+        </span><span class="s2">if </span><span class="s1">(dragging) { 
+            onItemDrop(recyclerView</span><span class="s2">, </span><span class="s1">mobileViewCurrentPos)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        reset()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private boolean </span><span class="s1">cancel(MotionEvent event) { 
+        reset()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">reset() { 
+        </span><span class="s0">//Animate mobile view back to original position</span><span class="s1"> 
+        </span><span class="s2">final </span><span class="s1">View view = getViewByPosition(mobileViewCurrentPos)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(view != </span><span class="s2">null </span><span class="s1">&amp;&amp; mobileView != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">float </span><span class="s1">y = getViewRawCoords(view)[</span><span class="s6">1</span><span class="s1">]</span><span class="s2">;</span><span class="s1"> 
+            mobileView.animate().y(y).setDuration(MOVE_DURATION).setListener(</span><span class="s2">new </span><span class="s1">AnimatorListenerAdapter() { 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onAnimationEnd(Animator animation) { 
+                    view.setVisibility(View.VISIBLE)</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">if </span><span class="s1">(mobileView != </span><span class="s2">null</span><span class="s1">) { 
+                        ViewGroup parent = (ViewGroup) mobileView.getParent()</span><span class="s2">;</span><span class="s1"> 
+                        parent.removeView(mobileView)</span><span class="s2">;</span><span class="s1"> 
+                        mobileView = </span><span class="s2">null;</span><span class="s1"> 
+                    } 
+ 
+                } 
+            })</span><span class="s2">;</span><span class="s1"> 
+ 
+        } 
+ 
+        dragging = </span><span class="s2">false;</span><span class="s1"> 
+        mobileViewStartY = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+        mobileViewCurrentPos = -</span><span class="s6">1</span><span class="s2">;</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s2">private </span><span class="s1">View getViewByPosition(</span><span class="s2">int </span><span class="s1">position) { 
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">viewHolder == </span><span class="s2">null </span><span class="s1">? </span><span class="s2">null </span><span class="s1">: viewHolder.itemView</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">private boolean </span><span class="s1">scrollIfNeeded() { 
+        </span><span class="s2">int </span><span class="s1">height = recyclerView.getHeight()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">hoverViewTop = (</span><span class="s2">int</span><span class="s1">) mobileView.getY()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">hoverHeight = mobileView.getHeight()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(hoverViewTop &lt;= </span><span class="s6">0</span><span class="s1">) { 
+            recyclerView.scrollBy(</span><span class="s6">0</span><span class="s2">, </span><span class="s1">-scrollAmount)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">return true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">if </span><span class="s1">(hoverViewTop + hoverHeight &gt;= height) { 
+            recyclerView.scrollBy(</span><span class="s6">0</span><span class="s2">, </span><span class="s1">scrollAmount)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">return true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">//Creates screenshot of a view</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">ImageView copyViewAsImage(View v) { 
+        </span><span class="s0">//Clear ripple effect to not get into screenshot,</span><span class="s1"> 
+        </span><span class="s0">// need something more clever here</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(v </span><span class="s2">instanceof </span><span class="s1">FrameLayout) { 
+            FrameLayout frameLayout = (FrameLayout) v</span><span class="s2">;</span><span class="s1"> 
+            Drawable foreground = frameLayout.getForeground()</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(foreground != </span><span class="s2">null</span><span class="s1">) foreground.setVisible(</span><span class="s2">false, false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            </span><span class="s2">if </span><span class="s1">(v.getBackground() != </span><span class="s2">null</span><span class="s1">) v.getBackground().setVisible(</span><span class="s2">false, false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+ 
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth()</span><span class="s2">, </span><span class="s1">v.getHeight()</span><span class="s2">, </span><span class="s1">Bitmap.Config.ARGB_8888)</span><span class="s2">;</span><span class="s1"> 
+        Canvas canvas = </span><span class="s2">new </span><span class="s1">Canvas(bitmap)</span><span class="s2">;</span><span class="s1"> 
+        v.draw(canvas)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s0">//Drag highlight, usually border</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(dragHighlight != </span><span class="s2">null</span><span class="s1">) { 
+            dragHighlight.setBounds(</span><span class="s6">0</span><span class="s2">, </span><span class="s6">0</span><span class="s2">, </span><span class="s1">bitmap.getWidth()</span><span class="s2">, </span><span class="s1">bitmap.getHeight())</span><span class="s2">;</span><span class="s1"> 
+            dragHighlight.draw(canvas)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+        ImageView imageView = </span><span class="s2">new </span><span class="s1">ImageView(recyclerView.getContext())</span><span class="s2">;</span><span class="s1"> 
+        imageView.setImageBitmap(bitmap)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">imageView</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">private int</span><span class="s1">[] getViewRawCoords(View locateView) { 
+        View globalView = activity.findViewById(android.R.id.content)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">topOffset = displayMetrics.heightPixels - globalView.getMeasuredHeight()</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int</span><span class="s1">[] loc = </span><span class="s2">new int</span><span class="s1">[</span><span class="s6">2</span><span class="s1">]</span><span class="s2">;</span><span class="s1"> 
+        locateView.getLocationOnScreen(loc)</span><span class="s2">;</span><span class="s1"> 
+        loc[</span><span class="s6">1</span><span class="s1">] = loc[</span><span class="s6">1</span><span class="s1">] - topOffset</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">loc</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Enable/disable drag/drop 
+     * 
+     * </span><span class="s4">@param </span><span class="s3">enabled     na 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setEnabled(</span><span class="s2">boolean </span><span class="s1">enabled) { 
+        </span><span class="s2">this</span><span class="s1">.enabled = enabled</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Implementation usually do 2 things: change positions of items in RecyclerView.Adapter and notify it about changes 
+     * 
+     * </span><span class="s4">@param </span><span class="s3">recyclerView view the item is being dragged in 
+     * </span><span class="s4">@param </span><span class="s3">from         original (start) drag position within adapter 
+     * </span><span class="s4">@param </span><span class="s3">to           new drag position withing adapter 
+     */</span><span class="s1"> 
+    </span><span class="s2">protected abstract void </span><span class="s1">onItemSwitch(RecyclerView recyclerView</span><span class="s2">, int </span><span class="s1">from</span><span class="s2">, int </span><span class="s1">to)</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * Item is dropped at given position 
+     * 
+     * </span><span class="s4">@param </span><span class="s3">recyclerView view the item is being dropped in 
+     * </span><span class="s4">@param </span><span class="s3">position     position of a drop within adapter 
+     */</span><span class="s1"> 
+    </span><span class="s2">protected abstract void </span><span class="s1">onItemDrop(RecyclerView recyclerView</span><span class="s2">, int </span><span class="s1">position)</span><span class="s2">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s2">public void </span><span class="s1">setCustomDragHighlight(Drawable dragHighlight) { 
+        </span><span class="s2">this</span><span class="s1">.dragHighlight = dragHighlight</span><span class="s2">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

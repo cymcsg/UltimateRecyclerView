@@ -12,28 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FadeInUpAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInBottomXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInLeftYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInRightYAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.FlipInTopXAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.LandingAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.OvershootInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInBottomAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.ScaleInTopAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInDownAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInLeftAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInRightAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.SlideInUpAnimator;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
@@ -81,6 +59,7 @@ public class DragActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+/*
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
@@ -102,6 +81,7 @@ public class DragActivity extends AppCompatActivity {
 
             }
         });
+*/
 
 
     }
@@ -127,7 +107,7 @@ public class DragActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    enum Type {
+  /*  enum Type {
         FadeIn(new FadeInAnimator()),
         FadeInDown(new FadeInDownAnimator()),
         FadeInUp(new FadeInUpAnimator()),
@@ -160,6 +140,6 @@ public class DragActivity extends AppCompatActivity {
             return mAnimator;
         }
     }
-
+*/
 
 }

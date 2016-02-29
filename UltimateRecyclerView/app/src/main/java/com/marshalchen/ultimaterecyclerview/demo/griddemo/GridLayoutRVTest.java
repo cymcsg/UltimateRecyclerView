@@ -77,8 +77,9 @@ public class GridLayoutRVTest extends AppCompatActivity {
             }
         });
 
-        listuv.enableLoadmore();
+        // listuv.enableLoadmore();
         //    listuv.disableLoadmore();
+        listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
         harn_controls();
     }
 
