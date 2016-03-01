@@ -36,6 +36,13 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     protected int mEmptyViewOnInitPolicy;
 
     /**
+     * Lock used to modify the content of list. Any write operation
+     * performed on the array should be synchronized on this lock.
+     */
+    protected final Object mLock = new Object();
+
+
+    /**
      * Set the header view of the adapter.
      *
      * @param customHeaderView na
@@ -386,8 +393,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             //   if (hasHeaderView()) g--;
             if (enableLoadMore()) g--;
             final int start = g;
-            while (id.hasNext()) {
-                original_list.add(original_list.size(), id.next());
+            synchronized (mLock) {
+                while (id.hasNext()) {
+                    original_list.add(original_list.size(), id.next());
+                }
             }
             if (insert_data.size() == 1) {
                 notifyItemInserted(start);
@@ -414,7 +423,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         if (hasHeaderView() && position == 0) return;
         if (enableLoadMore() && position == getItemCount() - 1) return;
         if (list.size() > 0) {
-            list.remove(hasHeaderView() ? position - 1 : position);
+            synchronized (mLock) {
+                list.remove(hasHeaderView() ? position - 1 : position);
+            }
             notifyItemRemoved(position);
         }
     }
@@ -436,7 +447,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     public final <T> void clearInternal(List<T> list) {
         int data_size_before_remove = list.size();
         final int display_size_before_remove = getItemCount();
-        list.clear();
+        synchronized (mLock) {
+            list.clear();
+        }
         notifyAfterRemoveAllData(data_size_before_remove, display_size_before_remove);
     }
 
@@ -577,6 +590,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         //this is specialized Ad view
         public static final int ADVIEW = 4;
         public static final int CUSTOMVIEW = 5;
+        public static final int SECTION = 6;
     }
 
     protected enum AdapterAnimationType {
@@ -655,4 +669,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
          */
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
     }
+
+
 }
