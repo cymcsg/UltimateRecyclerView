@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
 
-
 public class VerticalSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private int mTouchSlop;
@@ -15,9 +14,7 @@ public class VerticalSwipeRefreshLayout extends SwipeRefreshLayout {
 
     public VerticalSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-
     }
 
     @Override
@@ -39,4 +36,12 @@ public class VerticalSwipeRefreshLayout extends SwipeRefreshLayout {
 
         return super.onInterceptTouchEvent(event);
     }
+
+    @Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
+    }
+
+
 }
