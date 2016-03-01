@@ -73,7 +73,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public static int STARTWITH_OFFLINE_ITEMS = 0;
     public static int STARTWITH_ONLINE_ITEMS = 1;
 
-
+    private int policy_empty, policy_init;
     public RecyclerView mRecyclerView;
     protected FloatingActionButton defaultFloatingActionButton;
     private OnLoadMoreListener onLoadMoreListener;
@@ -139,7 +139,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
     private static boolean isParallaxHeader = false;
-
+    private LayoutInflater inflater;
 
     /**
      * control to show the loading view first when list is initiated at the beginning
@@ -179,7 +179,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     }
 
     protected void initViews() {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
         mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -224,19 +224,23 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         return mEmptyView;
     }
 
-    private void setPolices(final int policyEmtpyView, final int policyInitialization) {
-        if (mAdapter != null) {
-            mAdapter.setEmptyViewPolicy(policyEmtpyView);
-            mAdapter.setEmptyViewOnInitPolicy(policyInitialization);
-        } else {
-            Log.d(VIEW_LOG_TAG, "unabled to empty view policy because the adapter is null");
-        }
+    private void setPolicies(final int policyEmtpyView, final int policyInitialization) {
+        //  setPolices(policyEmtpyView, policyInitialization);
+        policy_empty = policyEmtpyView;
+        policy_init = policyInitialization;
+    }
+
+    public void setInflater(LayoutInflater inflater) {
+        this.inflater = inflater;
     }
 
     private void setEmptyView(@LayoutRes final int emptyResourceId) {
         if (mEmptyView == null && emptyResourceId > 0) {
             mEmptyId = emptyResourceId;
             mEmpty.setLayoutResource(emptyResourceId);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mEmpty.setLayoutInflater(inflater);
+            }
             mEmptyView = mEmpty.inflate();
         } else {
             Log.d(VIEW_LOG_TAG, "unabled to set empty view because the empty has been set");
@@ -258,24 +262,24 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy) {
         //  mEmptyViewPolicy = emptyViewPolicy;
         setEmptyView(emptyResourceId);
-        setPolices(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
+        setPolicies(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
         mEmpty.setVisibility(View.GONE);
     }
 
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int mEmptyViewInitPolicy) {
         setEmptyView(emptyResourceId);
-        setPolices(emptyViewPolicy, mEmptyViewInitPolicy);
+        setPolicies(emptyViewPolicy, mEmptyViewInitPolicy);
     }
 
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final emptyViewOnShownListener listener) {
         setEmptyView(emptyResourceId);
-        setPolices(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
+        setPolicies(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
         mEmptyViewListener = listener;
     }
 
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int emptyViewInitPolicy, final emptyViewOnShownListener listener) {
         setEmptyView(emptyResourceId);
-        setPolices(emptyViewPolicy, emptyViewInitPolicy);
+        setPolicies(emptyViewPolicy, emptyViewInitPolicy);
         mEmptyViewListener = listener;
     }
 
@@ -318,11 +322,9 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
         if (mlayoutView == null) {
             mLoadMoreView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_progressbar, null);
-            enableLoadmore();
             Log.d(VIEW_LOG_TAG, "Layout Resource view is null. This system will use the default loading view instead.");
         } else {
             mLoadMoreView = mlayoutView;
-            enableLoadmore();
         }
     }
 
@@ -334,7 +336,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public void setLoadMoreView(@LayoutRes final int layout) {
         if (layout > 0) {
             mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout, null);
-            enableLoadmore();
         } else {
             Log.d(VIEW_LOG_TAG, "Layout Resource Id is not found for load more view for ulitmaterecyclerview");
         }
@@ -497,17 +498,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
-    /**
-     * Enable loading more of the recyclerview
-     */
-    private void enableLoadmore() {
-        if (mAdapter != null && mAdapter.getCustomLoadMoreView() == null && mLoadMoreView != null) {
-            mAdapter.setCustomLoadMoreView(mLoadMoreView);
-            mAdapter.enableLoadMore(true);
-            mAdapter.notifyDataSetChanged();
-        }
-        mIsLoadMoreWidgetEnabled = true;
-    }
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
@@ -677,6 +667,12 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      */
     public void swapAdapter(UltimateViewAdapter adapter, boolean removeAndRecycleExistingViews) {
         mRecyclerView.swapAdapter(adapter, removeAndRecycleExistingViews);
+        setAdapterInternal(adapter);
+    }
+
+    public void setAdapter(UltimateViewAdapter adapter) {
+        mRecyclerView.setAdapter(adapter);
+        setAdapterInternal(adapter);
     }
 
     /**
@@ -785,14 +781,14 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         return mRecyclerView.getAdapter();
     }
 
+
     /**
      * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview
      *
      * @param adapter the adapter in normal
      */
-    public void setAdapter(UltimateViewAdapter adapter) {
+    private void setAdapterInternal(UltimateViewAdapter adapter) {
         mAdapter = adapter;
-        mRecyclerView.setAdapter(mAdapter);
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setRefreshing(false);
         if (mAdapter != null)
@@ -827,15 +823,29 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     updateHelperDisplays();
                 }
             });
-        if (mAdapter.getAdapterItemCount() == 0 && adapter.getEmptyViewInitPolicy() == STARTWITH_OFFLINE_ITEMS) {
-            // mEmpty.setVisibility(View.VISIBLE);
-            //setRefreshing(true);
-            // isFirstLoadingOnlineAdapter = true;
+
+        mRecyclerViewHelper = RecyclerViewPositionHelper.createHelper(mRecyclerView);
+
+        mAdapter.setEmptyViewPolicy(policy_empty);
+        mAdapter.setEmptyViewOnInitPolicy(policy_init);
+
+        if (mAdapter.getAdapterItemCount() == 0 && policy_empty == UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS) {
             showEmptyView();
         }
 
+        if (policy_init == UltimateRecyclerView.STARTWITH_ONLINE_ITEMS) {
+            hideEmptyView();
+        }
 
-        mRecyclerViewHelper = RecyclerViewPositionHelper.createHelper(mRecyclerView);
+        if (mAdapter.getCustomLoadMoreView() == null && mLoadMoreView != null) {
+            mAdapter.setCustomLoadMoreView(mLoadMoreView);
+            mAdapter.enableLoadMore(true);
+            mAdapter.notifyDataSetChanged();
+            mIsLoadMoreWidgetEnabled = true;
+        }
+
+        if (mHeader != null)
+            mAdapter.setCustomHeaderView(mHeader);
     }
 
 
@@ -954,8 +964,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mHeader = new CustomRelativeWrapper(header.getContext());
         mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        if (mAdapter != null)
-            mAdapter.setCustomHeaderView(mHeader);
         isParallaxHeader = true;
     }
 
@@ -1349,4 +1357,5 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public RecyclerView.LayoutManager getLayoutManager() {
         return mRecyclerView.getLayoutManager();
     }
+
 }

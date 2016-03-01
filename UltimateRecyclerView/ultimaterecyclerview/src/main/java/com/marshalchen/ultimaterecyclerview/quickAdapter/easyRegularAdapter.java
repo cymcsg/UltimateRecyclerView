@@ -9,14 +9,20 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.dragsortadapter.DragSortAdapter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * This is the normal adapter for implementation on the regular basis
  * Created by hesk on 4/8/15.
+ * integrated with efficient adapter
  */
 public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerviewViewHolder> extends UltimateViewAdapter {
-    private List<T> source;
+    protected List<T> source;
 
 
     /**
@@ -27,6 +33,17 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
     public easyRegularAdapter(List<T> list) {
         source = list;
     }
+
+
+    /**
+     * Constructor
+     *
+     * @param objects The objects to represent in the RecyclerView.
+     */
+    public easyRegularAdapter(T... objects) {
+        this(new ArrayList<T>(Arrays.asList(objects)));
+    }
+
 
     /**
      * the layout id for the normal data
@@ -66,8 +83,43 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
     }
 
     protected T getItem(final int pos) {
-        return source.get(pos);
+        synchronized (mLock) {
+            return source.get(pos);
+        }
     }
+
+    /**
+     * Determine if the object provide is in this adapter
+     * @param  object the data object
+     * @return true if the object is in this adapter
+     */
+    public boolean hasItem(T object) {
+        synchronized (mLock) {
+            return source.contains(object);
+        }
+    }
+
+    /**
+     * Returns whether this {@code List} contains no elements.
+     *
+     * @return {@code true} if this {@code List} has no elements, {@code false}
+     * otherwise.
+     * @see #source
+     */
+    public boolean isEmpty() {
+        return source.size() == 0;
+    }
+
+
+    /**
+     * @return a copy of the {@code List} of elements.
+     */
+    public List<T> getObjects() {
+        synchronized (mLock) {
+            return new ArrayList<T>(source);
+        }
+    }
+
 
     @Override
     public long generateHeaderId(int i) {
@@ -89,7 +141,11 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
             onBindFooterViewHolder(holder, position);
         } else if (getItemViewType(position) == VIEW_TYPES.NORMAL) {
             // if (position >= getAdapterItemCount()) return;
-            withBindHolder((BINDHOLDER) holder, source.get(getItemDataPosFromInternalPos(position)), position);
+            T object;
+            synchronized (mLock) {
+                object = source.get(getItemDataPosFromInternalPos(position));
+            }
+            withBindHolder((BINDHOLDER) holder, object, position);
         }
     }
 
@@ -183,4 +239,99 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
             setHasStableIds(b);
         }
     }
+
+
+    /**
+     * Adds the specified Collection at the end of the array.
+     *
+     * @param collection The Collection to add at the end of the array.
+     */
+/*    public void addAll(Collection<? extends T> collection) {
+        int positionOfInsert;
+        synchronized (mLock) {
+         //   positionOfInsert = mObjects.size();
+          //  mObjects.addAll(collection);
+        }
+        notifyItemInserted(positionOfInsert);
+    }*/
+
+    /**
+     * Get the view holder to instantiate for the object for this position
+     *
+     * @param viewType viewType return by getItemViewType()
+     * @return the class of the view holder to instantiate
+     */
+ //protected abstract Class<? extends BINDHOLDER> getViewHolderClass(int viewType);
+
+    /**
+     * Generate a view holder for this view for this viewType
+     */
+  /*  private BINDHOLDER generateViewHolder(View v, int viewType) {
+        Class<? extends BINDHOLDER> viewHolderClass = getViewHolderClass(viewType);
+        if (viewHolderClass == null) {
+            throw new NullPointerException(
+                    "You must supply a view holder class for the element for view type "
+                            + viewType);
+        }
+        Constructor<?> constructorWithView = getConstructorWithView(viewHolderClass);
+        try {
+            Object viewHolder = constructorWithView.newInstance(v);
+            return (BINDHOLDER) viewHolder;
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(
+                    "Impossible to instantiate "
+                            + viewHolderClass.getSimpleName(), e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(
+                    "Impossible to instantiate "
+                            + viewHolderClass.getSimpleName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(
+                    "Impossible to instantiate "
+                            + viewHolderClass.getSimpleName(), e);
+        }
+    }*/
+
+    /**
+     * Get the constructor with a view for this class
+     */
+    private Constructor<?> getConstructorWithView(Class<? extends BINDHOLDER> viewHolderClass) {
+        Constructor<?>[] constructors = viewHolderClass.getDeclaredConstructors();
+        if (constructors != null) {
+            for (Constructor<?> constructor : constructors) {
+                Class<?>[] parameterTypes = constructor.getParameterTypes();
+                if (parameterTypes != null
+                        && parameterTypes.length == 1
+                        && parameterTypes[0].isAssignableFrom(View.class)) {
+                    return constructor;
+                }
+            }
+        }
+        throw new RuntimeException(
+                "Impossible to found a constructor with a view for "
+                        + viewHolderClass.getSimpleName());
+    }
+
+/*
+
+    @Override
+    public void onViewRecycled(BINDHOLDER holder) {
+        super.onViewRecycled(holder);
+        holder.onViewRecycled();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(BINDHOLDER holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.onViewAttachedToWindow();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(BINDHOLDER holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.onViewDetachedFromWindow();
+    }
+*/
+
+
 }
