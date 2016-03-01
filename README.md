@@ -1,6 +1,6 @@
 # UltimateRecyclerView
 
-### Version:0.4.58
+### Version:0.4.7
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
@@ -13,6 +13,39 @@
 [![Stories in Ready](https://badge.waffle.io/cymcsg/UltimateRecyclerView.svg?label=ready&title=Ready)](http://waffle.io/cymcsg/UltimateRecyclerView)
 
 ##### Project website:[https://github.com/cymcsg/UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
+
+
+### Quick Setup（Basic Usage）
+
+###### 1.Integration jcenter
+
+Please follow the latest publishing aar on jcenter. [ ![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)
+
+follow by the gradle code
+```gradle
+
+repositories {
+    jcenter()
+    maven { url "http://dl.bintray.com/jjhesk/maven" }
+}
+{
+compile 'com.hkm.slidingmenulib:libmenu:0.4.7'
+}
+```
+
+###### 2.Usage:
+
+``` xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ultimate_recycler_view"
+       >
+        </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
+```
+
+
+
 
 ### Description
 
@@ -38,9 +71,6 @@ Notice that UltimateRecyclerView is a project under development.
 * Support different layout in adapter
 * Loading adapter with animation
 
-### Changes in 0.4.0:
-- [x] a major fix for load more mechanism for both linear layout and gridlayout
-
 ### Upcoming features:
 * Refer to discussion for headers [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
 * Refer to discussion for the loading more [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
@@ -60,30 +90,6 @@ Notice that UltimateRecyclerView is a project under development.
 
 #### Welcome to fork and PR (pull request)
 If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue. If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
-### Quick Setup（Basic Usage）
-
-###### 1.Integration jcenter
-
-``` gradle
-repositories {  jcenter() }
-
-dependencies {
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
-}
-```
-
-###### 2.Usage:
-
-``` xml
-<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
-       >
-        </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
-```
-
 
 ### Screenshot
 
