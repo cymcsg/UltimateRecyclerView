@@ -1,6 +1,6 @@
 # UltimateRecyclerView
 
-### Version:0.4.0
+### Version:0.4.58
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
@@ -17,8 +17,6 @@
 ### Description
 
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
-
-
 
 Notice that UltimateRecyclerView is a project under development.
 
@@ -41,56 +39,39 @@ Notice that UltimateRecyclerView is a project under development.
 * Loading adapter with animation
 
 ### Changes in 0.4.0:
-
-- [ ] a major fix for load more mechanism for both linear layout and gridlayout
+- [x] a major fix for load more mechanism for both linear layout and gridlayout
 
 ### Upcoming features:
-
-* More animations
-* Optimise UltimateViewAdapter
+* Refer to discussion for headers [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
+* Refer to discussion for the loading more [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
+* Swipe issue and discussion [#296](https://github.com/cymcsg/UltimateRecyclerView/issues/296)
+* Wishlist for [UltiamteRecyclerview 0.4.2](UpcomingChanges.md)
 * and more.
 
-### Demo App / Sample Code:
-
-* Due to rapid updates and developments we have decided to host the demo APK on github
-  
-* Check out this link for [demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
-  
-* or you can check it out already compiled at Google Play
-  
-  [![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
-  
-  ​
-  
-* You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
-
-[Upcoming changes in UltiamteRecyclerview 0.4.1](UpcomingChanges.md):
-
-If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
-
-#### Welcome to fork and pull request.
-
-### If you want to use a rapid development framework for developing apps,you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
-
-
 > Notice that it might not be the latest version
+
+### Demo App / Sample Code:
+* Due to rapid updates and developments we have decided to host the demo APK on github
+* Check out this link for [latest demonstration for the code](https://github.com/cymcsg/UltimateRecyclerView/releases)
+* Video demo for [grid layout demo](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
+* or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
+* You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
+* You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki) and welcome to make your own tutorials in here.
+
+#### Welcome to fork and PR (pull request)
+If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue. If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 ### Quick Setup（Basic Usage）
 
 ###### 1.Integration jcenter
 
 ``` gradle
-repositories {
-        jcenter()
-    }
+repositories {  jcenter() }
+
 dependencies {
-    ...
     compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
 }
 ```
-
-
 
 ###### 2.Usage:
 
@@ -103,17 +84,13 @@ dependencies {
         </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 ```
 
-#### You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki)
-
-
-
-##### If you want to see more details,you can check the demo.
-
-
-
-
 
 ### Screenshot
+
+![grid_layout](http://i.giphy.com/UVKEWEGu64z60.gif)
+![grid_layout](http://i.giphy.com/UKxCkkUHVH8Fq.gif)
+![admob](http://i.giphy.com/bExwitMhjtUqI.gif)
+![expandable](http://i.giphy.com/pLWHKsEdVlsKA.gif)
 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview11.gif)
 
@@ -132,7 +109,6 @@ dependencies {
 
 
 ### Thanks
-
 * Use animators from  [recyclerview-animators](https://github.com/wasabeef/recyclerview-animators)
 * Deal with different types of LayoutManager from[SuperRecyclerView](https://github.com/Malinskiy/SuperRecyclerView)
 * Divider of recyclerview[RecyclerView-FlexibleDivider](https://github.com/yqritc/RecyclerView-FlexibleDivider)
@@ -162,7 +138,7 @@ Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc104
 ## License
 
 ``` 
-Copyright 2015 Marshal Chen
+Copyright 2015 MarsellChan
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
