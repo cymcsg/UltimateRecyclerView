@@ -60,12 +60,6 @@ public class AdGoogleDisplaySupport {
         return defaultHeightApply(Dm, type);
     }
 
-    //320x50	標準橫幅廣告	手機和平板電腦	BANNER
-    //320x100	大型橫幅廣告	手機和平板電腦	LARGE_BANNER
-    //300x250	IAB 中矩形廣告	手機和平板電腦	MEDIUM_RECTANGLE
-    //468x60	IAB 完整橫幅廣告	平板電腦	FULL_BANNER
-    //728x90	IAB 超級橫幅廣告	平板電腦	LEADERBOARD
-    //螢幕寬度 x 32|50|90	智慧型橫幅廣告	手機和平板電腦	SMART_BANNER
     private static int defaultHeightApply(DisplayMetrics Dm, int type) {
         if (type == MEDIUM_RECTANGLE) {
             switch (Dm.widthPixels) {

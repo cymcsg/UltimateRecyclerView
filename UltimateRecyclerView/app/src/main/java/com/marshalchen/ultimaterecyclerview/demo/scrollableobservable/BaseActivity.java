@@ -23,11 +23,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 
 import java.util.ArrayList;
 
@@ -104,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }*/
 
     protected void setDummyData(RecyclerView recyclerView, int num) {
-        recyclerView.setAdapter(new SimpleAdapter(getDummyData(num)));
+        recyclerView.setAdapter(new sectionZeroAdapter(getDummyData(num)));
     }
 
     protected void setDummyData(RecyclerView recyclerView) {

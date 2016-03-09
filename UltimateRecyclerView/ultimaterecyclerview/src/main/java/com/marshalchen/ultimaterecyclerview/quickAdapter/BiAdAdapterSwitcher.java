@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +26,16 @@ import java.util.List;
  * Created by hesk on 4/8/15.
  */
 public class BiAdAdapterSwitcher<
+        //DATA TYPE
         T,
-        B extends UltimateRecyclerviewViewHolder,
+        //The view holder
+        B extends AdItemHolder,
+        //THE regular adapter
         EASY extends easyRegularAdapter<T, B>,
+        //THE Viewgroup from the google Adview
         V extends ViewGroup,
-        ADMOB extends simpleAdmobAdapter<T, B, V>>
+        //the admobdapter
+        ADMOB extends AdmobAdapter<V,T,B>>
 
 {
     protected UltimateRecyclerView listview;
@@ -60,13 +64,10 @@ public class BiAdAdapterSwitcher<
 
     public void init(final boolean adenabled) {
         this.with_the_ad = adenabled;
-        if (layoutLoadMoreResId != 0) {
-            if (adenabled) {
-                withad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
-            } else
-                noad.setCustomLoadMoreView(getV(layoutLoadMoreResId));
+      /*  if (layoutLoadMoreResId != 0) {
             listview.enableLoadmore();
         }
+        */
         listview.setAdapter(adenabled ? this.withad : this.noad);
         emptyViewControl();
     }
@@ -130,8 +131,10 @@ public class BiAdAdapterSwitcher<
     /**
      * will implement more functions later
      *
+     * @param delay_trigger na
      * @return switchableadapter object
      */
+
     public BiAdAdapterSwitcher onEnableRefresh(final int delay_trigger) {
         listview.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -188,7 +191,7 @@ public class BiAdAdapterSwitcher<
             final int delay_trigger,
             final onLoadMore loading_more_trigger_interface) {
         loading_more = loading_more_trigger_interface;
-        listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+      /*  listview.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
@@ -213,7 +216,7 @@ public class BiAdAdapterSwitcher<
                     }
                 }, delay_trigger);
             }
-        });
+        });*/
         this.layoutLoadMoreResId = layoutResId;
         return this;
     }
@@ -224,16 +227,11 @@ public class BiAdAdapterSwitcher<
 
 
     private void insert_default(EASY sd, List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
-            sd.insert(list.get(i));
-        }
+        sd.insert(list);
     }
 
     private void insert_default(ADMOB sd, List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
-            sd.insert(list.get(i));
-        }
-        // sd.insert(list);
+        sd.insert(list);
     }
 
     public static <V extends ViewGroup> void maximum_size(LinearLayout l, V suppose_tobe_Adview, Activity activity) {

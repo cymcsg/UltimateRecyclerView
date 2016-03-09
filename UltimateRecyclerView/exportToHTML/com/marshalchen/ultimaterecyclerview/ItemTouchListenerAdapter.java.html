@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>ItemTouchListenerAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(98,151,85); font-style: italic; }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(106,135,89); }
+.s6 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ItemTouchListenerAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ *  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at 
+ * 
+ *  http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ *  See the License for the specific language governing permissions and 
+ *  limitations under the License. 
+ * / 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">android.support.annotation.Nullable</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.GestureDetector</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.MotionEvent</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.View</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s3">/** 
+ * As RecyclerView does not have standard way to add click listeners to the items, 
+ * this RecyclerView.OnItemTouchListener intercepts touch events and translates them to simple 
+ * Simply add it as follows: 
+ * 
+ * {</span><span class="s4">@code</span><span class="s3"> 
+ *     recyclerView.addOnItemTouchListener(new ItemTouchListenerAdapter(recyclerView, this)); 
+ * 
+ * } 
+ * 
+ */</span><span class="s1"> 
+</span><span class="s2">public  class </span><span class="s1">ItemTouchListenerAdapter </span><span class="s2">extends </span><span class="s1">GestureDetector.SimpleOnGestureListener </span><span class="s2">implements </span><span class="s1">RecyclerView.OnItemTouchListener { 
+ 
+ 
+    </span><span class="s2">public interface </span><span class="s1">RecyclerViewOnItemClickListener { 
+        </span><span class="s2">void </span><span class="s1">onItemClick(RecyclerView parent</span><span class="s2">, </span><span class="s1">View clickedView</span><span class="s2">, int </span><span class="s1">position)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">void </span><span class="s1">onItemLongClick(RecyclerView parent</span><span class="s2">, </span><span class="s1">View clickedView</span><span class="s2">, int </span><span class="s1">position)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private </span><span class="s1">RecyclerViewOnItemClickListener listener</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">RecyclerView recyclerView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">GestureDetector gestureDetector</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">public </span><span class="s1">ItemTouchListenerAdapter(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">RecyclerViewOnItemClickListener listener) { 
+        </span><span class="s2">if </span><span class="s1">(recyclerView == </span><span class="s2">null </span><span class="s1">|| listener == </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">throw new </span><span class="s1">IllegalArgumentException(</span><span class="s5">&quot;RecyclerView and Listener arguments can not be null&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">this</span><span class="s1">.recyclerView = recyclerView</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.listener = listener</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">this</span><span class="s1">.gestureDetector = </span><span class="s2">new </span><span class="s1">GestureDetector(recyclerView.getContext()</span><span class="s2">, this</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onInterceptTouchEvent(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">MotionEvent motionEvent) { 
+        gestureDetector.onTouchEvent(motionEvent)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return false;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">onTouchEvent(RecyclerView recyclerView</span><span class="s2">, </span><span class="s1">MotionEvent motionEvent) { 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public void  </span><span class="s1">onRequestDisallowInterceptTouchEvent(</span><span class="s2">boolean </span><span class="s1">disallowIntercept) { 
+ 
+    } 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">onShowPress(MotionEvent e) { 
+        View view = getChildViewUnder(e)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(view != </span><span class="s2">null</span><span class="s1">) { 
+            view.setPressed(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * case out and fix the bug from offseted number from AdmobAdapter 
+     * fixed by jjhesk 
+     * one more thing is that the first item display in the list got to be clickable.  
+     *  
+     * </span><span class="s4">@param </span><span class="s3">position input position 
+     * </span><span class="s4">@return </span><span class="s3">AdmobAdapter.POSITION_ON_AD meaning that the touch position is on the position of Adview 
+     */</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">shiftAdjustInt(</span><span class="s2">int </span><span class="s1">position) { 
+        </span><span class="s2">if </span><span class="s1">(recyclerView.getAdapter() </span><span class="s2">instanceof </span><span class="s1">AdmobAdapter &amp;&amp; position &gt; </span><span class="s6">0 </span><span class="s1">) { 
+            AdmobAdapter adp = (AdmobAdapter) recyclerView.getAdapter()</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s1">adp.isPosOnAdView(position) ? AdmobAdapter.POSITION_ON_AD : adp.getFinalShiftPosition(position)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            </span><span class="s2">return </span><span class="s1">position</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onSingleTapUp(MotionEvent e) { 
+        View view = getChildViewUnder(e)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(view == </span><span class="s2">null</span><span class="s1">) </span><span class="s2">return false;</span><span class="s1"> 
+ 
+        view.setPressed(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">position = shiftAdjustInt(recyclerView.getChildPosition(view))</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(position != AdmobAdapter.POSITION_ON_AD) { 
+            listener.onItemClick(recyclerView</span><span class="s2">, </span><span class="s1">view</span><span class="s2">, </span><span class="s1">position)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">return true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">onLongPress(MotionEvent e) { 
+        View view = getChildViewUnder(e)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(view == </span><span class="s2">null</span><span class="s1">) </span><span class="s2">return;</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">position = shiftAdjustInt(recyclerView.getChildPosition(view))</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(position != AdmobAdapter.POSITION_ON_AD) { 
+            listener.onItemLongClick(recyclerView</span><span class="s2">, </span><span class="s1">view</span><span class="s2">, </span><span class="s1">position)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        view.setPressed(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Nullable 
+    </span><span class="s2">private </span><span class="s1">View getChildViewUnder(MotionEvent e) { 
+        </span><span class="s2">return </span><span class="s1">recyclerView.findChildViewUnder(e.getX()</span><span class="s2">, </span><span class="s1">e.getY())</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>

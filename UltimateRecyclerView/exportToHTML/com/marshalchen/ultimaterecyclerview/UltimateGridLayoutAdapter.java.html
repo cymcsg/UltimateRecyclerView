@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>UltimateGridLayoutAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(119,183,103); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UltimateGridLayoutAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.annotation.TargetApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.LayoutRes</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.GridLayoutManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by hesk on 27/1/16. 
+ */</span><span class="s1"> 
+</span><span class="s0">public abstract class </span><span class="s1">UltimateGridLayoutAdapter&lt;DATA</span><span class="s0">, </span><span class="s1">BINDER </span><span class="s0">extends </span><span class="s1">UltimateRecyclerviewViewHolder&gt; </span><span class="s0">extends </span><span class="s1">easyRegularAdapter&lt;DATA</span><span class="s0">, </span><span class="s1">BINDER&gt; { 
+    </span><span class="s0">private boolean </span><span class="s1">mValid = </span><span class="s0">true;</span><span class="s1"> 
+    </span><span class="s0">private int </span><span class="s1">span_columns</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">UltimateGridLayoutAdapter(List&lt;DATA&gt; items) { 
+        </span><span class="s0">super</span><span class="s1">(items)</span><span class="s0">;</span><span class="s1"> 
+        span_columns = </span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setSpanColumns(</span><span class="s0">int </span><span class="s1">columns) { 
+        span_columns = columns</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">private int </span><span class="s1">normalDataConv(</span><span class="s0">final int </span><span class="s1">rpos) { 
+        </span><span class="s0">int </span><span class="s1">orgin = rpos</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">size = getAdapterItemCount()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(hasHeaderView()) orgin -= </span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">out = orgin &gt;= size - </span><span class="s3">1 </span><span class="s1">? size - </span><span class="s3">1 </span><span class="s1">: orgin</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">out</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerviewViewHolder getViewHolder(View view) { 
+        UltimateRecyclerviewViewHolder g = </span><span class="s0">new </span><span class="s1">UltimateRecyclerviewViewHolder(view)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">g</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected </span><span class="s1">View getViewById(@LayoutRes </span><span class="s0">final int </span><span class="s1">layoutId</span><span class="s0">, </span><span class="s1">ViewGroup parent) { 
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId</span><span class="s0">, </span><span class="s1">parent</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">view</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) { 
+        </span><span class="s0">return new </span><span class="s1">UltimateRecyclerviewViewHolder(parent)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getAdapterItemCount() { 
+        </span><span class="s0">return </span><span class="s1">mValid ? </span><span class="s0">super</span><span class="s1">.getAdapterItemCount() : </span><span class="s3">0</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) 
+    @Override 
+    </span><span class="s0">public long </span><span class="s1">generateHeaderId(</span><span class="s0">int </span><span class="s1">position) { 
+        </span><span class="s0">return </span><span class="s1">View.generateViewId()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onBindViewHolder(RecyclerView.ViewHolder holder</span><span class="s0">, int </span><span class="s1">position) { 
+        </span><span class="s0">final int </span><span class="s1">current_type = getItemViewType(position)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(VIEW_TYPES.HEADER == current_type) { 
+            onBindHeaderViewHolder(holder</span><span class="s0">, </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(VIEW_TYPES.NORMAL == current_type) { 
+            bindNormal((BINDER) holder</span><span class="s0">, </span><span class="s1">getItem(getItemDataPosFromInternalPos(position))</span><span class="s0">, </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(VIEW_TYPES.FOOTER == current_type) { 
+            onFooterCustomerization(holder</span><span class="s0">, </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">protected void </span><span class="s1">onFooterCustomerization(RecyclerView.ViewHolder view</span><span class="s0">, int </span><span class="s1">position) { 
+ 
+    } 
+ 
+    </span><span class="s2">/** 
+     * normally you dont need to do anything for this implementation. 
+     * 
+     * </span><span class="s4">@param </span><span class="s2">holder   the data holder 
+     * </span><span class="s4">@param </span><span class="s2">position position to render 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onBindHeaderViewHolder(RecyclerView.ViewHolder holder</span><span class="s0">, int </span><span class="s1">position) { 
+        </span><span class="s5">// Log.d(&quot;ascc&quot;, position + &quot; : &quot;);</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected abstract void </span><span class="s1">bindNormal(BINDER b</span><span class="s0">, </span><span class="s1">DATA data</span><span class="s0">, final int </span><span class="s1">position)</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public static class </span><span class="s1">GridSpan </span><span class="s0">extends </span><span class="s1">GridLayoutManager.SpanSizeLookup { 
+        </span><span class="s0">final private int </span><span class="s1">columns</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final private int </span><span class="s1">intervalRow</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final private </span><span class="s1">UltimateGridLayoutAdapter mGridAdapter</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">public </span><span class="s1">GridSpan(</span><span class="s0">int </span><span class="s1">col</span><span class="s0">, int </span><span class="s1">intervalRow</span><span class="s0">, </span><span class="s1">UltimateGridLayoutAdapter mGridAdapter) { 
+            </span><span class="s0">this</span><span class="s1">.columns = col</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">this</span><span class="s1">.intervalRow = intervalRow</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">this</span><span class="s1">.mGridAdapter = mGridAdapter</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">/** 
+         * Returns the number of span occupied by the item at </span><span class="s6">&lt;code&gt;</span><span class="s2">position</span><span class="s6">&lt;/code&gt;</span><span class="s2">. 
+         * 
+         * </span><span class="s4">@param </span><span class="s2">position The adapter position of the item 
+         * </span><span class="s4">@return </span><span class="s2">The number of spans occupied by the item at the provided position 
+         */</span><span class="s1"> 
+        @Override 
+        </span><span class="s0">public int </span><span class="s1">getSpanSize(</span><span class="s0">int </span><span class="s1">position) { 
+            </span><span class="s0">if </span><span class="s1">(position == mGridAdapter.getAdapterItemCount()) { 
+                </span><span class="s0">return </span><span class="s1">columns</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">int </span><span class="s1">mIntervalHeader = columns * intervalRow</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">int </span><span class="s1">h = position % mIntervalHeader == </span><span class="s3">0 </span><span class="s1">? columns : </span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">return </span><span class="s1">h</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>

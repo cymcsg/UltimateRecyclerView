@@ -383,7 +383,7 @@ public class CircularImageView extends ImageView {
 
 	// TODO: Update shadow layers based on border/selector state and visibility.
 	private void updateShadow() {
-		float radius = shadowEnabled ? shadowRadius : 0;
+		final float radius = shadowEnabled ? shadowRadius : 0;
 		//paint.setShadowLayer(radius, shadowDx, shadowDy, shadowColor);
 		paintBorder.setShadowLayer(radius, shadowDx, shadowDy, shadowColor);
 		paintSelectorBorder.setShadowLayer(radius, shadowDx, shadowDy, shadowColor);
@@ -423,7 +423,7 @@ public class CircularImageView extends ImageView {
 	}
 
 	// TODO TEST REMOVE
-	public void setIconModeEnabled(boolean e) {}
+	public void setIconModeEnabled(final boolean e) {}
 
 	/**
 	 * Re-initializes the shader texture used to fill in

@@ -14,6 +14,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
@@ -24,9 +25,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.R;
-import com.nineoldandroids.view.ViewHelper;
 
 
 public class FloatingActionsMenu extends ViewGroup {
@@ -258,7 +257,7 @@ public class FloatingActionsMenu extends ViewGroup {
         }
 
         if (mYDisplayed == -1) {
-            mYDisplayed = ViewHelper.getY(this);
+            mYDisplayed = ViewCompat.getY(this);
         }
     }
 
@@ -442,7 +441,7 @@ public class FloatingActionsMenu extends ViewGroup {
             mHidden = hide;
 
             // Animate the FAB to it's new Y position
-            com.nineoldandroids.animation.ObjectAnimator animator = com.nineoldandroids.animation.ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
+            ObjectAnimator animator = ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
             animator.setInterpolator(mInterpolator);
             animator.start();
         }

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_back" />
+        android:src="@drawable/jr16" />
 
     <TextView
         android:id="@+id/example_row_tv_title"
