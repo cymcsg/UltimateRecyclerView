@@ -829,7 +829,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mAdapter.setEmptyViewPolicy(policy_empty);
         mAdapter.setEmptyViewOnInitPolicy(policy_init);
 
-        if (mAdapter.getAdapterItemCount() == 0 && policy_empty == UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS) {
+        if (mAdapter.getAdapterItemCount() == 0 && policy_init == UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS) {
             showEmptyView();
         }
 
