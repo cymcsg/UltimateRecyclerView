@@ -34,10 +34,16 @@
             android:name=".griddemo.GridLayoutRVTest"
             android:label="GridLayoutRVTest" />
         <activity
-            android:name=".loadmoredemo.CustomSwipeToRefreshRefreshActivity"
+            android:name=".loadmoredemo.PullToRefreshActivity"
             android:label="CustomSwipeToRefreshRefreshActivity" />
         <activity
-            android:name=".admobdemo.TestAdMob"
+            android:name=".loadmoredemo.DebugNoHeaderLoadMoreActivity"
+            android:label="NO Header Load More" />
+        <activity
+            android:name=".loadmoredemo.FirstPageCancelLoadMore"
+            android:label="Stop Loading loadmore" />
+        <activity
+            android:name=".admobdemo.TestAdMobClassicActivity"
             android:label="TestAdMob" />
         <activity
             android:name=".expandemo.TestExpandableRV"
@@ -45,6 +51,9 @@
         <activity
             android:name=".loadmoredemo.DebugLoadMoreActivity"
             android:label="DebugLoadMoreActivity" />
+        <activity
+            android:name=".loadmoredemo.FinalEmptyViewDisplayActivity"
+            android:label="Display Final View" />
         <activity
             android:name=".scrollableobservable.ScrollObservablesActivity"
             android:label="ScrollObservablesActivity" />

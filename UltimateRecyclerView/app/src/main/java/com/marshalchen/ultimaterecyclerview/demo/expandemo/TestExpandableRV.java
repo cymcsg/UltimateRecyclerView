@@ -93,11 +93,6 @@ public class TestExpandableRV extends AppCompatActivity {
         actionMode.setTitle("Selected " + "1");
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();
     }

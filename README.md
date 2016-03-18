@@ -1,6 +1,6 @@
 # UltimateRecyclerView
 
-### Version:0.4.0
+### Version:0.4.8
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
@@ -14,11 +14,42 @@
 
 ##### Project website:[https://github.com/cymcsg/UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
+
+### Quick Setup（Basic Usage）
+
+###### 1.Integration jcenter
+
+Please follow the latest publishing aar on jcenter. [ ![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)
+
+follow by the gradle code
+```gradle
+
+repositories {
+    jcenter()
+    maven { url "http://dl.bintray.com/jjhesk/maven" }
+}
+{
+compile 'com.hkm.slidingmenulib:libmenu:0.4.7'
+}
+```
+
+###### 2.Usage:
+
+``` xml
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ultimate_recycler_view"
+       >
+        </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
+```
+
+
+
+
 ### Description
 
 UltimateRecyclerView is a RecyclerView(advanced and flexible version of ListView) with pulling to refresh, loading more, swiping to dismiss, draging and drop, animations ,sticky header,show or hide toolbar and FAB when scrolling and many other features.You can use it ```just like RecyclerView```.
-
-
 
 Notice that UltimateRecyclerView is a project under development.
 
@@ -40,15 +71,14 @@ Notice that UltimateRecyclerView is a project under development.
 * Support different layout in adapter
 * Loading adapter with animation
 
-### Changes in 0.4.0:
-
-- [ ] a major fix for load more mechanism for both linear layout and gridlayout
-
 ### Upcoming features:
-
-* More animations
-* Optimise UltimateViewAdapter
+* Refer to discussion for headers [#299](https://github.com/cymcsg/UltimateRecyclerView/issues/299)
+* Refer to discussion for the loading more [#276](https://github.com/cymcsg/UltimateRecyclerView/issues/276)
+* Swipe issue and discussion [#296](https://github.com/cymcsg/UltimateRecyclerView/issues/296)
+* Wishlist for [UltiamteRecyclerview 0.4.2](UpcomingChanges.md)
 * and more.
+
+> Notice that it might not be the latest version
 
 ### Demo App / Sample Code:
 * Due to rapid updates and developments we have decided to host the demo APK on github
@@ -56,55 +86,17 @@ Notice that UltimateRecyclerView is a project under development.
 * Video demo for [grid layout demo](https://www.youtube.com/watch?v=iTnIf-N8m1Y)
 * or you can check it out already compiled at [Google Play](https://play.google.com/store/apps/details?id=com.marshalchen.ultimaterecyclerview.demo)
 * You can clone the project and compile it yourself (it includes a sample), or you can check it out already compiled at Google Play
+* You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki) and welcome to make your own tutorials in here.
 
-[Upcoming changes in UltiamteRecyclerview 0.4.1](UpcomingChanges.md):
-
-If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue.
-
-#### Welcome to fork and pull request.
-
-### If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
-
-
-> Notice that it might not be the latest version
-
-### Quick Setup（Basic Usage）
-
-###### 1.Integration jcenter
-
-``` gradle
-repositories {  jcenter() }
-
-
-dependencies {
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
-}
-```
-
-
-
-###### 2.Usage:
-
-``` xml
-<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
-       >
-        </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
-```
-
-#### You can read more usage in [wiki](https://github.com/cymcsg/UltimateRecyclerView/wiki)
-
-
-
-##### If you want to see more details,you can check the demo.
-
-
-
-
+#### Welcome to fork and PR (pull request)
+If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And it is a good idea to put your idea on the issue. If you want to use a rapid development framework for developing apps, you can try [UltimateAndroid Framework](https://github.com/cymcsg/UltimateAndroid).
 
 ### Screenshot
+
+![grid_layout](http://i.giphy.com/UVKEWEGu64z60.gif)
+![grid_layout](http://i.giphy.com/UKxCkkUHVH8Fq.gif)
+![admob](http://i.giphy.com/bExwitMhjtUqI.gif)
+![expandable](http://i.giphy.com/pLWHKsEdVlsKA.gif)
 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview11.gif)
 
@@ -136,23 +128,14 @@ dependencies {
 If there are someone who I do not mention here,please accept my sincerely appologies and tell me.
 
 <h2 ><a name="donations"></a>Donations:</h2>
-
 Donate $9.99: [![$9.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5GYRYZVNAK2G2)
-
-Donate $19.99: [![$19.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2NTS85GHJLRT6)
-
-Donate $39.99: [![$39.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EWVECWFKAPBTN)
-
-Donate $59.99: [![$59.99](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/donate.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZHSRHTBMUHEMN)
-
-
 
 Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/alipay.png)
 
 ## License
 
 ``` 
-Copyright 2015 Marshal Chen
+Copyright 2015 MarsellChan
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>URLogs.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(106,135,89); }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+URLogs.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Only for debug 
+ */</span><span class="s1"> 
+</span><span class="s0">public final class </span><span class="s1">URLogs { 
+    </span><span class="s0">private static boolean </span><span class="s1">sIsLogEnabled = </span><span class="s0">true;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static </span><span class="s1">String sApplicationTag = </span><span class="s3">&quot;Chen&quot;</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static final </span><span class="s1">String TAG_CONTENT_PRINT = </span><span class="s3">&quot;%s:%s.%s:%d&quot;</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static </span><span class="s1">StackTraceElement getCurrentStackTraceElement() { 
+        </span><span class="s0">return </span><span class="s1">Thread.currentThread().getStackTrace()[</span><span class="s4">4</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">public static void </span><span class="s1">trace() { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.d(sApplicationTag</span><span class="s0">,</span><span class="s1"> 
+                    getContent(getCurrentStackTraceElement()))</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">private static </span><span class="s1">String getContent(StackTraceElement trace) { 
+        </span><span class="s0">return </span><span class="s1">String.format(TAG_CONTENT_PRINT</span><span class="s0">, </span><span class="s1">sApplicationTag</span><span class="s0">,</span><span class="s1"> 
+                trace.getClassName()</span><span class="s0">, </span><span class="s1">trace.getMethodName()</span><span class="s0">,</span><span class="s1"> 
+                trace.getLineNumber())</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private static </span><span class="s1">String getContents(StackTraceElement trace) { 
+        </span><span class="s0">return </span><span class="s1">String.format(</span><span class="s3">&quot;%s:%s:%d&quot;</span><span class="s0">, </span><span class="s1">sApplicationTag</span><span class="s0">,</span><span class="s1"> 
+                trace.getMethodName()</span><span class="s0">,</span><span class="s1"> 
+                trace.getLineNumber())</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">traceStack() { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            traceStack(sApplicationTag</span><span class="s0">, </span><span class="s1">Log.ERROR)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">traceStack(String tag</span><span class="s0">, int </span><span class="s1">priority) { 
+ 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            Log.println(priority</span><span class="s0">, </span><span class="s1">tag</span><span class="s0">, </span><span class="s1">stackTrace[</span><span class="s4">4</span><span class="s1">].toString())</span><span class="s0">;</span><span class="s1"> 
+            StringBuilder str = </span><span class="s0">new </span><span class="s1">StringBuilder()</span><span class="s0">;</span><span class="s1"> 
+            String prevClass = </span><span class="s0">null;</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">5</span><span class="s0">; </span><span class="s1">i &lt; stackTrace.length</span><span class="s0">; </span><span class="s1">i++) { 
+                String className = stackTrace[i].getFileName()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">int </span><span class="s1">idx = className.indexOf(</span><span class="s3">&quot;.java&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(idx &gt;= </span><span class="s4">0</span><span class="s1">) { 
+                    className = className.substring(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">idx)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">if </span><span class="s1">(prevClass == </span><span class="s0">null </span><span class="s1">|| !prevClass.equals(className)) { 
+ 
+                    str.append(className.substring(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">idx))</span><span class="s0">;</span><span class="s1"> 
+ 
+                } 
+                prevClass = className</span><span class="s0">;</span><span class="s1"> 
+                str.append(</span><span class="s3">&quot;.&quot;</span><span class="s1">).append(stackTrace[i].getMethodName()) 
+                        .append(</span><span class="s3">&quot;:&quot;</span><span class="s1">).append(stackTrace[i].getLineNumber()) 
+                        .append(</span><span class="s3">&quot;-&gt;&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            } 
+            Log.println(priority</span><span class="s0">, </span><span class="s1">tag</span><span class="s0">, </span><span class="s1">str.toString())</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send a VERBOSE log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">v(String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.v(sApplicationTag</span><span class="s0">, </span><span class="s1">getContents(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send a DEBUG log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">tag na 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">d(String tag</span><span class="s0">, </span><span class="s1">String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.d(tag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send a DEBUG log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">d(String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.d(sApplicationTag</span><span class="s0">, </span><span class="s1">getContents(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an INFO log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">tag na 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">i(String tag</span><span class="s0">, </span><span class="s1">String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.i(tag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * </span><span class="s5">@param </span><span class="s2">message na 
+     * </span><span class="s5">@param </span><span class="s2">args    na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">d(String message</span><span class="s0">, </span><span class="s1">Object... args) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            d(String.format(message</span><span class="s0">, </span><span class="s1">args))</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send a WARN log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">tag na 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">w(String tag</span><span class="s0">, </span><span class="s1">String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.w(tag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">tag na 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(String tag</span><span class="s0">, </span><span class="s1">String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(tag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an INFO log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">i(String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.i(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send a WARN log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">w(String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.w(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">msg na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(String msg) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ msg)</span><span class="s0">;</span><span class="s1"> 
+ 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">exception na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(Exception exception) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getMessage())</span><span class="s0">;</span><span class="s1"> 
+            exception.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">exception na 
+     * </span><span class="s5">@param </span><span class="s2">string    na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(Exception exception</span><span class="s0">, </span><span class="s1">String string) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getMessage() + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getStackTrace() + </span><span class="s3">&quot;   &quot; </span><span class="s1">+ string)</span><span class="s0">;</span><span class="s1"> 
+            exception.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">string    na 
+     * </span><span class="s5">@param </span><span class="s2">exception na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(String string</span><span class="s0">, </span><span class="s1">Exception exception) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(sApplicationTag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getMessage() + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getStackTrace() + </span><span class="s3">&quot;   &quot; </span><span class="s1">+ string)</span><span class="s0">;</span><span class="s1"> 
+            exception.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Send an ERROR log message. 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">tag       na 
+     * </span><span class="s5">@param </span><span class="s2">message   na 
+     * </span><span class="s5">@param </span><span class="s2">exception na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">e(String tag</span><span class="s0">, </span><span class="s1">String message</span><span class="s0">, </span><span class="s1">Exception exception) { 
+        </span><span class="s0">if </span><span class="s1">(sIsLogEnabled) { 
+            Log.e(tag</span><span class="s0">, </span><span class="s1">getContent(getCurrentStackTraceElement()) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getMessage() + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&gt;&quot; </span><span class="s1">+ exception.getStackTrace() + </span><span class="s3">&quot;   &quot; </span><span class="s1">+ message)</span><span class="s0">;</span><span class="s1"> 
+            exception.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s0">public static boolean </span><span class="s1">issIsLogEnabled() { 
+        </span><span class="s0">return </span><span class="s1">sIsLogEnabled</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * Set if the Logs print log or not 
+     * 
+     * </span><span class="s5">@param </span><span class="s2">sIsLogEnabled na 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">setsIsLogEnabled(</span><span class="s0">boolean </span><span class="s1">sIsLogEnabled) { 
+        URLogs.sIsLogEnabled = sIsLogEnabled</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public static </span><span class="s1">String getsApplicationTag() { 
+        </span><span class="s0">return </span><span class="s1">sApplicationTag</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">setsApplicationTag(String sApplicationTag) { 
+        URLogs.sApplicationTag = sApplicationTag</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public static </span><span class="s1">String getTagContentPrint() { 
+        </span><span class="s0">return </span><span class="s1">TAG_CONTENT_PRINT</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

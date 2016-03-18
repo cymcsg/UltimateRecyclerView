@@ -2,6 +2,7 @@ package com.marshalchen.ultimaterecyclerview.demo;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -23,9 +24,8 @@ import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.animators.BaseItemAnimator;
-import com.marshalchen.ultimaterecyclerview.animators.*;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionCommonAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -37,7 +37,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ActionMode.Callback {
 
     UltimateRecyclerView ultimateRecyclerView;
-    SimpleAdapter RVAdapter = null;
+    sectionCommonAdapter RVAdapter = null;
     LinearLayoutManager linearLayoutManager;
     int moreNum = 2;
     private ActionMode actionMode;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
     boolean isDrag = true;
 
     private ItemTouchHelper mItemTouchHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,85 +62,40 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         ultimateRecyclerView.setHasFixedSize(false);
         final List<String> stringList = new ArrayList<>();
 
-        stringList.add("111");
-        stringList.add("aaa");
-        stringList.add("222");
-        stringList.add("33");
-        stringList.add("44");
-        stringList.add("55");
-        stringList.add("66");
-        stringList.add("11771");
-        RVAdapter = new SimpleAdapter(stringList);
+        stringList.add("E19");
+        stringList.add("P32");
+        stringList.add("G22");
+        stringList.add("B33");
+        stringList.add("T44");
+        stringList.add("R55");
+        stringList.add("B66");
+        stringList.add("Q17");
+
+        RVAdapter = new sectionCommonAdapter(stringList);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(RVAdapter);
 
-        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(RVAdapter);
-        ultimateRecyclerView.addItemDecoration(headersDecor);
-//        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
-//        ultimateRecyclerView.showEmptyView();
-        ultimateRecyclerView.enableLoadmore();
 
-        RVAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
-
-        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-     //   ultimateRecyclerView.setNormalHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
-            @Override
-            public void onParallaxScroll(float percentage, float offset, View parallax) {
-                Drawable c = toolbar.getBackground();
-                c.setAlpha(Math.round(127 + percentage * 128));
-                toolbar.setBackgroundDrawable(c);
-            }
-        });
+        // ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
+        // ultimateRecyclerView.showEmptyView();
+        enableLoadMore();
+        // enableHeader();
+        //  enableParalax();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        RVAdapter.insert(moreNum++ + "  Refresh things", 0);
-                        ultimateRecyclerView.setRefreshing(false);
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.setAdapter(RVAdapter);
-//                        RVAdapter.notifyDataSetChanged();
-                    }
-                }, 1000);
-            }
-        });
+        enableRefreshGoogleMaterialStyle();
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(RVAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
-        RVAdapter.setOnDragStartListener(new SimpleAdapter.OnStartDragListener() {
+        RVAdapter.setOnDragStartListener(new sectionZeroAdapter.OnStartDragListener() {
             @Override
             public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
                 mItemTouchHelper.startDrag(viewHolder);
             }
         });
 
-        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
-                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
-                        RVAdapter.insert("More " + moreNum++, RVAdapter.getAdapterItemCount());
-                    }
-                }, 1000);
-            }
-        });
-
-//        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
-//                getResources().getColor(android.R.color.holo_green_light),
-//                getResources().getColor(android.R.color.holo_orange_light),
-//                getResources().getColor(android.R.color.holo_red_light));
 
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
@@ -202,7 +158,10 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //                }));
 
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+      /*
+
+
+      Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         for (Type type : Type.values()) {
@@ -222,17 +181,20 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
             }
         });
+
+
+        */
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RVAdapter.insert("newly added item", 1);
+                RVAdapter.insertLast("newly added item");
             }
         });
 
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RVAdapter.remove(1);
+                RVAdapter.removeLast();
             }
         });
 
@@ -269,6 +231,78 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //            }
 //        });
 
+    }
+
+
+
+    private void enableHeader() {
+        StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(RVAdapter);
+        ultimateRecyclerView.addItemDecoration(headersDecor);
+        //   ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+        ultimateRecyclerView.setNormalHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+
+    }
+
+    private void enableParalax() {
+        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+            @Override
+            public void onParallaxScroll(float percentage, float offset, View parallax) {
+                Drawable c = toolbar.getBackground();
+                c.setAlpha(Math.round(127 + percentage * 128));
+                toolbar.setBackgroundDrawable(c);
+            }
+        });
+    }
+
+    private void enableLoadMore() {
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
+        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        RVAdapter.insertLast("more" + moreNum++);
+                        RVAdapter.insertLast("more" + moreNum++);
+                        RVAdapter.insertLast("more" + moreNum++);
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    private void enableRefreshGoogleMaterialStyle() {
+        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        moreNum++;
+                        RVAdapter.insertLast(moreNum + "  Refresh things");
+                        ultimateRecyclerView.setRefreshing(false);
+                        //  ultimateRecyclerView.scrollBy(0, -50);
+                        linearLayoutManager.scrollToPosition(0);
+                        //  ultimateRecyclerView.setAdapter(RVAdapter);
+                        //  RVAdapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(
+                    getColor(android.R.color.holo_orange_light),
+                    getColor(android.R.color.holo_orange_dark),
+                    getColor(android.R.color.holo_red_dark),
+                    getColor(android.R.color.holo_red_light));
+        } else {
+            ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(
+                    getResources().getColor(android.R.color.holo_orange_light),
+                    getResources().getColor(android.R.color.holo_orange_dark),
+                    getResources().getColor(android.R.color.holo_red_dark),
+                    getResources().getColor(android.R.color.holo_red_light));
+        }
     }
 
     private void toggleSelection(int position) {
@@ -335,40 +369,5 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
     }
-
-    enum Type {
-        FadeIn(new FadeInAnimator()),
-        FadeInDown(new FadeInDownAnimator()),
-        FadeInUp(new FadeInUpAnimator()),
-        FadeInLeft(new FadeInLeftAnimator()),
-        FadeInRight(new FadeInRightAnimator()),
-        Landing(new LandingAnimator()),
-        ScaleIn(new ScaleInAnimator()),
-        ScaleInTop(new ScaleInTopAnimator()),
-        ScaleInBottom(new ScaleInBottomAnimator()),
-        ScaleInLeft(new ScaleInLeftAnimator()),
-        ScaleInRight(new ScaleInRightAnimator()),
-        FlipInTopX(new FlipInTopXAnimator()),
-        FlipInBottomX(new FlipInBottomXAnimator()),
-        FlipInLeftY(new FlipInLeftYAnimator()),
-        FlipInRightY(new FlipInRightYAnimator()),
-        SlideInLeft(new SlideInLeftAnimator()),
-        SlideInRight(new SlideInRightAnimator()),
-        SlideInDown(new SlideInDownAnimator()),
-        SlideInUp(new SlideInUpAnimator()),
-        OvershootInRight(new OvershootInRightAnimator()),
-        OvershootInLeft(new OvershootInLeftAnimator());
-
-        private BaseItemAnimator mAnimator;
-
-        Type(BaseItemAnimator animator) {
-            mAnimator = animator;
-        }
-
-        public BaseItemAnimator getAnimator() {
-            return mAnimator;
-        }
-    }
-
 
 }

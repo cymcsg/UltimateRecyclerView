@@ -16,4 +16,6 @@
     <!-- the expandable things -->
     <dimen name="item_margin">16dp</dimen>
     <dimen name="expand_size">8dp</dimen>
+    <!--header padding-->
+    <dimen name="header_padding">8dp</dimen>
 </resources>

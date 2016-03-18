@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>UltimateRecyclerviewViewHolder.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UltimateRecyclerviewViewHolder.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperViewHolder</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s2">/** 
+ * Created by MarshalChen on 15-6-2. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">UltimateRecyclerviewViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder </span><span class="s0">implements</span><span class="s1"> 
+        ItemTouchHelperViewHolder { 
+ 
+    </span><span class="s0">public </span><span class="s1">SwipeLayout swipeLayout = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">SwipeLayout.OnLayout onLayoutListener = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">SwipeLayout.SwipeListener swipeMemory = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">public int </span><span class="s1">position = -</span><span class="s3">1</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">UltimateRecyclerviewViewHolder(View itemView) { 
+        </span><span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span><span class="s1"> 
+        swipeLayout = (SwipeLayout) itemView.findViewById(R.id.recyclerview_swipe)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemSelected() { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onItemClear() { 
+ 
+    } 
+}</span></pre>
+</body>
+</html>

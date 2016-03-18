@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,49 +9,24 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#30f2e0">
+        android:layout_height="?attr/actionBarSize"
+        android:background="#853e99"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/del"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
-                android:text="Del" />
-
-            <TextView
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/del"
-                android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="10dp"
-                android:text="Add" />
-        </RelativeLayout>
-
+        <include layout="@layout/toolbar_loadmore" />
     </android.support.v7.widget.Toolbar>
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/ultimate_recycler_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/ultimate_recycler_view"
+        android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
-        app:recyclerviewFloatingActionView="@layout/floating_view"
-        app:recyclerviewScrollbars="vertical"
-        app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
-        android:layout_marginTop="?attr/actionBarSize" />
+        app:recyclerviewEmptyView="@layout/empty_view"
+        app:recyclerviewFloatingActionView="@layout/floating_view"
+        app:recyclerviewScrollbars="vertical" />
 </FrameLayout>

@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>SwipeableUltimateRecyclerview.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+SwipeableUltimateRecyclerview.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.AttributeSet</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewStub</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListViewListener</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by MarshalChen on 15-6-5. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">SwipeableUltimateRecyclerview </span><span class="s0">extends </span><span class="s1">UltimateRecyclerView  { 
+    </span><span class="s0">public </span><span class="s1">SwipeableUltimateRecyclerview(Context context) { 
+        </span><span class="s0">super</span><span class="s1">(context)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">SwipeableUltimateRecyclerview(Context context</span><span class="s0">, </span><span class="s1">AttributeSet attrs) { 
+        </span><span class="s0">super</span><span class="s1">(context</span><span class="s0">, </span><span class="s1">attrs)</span><span class="s0">;</span><span class="s1"> 
+        ((SwipeListView)mRecyclerView).init(attrs)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">SwipeableUltimateRecyclerview(Context context</span><span class="s0">, </span><span class="s1">AttributeSet attrs</span><span class="s0">, int </span><span class="s1">defStyleAttr) { 
+        </span><span class="s0">super</span><span class="s1">(context</span><span class="s0">, </span><span class="s1">attrs</span><span class="s0">, </span><span class="s1">defStyleAttr)</span><span class="s0">;</span><span class="s1"> 
+        ((SwipeListView)mRecyclerView).init(attrs)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">initViews() { 
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)</span><span class="s0">;</span><span class="s1"> 
+        View view = inflater.inflate(R.layout.swipeable_ultimate_recycler_view_layout</span><span class="s0">, this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        mRecyclerView = (SwipeListView) view.findViewById(R.id.ultimate_list)</span><span class="s0">;</span><span class="s1"> 
+ 
+        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout)</span><span class="s0">;</span><span class="s1"> 
+        setScrollbars()</span><span class="s0">;</span><span class="s1"> 
+        mSwipeRefreshLayout.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(mRecyclerView != </span><span class="s0">null</span><span class="s1">) { 
+ 
+            mRecyclerView.setClipToPadding(mClipToPadding)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(mPadding != -</span><span class="s3">1.1f</span><span class="s1">) { 
+                mRecyclerView.setPadding(mPadding</span><span class="s0">, </span><span class="s1">mPadding</span><span class="s0">, </span><span class="s1">mPadding</span><span class="s0">, </span><span class="s1">mPadding)</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                mRecyclerView.setPadding(mPaddingLeft</span><span class="s0">, </span><span class="s1">mPaddingTop</span><span class="s0">, </span><span class="s1">mPaddingRight</span><span class="s0">, </span><span class="s1">mPaddingBottom)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        defaultFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.defaultFloatingActionButton)</span><span class="s0">;</span><span class="s1"> 
+        setDefaultScrollListener()</span><span class="s0">;</span><span class="s1"> 
+ 
+        mEmpty = (ViewStub) view.findViewById(R.id.emptyview)</span><span class="s0">;</span><span class="s1"> 
+        mFloatingButtonViewStub = (ViewStub) view.findViewById(R.id.floatingActionViewStub)</span><span class="s0">;</span><span class="s1"> 
+ 
+        mEmpty.setLayoutResource(mEmptyId)</span><span class="s0">;</span><span class="s1"> 
+ 
+        mFloatingButtonViewStub.setLayoutResource(mFloatingButtonId)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(mEmptyId != </span><span class="s3">0</span><span class="s1">) 
+            mEmptyView = mEmpty.inflate()</span><span class="s0">;</span><span class="s1"> 
+        mEmpty.setVisibility(View.GONE)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(mFloatingButtonId != </span><span class="s3">0</span><span class="s1">) { 
+            mFloatingButtonView = mFloatingButtonViewStub.inflate()</span><span class="s0">;</span><span class="s1"> 
+            mFloatingButtonView.setVisibility(View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+ 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setSwipeListViewListener(SwipeListViewListener swipeListViewListener) { 
+        ((SwipeListView)mRecyclerView).swipeListViewListener = swipeListViewListener</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

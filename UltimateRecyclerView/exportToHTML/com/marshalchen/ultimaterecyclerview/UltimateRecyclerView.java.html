@@ -1,0 +1,1349 @@
+<html>
+<head>
+<title>UltimateRecyclerView.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(98,151,85); font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s6 { color: rgb(106,135,89); }
+.s7 { color: rgb(119,183,103); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UltimateRecyclerView.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ * Copyright(c) 2015 Marshal Chen 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s2">package </span><span class="s1">com.marshalchen.ultimaterecyclerview</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">android.animation.ValueAnimator</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.annotation.TargetApi</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.content.Context</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.content.res.TypedArray</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.graphics.Canvas</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.graphics.Rect</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.os.Build</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.os.Parcelable</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.annotation.ColorInt</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.annotation.LayoutRes</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v4.view.ViewCompat</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v4.widget.SwipeRefreshLayout</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.GridLayoutManager</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.LinearLayoutManager</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.StaggeredGridLayoutManager</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.support.v7.widget.Toolbar</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.util.AttributeSet</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.util.Log</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.util.SparseIntArray</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.LayoutInflater</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.MotionEvent</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.View</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.ViewGroup</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.ViewStub</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.view.animation.TranslateAnimation</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.widget.FrameLayout</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">android.widget.RelativeLayout</span><span class="s2">;</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.emptyview.emptyViewOnShownListener</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.uiUtils.RecyclerViewPositionHelper</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling</span><span class="s2">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s3">/** 
+ * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc. 
+ */</span><span class="s1"> 
+</span><span class="s2">public class </span><span class="s1">UltimateRecyclerView </span><span class="s2">extends </span><span class="s1">FrameLayout </span><span class="s2">implements </span><span class="s1">Scrollable { 
+    </span><span class="s3">/** 
+     * TRIGGERED ON NOTIFIY ITEMS 
+     */</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">EMPTY_CLEAR_ALL = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">EMPTY_SHOW_LOADMORE_ONLY = </span><span class="s4">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">EMPTY_KEEP_HEADER = </span><span class="s4">2</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">EMPTY_KEEP_HEADER_AND_LOARMORE = </span><span class="s4">3</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s3">/** 
+     * TRIGGERED ON SETTING ADAPTER TO THE URV 
+     */</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">STARTWITH_OFFLINE_ITEMS = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">public static int </span><span class="s1">STARTWITH_ONLINE_ITEMS = </span><span class="s4">1</span><span class="s2">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s2">public </span><span class="s1">RecyclerView mRecyclerView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">FloatingActionButton defaultFloatingActionButton</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">OnLoadMoreListener onLoadMoreListener</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">lastVisibleItemPosition</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">RecyclerView.OnScrollListener mOnScrollListener</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">LAYOUT_MANAGER_TYPE layoutManagerType</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">isLoadingMore = </span><span class="s2">false;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mPadding</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mPaddingTop</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mPaddingBottom</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mPaddingLeft</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mPaddingRight</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s0">//protected int mEmptyViewPolicy;</span><span class="s1"> 
+    </span><span class="s2">protected boolean </span><span class="s1">mClipToPadding</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">UltimateViewAdapter mAdapter</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s0">// Fields that should be saved onSaveInstanceState</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mPrevFirstVisiblePosition</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mPrevFirstVisibleChildHeight = -</span><span class="s4">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mPrevScrolledChildrenHeight</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mPrevScrollY</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mScrollY</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">SparseIntArray mChildrenHeights = </span><span class="s2">new </span><span class="s1">SparseIntArray()</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s0">// Fields that don't need to be saved onSaveInstanceState</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">ObservableScrollState mObservableScrollState</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">ObservableScrollViewCallbacks mCallbacks</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s0">//private ScrollState mScrollState;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">mFirstScroll</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">mDragging</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">mIntercepted</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">mIsLoadMoreWidgetEnabled</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">MotionEvent mPrevMoveEvent</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">ViewGroup mTouchInterceptionViewGroup</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s3">/** 
+     * custom load more progress bar 
+     */</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">View mLoadMoreView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s3">/** 
+     * empty view group 
+     */</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">ViewStub mEmpty</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">View mEmptyView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mEmptyId</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">emptyViewOnShownListener mEmptyViewListener</span><span class="s2">;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s3">/** 
+     * the floating button group 
+     */</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">ViewStub mFloatingButtonViewStub</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected </span><span class="s1">View mFloatingButtonView</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">protected int </span><span class="s1">mFloatingButtonId</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">protected int</span><span class="s1">[] defaultSwipeToDismissColors = </span><span class="s2">null;</span><span class="s1"> 
+    </span><span class="s2">public int </span><span class="s1">showLoadMoreItemNum = </span><span class="s4">3</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">public </span><span class="s1">VerticalSwipeRefreshLayout mSwipeRefreshLayout</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">private </span><span class="s1">RecyclerViewPositionHelper mRecyclerViewHelper</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">CustomRelativeWrapper mHeader</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mTotalYScrolled</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">private final float </span><span class="s1">SCROLL_MULTIPLIER = </span><span class="s4">0.5f</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">OnParallaxScroll mParallaxScroll</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private static boolean </span><span class="s1">isParallaxHeader = </span><span class="s2">false;</span><span class="s1"> 
+ 
+ 
+    </span><span class="s3">/** 
+     * control to show the loading view first when list is initiated at the beginning 
+     * true - assume there is a buffer to load things before and the adapter suppose zero data at the beignning 
+     * false - assume there is data to show at the beginning level 
+     */</span><span class="s1"> 
+    </span><span class="s2">private boolean </span><span class="s1">isFirstLoadingOnlineAdapter = </span><span class="s2">false;</span><span class="s1"> 
+    </span><span class="s0">// added by Sevan Joe to support scrollbars</span><span class="s1"> 
+    </span><span class="s2">private static final int </span><span class="s1">SCROLLBARS_NONE = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private static final int </span><span class="s1">SCROLLBARS_VERTICAL = </span><span class="s4">1</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private static final int </span><span class="s1">SCROLLBARS_HORIZONTAL = </span><span class="s4">2</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mScrollbarsStyle</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mVisibleItemCount = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mTotalItemCount = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">previousTotal = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">mFirstVisibleItem</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">public </span><span class="s1">UltimateRecyclerView(Context context) { 
+        </span><span class="s2">super</span><span class="s1">(context)</span><span class="s2">;</span><span class="s1"> 
+        initViews()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public </span><span class="s1">UltimateRecyclerView(Context context</span><span class="s2">, </span><span class="s1">AttributeSet attrs) { 
+        </span><span class="s2">super</span><span class="s1">(context</span><span class="s2">, </span><span class="s1">attrs)</span><span class="s2">;</span><span class="s1"> 
+        initAttrs(attrs)</span><span class="s2">;</span><span class="s1"> 
+        initViews()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public </span><span class="s1">UltimateRecyclerView(Context context</span><span class="s2">, </span><span class="s1">AttributeSet attrs</span><span class="s2">, int </span><span class="s1">defStyleAttr) { 
+        </span><span class="s2">super</span><span class="s1">(context</span><span class="s2">, </span><span class="s1">attrs</span><span class="s2">, </span><span class="s1">defStyleAttr)</span><span class="s2">;</span><span class="s1"> 
+        initAttrs(attrs)</span><span class="s2">;</span><span class="s1"> 
+        initViews()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">setRecylerViewBackgroundColor(@ColorInt </span><span class="s2">int </span><span class="s1">color) { 
+        mRecyclerView.setBackgroundColor(color)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">protected void </span><span class="s1">initViews() { 
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)</span><span class="s2">;</span><span class="s1"> 
+        View view = inflater.inflate(R.layout.ultimate_recycler_view_layout</span><span class="s2">, this</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list)</span><span class="s2">;</span><span class="s1"> 
+        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout)</span><span class="s2">;</span><span class="s1"> 
+        setScrollbars()</span><span class="s2">;</span><span class="s1"> 
+        mSwipeRefreshLayout.setEnabled(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(mRecyclerView != </span><span class="s2">null</span><span class="s1">) { 
+            mRecyclerView.setClipToPadding(mClipToPadding)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(mPadding != -</span><span class="s4">1.1f</span><span class="s1">) { 
+                mRecyclerView.setPadding(mPadding</span><span class="s2">, </span><span class="s1">mPadding</span><span class="s2">, </span><span class="s1">mPadding</span><span class="s2">, </span><span class="s1">mPadding)</span><span class="s2">;</span><span class="s1"> 
+            } </span><span class="s2">else </span><span class="s1">{ 
+                mRecyclerView.setPadding(mPaddingLeft</span><span class="s2">, </span><span class="s1">mPaddingTop</span><span class="s2">, </span><span class="s1">mPaddingRight</span><span class="s2">, </span><span class="s1">mPaddingBottom)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        defaultFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.defaultFloatingActionButton)</span><span class="s2">;</span><span class="s1"> 
+        setDefaultScrollListener()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s3">/** 
+         * empty view setup 
+         */</span><span class="s1"> 
+        mEmpty = (ViewStub) view.findViewById(R.id.emptyview)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mEmptyId != </span><span class="s4">0</span><span class="s1">) { 
+            mEmpty.setLayoutResource(mEmptyId)</span><span class="s2">;</span><span class="s1"> 
+            mEmptyView = mEmpty.inflate()</span><span class="s2">;</span><span class="s1"> 
+            mEmpty.setVisibility(View.GONE)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s3">/** 
+         * floating button setup 
+         */</span><span class="s1"> 
+        mFloatingButtonViewStub = (ViewStub) view.findViewById(R.id.floatingActionViewStub)</span><span class="s2">;</span><span class="s1"> 
+        mFloatingButtonViewStub.setLayoutResource(mFloatingButtonId)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * retrieve the empty view from the core 
+     * 
+     * </span><span class="s5">@return </span><span class="s3">the view item 
+     */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">View getEmptyView() { 
+        </span><span class="s2">return </span><span class="s1">mEmptyView</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public final void </span><span class="s1">setEmptyView(@LayoutRes </span><span class="s2">int </span><span class="s1">emptyResourceId</span><span class="s2">, final int </span><span class="s1">emptyViewPolicy</span><span class="s2">, final int </span><span class="s1">mEmptyViewInitPolicy) { 
+        setEmptyView(emptyResourceId</span><span class="s2">, </span><span class="s1">emptyViewPolicy)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null</span><span class="s1">) { 
+            mAdapter.setEmptyViewOnInitPolicy(mEmptyViewInitPolicy)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;unabled to empty view policy because the adapter is null&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero. 
+     * You can customize it as loading view. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">emptyResourceId the Resource Id from the empty view 
+     * </span><span class="s5">@param </span><span class="s3">emptyViewPolicy the Resource Id from the empty view 
+     */</span><span class="s1"> 
+    </span><span class="s2">public final void </span><span class="s1">setEmptyView(@LayoutRes </span><span class="s2">int </span><span class="s1">emptyResourceId</span><span class="s2">, final int </span><span class="s1">emptyViewPolicy) { 
+        </span><span class="s0">//  mEmptyViewPolicy = emptyViewPolicy;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mEmptyView == </span><span class="s2">null </span><span class="s1">&amp;&amp; emptyResourceId != </span><span class="s4">0</span><span class="s1">) { 
+            mEmptyId = emptyResourceId</span><span class="s2">;</span><span class="s1"> 
+            mEmpty.setLayoutResource(mEmptyId)</span><span class="s2">;</span><span class="s1"> 
+            mEmptyView = mEmpty.inflate()</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;unabled to set empty view because the empty has been set&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null</span><span class="s1">) { 
+            mAdapter.setEmptyViewPolicy(emptyViewPolicy)</span><span class="s2">;</span><span class="s1"> 
+            mAdapter.setEmptyViewOnInitPolicy(UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;unabled to empty view policy because the adapter is null&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        mEmpty.setVisibility(View.GONE)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public final void </span><span class="s1">setEmptyView(@LayoutRes </span><span class="s2">int </span><span class="s1">emptyResourceId</span><span class="s2">, final int </span><span class="s1">emptyViewPolicy</span><span class="s2">, final </span><span class="s1">emptyViewOnShownListener listener) { 
+        setEmptyView(emptyResourceId</span><span class="s2">, </span><span class="s1">emptyViewPolicy)</span><span class="s2">;</span><span class="s1"> 
+        mEmptyViewListener = listener</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public final void </span><span class="s1">setEmptyView(@LayoutRes </span><span class="s2">int </span><span class="s1">emptyResourceId</span><span class="s2">, final int </span><span class="s1">emptyViewPolicy</span><span class="s2">, final int </span><span class="s1">emptyViewInitPolicy</span><span class="s2">, final </span><span class="s1">emptyViewOnShownListener listener) { 
+        setEmptyView(emptyResourceId</span><span class="s2">, </span><span class="s1">emptyViewPolicy</span><span class="s2">, </span><span class="s1">emptyViewInitPolicy)</span><span class="s2">;</span><span class="s1"> 
+        mEmptyViewListener = listener</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Show the custom or default empty view 
+     * You can customize it as loading view 
+     */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">showEmptyView() { 
+        </span><span class="s2">if </span><span class="s1">(mEmpty != </span><span class="s2">null </span><span class="s1">&amp;&amp; mEmptyView != </span><span class="s2">null </span><span class="s1">&amp;&amp; mAdapter != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">if </span><span class="s1">(mAdapter.getEmptyViewPolicy() == EMPTY_CLEAR_ALL || mAdapter.getEmptyViewPolicy() == EMPTY_KEEP_HEADER) { 
+                mEmpty.setVisibility(View.VISIBLE)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(mEmptyViewListener != </span><span class="s2">null</span><span class="s1">) { 
+                    mEmptyViewListener.onEmptyViewShow(mEmptyView)</span><span class="s2">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s2">return true;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;it is unable to show empty view&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">return false;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Hide the custom or default empty view 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">hideEmptyView() { 
+        </span><span class="s2">if </span><span class="s1">(mEmpty != </span><span class="s2">null </span><span class="s1">&amp;&amp; mEmptyView != </span><span class="s2">null</span><span class="s1">) { 
+            mEmpty.setVisibility(View.GONE)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;there is no such empty view&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * setting up the loading more layout 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">layout the res layout 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setLoadMoreView(@LayoutRes </span><span class="s2">final int </span><span class="s1">layout) { 
+        mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout</span><span class="s2">, null</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        enableLoadmore()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Show the custom floating button view. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">showFloatingButtonView() { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonId != </span><span class="s4">0 </span><span class="s1">&amp;&amp; mFloatingButtonView == </span><span class="s2">null</span><span class="s1">) { 
+            mFloatingButtonView = mFloatingButtonViewStub.inflate()</span><span class="s2">;</span><span class="s1"> 
+            mFloatingButtonView.setVisibility(View.VISIBLE)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            Log.d(VIEW_LOG_TAG</span><span class="s2">, </span><span class="s6">&quot;floating button cannot be inflated because it has inflated already&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Add ScrollBar of Recyclerview 
+     */</span><span class="s1"> 
+    </span><span class="s2">protected void </span><span class="s1">setScrollbars() { 
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">switch </span><span class="s1">(mScrollbarsStyle) { 
+            </span><span class="s2">case </span><span class="s1">SCROLLBARS_VERTICAL: 
+                mSwipeRefreshLayout.removeView(mRecyclerView)</span><span class="s2">;</span><span class="s1"> 
+                View verticalView = inflater.inflate(R.layout.vertical_recycler_view</span><span class="s2">, </span><span class="s1">mSwipeRefreshLayout</span><span class="s2">, true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                mRecyclerView = (RecyclerView) verticalView.findViewById(R.id.ultimate_list)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+            </span><span class="s2">case </span><span class="s1">SCROLLBARS_HORIZONTAL: 
+                mSwipeRefreshLayout.removeView(mRecyclerView)</span><span class="s2">;</span><span class="s1"> 
+                View horizontalView = inflater.inflate(R.layout.horizontal_recycler_view</span><span class="s2">, </span><span class="s1">mSwipeRefreshLayout</span><span class="s2">, true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                mRecyclerView = (RecyclerView) horizontalView.findViewById(R.id.ultimate_list)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+            </span><span class="s2">default</span><span class="s1">: 
+                </span><span class="s2">break;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">protected void </span><span class="s1">initAttrs(AttributeSet attrs) { 
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs</span><span class="s2">, </span><span class="s1">R.styleable.UltimateRecyclerview)</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">try </span><span class="s1">{ 
+            mPadding = (</span><span class="s2">int</span><span class="s1">) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPadding</span><span class="s2">, </span><span class="s1">-</span><span class="s4">1.1f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mPaddingTop = (</span><span class="s2">int</span><span class="s1">) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingTop</span><span class="s2">, </span><span class="s4">0.0f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mPaddingBottom = (</span><span class="s2">int</span><span class="s1">) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingBottom</span><span class="s2">, </span><span class="s4">0.0f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mPaddingLeft = (</span><span class="s2">int</span><span class="s1">) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingLeft</span><span class="s2">, </span><span class="s4">0.0f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mPaddingRight = (</span><span class="s2">int</span><span class="s1">) typedArray.getDimension(R.styleable.UltimateRecyclerview_recyclerviewPaddingRight</span><span class="s2">, </span><span class="s4">0.0f</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mClipToPadding = typedArray.getBoolean(R.styleable.UltimateRecyclerview_recyclerviewClipToPadding</span><span class="s2">, false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mEmptyId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewEmptyView</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mFloatingButtonId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewFloatingActionView</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mScrollbarsStyle = typedArray.getInt(R.styleable.UltimateRecyclerview_recyclerviewScrollbars</span><span class="s2">, </span><span class="s1">SCROLLBARS_NONE)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">colorList = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewDefaultSwipeColor</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(colorList != </span><span class="s4">0</span><span class="s1">) { 
+                defaultSwipeToDismissColors = getResources().getIntArray(colorList)</span><span class="s2">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">//mEmptyViewPolicy = EMPTY_VIEW_POLICY_EMPTY_SHOW;</span><span class="s1"> 
+        } </span><span class="s2">finally </span><span class="s1">{ 
+            typedArray.recycle()</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s2">private void </span><span class="s1">setObserableScrollListener() { 
+        mRecyclerView.removeOnScrollListener(mOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+        mOnScrollListener = </span><span class="s2">new </span><span class="s1">RecyclerView.OnScrollListener() { 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onScrolled(RecyclerView recyclerView</span><span class="s2">, int </span><span class="s1">dx</span><span class="s2">, int </span><span class="s1">dy) { 
+                </span><span class="s2">super</span><span class="s1">.onScrolled(recyclerView</span><span class="s2">, </span><span class="s1">dx</span><span class="s2">, </span><span class="s1">dy)</span><span class="s2">;</span><span class="s1"> 
+                enableShoworHideToolbarAndFloatingButton(recyclerView)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        }</span><span class="s2">;</span><span class="s1"> 
+        mRecyclerView.addOnScrollListener(mOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private int</span><span class="s1">[] mlastPositionsStaggeredGridLayout</span><span class="s2">;</span><span class="s1"> 
+ 
+    </span><span class="s2">private void </span><span class="s1">scroll_load_more_detection(RecyclerView recyclerView) { 
+ 
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(layoutManagerType == </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">if </span><span class="s1">(layoutManager </span><span class="s2">instanceof </span><span class="s1">GridLayoutManager) { 
+                layoutManagerType = LAYOUT_MANAGER_TYPE.GRID</span><span class="s2">;</span><span class="s1"> 
+            } </span><span class="s2">else if </span><span class="s1">(layoutManager </span><span class="s2">instanceof </span><span class="s1">StaggeredGridLayoutManager) { 
+                layoutManagerType = LAYOUT_MANAGER_TYPE.STAGGERED_GRID</span><span class="s2">;</span><span class="s1"> 
+            } </span><span class="s2">else if </span><span class="s1">(layoutManager </span><span class="s2">instanceof </span><span class="s1">LinearLayoutManager) { 
+                layoutManagerType = LAYOUT_MANAGER_TYPE.LINEAR</span><span class="s2">;</span><span class="s1"> 
+            } </span><span class="s2">else </span><span class="s1">{ 
+                </span><span class="s2">throw new </span><span class="s1">RuntimeException(</span><span class="s6">&quot;Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        mTotalItemCount = layoutManager.getItemCount()</span><span class="s2">;</span><span class="s1"> 
+        mVisibleItemCount = layoutManager.getChildCount()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">switch </span><span class="s1">(layoutManagerType) { 
+            </span><span class="s2">case </span><span class="s1">LINEAR: 
+                mFirstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition()</span><span class="s2">;</span><span class="s1"> 
+                lastVisibleItemPosition = mRecyclerViewHelper.findLastVisibleItemPosition()</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">break;</span><span class="s1"> 
+            </span><span class="s2">case </span><span class="s1">GRID: 
+                </span><span class="s2">if </span><span class="s1">(layoutManager </span><span class="s2">instanceof </span><span class="s1">GridLayoutManager) { 
+                    GridLayoutManager ly = (GridLayoutManager) layoutManager</span><span class="s2">;</span><span class="s1"> 
+                    lastVisibleItemPosition = ly.findLastVisibleItemPosition()</span><span class="s2">;</span><span class="s1"> 
+                    mFirstVisibleItem = ly.findFirstVisibleItemPosition()</span><span class="s2">;</span><span class="s1"> 
+                } 
+                </span><span class="s2">break;</span><span class="s1"> 
+            </span><span class="s2">case </span><span class="s1">STAGGERED_GRID: 
+                </span><span class="s2">if </span><span class="s1">(layoutManager </span><span class="s2">instanceof </span><span class="s1">StaggeredGridLayoutManager) { 
+                    StaggeredGridLayoutManager sy = (StaggeredGridLayoutManager) layoutManager</span><span class="s2">;</span><span class="s1"> 
+ 
+                    </span><span class="s2">if </span><span class="s1">(mlastPositionsStaggeredGridLayout == </span><span class="s2">null</span><span class="s1">) 
+                        mlastPositionsStaggeredGridLayout = </span><span class="s2">new int</span><span class="s1">[sy.getSpanCount()]</span><span class="s2">;</span><span class="s1"> 
+ 
+                    sy.findLastVisibleItemPositions(mlastPositionsStaggeredGridLayout)</span><span class="s2">;</span><span class="s1"> 
+                    lastVisibleItemPosition = findMax(mlastPositionsStaggeredGridLayout)</span><span class="s2">;</span><span class="s1"> 
+ 
+                    sy.findFirstVisibleItemPositions(mlastPositionsStaggeredGridLayout)</span><span class="s2">;</span><span class="s1"> 
+                    mFirstVisibleItem = findMin(mlastPositionsStaggeredGridLayout)</span><span class="s2">;</span><span class="s1"> 
+                } 
+                </span><span class="s2">break;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">if </span><span class="s1">(isLoadingMore) { 
+            </span><span class="s0">//todo: there are some bugs needs to be adjusted for admob adapter</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(mTotalItemCount &gt; previousTotal) { 
+                isLoadingMore = </span><span class="s2">false;</span><span class="s1"> 
+                previousTotal = mTotalItemCount</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s2">boolean </span><span class="s1">bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) &lt;= mFirstVisibleItem</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(!isLoadingMore &amp;&amp; bottomEdgeHit) { 
+            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount()</span><span class="s2">, </span><span class="s1">lastVisibleItemPosition)</span><span class="s2">;</span><span class="s1"> 
+            isLoadingMore = </span><span class="s2">true;</span><span class="s1"> 
+            previousTotal = mTotalItemCount</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+    } 
+ 
+    </span><span class="s2">protected void </span><span class="s1">setDefaultScrollListener() { 
+        mRecyclerView.removeOnScrollListener(mOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+        mOnScrollListener = </span><span class="s2">new </span><span class="s1">RecyclerView.OnScrollListener() { 
+ 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onScrolled(RecyclerView recyclerView</span><span class="s2">, int </span><span class="s1">dx</span><span class="s2">, int </span><span class="s1">dy) { 
+                </span><span class="s2">super</span><span class="s1">.onScrolled(recyclerView</span><span class="s2">, </span><span class="s1">dx</span><span class="s2">, </span><span class="s1">dy)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(mHeader != </span><span class="s2">null</span><span class="s1">) { 
+                    mTotalYScrolled += dy</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">if </span><span class="s1">(isParallaxHeader) 
+                        translateHeader(mTotalYScrolled)</span><span class="s2">;</span><span class="s1"> 
+                } 
+                </span><span class="s2">if </span><span class="s1">(mIsLoadMoreWidgetEnabled) { 
+                    scroll_load_more_detection(recyclerView)</span><span class="s2">;</span><span class="s1"> 
+                } 
+                enableShoworHideToolbarAndFloatingButton(recyclerView)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        }</span><span class="s2">;</span><span class="s1"> 
+ 
+        mRecyclerView.addOnScrollListener(mOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Enable loading more of the recyclerview 
+     */</span><span class="s1"> 
+    </span><span class="s2">private void </span><span class="s1">enableLoadmore() { 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null </span><span class="s1">&amp;&amp; mAdapter.getCustomLoadMoreView() == </span><span class="s2">null </span><span class="s1">&amp;&amp; mLoadMoreView != </span><span class="s2">null</span><span class="s1">) { 
+            mAdapter.setCustomLoadMoreView(mLoadMoreView)</span><span class="s2">;</span><span class="s1"> 
+            mAdapter.enableLoadMore(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mAdapter.notifyDataSetChanged()</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+ 
+        } 
+        mIsLoadMoreWidgetEnabled = </span><span class="s2">true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * If you have used {</span><span class="s5">@link </span><span class="s3">#disableLoadmore()} and want to enable loading more again,you can use this method. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">reenableLoadmore() { 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null </span><span class="s1">&amp;&amp; mLoadMoreView != </span><span class="s2">null</span><span class="s1">) { 
+            mAdapter.enableLoadMore(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        mIsLoadMoreWidgetEnabled = </span><span class="s2">true;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public boolean </span><span class="s1">isLoadMoreEnabled() { 
+        </span><span class="s2">return </span><span class="s1">mIsLoadMoreWidgetEnabled</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Remove loading more scroll listener 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">disableLoadmore() { 
+        mIsLoadMoreWidgetEnabled = </span><span class="s2">false;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null </span><span class="s1">&amp;&amp; mLoadMoreView != </span><span class="s2">null</span><span class="s1">) { 
+            mAdapter.enableLoadMore(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s2">protected void </span><span class="s1">enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) { 
+        </span><span class="s2">if </span><span class="s1">(mCallbacks != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">if </span><span class="s1">(getChildCount() &gt; </span><span class="s4">0</span><span class="s1">) { 
+                </span><span class="s2">int </span><span class="s1">firstVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(</span><span class="s4">0</span><span class="s1">))</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">int </span><span class="s1">lastVisiblePosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(recyclerView.getChildCount() - </span><span class="s4">1</span><span class="s1">))</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">try </span><span class="s1">{ 
+                    </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i = firstVisiblePosition</span><span class="s2">, </span><span class="s1">j = </span><span class="s4">0</span><span class="s2">; </span><span class="s1">i &lt;= lastVisiblePosition</span><span class="s2">; </span><span class="s1">i++</span><span class="s2">, </span><span class="s1">j++) { 
+                        </span><span class="s2">int </span><span class="s1">childHeight = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                        View child = recyclerView.getChildAt(j)</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">if </span><span class="s1">(mChildrenHeights.indexOfKey(i) &lt; </span><span class="s4">0 </span><span class="s1">|| (child != </span><span class="s2">null </span><span class="s1">&amp;&amp; child.getHeight() != mChildrenHeights.get(i))) { 
+                            </span><span class="s2">if </span><span class="s1">(child != </span><span class="s2">null</span><span class="s1">) 
+                                childHeight = child.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                        } 
+                        mChildrenHeights.put(i</span><span class="s2">, </span><span class="s1">childHeight)</span><span class="s2">;</span><span class="s1"> 
+                    } 
+ 
+                } </span><span class="s2">catch </span><span class="s1">(NullPointerException e) { 
+                    e.printStackTrace()</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s0">//todo: need to solve this issue when the first child is missing from the scroll. Please also see the debug from the RV error.</span><span class="s1"> 
+                    </span><span class="s0">//todo: 07-01 11:50:36.359  32348-32348/com.marshalchen.ultimaterecyclerview.demo D/RVerror? Attempt to invoke virtual method 'int android.view.View.getHeight()' on a null object reference</span><span class="s1"> 
+                    URLogs.e(e</span><span class="s2">, </span><span class="s6">&quot;&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                View firstVisibleChild = recyclerView.getChildAt(</span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s2">if </span><span class="s1">(firstVisibleChild != </span><span class="s2">null</span><span class="s1">) { 
+                    </span><span class="s2">if </span><span class="s1">(mPrevFirstVisiblePosition &lt; firstVisiblePosition) { 
+                        </span><span class="s0">// scroll down</span><span class="s1"> 
+                        </span><span class="s2">int </span><span class="s1">skippedChildrenHeight = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">if </span><span class="s1">(firstVisiblePosition - mPrevFirstVisiblePosition != </span><span class="s4">1</span><span class="s1">) { 
+                            </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i = firstVisiblePosition - </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i &gt; mPrevFirstVisiblePosition</span><span class="s2">; </span><span class="s1">i--) { 
+                                </span><span class="s2">if </span><span class="s1">(</span><span class="s4">0 </span><span class="s1">&lt; mChildrenHeights.indexOfKey(i)) { 
+                                    skippedChildrenHeight += mChildrenHeights.get(i)</span><span class="s2">;</span><span class="s1"> 
+                                } </span><span class="s2">else </span><span class="s1">{ 
+                                    </span><span class="s0">// Approximate each item's height to the first visible child.</span><span class="s1"> 
+                                    </span><span class="s0">// It may be incorrect, but without this, scrollY will be broken</span><span class="s1"> 
+                                    </span><span class="s0">// when scrolling from the bottom.</span><span class="s1"> 
+                                    skippedChildrenHeight += firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                                } 
+                            } 
+                        } 
+                        mPrevScrolledChildrenHeight += mPrevFirstVisibleChildHeight + skippedChildrenHeight</span><span class="s2">;</span><span class="s1"> 
+                        mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                    } </span><span class="s2">else if </span><span class="s1">(firstVisiblePosition &lt; mPrevFirstVisiblePosition) { 
+                        </span><span class="s0">// scroll up</span><span class="s1"> 
+                        </span><span class="s2">int </span><span class="s1">skippedChildrenHeight = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">if </span><span class="s1">(mPrevFirstVisiblePosition - firstVisiblePosition != </span><span class="s4">1</span><span class="s1">) { 
+                            </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i = mPrevFirstVisiblePosition - </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i &gt; firstVisiblePosition</span><span class="s2">; </span><span class="s1">i--) { 
+                                </span><span class="s2">if </span><span class="s1">(</span><span class="s4">0 </span><span class="s1">&lt; mChildrenHeights.indexOfKey(i)) { 
+                                    skippedChildrenHeight += mChildrenHeights.get(i)</span><span class="s2">;</span><span class="s1"> 
+                                } </span><span class="s2">else </span><span class="s1">{ 
+                                    </span><span class="s0">// Approximate each item's height to the first visible child.</span><span class="s1"> 
+                                    </span><span class="s0">// It may be incorrect, but without this, scrollY will be broken</span><span class="s1"> 
+                                    </span><span class="s0">// when scrolling from the bottom.</span><span class="s1"> 
+                                    skippedChildrenHeight += firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                                } 
+                            } 
+                        } 
+                        mPrevScrolledChildrenHeight -= firstVisibleChild.getHeight() + skippedChildrenHeight</span><span class="s2">;</span><span class="s1"> 
+                        mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                    } </span><span class="s2">else if </span><span class="s1">(firstVisiblePosition == </span><span class="s4">0</span><span class="s1">) { 
+                        mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+                        mPrevScrolledChildrenHeight = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s2">if </span><span class="s1">(mPrevFirstVisibleChildHeight &lt; </span><span class="s4">0</span><span class="s1">) { 
+                        mPrevFirstVisibleChildHeight = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                    } 
+                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop()</span><span class="s2">;</span><span class="s1"> 
+                    mPrevFirstVisiblePosition = firstVisiblePosition</span><span class="s2">;</span><span class="s1"> 
+ 
+                    mCallbacks.onScrollChanged(mScrollY</span><span class="s2">, </span><span class="s1">mFirstScroll</span><span class="s2">, </span><span class="s1">mDragging)</span><span class="s2">;</span><span class="s1"> 
+</span><span class="s0">//                    if (mFirstScroll) {</span><span class="s1"> 
+</span><span class="s0">//                        mFirstScroll = false;</span><span class="s1"> 
+</span><span class="s0">//                    }</span><span class="s1"> 
+ 
+</span><span class="s0">//                    if (mPrevScrollY &lt; mScrollY) {</span><span class="s1"> 
+</span><span class="s0">//                        //down</span><span class="s1"> 
+</span><span class="s0">//                        mObservableScrollState = ObservableScrollState.UP;</span><span class="s1"> 
+</span><span class="s0">//                    } else if (mScrollY &lt; mPrevScrollY) {</span><span class="s1"> 
+</span><span class="s0">//                        //up</span><span class="s1"> 
+</span><span class="s0">//                        mObservableScrollState = ObservableScrollState.DOWN;</span><span class="s1"> 
+</span><span class="s0">//                    } else {</span><span class="s1"> 
+</span><span class="s0">//                        mObservableScrollState = ObservableScrollState.STOP;</span><span class="s1"> 
+</span><span class="s0">//                    }</span><span class="s1"> 
+ 
+                    </span><span class="s2">if </span><span class="s1">(mPrevScrollY &lt; mScrollY) { 
+                        </span><span class="s0">//down</span><span class="s1"> 
+                        </span><span class="s2">if </span><span class="s1">(mFirstScroll) { </span><span class="s0">// first scroll down , mPrevScrollY == 0, reach here.</span><span class="s1"> 
+                            mFirstScroll = </span><span class="s2">false;</span><span class="s1"> 
+                            mObservableScrollState = ObservableScrollState.STOP</span><span class="s2">;</span><span class="s1"> 
+                        } 
+                        mObservableScrollState = ObservableScrollState.UP</span><span class="s2">;</span><span class="s1"> 
+                    } </span><span class="s2">else if </span><span class="s1">(mScrollY &lt; mPrevScrollY) { 
+                        </span><span class="s0">//up</span><span class="s1"> 
+                        mObservableScrollState = ObservableScrollState.DOWN</span><span class="s2">;</span><span class="s1"> 
+                    } </span><span class="s2">else </span><span class="s1">{ 
+                        mObservableScrollState = ObservableScrollState.STOP</span><span class="s2">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s2">if </span><span class="s1">(mFirstScroll) { 
+                        mFirstScroll = </span><span class="s2">false;</span><span class="s1"> 
+                    } 
+                    mPrevScrollY = mScrollY</span><span class="s2">;</span><span class="s1"> 
+                } 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set a listener that will be notified of any changes in scroll state or position. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">customOnScrollListener to set or null to clear 
+     * </span><span class="s5">@deprecated </span><span class="s3">Use {</span><span class="s5">@link </span><span class="s3">#addOnScrollListener(RecyclerView.OnScrollListener)} and 
+     * {</span><span class="s5">@link </span><span class="s3">#removeOnScrollListener(RecyclerView.OnScrollListener)} 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) { 
+        mRecyclerView.setOnScrollListener(customOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">addOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) { 
+        mRecyclerView.addOnScrollListener(customOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">removeOnScrollListener(RecyclerView.OnScrollListener customOnScrollListener) { 
+        mRecyclerView.removeOnScrollListener(customOnScrollListener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">addItemDividerDecoration(Context context) { 
+        RecyclerView.ItemDecoration itemDecoration = 
+                </span><span class="s2">new </span><span class="s1">DividerItemDecoration(context</span><span class="s2">, </span><span class="s1">DividerItemDecoration.VERTICAL_LIST)</span><span class="s2">;</span><span class="s1"> 
+        mRecyclerView.addItemDecoration(itemDecoration)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Swaps the current adapter with the provided one. It is similar to 
+     * {</span><span class="s5">@link </span><span class="s3">#setAdapter(UltimateViewAdapter)} but assumes existing adapter and the new adapter uses the same 
+     * ViewHolder and does not clear the RecycledViewPool. 
+     * Note that it still calls onAdapterChanged callbacks. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">adapter                       The new adapter to set, or null to set no adapter. 
+     * </span><span class="s5">@param </span><span class="s3">removeAndRecycleExistingViews If set to true, RecyclerView will recycle all existing Views. If adapters have stable ids and/or you want to animate the disappearing views, you may prefer to set this to false. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">swapAdapter(UltimateViewAdapter adapter</span><span class="s2">, boolean </span><span class="s1">removeAndRecycleExistingViews) { 
+        mRecyclerView.swapAdapter(adapter</span><span class="s2">, </span><span class="s1">removeAndRecycleExistingViews)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Add an {</span><span class="s5">@link </span><span class="s3">RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views. Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">itemDecoration Decoration to add 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">addItemDecoration(RecyclerView.ItemDecoration itemDecoration) { 
+        mRecyclerView.addItemDecoration(itemDecoration)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Add an {</span><span class="s5">@link </span><span class="s3">RecyclerView.ItemDecoration} to this RecyclerView. Item decorations can affect both measurement and drawing of individual item views. 
+     * </span><span class="s7">&lt;p&gt;</span><span class="s3">Item decorations are ordered. Decorations placed earlier in the list will be run/queried/drawn first for their effects on item views. Padding added to views will be nested; a padding added by an earlier decoration will mean further item decorations in the list will be asked to draw/pad within the previous decoration's given area.</span><span class="s7">&lt;/p&gt;</span><span class="s3"> 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">itemDecoration Decoration to add 
+     * </span><span class="s5">@param </span><span class="s3">index          Position in the decoration chain to insert this decoration at. If this value is negative the decoration will be added at the end. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">addItemDecoration(RecyclerView.ItemDecoration itemDecoration</span><span class="s2">, int </span><span class="s1">index) { 
+        mRecyclerView.addItemDecoration(itemDecoration</span><span class="s2">, </span><span class="s1">index)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Sets the {</span><span class="s5">@link </span><span class="s3">RecyclerView.ItemAnimator} that will handle animations involving changes 
+     * to the items in this RecyclerView. By default, RecyclerView instantiates and 
+     * uses an instance of {</span><span class="s5">@link </span><span class="s3">android.support.v7.widget.DefaultItemAnimator}. Whether item animations are enabled for the RecyclerView depends on the ItemAnimator and whether 
+     * the LayoutManager {</span><span class="s5">@link </span><span class="s3">android.support.v7.widget.RecyclerView.LayoutManager#supportsPredictiveItemAnimations() 
+     * supports item animations}. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">animator The ItemAnimator being set. If null, no animations will occur 
+     *                 when changes occur to the items in this RecyclerView. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setItemAnimator(RecyclerView.ItemAnimator animator) { 
+        mRecyclerView.setItemAnimator(animator)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Gets the current ItemAnimator for this RecyclerView. A null return value 
+     * indicates that there is no animator and that item changes will happen without 
+     * any animations. By default, RecyclerView instantiates and 
+     * uses an instance of {</span><span class="s5">@link </span><span class="s3">android.support.v7.widget.DefaultItemAnimator}. 
+     * 
+     * </span><span class="s5">@return </span><span class="s3">ItemAnimator The current ItemAnimator. If null, no animations will occur 
+     * when changes occur to the items in this RecyclerView. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">RecyclerView.ItemAnimator getItemAnimator() { 
+        </span><span class="s2">return </span><span class="s1">mRecyclerView.getItemAnimator()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set the listener when refresh is triggered and enable the SwipeRefreshLayout 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">listener SwipeRefreshLayout 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setDefaultOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) { 
+ 
+        mSwipeRefreshLayout.setEnabled(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(defaultSwipeToDismissColors != </span><span class="s2">null </span><span class="s1">&amp;&amp; defaultSwipeToDismissColors.length &gt; </span><span class="s4">0</span><span class="s1">) { 
+            mSwipeRefreshLayout.setColorSchemeColors(defaultSwipeToDismissColors)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            mSwipeRefreshLayout.setColorSchemeResources( 
+                    android.R.color.holo_blue_bright</span><span class="s2">,</span><span class="s1"> 
+                    android.R.color.holo_green_light</span><span class="s2">,</span><span class="s1"> 
+                    android.R.color.holo_orange_light</span><span class="s2">,</span><span class="s1"> 
+                    android.R.color.holo_red_light)</span><span class="s2">;</span><span class="s1"> 
+ 
+        } 
+ 
+        mSwipeRefreshLayout.setOnRefreshListener(listener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set the color resources used in the progress animation from color resources. The first color will also be the color of the bar that grows in response to a user swipe gesture. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">colors colors in array 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setDefaultSwipeToRefreshColorScheme(</span><span class="s2">int</span><span class="s1">... colors) { 
+        mSwipeRefreshLayout.setColorSchemeColors(colors)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set the load more listener of recyclerview 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">onLoadMoreListener load listen 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) { 
+        </span><span class="s2">this</span><span class="s1">.onLoadMoreListener = onLoadMoreListener</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Set the layout manager to the recycler 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">manager lm 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setLayoutManager(RecyclerView.LayoutManager manager) { 
+        mRecyclerView.setLayoutManager(manager)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Get the adapter of UltimateRecyclerview 
+     * 
+     * </span><span class="s5">@return </span><span class="s3">ad 
+     */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">RecyclerView.Adapter getAdapter() { 
+        </span><span class="s2">return </span><span class="s1">mRecyclerView.getAdapter()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set a UltimateViewAdapter or the subclass of UltimateViewAdapter to the recyclerview 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">adapter the adapter in normal 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setAdapter(UltimateViewAdapter adapter) { 
+        mAdapter = adapter</span><span class="s2">;</span><span class="s1"> 
+        mRecyclerView.setAdapter(mAdapter)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mSwipeRefreshLayout != </span><span class="s2">null</span><span class="s1">) 
+            mSwipeRefreshLayout.setRefreshing(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null</span><span class="s1">) 
+            mAdapter.registerAdapterDataObserver(</span><span class="s2">new </span><span class="s1">RecyclerView.AdapterDataObserver() { 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onItemRangeChanged(</span><span class="s2">int </span><span class="s1">positionStart</span><span class="s2">, int </span><span class="s1">itemCount) { 
+                    </span><span class="s2">super</span><span class="s1">.onItemRangeChanged(positionStart</span><span class="s2">, </span><span class="s1">itemCount)</span><span class="s2">;</span><span class="s1"> 
+                    updateHelperDisplays()</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onItemRangeInserted(</span><span class="s2">int </span><span class="s1">positionStart</span><span class="s2">, int </span><span class="s1">itemCount) { 
+                    </span><span class="s2">super</span><span class="s1">.onItemRangeInserted(positionStart</span><span class="s2">, </span><span class="s1">itemCount)</span><span class="s2">;</span><span class="s1"> 
+                    updateHelperDisplays()</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onItemRangeRemoved(</span><span class="s2">int </span><span class="s1">positionStart</span><span class="s2">, int </span><span class="s1">itemCount) { 
+                    </span><span class="s2">super</span><span class="s1">.onItemRangeRemoved(positionStart</span><span class="s2">, </span><span class="s1">itemCount)</span><span class="s2">;</span><span class="s1"> 
+                    updateHelperDisplays()</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onItemRangeMoved(</span><span class="s2">int </span><span class="s1">fromPosition</span><span class="s2">, int </span><span class="s1">toPosition</span><span class="s2">, int </span><span class="s1">itemCount) { 
+                    </span><span class="s2">super</span><span class="s1">.onItemRangeMoved(fromPosition</span><span class="s2">, </span><span class="s1">toPosition</span><span class="s2">, </span><span class="s1">itemCount)</span><span class="s2">;</span><span class="s1"> 
+                    updateHelperDisplays()</span><span class="s2">;</span><span class="s1"> 
+                } 
+ 
+                @Override 
+                </span><span class="s2">public void </span><span class="s1">onChanged() { 
+                    </span><span class="s2">super</span><span class="s1">.onChanged()</span><span class="s2">;</span><span class="s1"> 
+                    updateHelperDisplays()</span><span class="s2">;</span><span class="s1"> 
+                } 
+            })</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter.getAdapterItemCount() == </span><span class="s4">0 </span><span class="s1">&amp;&amp; adapter.getEmptyViewInitPolicy() == STARTWITH_OFFLINE_ITEMS) { 
+            </span><span class="s0">// mEmpty.setVisibility(View.VISIBLE);</span><span class="s1"> 
+            </span><span class="s0">//setRefreshing(true);</span><span class="s1"> 
+            </span><span class="s0">// isFirstLoadingOnlineAdapter = true;</span><span class="s1"> 
+            showEmptyView()</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+ 
+        mRecyclerViewHelper = RecyclerViewPositionHelper.createHelper(mRecyclerView)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">private void </span><span class="s1">updateHelperDisplays() { 
+        isLoadingMore = </span><span class="s2">false;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mSwipeRefreshLayout != </span><span class="s2">null</span><span class="s1">) 
+            mSwipeRefreshLayout.setRefreshing(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter == </span><span class="s2">null</span><span class="s1">) 
+            </span><span class="s2">return;</span><span class="s1"> 
+        </span><span class="s3">/** 
+         * fixed by jjHesk 
+         * + empty layout is NONE 
+         * + getItemCount is zero 
+         */</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(!isFirstLoadingOnlineAdapter) { 
+            </span><span class="s2">if </span><span class="s1">(mAdapter.getAdapterItemCount() == </span><span class="s4">0</span><span class="s1">) { 
+ 
+                mEmpty.setVisibility(mEmptyView == </span><span class="s2">null </span><span class="s1">? View.VISIBLE : View.GONE)</span><span class="s2">;</span><span class="s1"> 
+ 
+ 
+            } </span><span class="s2">else if </span><span class="s1">(mEmptyId != </span><span class="s4">0</span><span class="s1">) { 
+                implementLoadMorebehavior()</span><span class="s2">;</span><span class="s1"> 
+                mEmpty.setVisibility(View.GONE)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            isFirstLoadingOnlineAdapter = </span><span class="s2">false;</span><span class="s1"> 
+            setRefreshing(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            implementLoadMorebehavior()</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">implementLoadMorebehavior() { 
+        </span><span class="s2">if </span><span class="s1">(mAdapter.getCustomLoadMoreView() != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">if </span><span class="s1">(mAdapter.enableLoadMore()) { 
+                mAdapter.getCustomLoadMoreView().setVisibility(View.VISIBLE)</span><span class="s2">;</span><span class="s1"> 
+            } </span><span class="s2">else </span><span class="s1">{ 
+                mAdapter.getCustomLoadMoreView().setVisibility(View.GONE)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">setHasFixedSize(</span><span class="s2">boolean </span><span class="s1">hasFixedSize) { 
+        mRecyclerView.setHasFixedSize(hasFixedSize)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Notify the widget that refresh state has changed. Do not call this when refresh is triggered by a swipe gesture. 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">refreshing enable the refresh loading icon 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setRefreshing(</span><span class="s2">boolean </span><span class="s1">refreshing) { 
+        </span><span class="s2">if </span><span class="s1">(mSwipeRefreshLayout != </span><span class="s2">null</span><span class="s1">) 
+            mSwipeRefreshLayout.setRefreshing(refreshing)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Enable or disable the SwipeRefreshLayout. 
+     * Default is false 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">isSwipeRefresh is now operating in refresh 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">enableDefaultSwipeRefresh(</span><span class="s2">boolean </span><span class="s1">isSwipeRefresh) { 
+        </span><span class="s2">if </span><span class="s1">(mSwipeRefreshLayout != </span><span class="s2">null</span><span class="s1">) 
+            mSwipeRefreshLayout.setEnabled(isSwipeRefresh)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">public interface </span><span class="s1">OnLoadMoreListener { 
+        </span><span class="s2">void </span><span class="s1">loadMore(</span><span class="s2">int </span><span class="s1">itemsCount</span><span class="s2">, final int </span><span class="s1">maxLastVisiblePosition)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public enum </span><span class="s1">LAYOUT_MANAGER_TYPE { 
+        LINEAR</span><span class="s2">,</span><span class="s1"> 
+        GRID</span><span class="s2">,</span><span class="s1"> 
+        STAGGERED_GRID</span><span class="s2">,</span><span class="s1"> 
+        PUZZLE</span><span class="s2">,</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private int </span><span class="s1">findMax(</span><span class="s2">int</span><span class="s1">[] lastPositions) { 
+        </span><span class="s2">int </span><span class="s1">max = Integer.MIN_VALUE</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">value : lastPositions) { 
+            </span><span class="s2">if </span><span class="s1">(value &gt; max) 
+                max = value</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">return </span><span class="s1">max</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private int </span><span class="s1">findMin(</span><span class="s2">int</span><span class="s1">[] lastPositions) { 
+        </span><span class="s2">int </span><span class="s1">min = Integer.MAX_VALUE</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">value : lastPositions) { 
+            </span><span class="s2">if </span><span class="s1">(value != RecyclerView.NO_POSITION &amp;&amp; value &lt; min) 
+                min = value</span><span class="s2">;</span><span class="s1"> 
+        } 
+        </span><span class="s2">return </span><span class="s1">min</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * allow resource layout id to be introduced 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">mLayout res id 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setParallaxHeader(@LayoutRes </span><span class="s2">int </span><span class="s1">mLayout) { 
+        View h_layout = LayoutInflater.from(getContext()).inflate(mLayout</span><span class="s2">, null</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        setParallaxHeader(h_layout)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set the parallax header of the recyclerview 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">header the view 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setParallaxHeader(View header) { 
+        mHeader = </span><span class="s2">new </span><span class="s1">CustomRelativeWrapper(header.getContext())</span><span class="s2">;</span><span class="s1"> 
+        mHeader.setLayoutParams(</span><span class="s2">new </span><span class="s1">ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT</span><span class="s2">, </span><span class="s1">ViewGroup.LayoutParams.WRAP_CONTENT))</span><span class="s2">;</span><span class="s1"> 
+        mHeader.addView(header</span><span class="s2">, new </span><span class="s1">RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT</span><span class="s2">, </span><span class="s1">ViewGroup.LayoutParams.MATCH_PARENT))</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mAdapter != </span><span class="s2">null</span><span class="s1">) 
+            mAdapter.setCustomHeaderView(mHeader)</span><span class="s2">;</span><span class="s1"> 
+        isParallaxHeader = </span><span class="s2">true;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s3">/** 
+     * Set the normal header of the recyclerview 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">header na 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setNormalHeader(View header) { 
+        setParallaxHeader(header)</span><span class="s2">;</span><span class="s1"> 
+        isParallaxHeader = </span><span class="s2">false;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Set the on scroll method of parallax header 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">parallaxScroll na 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setOnParallaxScroll(OnParallaxScroll parallaxScroll) { 
+        mParallaxScroll = parallaxScroll</span><span class="s2">;</span><span class="s1"> 
+        mParallaxScroll.onParallaxScroll(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s1">mHeader)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">private void </span><span class="s1">translateHeader(</span><span class="s2">float </span><span class="s1">of) { 
+        </span><span class="s2">float </span><span class="s1">ofCalculated = of * SCROLL_MULTIPLIER</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB) { 
+            </span><span class="s0">//Logs.d(&quot;ofCalculated    &quot; + ofCalculated+&quot;   &quot;+mHeader.getHeight());</span><span class="s1"> 
+            mHeader.setTranslationY(ofCalculated)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            TranslateAnimation anim = </span><span class="s2">new </span><span class="s1">TranslateAnimation(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s1">ofCalculated</span><span class="s2">, </span><span class="s1">ofCalculated)</span><span class="s2">;</span><span class="s1"> 
+            anim.setFillAfter(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            anim.setDuration(</span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+            mHeader.startAnimation(anim)</span><span class="s2">;</span><span class="s1"> 
+        } 
+        mHeader.setClipY(Math.round(ofCalculated))</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mParallaxScroll != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">float </span><span class="s1">left = Math.min(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)))</span><span class="s2">;</span><span class="s1"> 
+            mParallaxScroll.onParallaxScroll(left</span><span class="s2">, </span><span class="s1">of</span><span class="s2">, </span><span class="s1">mHeader)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">public interface </span><span class="s1">OnParallaxScroll { 
+        </span><span class="s2">void </span><span class="s1">onParallaxScroll(</span><span class="s2">float </span><span class="s1">percentage</span><span class="s2">, float </span><span class="s1">offset</span><span class="s2">, </span><span class="s1">View parallax)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s3">/** 
+     * Custom layout for the Parallax Header. 
+     */</span><span class="s1"> 
+    </span><span class="s2">public static class </span><span class="s1">CustomRelativeWrapper </span><span class="s2">extends </span><span class="s1">RelativeLayout { 
+ 
+        </span><span class="s2">private int </span><span class="s1">mOffset</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">public </span><span class="s1">CustomRelativeWrapper(Context context) { 
+            </span><span class="s2">super</span><span class="s1">(context)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s2">protected void </span><span class="s1">dispatchDraw(Canvas canvas) { 
+            </span><span class="s2">if </span><span class="s1">(isParallaxHeader) 
+                canvas.clipRect(</span><span class="s2">new </span><span class="s1">Rect(getLeft()</span><span class="s2">, </span><span class="s1">getTop()</span><span class="s2">, </span><span class="s1">getRight()</span><span class="s2">, </span><span class="s1">getBottom() + mOffset))</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">super</span><span class="s1">.dispatchDraw(canvas)</span><span class="s2">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">public void </span><span class="s1">setClipY(</span><span class="s2">int </span><span class="s1">offset) { 
+            mOffset = offset</span><span class="s2">;</span><span class="s1"> 
+            invalidate()</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s3">/** 
+     * the observable scroll view call backs 
+     * 
+     * </span><span class="s5">@param </span><span class="s3">listener listener to set 
+     */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setScrollViewCallbacks(ObservableScrollViewCallbacks listener) { 
+        mCallbacks = listener</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">setItemViewCacheSize(</span><span class="s2">final int </span><span class="s1">off_screen_items) { 
+        mRecyclerView.setItemViewCacheSize(off_screen_items)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">onRestoreInstanceState(Parcelable state) { 
+        SavedStateScrolling ss = (SavedStateScrolling) state</span><span class="s2">;</span><span class="s1"> 
+        mPrevFirstVisiblePosition = ss.prevFirstVisiblePosition</span><span class="s2">;</span><span class="s1"> 
+        mPrevFirstVisibleChildHeight = ss.prevFirstVisibleChildHeight</span><span class="s2">;</span><span class="s1"> 
+        mPrevScrolledChildrenHeight = ss.prevScrolledChildrenHeight</span><span class="s2">;</span><span class="s1"> 
+        mPrevScrollY = ss.prevScrollY</span><span class="s2">;</span><span class="s1"> 
+        mScrollY = ss.scrollY</span><span class="s2">;</span><span class="s1"> 
+        mChildrenHeights = ss.childrenHeights</span><span class="s2">;</span><span class="s1"> 
+        RecyclerView.LayoutManager layoutManager = getLayoutManager()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s3">/** 
+         * enhanced and store the previous scroll position 
+         */</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(layoutManager != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">int </span><span class="s1">count = layoutManager.getChildCount()</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(mPrevScrollY != RecyclerView.NO_POSITION &amp;&amp; mPrevScrollY &lt; count) { 
+                layoutManager.scrollToPosition(mPrevScrollY)</span><span class="s2">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s2">super</span><span class="s1">.onRestoreInstanceState(ss.getSuperState())</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public </span><span class="s1">Parcelable onSaveInstanceState() { 
+        Parcelable superState = </span><span class="s2">super</span><span class="s1">.onSaveInstanceState()</span><span class="s2">;</span><span class="s1"> 
+        SavedStateScrolling ss = </span><span class="s2">new </span><span class="s1">SavedStateScrolling(superState)</span><span class="s2">;</span><span class="s1"> 
+        ss.prevFirstVisiblePosition = mPrevFirstVisiblePosition</span><span class="s2">;</span><span class="s1"> 
+        ss.prevFirstVisibleChildHeight = mPrevFirstVisibleChildHeight</span><span class="s2">;</span><span class="s1"> 
+        ss.prevScrolledChildrenHeight = mPrevScrolledChildrenHeight</span><span class="s2">;</span><span class="s1"> 
+        ss.prevScrollY = mPrevScrollY</span><span class="s2">;</span><span class="s1"> 
+        ss.scrollY = mScrollY</span><span class="s2">;</span><span class="s1"> 
+        ss.childrenHeights = mChildrenHeights</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">ss</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onInterceptTouchEvent(MotionEvent ev) { 
+        </span><span class="s2">if </span><span class="s1">(mCallbacks != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">switch </span><span class="s1">(ev.getActionMasked()) { 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_DOWN: 
+                    mFirstScroll = mDragging = </span><span class="s2">true;</span><span class="s1"> 
+                    mCallbacks.onDownMotionEvent()</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">break;</span><span class="s1"> 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_UP: 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_CANCEL: 
+                    mIntercepted = </span><span class="s2">false;</span><span class="s1"> 
+                    mDragging = </span><span class="s2">false;</span><span class="s1"> 
+                    mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState)</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">break;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s2">return super</span><span class="s1">.onInterceptTouchEvent(ev)</span><span class="s2">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">setTouchInterceptionViewGroup(ViewGroup viewGroup) { 
+        mTouchInterceptionViewGroup = viewGroup</span><span class="s2">;</span><span class="s1"> 
+        setObserableScrollListener()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public void </span><span class="s1">scrollVerticallyTo(</span><span class="s2">int </span><span class="s1">y) { 
+        URLogs.d(</span><span class="s6">&quot;vertically&quot;</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        View firstVisibleChild = getChildAt(</span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(firstVisibleChild != </span><span class="s2">null</span><span class="s1">) { 
+            </span><span class="s2">int </span><span class="s1">baseHeight = firstVisibleChild.getHeight()</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">position = y / baseHeight</span><span class="s2">;</span><span class="s1"> 
+            scrollVerticallyToPosition(position)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">scrollVerticallyToPosition(</span><span class="s2">int </span><span class="s1">position) { 
+        RecyclerView.LayoutManager lm = getLayoutManager()</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">if </span><span class="s1">(lm != </span><span class="s2">null </span><span class="s1">&amp;&amp; lm </span><span class="s2">instanceof </span><span class="s1">LinearLayoutManager) { 
+            ((LinearLayoutManager) lm).scrollToPositionWithOffset(position</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        } </span><span class="s2">else </span><span class="s1">{ 
+            lm.scrollToPosition(position)</span><span class="s2">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public int </span><span class="s1">getCurrentScrollY() { 
+        </span><span class="s2">return </span><span class="s1">mScrollY</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s2">public boolean </span><span class="s1">onTouchEvent(MotionEvent ev) { 
+        URLogs.d(</span><span class="s6">&quot;ev---&quot; </span><span class="s1">+ ev)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(mCallbacks != </span><span class="s2">null</span><span class="s1">) { 
+ 
+            </span><span class="s2">switch </span><span class="s1">(ev.getActionMasked()) { 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_UP: 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_CANCEL: 
+                    mIntercepted = </span><span class="s2">false;</span><span class="s1"> 
+                    mDragging = </span><span class="s2">false;</span><span class="s1"> 
+                    mCallbacks.onUpOrCancelMotionEvent(mObservableScrollState)</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">break;</span><span class="s1"> 
+                </span><span class="s2">case </span><span class="s1">MotionEvent.ACTION_MOVE: 
+                    </span><span class="s2">if </span><span class="s1">(mPrevMoveEvent == </span><span class="s2">null</span><span class="s1">) { 
+                        mPrevMoveEvent = ev</span><span class="s2">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s2">float </span><span class="s1">diffY = ev.getY() - mPrevMoveEvent.getY()</span><span class="s2">;</span><span class="s1"> 
+                    mPrevMoveEvent = MotionEvent.obtainNoHistory(ev)</span><span class="s2">;</span><span class="s1"> 
+                    </span><span class="s2">if </span><span class="s1">(getCurrentScrollY() - diffY &lt;= </span><span class="s4">0</span><span class="s1">) { 
+                        </span><span class="s0">// Can't scroll anymore.</span><span class="s1"> 
+ 
+                        </span><span class="s2">if </span><span class="s1">(mIntercepted) { 
+                            </span><span class="s0">// Already dispatched ACTION_DOWN event to parents, so stop here.</span><span class="s1"> 
+                            </span><span class="s2">return false;</span><span class="s1"> 
+                        } 
+ 
+                        </span><span class="s0">// Apps can set the interception target other than the direct parent.</span><span class="s1"> 
+                        </span><span class="s2">final </span><span class="s1">ViewGroup parent</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">if </span><span class="s1">(mTouchInterceptionViewGroup == </span><span class="s2">null</span><span class="s1">) { 
+                            parent = (ViewGroup) getParent()</span><span class="s2">;</span><span class="s1"> 
+                        } </span><span class="s2">else </span><span class="s1">{ 
+                            parent = mTouchInterceptionViewGroup</span><span class="s2">;</span><span class="s1"> 
+                        } 
+ 
+                        </span><span class="s0">// Get offset to parents. If the parent is not the direct parent,</span><span class="s1"> 
+                        </span><span class="s0">// we should aggregate offsets from all of the parents.</span><span class="s1"> 
+                        </span><span class="s2">float </span><span class="s1">offsetX = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">float </span><span class="s1">offsetY = </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+                        </span><span class="s2">for </span><span class="s1">(View v = </span><span class="s2">this; </span><span class="s1">v != </span><span class="s2">null </span><span class="s1">&amp;&amp; v != parent</span><span class="s2">; </span><span class="s1">v = (View) v.getParent()) { 
+                            offsetX += v.getLeft() - v.getScrollX()</span><span class="s2">;</span><span class="s1"> 
+                            offsetY += v.getTop() - v.getScrollY()</span><span class="s2">;</span><span class="s1"> 
+                        } 
+                        </span><span class="s2">final </span><span class="s1">MotionEvent event = MotionEvent.obtainNoHistory(ev)</span><span class="s2">;</span><span class="s1"> 
+                        event.offsetLocation(offsetX</span><span class="s2">, </span><span class="s1">offsetY)</span><span class="s2">;</span><span class="s1"> 
+ 
+                        </span><span class="s2">if </span><span class="s1">(parent.onInterceptTouchEvent(event)) { 
+                            mIntercepted = </span><span class="s2">true;</span><span class="s1"> 
+ 
+                            </span><span class="s0">// If the parent wants to intercept ACTION_MOVE events,</span><span class="s1"> 
+                            </span><span class="s0">// we pass ACTION_DOWN event to the parent</span><span class="s1"> 
+                            </span><span class="s0">// as if these touch events just have began now.</span><span class="s1"> 
+                            event.setAction(MotionEvent.ACTION_DOWN)</span><span class="s2">;</span><span class="s1"> 
+ 
+                            </span><span class="s0">// Return this onTouchEvent() first and set ACTION_DOWN event for parent</span><span class="s1"> 
+                            </span><span class="s0">// to the queue, to keep events sequence.</span><span class="s1"> 
+                            post(</span><span class="s2">new </span><span class="s1">Runnable() { 
+                                @Override 
+                                </span><span class="s2">public void </span><span class="s1">run() { 
+                                    parent.dispatchTouchEvent(event)</span><span class="s2">;</span><span class="s1"> 
+                                } 
+                            })</span><span class="s2">;</span><span class="s1"> 
+                            </span><span class="s2">return false;</span><span class="s1"> 
+                        } 
+                        </span><span class="s0">// Even when this can't be scrolled anymore,</span><span class="s1"> 
+                        </span><span class="s0">// simply returning false here may cause subView's click,</span><span class="s1"> 
+                        </span><span class="s0">// so delegate it to super.</span><span class="s1"> 
+                        </span><span class="s2">return super</span><span class="s1">.onTouchEvent(ev)</span><span class="s2">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s2">break;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s2">return super</span><span class="s1">.onTouchEvent(ev)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public boolean </span><span class="s1">toolbarIsShown(Toolbar mToolbar) { 
+        </span><span class="s2">return </span><span class="s1">ViewCompat.getTranslationY(mToolbar) == </span><span class="s4">0</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public boolean </span><span class="s1">toolbarIsHidden(Toolbar mToolbar) { 
+        </span><span class="s2">return </span><span class="s1">ViewCompat.getTranslationY(mToolbar) == -mToolbar.getHeight()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Deprecated 
+    </span><span class="s2">public void </span><span class="s1">showToolbarAndFAB(Toolbar mToolbar</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        showToolbar(mToolbar</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight)</span><span class="s2">;</span><span class="s1"> 
+        showDefaultFloatingActionButton()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @Deprecated 
+    </span><span class="s2">public void </span><span class="s1">hideToolbarAndFAB(Toolbar mToolbar</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        hideToolbar(mToolbar</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight)</span><span class="s2">;</span><span class="s1"> 
+        hideDefaultFloatingActionButton()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">showToolbar(Toolbar mToolbar</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        moveToolbar(mToolbar</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">hideToolbar(Toolbar mToolbar</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        moveToolbar(mToolbar</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight</span><span class="s2">, </span><span class="s1">-mToolbar.getHeight())</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">showView(View mView</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        moveView(mView</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">hideView(View mView</span><span class="s2">, </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, int </span><span class="s1">screenHeight) { 
+        moveView(mView</span><span class="s2">, </span><span class="s1">ultimateRecyclerView</span><span class="s2">, </span><span class="s1">screenHeight</span><span class="s2">, </span><span class="s1">-mView.getHeight())</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
+    </span><span class="s2">protected void </span><span class="s1">moveToolbar(</span><span class="s2">final </span><span class="s1">Toolbar mToolbar</span><span class="s2">, final </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, final int </span><span class="s1">screenheight</span><span class="s2">, float </span><span class="s1">toTranslationY) { 
+        </span><span class="s2">if </span><span class="s1">(ViewCompat.getTranslationY(mToolbar) == toTranslationY) { 
+            </span><span class="s2">return;</span><span class="s1"> 
+        } 
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewCompat.getTranslationY(mToolbar)</span><span class="s2">, </span><span class="s1">toTranslationY).setDuration(</span><span class="s4">200</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        animator.addUpdateListener(</span><span class="s2">new </span><span class="s1">ValueAnimator.AnimatorUpdateListener() { 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onAnimationUpdate(ValueAnimator animation) { 
+                </span><span class="s2">float </span><span class="s1">translationY = (</span><span class="s2">float</span><span class="s1">) animation.getAnimatedValue()</span><span class="s2">;</span><span class="s1"> 
+                ViewCompat.setTranslationY(mToolbar</span><span class="s2">, </span><span class="s1">translationY)</span><span class="s2">;</span><span class="s1"> 
+                ViewCompat.setTranslationY((View) ultimateRecyclerView</span><span class="s2">, </span><span class="s1">translationY)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s0">// FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();</span><span class="s1"> 
+                MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams()</span><span class="s2">;</span><span class="s1"> 
+                layoutParams.height = (</span><span class="s2">int</span><span class="s1">) -translationY + screenheight - layoutParams.topMargin</span><span class="s2">;</span><span class="s1"> 
+                ((View) ultimateRecyclerView).requestLayout()</span><span class="s2">;</span><span class="s1"> 
+            } 
+        })</span><span class="s2">;</span><span class="s1"> 
+        animator.start()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
+    </span><span class="s2">protected void </span><span class="s1">moveView(</span><span class="s2">final </span><span class="s1">View mView</span><span class="s2">, final </span><span class="s1">UltimateRecyclerView ultimateRecyclerView</span><span class="s2">, final int </span><span class="s1">screenheight</span><span class="s2">, float </span><span class="s1">toTranslationY) { 
+        </span><span class="s2">if </span><span class="s1">(ViewCompat.getTranslationY(mView) == toTranslationY) { 
+            </span><span class="s2">return;</span><span class="s1"> 
+        } 
+        ValueAnimator animator = ValueAnimator.ofFloat(ViewCompat.getTranslationY(mView)</span><span class="s2">, </span><span class="s1">toTranslationY).setDuration(</span><span class="s4">200</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+        animator.addUpdateListener(</span><span class="s2">new </span><span class="s1">ValueAnimator.AnimatorUpdateListener() { 
+            @Override 
+            </span><span class="s2">public void </span><span class="s1">onAnimationUpdate(ValueAnimator animation) { 
+                </span><span class="s2">float </span><span class="s1">translationY = (</span><span class="s2">float</span><span class="s1">) animation.getAnimatedValue()</span><span class="s2">;</span><span class="s1"> 
+                ViewCompat.setTranslationY(mView</span><span class="s2">, </span><span class="s1">translationY)</span><span class="s2">;</span><span class="s1"> 
+                ViewCompat.setTranslationY((View) ultimateRecyclerView</span><span class="s2">, </span><span class="s1">translationY)</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s0">// FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) ultimateRecyclerView).getLayoutParams();</span><span class="s1"> 
+                MarginLayoutParams layoutParams = (MarginLayoutParams) ((View) ultimateRecyclerView).getLayoutParams()</span><span class="s2">;</span><span class="s1"> 
+                layoutParams.height = (</span><span class="s2">int</span><span class="s1">) -translationY + screenheight - layoutParams.topMargin</span><span class="s2">;</span><span class="s1"> 
+                ((View) ultimateRecyclerView).requestLayout()</span><span class="s2">;</span><span class="s1"> 
+            } 
+        })</span><span class="s2">;</span><span class="s1"> 
+        animator.start()</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s2">public </span><span class="s1">FloatingActionButton getDefaultFloatingActionButton() { 
+        </span><span class="s2">return </span><span class="s1">defaultFloatingActionButton</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">setDefaultFloatingActionButton(FloatingActionButton defaultFloatingActionButton) { 
+        </span><span class="s2">this</span><span class="s1">.defaultFloatingActionButton = defaultFloatingActionButton</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public </span><span class="s1">View getCustomFloatingActionView() { 
+        </span><span class="s2">return </span><span class="s1">mFloatingButtonView</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+</span><span class="s0">//    public void setCustomFloatingActionView(View customFloatingActionView) {</span><span class="s1"> 
+</span><span class="s0">//        this.floatingActionMenu = floatingActionMenu;</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+ 
+    </span><span class="s2">public void </span><span class="s1">showFloatingActionMenu() { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonView != </span><span class="s2">null</span><span class="s1">) 
+            ((FloatingActionsMenu) mFloatingButtonView).hide(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">hideFloatingActionMenu() { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonView != </span><span class="s2">null</span><span class="s1">) ((FloatingActionsMenu) mFloatingButtonView).hide(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">showFloatingActionButton() { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonView != </span><span class="s2">null</span><span class="s1">) 
+            ((FloatingActionButton) mFloatingButtonView).hide(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">hideFloatingActionButton() { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonView != </span><span class="s2">null</span><span class="s1">) ((FloatingActionButton) mFloatingButtonView).hide(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">showDefaultFloatingActionButton() { 
+        defaultFloatingActionButton.hide(</span><span class="s2">false</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">hideDefaultFloatingActionButton() { 
+        defaultFloatingActionButton.hide(</span><span class="s2">true</span><span class="s1">)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">displayCustomFloatingActionView(</span><span class="s2">boolean </span><span class="s1">b) { 
+        </span><span class="s2">if </span><span class="s1">(mFloatingButtonView != </span><span class="s2">null</span><span class="s1">) 
+            mFloatingButtonView.setVisibility(b ? VISIBLE : INVISIBLE)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">displayDefaultFloatingActionButton(</span><span class="s2">boolean </span><span class="s1">b) { 
+        defaultFloatingActionButton.setVisibility(b ? VISIBLE : INVISIBLE)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">removeItemDecoration(RecyclerView.ItemDecoration decoration) { 
+        mRecyclerView.removeItemDecoration(decoration)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">addOnItemTouchListener(RecyclerView.OnItemTouchListener listener) { 
+        mRecyclerView.addOnItemTouchListener(listener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public void </span><span class="s1">removeOnItemTouchListener(RecyclerView.OnItemTouchListener listener) { 
+        mRecyclerView.removeOnItemTouchListener(listener)</span><span class="s2">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">public </span><span class="s1">RecyclerView.LayoutManager getLayoutManager() { 
+        </span><span class="s2">return </span><span class="s1">mRecyclerView.getLayoutManager()</span><span class="s2">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

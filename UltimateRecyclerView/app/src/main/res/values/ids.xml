@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="str_textview_holder" type="id" />
+    <item name="str_image_holder" type="id" />
+    <item name="str_progress_holder" type="id" />
+    <item name="str_item_view" type="id" />
+    <item name="str_sticky_headr_img" type="id" />
+    <item name="str_sticky_headr_tv" type="id" />
+    <item name="empty_view_loc" type="id" />
+</resources>

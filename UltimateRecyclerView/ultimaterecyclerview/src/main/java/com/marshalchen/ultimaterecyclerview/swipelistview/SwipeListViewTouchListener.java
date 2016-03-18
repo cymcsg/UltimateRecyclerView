@@ -20,9 +20,14 @@
 
 package com.marshalchen.ultimaterecyclerview.swipelistview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,18 +38,11 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.nineoldandroids.view.ViewHelper.setAlpha;
-import static com.nineoldandroids.view.ViewHelper.setTranslationX;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 /**
  * Touch listener impl for the SwipeListView
@@ -451,12 +449,12 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      */
     protected void reloadSwipeStateInView(View frontView, int position) {
         if (!opened.get(position)) {
-            setTranslationX(frontView, 0.0f);
+            ViewCompat.setTranslationX(frontView, 0.0f);
         } else {
             if (openedRight.get(position)) {
-                setTranslationX(frontView, swipeListView.getWidth());
+                ViewCompat.setTranslationX(frontView, swipeListView.getWidth());
             } else {
-                setTranslationX(frontView, -swipeListView.getWidth());
+                ViewCompat.setTranslationX(frontView, -swipeListView.getWidth());
             }
         }
 
@@ -559,12 +557,19 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      * @param position list position
      */
     private void generateChoiceAnimate(final View view, final int position) {
-        animate(view)
+        ViewCompat.animate(view)
                 .translationX(0)
                 .setDuration(animationTime)
-                .setListener(new AnimatorListenerAdapter() {
+              /*  .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
+                        swipeListView.resetScrolling();
+                        resetCell();
+                    }
+                });*/
+                .setListener(new defaultAnimation() {
+                    @Override
+                    public void onAnimationEnd(View view) {
                         swipeListView.resetScrolling();
                         resetCell();
                     }
@@ -597,11 +602,11 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             alpha = 0;
         }
 
-        animate(view)
+        ViewCompat.animate(view)
                 .translationX(moveTo)
                 .alpha(alpha)
                 .setDuration(animationTime)
-                .setListener(new AnimatorListenerAdapter() {
+                /*.setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if (swap) {
@@ -610,6 +615,20 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         }
                         resetCell();
                     }
+                });*/
+                .setListener(new defaultAnimation() {
+
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        if (swap) {
+                            closeOpenedItems();
+                            performDismiss(view, position, true);
+                        }
+                        resetCell();
+                    }
+
+
                 });
 
     }
@@ -642,16 +661,14 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             }
         }
 
-        animate(view)
+        ViewCompat.animate(view)
                 .translationX(moveTo)
                 .setDuration(animationTime)
-                .setListener(new AnimatorListenerAdapter() {
+                .setListener(new defaultAnimation() {
                     @Override
-                    public void onAnimationEnd(Animator animation) {
+                    public void onAnimationEnd(View view) {
                         swipeListView.resetScrolling();
                         if (swap) {
-
-
                             if (onlyOneOpenedWhenSwipe) {
                                 if (aux) {
                                     swipeListView.onOpened(position, swapRight);
@@ -1020,7 +1037,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      */
     public void move(float deltaX) {
         swipeListView.onMove(downPosition, deltaX);
-        float posX = ViewHelper.getX(frontView);
+        float posX = ViewCompat.getX(frontView);
         if (opened.get(downPosition)) {
             posX += openedRight.get(downPosition) ? -viewWidth + rightOffset : viewWidth - leftOffset;
         }
@@ -1049,18 +1066,18 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             }
         }
         if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_DISMISS) {
-            setTranslationX(parentView, deltaX);
-            setAlpha(parentView, Math.max(0f, Math.min(1f,
+            ViewCompat.setTranslationX(parentView, deltaX);
+            ViewCompat.setAlpha(parentView, Math.max(0f, Math.min(1f,
                     1f - 2f * Math.abs(deltaX) / viewWidth)));
         } else if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
             if ((swipingRight && deltaX > 0 && posX < DISPLACE_CHOICE)
                     || (!swipingRight && deltaX < 0 && posX > -DISPLACE_CHOICE)
                     || (swipingRight && deltaX < DISPLACE_CHOICE)
                     || (!swipingRight && deltaX > -DISPLACE_CHOICE)) {
-                setTranslationX(frontView, deltaX);
+                ViewCompat.setTranslationX(frontView, deltaX);
             }
         } else {
-            setTranslationX(frontView, deltaX);
+            ViewCompat.setTranslationX(frontView, deltaX);
         }
     }
 
@@ -1173,8 +1190,8 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         for (PendingDismissData pendingDismiss : pendingDismisses) {
             // Reset view presentation
             if (pendingDismiss.view != null) {
-                setAlpha(pendingDismiss.view, 1f);
-                setTranslationX(pendingDismiss.view, 0);
+                ViewCompat.setAlpha(pendingDismiss.view, 1f);
+                ViewCompat.setTranslationX(pendingDismiss.view, 0);
                 lp = pendingDismiss.view.getLayoutParams();
                 lp.height = originalHeight;
                 pendingDismiss.view.setLayoutParams(lp);
@@ -1196,4 +1213,24 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         }
     }
 
+
+    private class defaultAnimation implements ViewPropertyAnimatorListener
+
+
+    {
+        @Override
+        public void onAnimationStart(View view) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(View view) {
+
+        }
+
+        @Override
+        public void onAnimationCancel(View view) {
+
+        }
+    }
 }

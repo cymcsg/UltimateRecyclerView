@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@id/str_sticky_headr_img"
         android:layout_width="fill_parent"
         android:layout_height="180dp"
         android:adjustViewBounds="true"
@@ -11,6 +12,7 @@
         android:src="@drawable/jr15" />
 
     <TextView
+        android:id="@id/str_sticky_headr_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -16,18 +16,34 @@ import java.util.List;
  */
 public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderGirdCell> {
 
-    public GridStringAdapter() {
-        super();
-    }
-
     public GridStringAdapter(List<String> hand) {
         super(hand);
     }
 
+    /**
+     * the layout id for the normal data
+     *
+     * @return the ID
+     */
     @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
-        return g;
+    protected int getNormalLayoutResId() {
+        return R.layout.grid_item;
+    }
+
+    /**
+     * this is the Normal View Holder initiation
+     *
+     * @param view view
+     * @return holder
+     */
+    @Override
+    protected HolderGirdCell newViewHolder(View view) {
+        return new HolderGirdCell(view, true);
+    }
+
+    @Override
+    public HolderGirdCell getViewHolder(View view) {
+        return new HolderGirdCell(view, false);
     }
 
     @Override
@@ -35,9 +51,16 @@ public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderG
         return 0;
     }
 
+    /**
+     * binding normal view holder
+     *
+     * @param holder   holder class
+     * @param data     data
+     * @param position position
+     */
     @Override
-    public HolderGirdCell onCreateViewHolder(ViewGroup parent) {
-        return new HolderGirdCell(getViewById(R.layout.grid_item, parent), true);
+    protected void withBindHolder(HolderGirdCell holder, String data, int position) {
+
     }
 
     @Override

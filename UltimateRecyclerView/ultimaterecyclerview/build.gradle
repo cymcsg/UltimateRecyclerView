@@ -23,19 +23,18 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // compile 'com.android.support:appcompat-v7:22.2.1'
-    // compile 'com.android.support:recyclerview-v7:22.2.1'
-
     compile supportDependencies.appCompat
     compile supportDependencies.annotation
     compile supportDependencies.support
     compile supportDependencies.rv
 
-    compile 'com.nineoldandroids:library:2.4.0'
+    //compile 'com.nineoldandroids:library:2.4.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.github.bumptech.glide:glide:3.6.0'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.0'
 }
 
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'
 //apply from: 'bintray-release-aar.gradle'
+apply from: 'bintray_3_4.gradle'
