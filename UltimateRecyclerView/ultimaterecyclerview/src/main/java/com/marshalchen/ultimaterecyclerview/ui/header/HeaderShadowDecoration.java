@@ -12,7 +12,7 @@ import android.view.View;
 /**
  * Created by hesk on 18/3/16.
  */
-public class HeaderDecoration extends RecyclerView.ItemDecoration {
+public class HeaderShadowDecoration extends RecyclerView.ItemDecoration {
 
     private final View mView;
     private final boolean mHorizontal;
@@ -21,7 +21,7 @@ public class HeaderDecoration extends RecyclerView.ItemDecoration {
     private final int mColumns;
     private final Paint mShadowPaint;
 
-    public HeaderDecoration(View view, boolean scrollsHorizontally, float parallax, float shadowSize, int columns) {
+    public HeaderShadowDecoration(View view, boolean scrollsHorizontally, float parallax, float shadowSize, int columns) {
         mView = view;
         mHorizontal = scrollsHorizontally;
         mParallax = parallax;

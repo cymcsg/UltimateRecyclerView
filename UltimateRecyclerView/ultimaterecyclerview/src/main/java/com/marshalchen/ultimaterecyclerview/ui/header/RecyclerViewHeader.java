@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by hesk on 18/3/16.
  */
-public class RecyclerViewHeader  extends RelativeLayout {
+public class RecyclerViewHeader extends RelativeLayout {
     private RecyclerView mRecycler;
 
     private int mDownScroll;
@@ -33,6 +33,7 @@ public class RecyclerViewHeader  extends RelativeLayout {
     private boolean mReversed;
     private boolean mAlreadyAligned;
     private boolean mRecyclerWantsTouchEvent;
+    private RecyclerView.ItemDecoration mDecoration;
 
     /**
      * Inflates layout from <code>xml</code> and encapsulates it with <code>RecyclerViewHeader</code>.
@@ -47,6 +48,13 @@ public class RecyclerViewHeader  extends RelativeLayout {
         return header;
     }
 
+    public static RecyclerViewHeader fromXml(Context context, @LayoutRes int layoutRes, RecyclerView.ItemDecoration decoration) {
+        RecyclerViewHeader header = new RecyclerViewHeader(context);
+        View.inflate(context, layoutRes, header);
+        header.setDecor(decoration);
+        return header;
+    }
+
     public RecyclerViewHeader(Context context) {
         super(context);
     }
@@ -57,6 +65,10 @@ public class RecyclerViewHeader  extends RelativeLayout {
 
     public RecyclerViewHeader(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    private void setDecor(RecyclerView.ItemDecoration decor) {
+        mDecoration = decor;
     }
 
     /**
@@ -164,8 +176,11 @@ public class RecyclerViewHeader  extends RelativeLayout {
                         height += params.topMargin;
                         height += params.bottomMargin;
                     }
-
-                    recycler.addItemDecoration(new HeaderItemDecoration(recycler.getLayoutManager(), height), 0);
+                    if (mDecoration == null) {
+                        recycler.addItemDecoration(new HeaderItemDecoration(recycler.getLayoutManager(), height, mReversed), 0);
+                    } else {
+                        recycler.addItemDecoration(mDecoration, 0);
+                    }
                 }
             }
         });
@@ -225,31 +240,5 @@ public class RecyclerViewHeader  extends RelativeLayout {
         return super.onTouchEvent(event);
     }
 
-    private class HeaderItemDecoration extends RecyclerView.ItemDecoration {
-        private int mHeaderHeight;
-        private int mNumberOfChildren;
-
-        public HeaderItemDecoration(RecyclerView.LayoutManager layoutManager, int height) {
-            if (layoutManager.getClass() == LinearLayoutManager.class) {
-                mNumberOfChildren = 1;
-            } else if (layoutManager.getClass() == GridLayoutManager.class) {
-                mNumberOfChildren = ((GridLayoutManager) layoutManager).getSpanCount();
-            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                mNumberOfChildren = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-            }
-            mHeaderHeight = height;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            int value = (parent.getChildLayoutPosition(view) < mNumberOfChildren) ? mHeaderHeight : 0;
-            if (mReversed) {
-                outRect.bottom = value;
-            } else {
-                outRect.top = value;
-            }
-        }
-    }
 
 }
