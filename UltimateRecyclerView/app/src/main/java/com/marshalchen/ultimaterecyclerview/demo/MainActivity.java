@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
-        ultimateRecyclerView.setAdapter(RVAdapter);
+
 
 
         // ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 
 
         */
+
+        ultimateRecyclerView.setAdapter(RVAdapter);
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,6 +25,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    maven { url "http://dl.bintray.com/jjhesk/maven" }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,6 +40,7 @@ dependencies {
     debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
     releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
 
+    compile 'com.hkm.loyalslider:library:1.6.2'
 
     //used in the gridlayout
     // compile 'com.hkm.loyalslider:library:1.4.5' exclude group: 'android.support.v13'

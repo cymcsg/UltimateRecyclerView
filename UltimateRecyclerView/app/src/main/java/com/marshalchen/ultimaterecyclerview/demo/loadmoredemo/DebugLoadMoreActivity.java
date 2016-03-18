@@ -95,7 +95,7 @@ public class DebugLoadMoreActivity extends BasicFunctions {
         //simpleRecyclerViewAdapter.notifyDataSetChanged();
         simpleRecyclerViewAdapter.removeAll();
         ultimateRecyclerView.disableLoadmore();
-        ultimateRecyclerView.showEmptyView();
+        //ultimateRecyclerView.showEmptyView();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DebugLoadMoreActivity extends BasicFunctions {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
         ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+
         enableParallaxHeader();
         enableEmptyViewPolicy();
         enableLoadMore();
@@ -112,7 +112,8 @@ public class DebugLoadMoreActivity extends BasicFunctions {
         // enableScrollControl();
         // enableSwipe();
         // enableItemClick();
-        ultimateRecyclerView.setItemViewCacheSize(simpleRecyclerViewAdapter.getAdditionalItems());
+        //ultimateRecyclerView.setItemViewCacheSize(simpleRecyclerViewAdapter.getAdditionalItems());
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
     }
 
 
