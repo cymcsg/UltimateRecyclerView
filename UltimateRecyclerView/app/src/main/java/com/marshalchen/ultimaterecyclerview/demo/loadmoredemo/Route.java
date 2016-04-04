@@ -11,6 +11,7 @@ public enum Route {
     LOADLOADING_CUT("Stop loading", FirstPageCancelLoadMore.class),
     LOADMORE_TEST("No Header", DebugNoHeaderLoadMoreActivity.class),
     FinalEmptyViewDisplayActivity("Empty View", FinalEmptyViewDisplayActivity.class),
+    SLIDER_HEADER("Header of Slider", SliderHeader.class),
     LOADMORE_HEADER("Header Pallx", DebugLoadMoreActivity.class),;
 
     private String name;

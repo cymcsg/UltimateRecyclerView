@@ -7,4 +7,5 @@
     <item name="str_sticky_headr_img" type="id" />
     <item name="str_sticky_headr_tv" type="id" />
     <item name="empty_view_loc" type="id" />
+    <item name="header_slider" type="id" />
 </resources>

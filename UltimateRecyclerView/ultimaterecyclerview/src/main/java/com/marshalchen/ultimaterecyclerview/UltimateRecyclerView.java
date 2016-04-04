@@ -844,8 +844,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mIsLoadMoreWidgetEnabled = true;
         }
 
-        if (mHeader != null)
+        if (mHeader != null) {
             mAdapter.setCustomHeaderView(mHeader);
+            //getLayoutManager().ignoreView(mHeader);
+        }
     }
 
 

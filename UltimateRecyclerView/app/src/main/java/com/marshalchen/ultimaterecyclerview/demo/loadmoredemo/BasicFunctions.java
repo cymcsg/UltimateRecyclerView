@@ -160,6 +160,9 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
     protected void setupSpinnerSelection(Spinner sp, ArrayAdapter<String> adapter) {
         adapter.add("- select -");
+        /**
+         * a list of selection for other tests
+         */
         for (Route type : Route.values()) {
             adapter.add(type.getNameDisplay());
         }

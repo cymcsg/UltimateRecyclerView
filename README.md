@@ -23,13 +23,12 @@ Please follow the latest publishing aar on jcenter. [ ![Download](https://api.bi
 
 follow by the gradle code
 ```gradle
-
 repositories {
     jcenter()
     maven { url "http://dl.bintray.com/jjhesk/maven" }
 }
 {
-compile 'com.hkm.slidingmenulib:libmenu:0.4.7'
+    compile 'com.hkm.slidingmenulib:libmenu:0.4.8'
 }
 ```
 
@@ -40,8 +39,7 @@ compile 'com.hkm.slidingmenulib:libmenu:0.4.7'
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/ultimate_recycler_view"
-       >
-        </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
+/>
 ```
 
 
@@ -109,9 +107,6 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview8.gif)
 
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview9.gif)
-
-
-
 
 
 ### Thanks

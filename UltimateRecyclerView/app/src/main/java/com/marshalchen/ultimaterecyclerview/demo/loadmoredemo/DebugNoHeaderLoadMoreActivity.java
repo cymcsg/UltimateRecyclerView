@@ -47,7 +47,7 @@ public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
         ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+
         // enableParallaxHeader();
         enableEmptyViewPolicy();
         enableLoadMore();
@@ -58,6 +58,9 @@ public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
         // enableItemClick();
         ultimateRecyclerView.setItemViewCacheSize(simpleRecyclerViewAdapter.getAdditionalItems());
 
+
+
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
     }
 
     @Override

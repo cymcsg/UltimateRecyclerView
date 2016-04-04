@@ -18,6 +18,17 @@ public class ScrollSmoothLineaerLayoutManager extends LinearLayoutManager {
         this.duration = duration;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param recycler
+     * @param state
+     */
+    @Override
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        super.onLayoutChildren(recycler, state);
+    }
+
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
         View firstVisibleChild = recyclerView.getChildAt(0);
