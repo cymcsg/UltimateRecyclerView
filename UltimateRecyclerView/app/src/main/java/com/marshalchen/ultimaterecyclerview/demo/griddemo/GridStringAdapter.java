@@ -8,13 +8,14 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateGridLayoutAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.itemGridCellBinder;
 
 import java.util.List;
 
 /**
  * Created by hesk on 24/8/15.
  */
-public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderGirdCell> {
+public class GridStringAdapter extends UltimateGridLayoutAdapter<String, itemGridCellBinder> {
 
     public GridStringAdapter(List<String> hand) {
         super(hand);
@@ -37,14 +38,21 @@ public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderG
      * @return holder
      */
     @Override
-    protected HolderGirdCell newViewHolder(View view) {
-        return new HolderGirdCell(view, true);
+    protected itemGridCellBinder newViewHolder(View view) {
+        return new itemGridCellBinder(view, true);
+    }
+
+
+    @Override
+    public itemGridCellBinder newFooterHolder(View view) {
+        return new itemGridCellBinder(view, false);
     }
 
     @Override
-    public HolderGirdCell getViewHolder(View view) {
-        return new HolderGirdCell(view, false);
+    public itemGridCellBinder newHeaderHolder(View view) {
+        return new itemGridCellBinder(view, false);
     }
+
 
     @Override
     public long generateHeaderId(int position) {
@@ -59,7 +67,7 @@ public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderG
      * @param position position
      */
     @Override
-    protected void withBindHolder(HolderGirdCell holder, String data, int position) {
+    protected void withBindHolder(itemGridCellBinder holder, String data, int position) {
 
     }
 
@@ -69,7 +77,7 @@ public class GridStringAdapter extends UltimateGridLayoutAdapter<String, HolderG
     }
 
     @Override
-    protected void bindNormal(HolderGirdCell b, String s, int position) {
+    protected void bindNormal(itemGridCellBinder b, String s, int position) {
         b.textViewSample.setText(s);
         b.imageViewSample.setImageResource(SampleDataboxset.getGirlImageRandom());
     }

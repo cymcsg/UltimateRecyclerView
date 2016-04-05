@@ -12,20 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionCommonAdapter;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionCommonAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -82,11 +78,12 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
         // ultimateRecyclerView.showEmptyView();
         enableLoadMore();
         // enableHeader();
-        //  enableParalax();
+        // enableParalax();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         enableRefreshGoogleMaterialStyle();
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(RVAdapter);
+
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(ultimateRecyclerView.mRecyclerView);
         RVAdapter.setOnDragStartListener(new sectionZeroAdapter.OnStartDragListener() {
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
                 mItemTouchHelper.startDrag(viewHolder);
             }
         });
-
 
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
@@ -156,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements ActionMode.Callba
 //                        RVAdapter.notifyDataSetChanged();
 //                    }
 //                }));
-
-
       /*
 
 

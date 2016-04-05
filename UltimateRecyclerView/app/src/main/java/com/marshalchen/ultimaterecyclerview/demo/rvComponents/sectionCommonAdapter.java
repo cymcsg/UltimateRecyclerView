@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.basicdemo;
+package com.marshalchen.ultimaterecyclerview.demo.rvComponents;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by hesk on 16/2/16.
  */
-public class sectionCommonAdapter extends easyRegularAdapter<String, binderCommon> {
+public class sectionCommonAdapter extends easyRegularAdapter<String, itemCommonBinder> {
 
     /**
      * dynamic object to start
@@ -36,24 +36,14 @@ public class sectionCommonAdapter extends easyRegularAdapter<String, binderCommo
      */
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.recycler_view_adapter;
+        return itemCommonBinder.layout;
     }
 
     @Override
-    protected binderCommon newViewHolder(View view) {
-        return new binderCommon(view, true);
+    protected itemCommonBinder newViewHolder(View view) {
+        return new itemCommonBinder(view, true);
     }
 
-    /**
-     * this is for HEADER
-     *
-     * @param view view
-     * @return view
-     */
-    @Override
-    public binderCommon getViewHolder(View view) {
-        return new binderCommon(view, false);
-    }
 
     private void setRandomImage(ImageView image) {
         SecureRandom imgGen = new SecureRandom();
@@ -71,7 +61,7 @@ public class sectionCommonAdapter extends easyRegularAdapter<String, binderCommo
     }
 
     @Override
-    protected void withBindHolder(binderCommon holder, String data, int position) {
+    protected void withBindHolder(itemCommonBinder holder, String data, int position) {
         char Firstletter = data.charAt(0);
         holder.textViewSample.setText(data);
         holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
@@ -168,5 +158,15 @@ public class sectionCommonAdapter extends easyRegularAdapter<String, binderCommo
         }
 
 
+    }
+
+    @Override
+    public itemCommonBinder newFooterHolder(View view) {
+        return new itemCommonBinder(view, false);
+    }
+
+    @Override
+    public itemCommonBinder newHeaderHolder(View view) {
+        return new itemCommonBinder(view, false);
     }
 }

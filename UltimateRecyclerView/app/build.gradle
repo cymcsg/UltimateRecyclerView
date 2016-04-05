@@ -31,7 +31,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile supportDependencies.appCompat
     compile supportDependencies.annotation
-    compile supportDependencies.cardView
+    compile supportDependencies.cv
 
 
     compile project(':ultimaterecyclerview')

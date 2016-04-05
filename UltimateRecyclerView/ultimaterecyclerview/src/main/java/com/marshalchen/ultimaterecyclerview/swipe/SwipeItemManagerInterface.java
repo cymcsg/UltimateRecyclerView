@@ -1,32 +1,30 @@
 package com.marshalchen.ultimaterecyclerview.swipe;
 
 
-
-
 import java.util.List;
 
 public interface SwipeItemManagerInterface {
 
-    public void openItem(int position);
+    void openItem(int position);
 
-    public void closeItem(int position);
+    void closeItem(int position);
 
-    public void closeAllExcept(SwipeLayout layout);
+    void closeAllExcept(SwipeLayout layout);
 
-    public List<Integer> getOpenItems();
+    List<Integer> getOpenItems();
 
-    public List<SwipeLayout> getOpenLayouts();
+    List<SwipeLayout> getOpenLayouts();
 
-    public void removeShownLayouts(SwipeLayout layout);
+    void removeShownLayouts(SwipeLayout layout);
 
-    public boolean isOpen(int position);
+    boolean isOpen(int position);
 
-    public Mode getMode();
+    Mode getMode();
 
-    public void setMode(Mode mode);
+    void setMode(Mode mode);
 
 
-    public static enum Mode{
+    enum Mode {
         Single, Multiple
     }
 }

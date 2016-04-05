@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.griddemo;
+package com.marshalchen.ultimaterecyclerview.demo.rvComponents;
 
 import android.graphics.Color;
 import android.view.View;
@@ -11,12 +11,13 @@ import com.marshalchen.ultimaterecyclerview.demo.R;
 /**
  * Created by hesk on 3/2/16.
  */
-public class HolderGirdCell  extends UltimateRecyclerviewViewHolder {
-    TextView textViewSample;
-    ImageView imageViewSample;
-    View item_view;
+public class itemGridCellBinder extends UltimateRecyclerviewViewHolder {
+    public static final int layout = R.layout.grid_item;
+    public TextView textViewSample;
+    public ImageView imageViewSample;
+    public View item_view;
 
-    public HolderGirdCell(View itemView, boolean isItem) {
+    public itemGridCellBinder(View itemView, boolean isItem) {
         super(itemView);
         if (isItem) {
             textViewSample = (TextView) itemView.findViewById(R.id.example_row_tv_title);

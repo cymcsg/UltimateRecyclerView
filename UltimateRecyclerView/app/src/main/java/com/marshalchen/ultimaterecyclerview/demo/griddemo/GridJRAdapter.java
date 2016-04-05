@@ -7,13 +7,14 @@ import com.marshalchen.ultimaterecyclerview.UltimateGridLayoutAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.JRitem;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.itemGridCellBinder;
 
 import java.util.List;
 
 /**
  * Created by hesk on 3/2/16.
  */
-public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdCell> {
+public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, itemGridCellBinder> {
 
     public GridJRAdapter(List<JRitem> hand) {
         super(hand);
@@ -26,7 +27,7 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdC
      */
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.grid_item;
+        return itemGridCellBinder.layout;
     }
 
     /**
@@ -36,14 +37,10 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdC
      * @return holder
      */
     @Override
-    protected HolderGirdCell newViewHolder(View view) {
-        return new HolderGirdCell(view, true);
+    protected itemGridCellBinder newViewHolder(View view) {
+        return new itemGridCellBinder(view, true);
     }
 
-    @Override
-    public HolderGirdCell getViewHolder(View view) {
-        return new HolderGirdCell(view, false);
-    }
 
     @Override
     public long generateHeaderId(int position) {
@@ -58,12 +55,12 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdC
      * @param position position
      */
     @Override
-    protected void withBindHolder(HolderGirdCell holder, JRitem data, int position) {
+    protected void withBindHolder(itemGridCellBinder holder, JRitem data, int position) {
 
     }
 
     @Override
-    protected void bindNormal(HolderGirdCell b, JRitem jRitem, int position) {
+    protected void bindNormal(itemGridCellBinder b, JRitem jRitem, int position) {
         b.textViewSample.setText(jRitem.train_name);
         b.imageViewSample.setImageResource(jRitem.photo_id);
     }
@@ -74,4 +71,13 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, HolderGirdC
         return new UltimateRecyclerviewViewHolder(parent);
     }
 
+    @Override
+    public itemGridCellBinder newFooterHolder(View view) {
+        return new itemGridCellBinder(view, false);
+    }
+
+    @Override
+    public itemGridCellBinder newHeaderHolder(View view) {
+        return new itemGridCellBinder(view, false);
+    }
 }
