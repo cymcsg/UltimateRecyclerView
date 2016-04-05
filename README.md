@@ -27,7 +27,7 @@ repositories {
     }
 
 dependencies{
-    compile 'com.hkm.slidingmenulib:libmenu:0.4.9'
+    compile 'com.hkm.slidingmenulib:libmenu:0.5.0'
 }
 ```
 
@@ -42,7 +42,8 @@ dependencies{
 ```
 
 ### Version Log
-* ***v0.4.9*** This is the last version that will be based on V23.1.1
+* ***v0.5.0*** this library will be based on v23.2.1 from now on. if you need have the v23.1.1 please go back to the previous release. detail of this upgrade please see [#342](https://github.com/cymcsg/UltimateRecyclerView/issues/342)
+* ***v0.4.9*** This is the last version that will be based on V23.1.1. and this library will not be supported on this version. For further supports please refer to the latest release. 
 * ***v0.3.11*** There are still version that is based on 22.+
 
 ### Description
