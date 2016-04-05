@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview;
+package com.marshalchen.ultimaterecyclerview.layoutmanagers;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

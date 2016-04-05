@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.divideritemdecoration;
+package com.marshalchen.ultimaterecyclerview.ui.divideritemdecoration;
 
 import android.content.Context;
 import android.content.res.Resources;
