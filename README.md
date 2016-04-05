@@ -1,6 +1,7 @@
 # UltimateRecyclerView
 
-[![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)
+[![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)[![Stories in Ready](https://badge.waffle.io/cymcsg/UltimateRecyclerView.svg?label=ready&title=Ready)](http://waffle.io/cymcsg/UltimateRecyclerView)
+
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
@@ -8,9 +9,6 @@
 
 #### Dev branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=dev)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
-[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-
-[![Stories in Ready](https://badge.waffle.io/cymcsg/UltimateRecyclerView.svg?label=ready&title=Ready)](http://waffle.io/cymcsg/UltimateRecyclerView)
 
 ##### Project website:[https://github.com/cymcsg/UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
