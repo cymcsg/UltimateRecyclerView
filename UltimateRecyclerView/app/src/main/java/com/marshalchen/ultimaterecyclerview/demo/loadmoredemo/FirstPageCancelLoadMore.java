@@ -53,11 +53,14 @@ public class FirstPageCancelLoadMore extends BasicFunctions {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
         ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
-        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
+
         enableEmptyViewPolicy();
         enableLoadMore();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ff4fcccf"));
         enableRefresh();
+
+
+        ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
     }
 
     @Override

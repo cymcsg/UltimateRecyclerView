@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.uiUtils;
+package com.marshalchen.ultimaterecyclerview.layoutmanagers;
 
 import android.content.Context;
 import android.graphics.PointF;
@@ -16,6 +16,29 @@ public class ScrollSmoothLineaerLayoutManager extends LinearLayoutManager {
     public ScrollSmoothLineaerLayoutManager(Context context, int orientation, boolean reverseLayout, int duration) {
         super(context, orientation, reverseLayout);
         this.duration = duration;
+    }
+
+    /**
+     * @param recycler the object
+     * @param state    the state
+     */
+    @Override
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        try {
+            super.onLayoutChildren(recycler, state);
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
+     * try to fix the inconsistency detection issue
+     *
+     * @return boolean not support on V23.1.1
+     */
+    @Override
+    public boolean supportsPredictiveItemAnimations() {
+        return false;
     }
 
     @Override

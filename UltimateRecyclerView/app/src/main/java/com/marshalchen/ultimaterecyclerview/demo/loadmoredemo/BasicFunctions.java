@@ -22,7 +22,7 @@ import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.ui.AnimationType;
-import com.marshalchen.ultimaterecyclerview.uiUtils.ScrollSmoothLineaerLayoutManager;
+import com.marshalchen.ultimaterecyclerview.layoutmanagers.ScrollSmoothLineaerLayoutManager;
 
 /**
  * Created by hesk on 19/2/16.
@@ -160,6 +160,9 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
     protected void setupSpinnerSelection(Spinner sp, ArrayAdapter<String> adapter) {
         adapter.add("- select -");
+        /**
+         * a list of selection for other tests
+         */
         for (Route type : Route.values()) {
             adapter.add(type.getNameDisplay());
         }
