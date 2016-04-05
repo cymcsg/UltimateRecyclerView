@@ -1,6 +1,6 @@
 # UltimateRecyclerView
 
-### Version:0.4.9
+[![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
@@ -19,7 +19,7 @@
 
 ###### 1.Integration jcenter
 
-Please follow the latest publishing aar on jcenter. [ ![Download](https://api.bintray.com/packages/jjhesk/maven/MenuURV/images/download.svg) ](https://bintray.com/jjhesk/maven/MenuURV/_latestVersion)
+Please follow the latest publishing aar on jcenter. 
 
 follow by the gradle code
 ```gradle
