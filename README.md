@@ -26,9 +26,10 @@ follow by the gradle code
 repositories {
     jcenter()
     maven { url "http://dl.bintray.com/jjhesk/maven" }
-}
-{
-    compile 'com.hkm.slidingmenulib:libmenu:0.4.8'
+    }
+
+dependencies{
+    compile 'com.hkm.slidingmenulib:libmenu:0.4.9'
 }
 ```
 
@@ -42,8 +43,9 @@ repositories {
 />
 ```
 
-
-
+### Version Log
+* ***v0.4.9*** This is the last version that will be based on V23.1.1
+* ***v0.3.11*** There are still version that is based on 22.+
 
 ### Description
 
