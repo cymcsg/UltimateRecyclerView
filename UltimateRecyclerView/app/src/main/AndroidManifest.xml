@@ -55,6 +55,9 @@
             android:name=".loadmoredemo.DebugLoadMoreActivity"
             android:label="DebugLoadMoreActivity" />
         <activity
+            android:name=".loadmoredemo.StaggerLoadMoreActivity"
+            android:label="StaggerLoadMoreActivity" />
+        <activity
             android:name=".loadmoredemo.FinalEmptyViewDisplayActivity"
             android:label="Display Final View" />
         <activity
@@ -64,7 +67,7 @@
             android:name=".dragdemo.DragActivity"
             android:label="DragActivity" />
         <activity
-            android:name=".swiplistdemo.SwipeListViewExampleActivity"
+            android:name=".loadmoredemo.SwipeListViewExampleActivity"
             android:label="SwipeListViewExampleActivity" />
         <activity
             android:name=".admobdemo.TestAdvancedAdmobActivity"

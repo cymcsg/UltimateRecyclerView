@@ -8,10 +8,12 @@ import android.content.Intent;
  */
 public enum Route {
     CUSTOM_PULL_HEADER("Custom Pull", PullToRefreshActivity.class),
+    STAGGER_LOAD_MORE("Stagger LoadMore", StaggerLoadMoreActivity.class),
     LOADLOADING_CUT("Stop loading", FirstPageCancelLoadMore.class),
     LOADMORE_TEST("No Header", DebugNoHeaderLoadMoreActivity.class),
     FinalEmptyViewDisplayActivity("Empty View", FinalEmptyViewDisplayActivity.class),
     SLIDER_HEADER("Header of Slider", SliderHeader.class),
+    SWIPE_LIST("Swipe List View Example", SwipeListViewExampleActivity.class),
     LOADMORE_HEADER("Header Pallx", DebugLoadMoreActivity.class),;
 
     private String name;

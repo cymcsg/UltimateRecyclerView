@@ -26,7 +26,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
     @Override
     public ViewHolder newViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.simple_binder1, parent, false);
+                R.layout.rv_sample_1, parent, false);
         return new ViewHolder(view);
     }
 

@@ -39,11 +39,6 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
     }
 
 
-    @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        UltimateRecyclerviewViewHolder g = new UltimateRecyclerviewViewHolder(view);
-        return g;
-    }
 
     protected View getViewById(@LayoutRes final int layoutId, ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
@@ -94,34 +89,5 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
     }
 
     protected abstract void bindNormal(BINDER b, DATA data, final int position);
-
-    public static class GridSpan extends GridLayoutManager.SpanSizeLookup {
-        final private int columns;
-        final private int intervalRow;
-        final private UltimateGridLayoutAdapter mGridAdapter;
-
-        public GridSpan(int col, int intervalRow, UltimateGridLayoutAdapter mGridAdapter) {
-            this.columns = col;
-            this.intervalRow = intervalRow;
-            this.mGridAdapter = mGridAdapter;
-        }
-
-        /**
-         * Returns the number of span occupied by the item at <code>position</code>.
-         *
-         * @param position The adapter position of the item
-         * @return The number of spans occupied by the item at the provided position
-         */
-        @Override
-        public int getSpanSize(int position) {
-            if (position == mGridAdapter.getAdapterItemCount()) {
-                return columns;
-            } else {
-                int mIntervalHeader = columns * intervalRow;
-                int h = position % mIntervalHeader == 0 ? columns : 1;
-                return h;
-            }
-        }
-    }
 
 }

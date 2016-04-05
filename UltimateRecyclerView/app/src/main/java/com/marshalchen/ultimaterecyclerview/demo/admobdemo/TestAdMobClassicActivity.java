@@ -43,7 +43,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
         AdView mAdView = new AdView(this);
         mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
-        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         if (admob_test_mode)

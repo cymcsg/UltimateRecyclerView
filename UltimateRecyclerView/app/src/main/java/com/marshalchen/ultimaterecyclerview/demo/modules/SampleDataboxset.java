@@ -2,7 +2,8 @@ package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.admobdemo.ZeroStickyAdvertistmentAdapter;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +53,13 @@ public class SampleDataboxset {
         }
     }
 
-    public static void insertMore(sectionZeroAdapter sd, int howmany) {
+    public static void insertMore(easyRegularAdapter sd, int howmany) {
         for (int i = 0; i < howmany; i++) {
             sd.insertLast("More ** " + i);
         }
     }
 
-    public static void insertMoreWhole(sectionZeroAdapter sd, int howmany) {
+    public static void insertMoreWhole(easyRegularAdapter sd, int howmany) {
         List<String> items = new ArrayList<>();
         for (int i = 0; i < howmany; i++) {
             items.add("More ** " + i);

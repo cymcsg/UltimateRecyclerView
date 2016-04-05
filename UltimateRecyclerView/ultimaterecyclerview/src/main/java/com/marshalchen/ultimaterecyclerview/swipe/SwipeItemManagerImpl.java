@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.swipe;
 
 
-
 import android.support.v7.widget.RecyclerView;
 
 
@@ -23,8 +22,8 @@ public class SwipeItemManagerImpl implements SwipeItemManagerInterface {
 
     protected int mOpenPosition = INVALID_POSITION;
 
-    protected Set<Integer>     mOpenPositions = new HashSet<>();
-    protected Set<SwipeLayout> mShownLayouts  = new HashSet<>();
+    protected Set<Integer> mOpenPositions = new HashSet<>();
+    protected Set<SwipeLayout> mShownLayouts = new HashSet<>();
 
     protected RecyclerView.Adapter mAdapter;
 
@@ -48,7 +47,6 @@ public class SwipeItemManagerImpl implements SwipeItemManagerInterface {
         mShownLayouts.clear();
         mOpenPosition = INVALID_POSITION;
     }
-
 
 
     private void initialize(UltimateRecyclerviewViewHolder targetViewHolder, int position) {
@@ -76,6 +74,7 @@ public class SwipeItemManagerImpl implements SwipeItemManagerInterface {
         ((OnLayoutListener) targetViewHolder.onLayoutListener).setPosition(position);
         targetViewHolder.position = position;
     }
+
     @Override
     public void openItem(int position) {
         if (mode == Mode.Multiple) {

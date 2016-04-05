@@ -2,15 +2,11 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
 import android.annotation.TargetApi;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.RelativeLayout;
 
 import com.hkm.slider.SliderLayout;
 import com.hkm.slider.SliderTypes.BaseSliderView;
@@ -18,12 +14,10 @@ import com.hkm.slider.SliderTypes.TextSliderView;
 import com.hkm.slider.TransformerL;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by hesk on 18/3/16.
@@ -65,7 +59,7 @@ public class SliderHeader extends BasicFunctions implements BaseSliderView.OnSli
     protected void doURV(UltimateRecyclerView urv) {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
-        ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
+        configLinearLayoutManager(ultimateRecyclerView);
         enableParallaxHeader();
         enableEmptyViewPolicy();
         enableLoadMore();

@@ -14,6 +14,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.AdItemHolder;
  * Created by hesk on 24/2/16.
  */
 public class SingleItemCommonLayout extends AdItemHolder {
+    public static final int layout = R.layout.rv_item_linear;
     public TextView textViewSample;
     public ImageView imageViewSample;
     public ProgressBar progressBarSample;

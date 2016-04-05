@@ -61,8 +61,13 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
     protected abstract BINDHOLDER newViewHolder(View view);
 
     @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
+    public BINDHOLDER newFooterHolder(View view) {
+        return null;
+    }
+
+    @Override
+    public BINDHOLDER newHeaderHolder(View view) {
+        return null;
     }
 
     /**
@@ -90,7 +95,8 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
 
     /**
      * Determine if the object provide is in this adapter
-     * @param  object the data object
+     *
+     * @param object the data object
      * @return true if the object is in this adapter
      */
     public boolean hasItem(T object) {
@@ -261,7 +267,7 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
      * @param viewType viewType return by getItemViewType()
      * @return the class of the view holder to instantiate
      */
- //protected abstract Class<? extends BINDHOLDER> getViewHolderClass(int viewType);
+    //protected abstract Class<? extends BINDHOLDER> getViewHolderClass(int viewType);
 
     /**
      * Generate a view holder for this view for this viewType
