@@ -1,6 +1,6 @@
 # UltimateRecyclerView
 
-### Version:0.4.8
+### Version:0.4.9
 
 [![Throughput Graph](https://graphs.waffle.io/cymcsg/UltimateRecyclerView/throughput.svg)](https://waffle.io/cymcsg/UltimateRecyclerView/metrics)
 
