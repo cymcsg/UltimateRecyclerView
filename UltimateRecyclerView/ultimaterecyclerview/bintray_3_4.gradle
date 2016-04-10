@@ -3,8 +3,8 @@ apply plugin: 'com.novoda.bintray-release'
 
 publish {
     userOrg = 'jjhesk'
-    groupId = 'com.hkm.slidingmenulib'
-    artifactId = 'libmenu'
+    groupId = 'com.hkm.ui'
+    artifactId = 'ultimaterecyclerview'
     version = project.VERSION_NAME
     uploadName = 'MenuURV'
     description = "The super recycler for the menu"

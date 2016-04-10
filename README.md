@@ -27,7 +27,7 @@ repositories {
     }
 
 dependencies{
-    compile 'com.hkm.slidingmenulib:libmenu:0.5.0'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.5.0'
 }
 ```
 
