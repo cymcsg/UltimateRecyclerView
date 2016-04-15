@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:endColor="#22002aff"
+        android:startColor="#e70a137e" />
+    <!--<stroke
+        android:width="10dp"
+        android:color="@color/bg_item_dragging_state" />
+    <corners android:radius="3dp" />-->
+    <padding
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp" />
+</shape>

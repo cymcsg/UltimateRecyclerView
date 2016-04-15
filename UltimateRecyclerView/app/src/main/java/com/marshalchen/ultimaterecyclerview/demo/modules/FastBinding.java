@@ -13,6 +13,7 @@ import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.DebugLoadMoreActiv
 import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdvancedAdmobActivity;
 import com.marshalchen.ultimaterecyclerview.demo.scrollableobservable.ScrollObservablesActivity;
 import com.marshalchen.ultimaterecyclerview.demo.expandemo.TestExpandableRV;
+import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.SwipeListViewExampleActivity;
 
 /**
  * Created by hesk on 7/1/2015.
@@ -22,7 +23,7 @@ public enum FastBinding {
     action_custom(R.id.action_custom, PullToRefreshActivity.class),
     admob(R.id.admob, TestAdMobClassicActivity.class),
     scrollactivity(R.id.scrollactivity, ScrollObservablesActivity.class),
-   // swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
+    swipe_and_drag(R.id.swipe_and_drag, SwipeListViewExampleActivity.class),
     debug_load_more(R.id.debug_load_more, DebugLoadMoreActivity.class),
     advancedAdmob(R.id.adv_admob, TestAdvancedAdmobActivity.class),
     gridlayouttesting(R.id.gridlayoutperformance, GridLayoutRVTest.class),

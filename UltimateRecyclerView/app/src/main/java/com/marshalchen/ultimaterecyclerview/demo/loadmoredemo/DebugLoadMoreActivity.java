@@ -5,7 +5,7 @@ import android.graphics.Color;
 import com.marshalchen.ultimaterecyclerview.ui.swipe.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.ui.swipe.defaultRegularSwipe;
 
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class DebugLoadMoreActivity extends BasicFunctions {
 
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
+
     @Override
     protected void enableEmptyViewPolicy() {
         //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
@@ -79,8 +80,7 @@ public class DebugLoadMoreActivity extends BasicFunctions {
     protected void doURV(UltimateRecyclerView ultimateRecyclerView) {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
-        ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
-
+        configLinearLayoutManager(ultimateRecyclerView);
         enableParallaxHeader();
         enableEmptyViewPolicy();
         enableLoadMore();

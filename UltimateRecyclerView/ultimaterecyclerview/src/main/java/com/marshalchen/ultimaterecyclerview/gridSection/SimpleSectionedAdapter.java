@@ -50,21 +50,30 @@ public abstract class SimpleSectionedAdapter<VH extends RecyclerView.ViewHolder>
     /**
      * Provides a layout identifier for the header. Override it to change the appearance of the
      * header view.
+     *
+     * @return int layout id
      */
-    protected @LayoutRes int getLayoutResource() {
+    @LayoutRes
+    protected int getLayoutResource() {
         return R.layout.slm_header;
     }
 
     /**
      * Provides the identifier of the TextView to render the section header title. Override it if
      * you provide a custom layout for a header.
+     *
+     * @return the field id
      */
-    protected @IdRes int getTitleTextID() {
+    @IdRes
+    protected int getTitleTextID() {
         return R.id.title_text;
     }
 
     /**
      * Returns the title for a given section
+     *
+     * @param section section index
+     * @return string in return
      */
     protected abstract String getSectionHeaderTitle(int section);
 }

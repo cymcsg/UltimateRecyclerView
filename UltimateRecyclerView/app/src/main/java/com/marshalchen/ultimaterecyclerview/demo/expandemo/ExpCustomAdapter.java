@@ -1,8 +1,10 @@
 package com.marshalchen.ultimaterecyclerview.demo.expandemo;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.expanx.SmartItem;
 import com.marshalchen.ultimaterecyclerview.expanx.Util.DataUtil;
@@ -67,4 +69,13 @@ public class ExpCustomAdapter extends customizedAdapter<Category, SubCategory> {
     }
 
 
+    @Override
+    public RecyclerView.ViewHolder newFooterHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder newHeaderHolder(View view) {
+        return new UltimateRecyclerviewViewHolder(view);
+    }
 }

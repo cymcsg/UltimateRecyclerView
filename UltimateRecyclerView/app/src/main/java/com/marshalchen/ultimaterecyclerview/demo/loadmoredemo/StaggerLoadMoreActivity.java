@@ -1,33 +1,32 @@
 package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
 import android.graphics.Color;
-import android.view.LayoutInflater;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.staggerAdapter;
 
 import java.util.ArrayList;
 
 /**
- * Created by hesk on 19/2/16.
+ * Created by hesk on 5/4/16.
  */
-public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
-    private sectionZeroAdapter simpleRecyclerViewAdapter = null;
+public class StaggerLoadMoreActivity extends BasicFunctions {
 
-    @Override
-    protected void enableEmptyViewPolicy() {
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-        //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-        //   ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-
-
-    }
+    staggerAdapter simpleRecyclerViewAdapter = null;
 
     @Override
     protected void onLoadmore() {
-        SampleDataboxset.insertMoreWhole(simpleRecyclerViewAdapter, 2);
+        SampleDataboxset.insertMoreWhole(simpleRecyclerViewAdapter, 7);
+    }
+
+    @Override
+    protected void enableEmptyViewPolicy() {
+        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
     }
 
     @Override
@@ -43,17 +42,14 @@ public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
         ultimateRecyclerView.showEmptyView();
     }
 
+
     @Override
-    protected void doURV(UltimateRecyclerView ultimateRecyclerView) {
-        //  ultimateRecyclerView.setInflater(LayoutInflater.from(getApplicationContext()));
+    protected void doURV(UltimateRecyclerView urv) {
         ultimateRecyclerView.setHasFixedSize(false);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("o2fn31");
-        list.add("of2n32");
-        list.add("of3n36");
-        simpleRecyclerViewAdapter = new sectionZeroAdapter(list);
-        configLinearLayoutManager(ultimateRecyclerView);
-        //enableParallaxHeader();
+        simpleRecyclerViewAdapter = new staggerAdapter(new ArrayList<String>());
+        //configLinearLayoutManager(ultimateRecyclerView);
+        configStaggerLayoutManager(ultimateRecyclerView, simpleRecyclerViewAdapter);
+        // enableParallaxHeader();
         enableEmptyViewPolicy();
         enableLoadMore();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ff4fcccf"));
@@ -67,9 +63,10 @@ public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
     }
 
+
     @Override
     protected void addButtonTrigger() {
-        simpleRecyclerViewAdapter.insertLast("++ new Item");
+        simpleRecyclerViewAdapter.insertLast("++ New Item");
         ultimateRecyclerView.reenableLoadmore();
     }
 

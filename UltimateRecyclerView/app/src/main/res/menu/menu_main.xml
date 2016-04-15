@@ -28,7 +28,7 @@
     <item
         android:id="@+id/swipe_and_drag"
         android:orderInCategory="105"
-        android:title="SwipeDragActivity"
+        android:title="Swipe Drag Activity"
         app:showAsAction="never" />
 
     <item

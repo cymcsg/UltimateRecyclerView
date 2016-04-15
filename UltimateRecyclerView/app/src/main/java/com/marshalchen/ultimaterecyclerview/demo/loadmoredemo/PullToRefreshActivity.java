@@ -1,33 +1,19 @@
 package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.URLogs;
-import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
-import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.SimpleAnimationAdapter;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;

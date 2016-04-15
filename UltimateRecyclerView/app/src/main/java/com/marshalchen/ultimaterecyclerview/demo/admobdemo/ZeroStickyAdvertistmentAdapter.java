@@ -1,18 +1,12 @@
 package com.marshalchen.ultimaterecyclerview.demo.admobdemo;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.binderCommon;
 
 import java.util.List;
 
@@ -32,7 +26,7 @@ public class ZeroStickyAdvertistmentAdapter extends AdmobAdapter<AdView, String,
 
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.recycler_view_adapter;
+        return SingleItemCommonLayout.layout;
     }
 
     @Override
@@ -72,10 +66,5 @@ public class ZeroStickyAdvertistmentAdapter extends AdmobAdapter<AdView, String,
     }
 */
 
-
-    @Override
-    public UltimateRecyclerviewViewHolder getViewHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
-    }
 
 }

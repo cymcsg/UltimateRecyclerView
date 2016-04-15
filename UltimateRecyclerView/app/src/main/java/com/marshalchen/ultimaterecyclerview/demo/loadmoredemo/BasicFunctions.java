@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.layoutmanagers.ClassicSpanGridLayoutManager;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.marshalchen.ultimaterecyclerview.ui.AnimationType;
 import com.marshalchen.ultimaterecyclerview.layoutmanagers.ScrollSmoothLineaerLayoutManager;
 
@@ -88,13 +91,23 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
     }
 
-    protected LinearLayoutManager setupLinearLayoutMgr() {
-        linearLayoutManager = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
-        return linearLayoutManager;
+    protected final void configStaggerLayoutManager(UltimateRecyclerView rv, easyRegularAdapter ad) {
+        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        rv.setLayoutManager(gaggeredGridLayoutManager);
+    }
+
+    protected final void configGridLayoutManager(UltimateRecyclerView rv, easyRegularAdapter ad) {
+        final ClassicSpanGridLayoutManager mgm = new ClassicSpanGridLayoutManager(this, 2, ad);
+        rv.setLayoutManager(mgm);
+    }
+
+    protected final void configLinearLayoutManager(UltimateRecyclerView rv) {
+        final ScrollSmoothLineaerLayoutManager mgm = new ScrollSmoothLineaerLayoutManager(this, LinearLayoutManager.VERTICAL, false, 300);
+        rv.setLayoutManager(mgm);
     }
 
 
-    protected void enableScrollControl() {
+    protected final void enableScrollControl() {
         ultimateRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
             public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {

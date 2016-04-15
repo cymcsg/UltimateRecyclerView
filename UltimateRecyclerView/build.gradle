@@ -26,7 +26,6 @@ ext {
     PUBLISH_ARTIFACT_ID = 'library'
 
     ARTIFACT_ID = 'urvlib'
-    VERSION_NAME = '0.4.0'
     VERSION_CODE = 23
     //your version
 
@@ -35,22 +34,22 @@ ext {
     app_demo_versionName = '1.4.0'
     //Support and Build tools version
     //  supportLibrary = '22.2.1'
-    supportLibrary = '23.1.1'
+    android_support_lib_version = '23.2.1'
     ftKit = '0.4.1'
     //Support Libraries dependencies
     supportDependencies = [
-            percent   : "com.android.support:percent:${supportLibrary}",
-            annotation: "com.android.support:support-annotations:${supportLibrary}",
-            support   : "com.android.support:support-v13:${supportLibrary}",
-            appCompat : "com.android.support:appcompat-v7:${supportLibrary}",
-            rv        : "com.android.support:recyclerview-v7:${supportLibrary}",
-            cardView  : "com.android.support:cardview-v7:${supportLibrary}",
+            percent   : "com.android.support:percent:${android_support_lib_version}",
+            annotation: "com.android.support:support-annotations:${android_support_lib_version}",
+            support   : "com.android.support:support-v13:${android_support_lib_version}",
+            appCompat : "com.android.support:appcompat-v7:${android_support_lib_version}",
+            rv        : "com.android.support:recyclerview-v7:${android_support_lib_version}",
+            cv        : "com.android.support:cardview-v7:${android_support_lib_version}",
             kitCore   : "com.52inc:52Kit-core:${ftKit}"
     ]
 
 
     COMPILE_SDK = 23
-    BUILD_TOOLS = '23.0.1'
+    BUILD_TOOLS = '23.0.3'
     MODULE_NAME = 'urvlib'
 
 

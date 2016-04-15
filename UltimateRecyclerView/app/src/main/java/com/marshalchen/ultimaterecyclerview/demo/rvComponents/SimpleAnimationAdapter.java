@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.basicdemo;
+package com.marshalchen.ultimaterecyclerview.demo.rvComponents;
 
 import android.animation.Animator;
 import android.graphics.Color;
@@ -28,6 +28,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
     public SimpleAnimationAdapter(List<String> stringList) {
         this.stringList = stringList;
     }
+
     private int mDuration = 300;
     private Interpolator mInterpolator = new LinearInterpolator();
     private int mLastPosition = 5;
@@ -59,17 +60,27 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
         return stringList.size();
     }
 
+    /**
+     * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
+     *
+     * @param view with no binding view of nothing
+     * @return v
+     */
     @Override
-    public RecyclerView.ViewHolder getViewHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
+    public RecyclerView.ViewHolder newFooterHolder(View view) {
+        return new ViewHolder(view, false);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder newHeaderHolder(View view) {
+        return new ViewHolder(view, false);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_adapter, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+                .inflate(R.layout.rv_item_linear, parent, false);
+        return new ViewHolder(v, true);
     }
 
 
@@ -102,8 +113,7 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.stick_header_item, viewGroup, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
+        return new ViewHolder(view, false);
     }
 
     @Override
@@ -138,12 +148,12 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
 //    }
 
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder {
+    public class ViewHolder extends UltimateRecyclerviewViewHolder {
 
-        TextView textViewSample;
-        ImageView imageViewSample;
+        public TextView textViewSample;
+        public ImageView imageViewSample;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, boolean normal) {
             super(itemView);
 //            itemView.setOnTouchListener(new SwipeDismissTouchListener(itemView, null, new SwipeDismissTouchListener.DismissCallbacks() {
 //                @Override
@@ -159,10 +169,11 @@ public class SimpleAnimationAdapter extends UltimateViewAdapter<RecyclerView.Vie
 //
 //                }
 //            }));
-            textViewSample = (TextView) itemView.findViewById(
-                    R.id.textview);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
-
+            if (normal) {
+                textViewSample = (TextView) itemView.findViewById(
+                        R.id.textview);
+                imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+            }
         }
     }
 

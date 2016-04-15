@@ -163,7 +163,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
-            VH viewHolder = getViewHolder(customLoadMoreView);
+            VH viewHolder = newFooterHolder(customLoadMoreView);
             /**
              * this is only for the first time rendering of the adapter
              */
@@ -175,11 +175,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             }
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
-            return getViewHolder(customHeaderView);
+            return newHeaderHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.ADVIEW) {
             return getAdViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CUSTOMVIEW) {
-            return getCustomViewHolder(customHeaderView);
+            return newCustomViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.NOVIEW) {
             return getNoViewHolder(customHeaderView);
         }
@@ -202,7 +202,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param view v
      * @return v
      */
-    public VH getCustomViewHolder(View view) {
+    public VH newCustomViewHolder(View view) {
         return null;
     }
 
@@ -223,7 +223,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param view with no binding view of nothing
      * @return v
      */
-    public abstract VH getViewHolder(View view);
+    public abstract VH newFooterHolder(View view);
+
+
+    public abstract VH newHeaderHolder(View view);
 
     /**
      * for all NORMAL type holder
@@ -426,8 +429,13 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             synchronized (mLock) {
                 list.remove(hasHeaderView() ? position - 1 : position);
             }
+            removeNotifyExternal(position);
             notifyItemRemoved(position);
         }
+    }
+
+    protected void removeNotifyExternal(final int pos) {
+
     }
 
     public final <T> void removeFirstInternal(List<T> list) {

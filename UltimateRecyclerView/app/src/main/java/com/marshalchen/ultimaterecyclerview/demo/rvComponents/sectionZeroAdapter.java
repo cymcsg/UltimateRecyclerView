@@ -1,4 +1,4 @@
-package com.marshalchen.ultimaterecyclerview.demo.basicdemo;
+package com.marshalchen.ultimaterecyclerview.demo.rvComponents;
 
 import android.graphics.Color;
 import android.view.View;
@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 
-public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon> {
+public class sectionZeroAdapter extends easyRegularAdapter<String, itemCommonBinder> {
     // private List<String> stringList;
 
     public sectionZeroAdapter(List<String> stringList) {
@@ -25,17 +25,24 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon>
      */
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.recycler_view_adapter;
+        return itemCommonBinder.layout;
     }
 
     @Override
-    protected binderCommon newViewHolder(View view) {
-        return new binderCommon(view, true);
+    protected itemCommonBinder newViewHolder(View view) {
+        return new itemCommonBinder(view, true);
+    }
+
+
+
+    @Override
+    public itemCommonBinder newFooterHolder(View view) {
+        return new itemCommonBinder(view, false);
     }
 
     @Override
-    public binderCommon getViewHolder(View view) {
-        return new binderCommon(view, false);
+    public itemCommonBinder newHeaderHolder(View view) {
+        return new itemCommonBinder(view, false);
     }
 
 
@@ -87,7 +94,7 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, binderCommon>
     }*/
 
     @Override
-    protected void withBindHolder(binderCommon holder, String data, int position) {
+    protected void withBindHolder(itemCommonBinder holder, String data, int position) {
         holder.textViewSample.setText(data + "just the sample data");
         holder.item_view.setBackgroundColor(Color.parseColor("#AAffffff"));
         SecureRandom imgGen = new SecureRandom();

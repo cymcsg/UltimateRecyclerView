@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class FirstPageCancelLoadMore extends BasicFunctions {
     protected void doURV(UltimateRecyclerView urv) {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
-        ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
+        configLinearLayoutManager(ultimateRecyclerView);
 
         enableEmptyViewPolicy();
         enableLoadMore();

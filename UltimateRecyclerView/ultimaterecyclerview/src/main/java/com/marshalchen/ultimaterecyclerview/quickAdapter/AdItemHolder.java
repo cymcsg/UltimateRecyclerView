@@ -7,6 +7,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 /**
  * Created by hesk on 24/2/16.
+ * Linear or Grid layout use only
  */
 public abstract class AdItemHolder extends UltimateRecyclerviewViewHolder {
     private final int innerType;

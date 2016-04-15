@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerImpl;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface;
@@ -20,19 +20,47 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter<UltimateRecyclerviewViewHolder> implements SwipeItemManagerInterface {
+public abstract class SwipeableUltimateViewAdapter<T>
+        extends easyRegularAdapter<T, UltimateRecyclerviewViewHolder>
+        implements SwipeItemManagerInterface {
+
+    public SwipeableUltimateViewAdapter(List<T> list) {
+        super(list);
+    }
+
 
     protected SwipeItemManagerImpl mItemManger = new SwipeItemManagerImpl(this);
 
     /**
-     * Don't forget to call super.onBindViewHolder when overriding
+     * binding normal view holder
      *
-     * @param holder na
-     * @param position  na
+     * @param holder   holder class
+     * @param data     data
+     * @param position position
      */
     @Override
-    public void onBindViewHolder(UltimateRecyclerviewViewHolder holder, int position) {
+    protected void withBindHolder(UltimateRecyclerviewViewHolder holder, T data, int position) {
         mItemManger.updateConvertView(holder, position);
+    }
+
+    @Override
+    protected void onBindAdViewHolder(RecyclerView.ViewHolder holder, int pos) {
+        mItemManger.updateConvertView((UltimateRecyclerviewViewHolder) holder, pos);
+    }
+
+    @Override
+    protected void onBindCustomViewHolder(RecyclerView.ViewHolder holder, int pos) {
+        mItemManger.updateConvertView((UltimateRecyclerviewViewHolder) holder, pos);
+    }
+
+    @Override
+    protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int pos) {
+      //  mItemManger.updateConvertView((UltimateRecyclerviewViewHolder) holder, pos);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int pos) {
+       // mItemManger.updateConvertView((UltimateRecyclerviewViewHolder) holder, pos);
     }
 
     @Override
@@ -82,10 +110,10 @@ public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter<U
 
     public static class BaseSwipeableViewHolder extends RecyclerView.ViewHolder {
 
-        public SwipeLayout               swipeLayout      = null;
-        public SwipeLayout.OnLayout      onLayoutListener = null;
-        public SwipeLayout.SwipeListener swipeMemory      = null;
-        public int                       position         = -1;
+        public SwipeLayout swipeLayout = null;
+        public SwipeLayout.OnLayout onLayoutListener = null;
+        public SwipeLayout.SwipeListener swipeMemory = null;
+        public int position = -1;
 
         public BaseSwipeableViewHolder(View itemView) {
             super(itemView);
@@ -95,4 +123,15 @@ public abstract class SwipeableUltimateViewAdapter extends UltimateViewAdapter<U
     }
 
 
+    @Override
+    public void insert(List<T> new_data) {
+        super.insert(new_data);
+        closeAllExcept(null);
+    }
+
+
+    @Override
+    public void removeAll() {
+        super.removeAll();
+    }
 }

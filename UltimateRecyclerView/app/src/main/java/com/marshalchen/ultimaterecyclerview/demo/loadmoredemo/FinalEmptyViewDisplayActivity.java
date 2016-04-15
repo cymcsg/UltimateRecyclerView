@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.ui.emptyview.emptyViewOnShownListener;
 
@@ -53,7 +53,7 @@ public class FinalEmptyViewDisplayActivity extends BasicFunctions implements emp
     protected void doURV(UltimateRecyclerView urv) {
         ultimateRecyclerView.setHasFixedSize(false);
         simpleRecyclerViewAdapter = new sectionZeroAdapter(new ArrayList<String>());
-        ultimateRecyclerView.setLayoutManager(setupLinearLayoutMgr());
+        configLinearLayoutManager(ultimateRecyclerView);
 
         enableEmptyViewPolicy();
         enableLoadMore();

@@ -28,7 +28,7 @@ import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.demo.basicdemo.sectionZeroAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 
 import java.util.ArrayList;
 
