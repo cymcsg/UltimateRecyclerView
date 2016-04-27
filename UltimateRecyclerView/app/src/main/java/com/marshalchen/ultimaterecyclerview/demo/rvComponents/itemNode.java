@@ -15,11 +15,23 @@ public class itemNode extends UltimateRecyclerviewViewHolder {
     public TimelineView mTimelineView;
     public TextView name;
 
-    public itemNode(View itemView, int viewType) {
+    /**
+     * the view
+     *
+     * @param itemView the view context
+     */
+    public itemNode(View itemView) {
         super(itemView);
         name = (TextView) itemView.findViewById(R.id.tx_name);
         mTimelineView = (TimelineView) itemView.findViewById(R.id.time_marker);
-        mTimelineView.initLine(viewType);
     }
 
+    /**
+     * this is the initialization of the node
+     *
+     * @param viewTypeLine the type of node to redraw
+     */
+    public void init(int viewTypeLine) {
+        mTimelineView.initLine(viewTypeLine);
+    }
 }

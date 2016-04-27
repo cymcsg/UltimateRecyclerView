@@ -28,15 +28,24 @@ public class LineNodeActivity extends BasicFunctions {
 
 
     public static void insertMoreWhole(easyRegularAdapter sd, int howmany) {
-        List<TimeLineModel> items = new ArrayList<>();
-        for (int i = 0; i < howmany; i++) {
+        ArrayList<TimeLineModel> items = new ArrayList<>();
+        addAmount(howmany, items);
+        /**
+         * additional patch for the additional item
+         */
+        int at = sd.getAdapterItemCount();
+        sd.insert(items);
+        sd.notifyDataSetChanged();
+    }
+
+    protected static void addAmount(int howMany, ArrayList<TimeLineModel> list) {
+        for (int i = 0; i < howMany; i++) {
             UUID uuid = UUID.randomUUID();
             TimeLineModel time = new TimeLineModel();
             time.setAge(uuid.variant());
             time.setName(uuid.toString());
-            items.add(time);
+            list.add(time);
         }
-        sd.insert(items);
     }
 
     @Override
@@ -67,7 +76,8 @@ public class LineNodeActivity extends BasicFunctions {
         time3.setAge(339);
         time3.setName("HK");
         list.add(time3);
-        ultimateRecyclerView.setHasFixedSize(false);
+        addAmount(29, list);
+        ultimateRecyclerView.setHasFixedSize(true);
         simpleRecyclerViewAdapter = new TimeLineAdapter(list);
         //currently we only support linearlayout option but we have tested anything for the grid layout yet
         configLinearLayoutManager(ultimateRecyclerView);

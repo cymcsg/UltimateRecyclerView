@@ -18,23 +18,18 @@ public class TimeLineAdapter extends easyRegularAdapter<TimeLineModel, itemNode>
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return TimelineView.getTimeLineViewType(position, getItemCount());
-    }
-
-
-    @Override
     protected int getNormalLayoutResId() {
         return itemNode.layout;
     }
 
     @Override
     protected itemNode newViewHolder(View view) {
-        return new itemNode(view, VIEW_TYPES.NORMAL);
+        return new itemNode(view);
     }
 
     @Override
     protected void withBindHolder(itemNode holder, TimeLineModel data, int position) {
-        holder.name.setText("name：" + data.getName() + "    age：" + data.getAge());
+        holder.name.setText("name：" + data.getName() + " age：" + data.getAge());
+        holder.init(TimelineView.getTimeLineViewType(position, getItemCount()));
     }
 }
