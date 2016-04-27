@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion COMPILE_SDK
-    buildToolsVersion BUILD_TOOLS
+    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 20
-        versionName VERSION_NAME
+        versionCode project.VERSION_CODE as int
+        versionName project.VERSION_NAME
+        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
+        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
+
     }
     buildTypes {
         release {

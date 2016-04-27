@@ -86,4 +86,13 @@
         </attr>
         <attr name="clickToClose" format="boolean" />
     </declare-styleable>
+
+
+    <declare-styleable name="timeline_style" >
+        <attr name="tls_marker" format="color|reference"/>
+        <attr name="tls_line" format="color|reference"/>
+        <attr name="tls_marker_size" format="dimension"/>
+        <attr name="tls_line_size" format="dimension"/>
+    </declare-styleable>
+
 </resources>

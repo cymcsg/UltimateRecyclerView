@@ -49,15 +49,6 @@ ext {
             kitCore   : "com.52inc:52Kit-core:${ftKit}"
     ]
 
-
-    COMPILE_SDK = 23
-    BUILD_TOOLS = '23.0.3'
-    MODULE_NAME = 'urvlib'
-
-
-
-
-
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }
 
