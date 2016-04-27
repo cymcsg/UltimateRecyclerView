@@ -33,11 +33,14 @@ output/
 .settings/org.eclipse.jdt.launching.prefs
 .settings/
 .properties
-
-
+**/*.iml
+**/*/.idea
+**/.idea
 .gradle
 build/
-
+**/.gradle
+**/*/build
+**/build
 # key info:
 ultimateandroid.jks
 keystore.properties
