@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.marshalchen.ultimaterecyclerview.ui.timelineview.TimelineView
+        android:id="@+id/time_marker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="30dp"
+        app:tls_line="@color/button_d_normal"
+        app:tls_line_size="2dp"
+        app:tls_marker_size="25dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tx_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="Random" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

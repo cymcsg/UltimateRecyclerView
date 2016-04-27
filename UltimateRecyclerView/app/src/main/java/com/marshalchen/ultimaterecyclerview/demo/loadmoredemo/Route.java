@@ -7,7 +7,7 @@ import android.content.Intent;
  * Created by hesk on 24/2/16.
  */
 public enum Route {
-    CUSTOM_PULL_HEADER("Custom Pull", PullToRefreshActivity.class),
+    LineNodeActivity("LineNodeActivity", LineNodeActivity.class),
     STAGGER_LOAD_MORE("Stagger LoadMore", StaggerLoadMoreActivity.class),
     LOADLOADING_CUT("Stop loading", FirstPageCancelLoadMore.class),
     LOADMORE_TEST("No Header", DebugNoHeaderLoadMoreActivity.class),

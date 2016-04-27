@@ -35,7 +35,8 @@ public class DebugNoHeaderLoadMoreActivity extends BasicFunctions {
         // simpleRecyclerViewAdapter.insertLast(moreNum++ + "  Refresh things");
         ultimateRecyclerView.setRefreshing(false);
         //   ultimateRecyclerView.scrollBy(0, -50);
-        linearLayoutManager.scrollToPosition(0);
+        //  linearLayoutManager.scrollToPosition(0);
+        ultimateRecyclerView.scrollVerticallyTo(0);
         //ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         //simpleRecyclerViewAdapter.notifyDataSetChanged();
         simpleRecyclerViewAdapter.removeAll();

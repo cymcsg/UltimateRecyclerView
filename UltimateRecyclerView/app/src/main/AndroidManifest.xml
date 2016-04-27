@@ -43,6 +43,9 @@
             android:name=".loadmoredemo.FirstPageCancelLoadMore"
             android:label="Stop Loading loadmore" />
         <activity
+            android:name=".loadmoredemo.LineNodeActivity"
+            android:label="LineNodeActivity" />
+        <activity
             android:name=".loadmoredemo.SliderHeader"
             android:label="Slider Header" />
         <activity
