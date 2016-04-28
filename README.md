@@ -27,7 +27,7 @@ repositories {
     }
 
 dependencies{
-    compile 'com.hkm.ui:ultimaterecyclerview:0.5.0'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.5.6'
 }
 ```
 
@@ -42,6 +42,7 @@ dependencies{
 ```
 
 ### Version Log
+* ***v0.5.6*** In this version we now have 23.3.0 support library and the min version is supported all the ways to v13. New added feature that allow us to adding have node connector on each item on `linearlayoutmanager`. By extending `TimeLineView` you will now have unlimited builds from the things that connected to each dot.
 * ***v0.5.0*** this library will be based on v23.2.1 from now on. if you need have the v23.1.1 please go back to the previous release. detail of this upgrade please see [#342](https://github.com/cymcsg/UltimateRecyclerView/issues/342)
 * ***v0.4.9*** This is the last version that will be based on V23.1.1. and this library will not be supported on this version. For further supports please refer to the latest release. 
 * ***v0.3.11*** There are still version that is based on 22.+
@@ -96,17 +97,12 @@ If you have some good ideas, please tell us. My email is cymcsg # gmail.com.And 
 ![grid_layout](http://i.giphy.com/UKxCkkUHVH8Fq.gif)
 ![admob](http://i.giphy.com/bExwitMhjtUqI.gif)
 ![expandable](http://i.giphy.com/pLWHKsEdVlsKA.gif)
-
+![node](http://i.giphy.com/Xjf7Y8pZ84OxW.gif)
+![multitype](http://i.giphy.com/bvU4HcWvMhejm.gif)
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview11.gif)
-
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview12.gif)
-
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview7.gif)
-
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/f4794974d8de71ab1d0f0efddda556df7e792df2/ultimaterecyclerview/ultimate_recyclerview3.gif)
-
-![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview8.gif)
-
 ![ultimate_recyclerview](https://bytebucket.org/marshalchen/images/raw/44beb162121c719ea4094bd7ea1c9f0cd7de4c04/ultimaterecyclerview/ultimate_recyclerview9.gif)
 
 
