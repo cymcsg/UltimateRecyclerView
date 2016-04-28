@@ -32,8 +32,8 @@ import com.marshalchen.ultimaterecyclerview.R;
 public class TimelineView extends View {
 
     private Drawable mMarker;
-    private Drawable mStartLine;
-    private Drawable mEndLine;
+    private Drawable mStartLine, mActionStartLine;
+    private Drawable mEndLine, mActionEndLine;
     private int mMarkerSize;
     private int mLineSize;
 
@@ -108,12 +108,12 @@ public class TimelineView extends View {
 
         int centerX = mBounds.centerX();
         int lineLeft = centerX - (mLineSize >> 1);
-        if (mStartLine != null) {
-            mStartLine.setBounds(lineLeft, 0, mLineSize + lineLeft, mBounds.top);
+        if (mActionStartLine != null) {
+            mActionStartLine.setBounds(lineLeft, 0, mLineSize + lineLeft, mBounds.top);
         }
 
-        if (mEndLine != null) {
-            mEndLine.setBounds(lineLeft, mBounds.bottom, mLineSize + lineLeft, height);
+        if (mActionEndLine != null) {
+            mActionEndLine.setBounds(lineLeft, mBounds.bottom, mLineSize + lineLeft, height);
         }
 
     }
@@ -124,11 +124,11 @@ public class TimelineView extends View {
         if (mMarker != null) {
             mMarker.draw(canvas);
         }
-        if (mStartLine != null) {
-            mStartLine.draw(canvas);
+        if (mActionStartLine != null) {
+            mActionStartLine.draw(canvas);
         }
-        if (mEndLine != null) {
-            mEndLine.draw(canvas);
+        if (mActionEndLine != null) {
+            mActionEndLine.draw(canvas);
         }
     }
 
@@ -158,17 +158,23 @@ public class TimelineView extends View {
     }
 
     public void initLine(int viewType) {
-
+        mActionStartLine = mStartLine;
+        mActionEndLine = mEndLine;
         if (viewType == LineType.BEGIN) {
-            setStartLine(null);
+            //  setStartLine(null);
+            mActionStartLine = null;
         } else if (viewType == LineType.END) {
-            setEndLine(null);
+            // setEndLine(null);
+            mActionEndLine = null;
         } else if (viewType == LineType.ONLYONE) {
-            setStartLine(null);
-            setEndLine(null);
+            // setStartLine(null);
+            // setEndLine(null);
+            mActionStartLine = null;
+            mActionEndLine = null;
         }
 
         initDrawable();
+        requestLayout();
     }
 
     public static int getTimeLineViewType(int position, int total_size) {
