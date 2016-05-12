@@ -124,6 +124,9 @@ Donate $9.99: [![$9.99](https://bytebucket.org/marshalchen/images/raw/9c44264549
 
 Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc10474416debf511a57a0367397/others/alipay.png)
 
+###Bitcoin Donation Accepted
+![wallet](http://s32.postimg.org/sdd1oio1t/qrwallet.jpg)
+
 ## License
 
 ``` 
