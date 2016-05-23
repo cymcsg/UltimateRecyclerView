@@ -34,15 +34,17 @@ dependencies {
     compile supportDependencies.annotation
     compile supportDependencies.cv
 
+    debugCompile supportDependencies.leakcanary
+    releaseCompile supportDependencies.leakcanarynoop
+    testCompile supportDependencies.leakcanarynoop
 
-    compile project(':ultimaterecyclerview')
-  //  compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
+    //  compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
     compile 'com.google.android.gms:play-services:7.3.0'
     debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
     releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
 
     compile 'com.hkm.loyalslider:library:1.6.2'
-
+    compile project(':ultimaterecyclerview')
     //used in the gridlayout
     // compile 'com.hkm.loyalslider:library:1.4.5' exclude group: 'android.support.v13'
 
