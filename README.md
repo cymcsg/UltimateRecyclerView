@@ -7,8 +7,6 @@
 
 #### Master branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=master)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
 
-#### Dev branch:[![Build Status](https://travis-ci.org/cymcsg/UltimateRecyclerView.svg?branch=dev)](https://travis-ci.org/cymcsg/UltimateRecyclerView)
-
 
 ##### Project website:[https://github.com/cymcsg/UltimateRecyclerView](https://github.com/cymcsg/UltimateRecyclerView)
 
@@ -17,17 +15,12 @@
 
 ###### 1.Integration jcenter
 
-Please follow the latest publishing aar on jcenter. 
+Please follow the latest publishing aar on jcenter.
 
 follow by the gradle code
 ```gradle
-repositories {
-    jcenter()
-    maven { url "http://dl.bintray.com/jjhesk/maven" }
-    }
-
 dependencies{
-    compile 'com.hkm.ui:ultimaterecyclerview:0.5.6'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.5.8'
 }
 ```
 
@@ -41,10 +34,21 @@ dependencies{
 />
 ```
 
+
+Remote server: dont forget to declare the repos location
+```
+repositories {
+    jcenter()
+    maven { url "http://dl.bintray.com/jjhesk/maven" }
+    }
+```
+
 ### Version Log
+* ***v0.5.8*** In this version we are now based on support library 23.4.0. We have fixed the load more and disable load more function from early triggers. There is no need to change anything from their implementations. Please read up on the example code if you have any questions from the implementations.
+
 * ***v0.5.6*** In this version we now have 23.3.0 support library and the min version is supported all the ways to v13. New added feature that allow us to adding have node connector on each item on `linearlayoutmanager`. By extending `TimeLineView` you will now have unlimited builds from the things that connected to each dot.
 * ***v0.5.0*** this library will be based on v23.2.1 from now on. if you need have the v23.1.1 please go back to the previous release. detail of this upgrade please see [#342](https://github.com/cymcsg/UltimateRecyclerView/issues/342)
-* ***v0.4.9*** This is the last version that will be based on V23.1.1. and this library will not be supported on this version. For further supports please refer to the latest release. 
+* ***v0.4.9*** This is the last version that will be based on V23.1.1. and this library will not be supported on this version. For further supports please refer to the latest release.
 * ***v0.3.11*** There are still version that is based on 22.+
 
 ### Description
@@ -129,7 +133,7 @@ Alipay:![donate](https://bytebucket.org/marshalchen/images/raw/9c442645492ddc104
 
 ## License
 
-``` 
+```
 Copyright 2015 MarsellChan
 
 Licensed under the Apache License, Version 2.0 (the "License");
