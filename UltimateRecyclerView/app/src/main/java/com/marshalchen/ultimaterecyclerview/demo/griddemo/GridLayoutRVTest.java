@@ -68,9 +68,8 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mGridAdapter.insert(SampleDataboxset.genJRList(13));
-                        // listuv.disableLoadmore();
-                        // listuv.disableLoadmore();
+                        mGridAdapter.insert(SampleDataboxset.genJRList(5));
+                        afterAdd();
                     }
                 }, 2000);
             }
@@ -79,10 +78,15 @@ public class GridLayoutRVTest extends AppCompatActivity {
         // listuv.enableLoadmore();
         //    listuv.disableLoadmore();
         listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
+
         listuv.setAdapter(mGridAdapter);
         listuv.setItemAnimator(new DefaultItemAnimator());
 
         harness_control();
+    }
+
+    protected void afterAdd() {
+
     }
 
     private List<JRitem> getJRList() {
@@ -140,7 +144,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  mGridAdapter.notifyDataSetChanged();
+                listuv.reenableLoadmore();
             }
         });
 

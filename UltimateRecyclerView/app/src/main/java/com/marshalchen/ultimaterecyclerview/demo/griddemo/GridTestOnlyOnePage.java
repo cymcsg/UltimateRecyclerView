@@ -19,9 +19,14 @@ public class GridTestOnlyOnePage extends GridLayoutRVTest {
         poster.postDelayed(new Runnable() {
             @Override
             public void run() {
+                listuv.reenableLoadmore();
                 mGridAdapter.insert(SampleDataboxset.genJRList(5));
-                listuv.disableLoadmore();
             }
         }, 1000);
+    }
+
+    @Override
+    protected void afterAdd() {
+        listuv.disableLoadmore();
     }
 }
