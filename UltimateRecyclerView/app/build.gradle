@@ -35,6 +35,11 @@ dependencies {
     compile supportDependencies.cv
 
 
+    debugCompile supportDependencies.leakcanary
+    releaseCompile supportDependencies.leakcanarynoop
+    testCompile supportDependencies.leakcanarynoop
+
+
     compile project(':ultimaterecyclerview')
   //  compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
     compile 'com.google.android.gms:play-services:7.3.0'

@@ -26,8 +26,8 @@ import java.util.List;
  * Created by hesk on 24/8/15.
  */
 public class GridLayoutRVTest extends AppCompatActivity {
-    private UltimateRecyclerView listuv;
-    private GridJRAdapter mGridAdapter = null;
+    protected UltimateRecyclerView listuv;
+    protected GridJRAdapter mGridAdapter = null;
     private BasicGridLayoutManager mGridLayoutManager;
     private int moreNum = 2, columns = 2;
     private ActionMode actionMode;
@@ -56,8 +56,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         listuv.setHasFixedSize(true);
         listuv.setSaveEnabled(true);
         listuv.setClipToPadding(false);
-        listuv.setAdapter(mGridAdapter);
-        listuv.setItemAnimator(new DefaultItemAnimator());
+
 
         // mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
         listuv.setNormalHeader(setupHeaderView());
@@ -80,7 +79,10 @@ public class GridLayoutRVTest extends AppCompatActivity {
         // listuv.enableLoadmore();
         //    listuv.disableLoadmore();
         listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
-        harn_controls();
+        listuv.setAdapter(mGridAdapter);
+        listuv.setItemAnimator(new DefaultItemAnimator());
+
+        harness_control();
     }
 
     private List<JRitem> getJRList() {
@@ -107,7 +109,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         return custom_header;
     }
 
-    private void harn_controls() {
+    private void harness_control() {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

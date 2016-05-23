@@ -130,7 +130,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         adSize = AdSize.MEDIUM_RECTANGLE;
         final AdView mAdView = new AdView(this);
         mAdView.setAdSize(adSize);
-        mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
+        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         if (admob_test_mode)
@@ -177,7 +177,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_loadmore);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

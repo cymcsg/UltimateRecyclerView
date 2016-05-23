@@ -594,19 +594,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
-//                    if (mFirstScroll) {
-//                        mFirstScroll = false;
-//                    }
-
-//                    if (mPrevScrollY < mScrollY) {
-//                        //down
-//                        mObservableScrollState = ObservableScrollState.UP;
-//                    } else if (mScrollY < mPrevScrollY) {
-//                        //up
-//                        mObservableScrollState = ObservableScrollState.DOWN;
-//                    } else {
-//                        mObservableScrollState = ObservableScrollState.STOP;
-//                    }
 
                     if (mPrevScrollY < mScrollY) {
                         //down
