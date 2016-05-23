@@ -42,7 +42,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
     private AdView createadmob() {
         AdView mAdView = new AdView(this);
         mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
-        mAdView.setAdUnitId("/1015938/Hypebeast_App_320x50");
+        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         mAdView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         // Create an ad request.
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
@@ -130,7 +130,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_loadmore);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -171,7 +171,6 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
         return findViewById(android.R.id.content).getHeight();
     }
 
-    //
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

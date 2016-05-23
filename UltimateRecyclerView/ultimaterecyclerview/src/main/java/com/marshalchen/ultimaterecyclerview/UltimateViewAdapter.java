@@ -120,8 +120,14 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      */
     public final void enableLoadMore(final boolean b) {
         cbloadmore = new delayenableloadmore(b);
-        timer.postDelayed(cbloadmore, 1000);
-        loadmoresetingswatch++;
+    }
+
+    public final void internalExecuteLoadingView() {
+        if (cbloadmore != null) {
+            timer.post(cbloadmore);
+            loadmoresetingswatch++;
+            cbloadmore = null;
+        }
     }
 
     /**
@@ -170,7 +176,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             customLoadMoreItemView = viewHolder.itemView;
             if (getAdapterItemCount() == 0) {
                 removeDispatchLoadMoreView();
-            } else if (enabled_custom_load_more_view = true) {
+            }
+            if (enabled_custom_load_more_view && getAdapterItemCount() > 0) {
                 revealDispatchLoadMoreView();
             }
             return viewHolder;
