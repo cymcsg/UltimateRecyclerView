@@ -467,9 +467,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
 
-        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-
-        if (bottomEdgeHit) {
+        if (lastItemRevealDetection()) {
             if (mIsLoadMoreWidgetEnabled) {
                 /**auto activate load more**/
                 if (!automaticLoadMoreEnabled) {
@@ -527,15 +525,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
         }
-        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-        if (bottomEdgeHit) {
-
-        }
-        if (lastVisibleItemPosition >= mTotalItemCount && mTotalItemCount > (lastVisibleItemPosition - 3)) {
+        if (lastItemRevealDetection()) {
             mAdapter.executeInternalFootViewActionQueue();
         }
     }
-
 
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
         if (mCallbacks != null) {
@@ -629,6 +622,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
     }
+
+    private boolean lastItemRevealDetection() {
+        return (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+    }
+
 
     /**
      * Set a listener that will be notified of any changes in scroll state or position.

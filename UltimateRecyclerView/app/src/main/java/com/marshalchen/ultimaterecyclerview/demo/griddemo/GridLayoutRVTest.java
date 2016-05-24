@@ -111,10 +111,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
 
     private View setupHeaderView() {
-        View custom_header = LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
-
-
-        return custom_header;
+        return LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
     }
 
     private void harness_control() {
