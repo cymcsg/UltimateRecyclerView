@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@id/empty_view_loc"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_bug_report_24dp" />
+        app:srcCompat="@drawable/ic_bug_report_24dp" />
 
     <TextView
         android:id="@id/exp_section_title"

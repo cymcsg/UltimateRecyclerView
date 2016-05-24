@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@id/str_image_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

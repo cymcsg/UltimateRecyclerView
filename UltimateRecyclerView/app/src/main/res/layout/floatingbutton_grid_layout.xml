@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    android:src="@drawable/ic_autorenew_24dp" />
+                    app:srcCompat="@drawable/ic_autorenew_24dp" />
 
                 <ImageButton
                     android:id="@+id/delall"
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    android:src="@drawable/ic_blur_linear_24dp" />
+                    app:srcCompat="@drawable/ic_blur_linear_24dp" />
 
                 <ImageButton
                     android:id="@+id/del"
@@ -47,7 +47,9 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    android:src="@drawable/ic_remove_24dp" />
+                    app:srcCompat="@drawable/ic_remove_24dp"
+
+                    />
 
                 <ImageButton
                     android:id="@+id/add"
@@ -55,7 +57,9 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    android:src="@drawable/ic_add_24dp" />
+                    app:srcCompat="@drawable/ic_add_24dp"
+
+                    />
 
                 <ImageButton
                     android:id="@+id/add_one"
@@ -63,7 +67,9 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    android:src="@drawable/ic_exposure_plus_1_24dp" />
+                    app:srcCompat="@drawable/ic_exposure_plus_1_24dp"
+
+                    />
 
 
             </LinearLayout>

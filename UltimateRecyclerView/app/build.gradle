@@ -11,6 +11,8 @@ android {
 
         versionCode app_demo_versionCode
         versionName app_demo_versionName
+
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {

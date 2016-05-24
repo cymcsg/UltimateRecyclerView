@@ -478,7 +478,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     previousTotal = mTotalItemCount;
                 }
             }
-            mAdapter.internalExecuteLoadingView();
+            mAdapter.executeInternalFootViewActionQueue();
         }
     }
 
@@ -526,6 +526,13 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mIsLoadMoreWidgetEnabled = false;
         if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
+        }
+        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+        if (bottomEdgeHit) {
+
+        }
+        if (lastVisibleItemPosition >= mTotalItemCount && mTotalItemCount > (lastVisibleItemPosition - 3)) {
+            mAdapter.executeInternalFootViewActionQueue();
         }
     }
 

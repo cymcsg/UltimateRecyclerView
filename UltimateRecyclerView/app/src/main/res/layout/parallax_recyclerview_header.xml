@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@id/str_sticky_headr_img"
         android:layout_width="fill_parent"
         android:layout_height="180dp"

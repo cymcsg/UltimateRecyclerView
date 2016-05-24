@@ -29,8 +29,8 @@
             android:text="99+"
             android:textSize="23sp" />
 
-        <ImageView
-            android:id="@+id/imageview"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/_imimageview"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

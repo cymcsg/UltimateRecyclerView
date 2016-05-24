@@ -96,7 +96,7 @@ public class DragAdatper extends DragSortAdapter<DragAdatper.MainViewHolder> {
             super(adapter, itemView);
             textViewSample = (TextView) itemView.findViewById(
                     R.id.textview);
-            imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+            imageViewSample = (ImageView) itemView.findViewById(R.id.str_image_holder);
             progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
             progressBarSample.setVisibility(View.GONE);
         }

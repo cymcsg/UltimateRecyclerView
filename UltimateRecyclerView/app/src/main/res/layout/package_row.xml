@@ -50,7 +50,7 @@
         android:orientation="vertical" android:background="@color/bg_item_normal_state"
         android:tag="front">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/example_row_iv_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:src="@drawable/jr16" />

@@ -58,8 +58,6 @@ public class GridLayoutRVTest extends AppCompatActivity {
         listuv.setHasFixedSize(true);
         listuv.setSaveEnabled(true);
         listuv.setClipToPadding(false);
-
-
         // mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
         listuv.setNormalHeader(setupHeaderView());
         final Handler f = new Handler();

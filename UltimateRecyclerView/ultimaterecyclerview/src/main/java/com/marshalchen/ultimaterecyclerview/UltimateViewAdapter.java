@@ -93,7 +93,8 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
 
         @Override
         public void run() {
-            if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
+            // if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
+            if (!enabled && customLoadMoreView != null) {
                 final int displaySize = getItemCount();
                 final int dataSize = getAdapterItemCount();
                 if (dataSize > 0 && customLoadMoreItemView != null) {
@@ -122,7 +123,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         cbloadmore = new delayenableloadmore(b);
     }
 
-    public final void internalExecuteLoadingView() {
+    public final void executeInternalFootViewActionQueue() {
         if (cbloadmore != null) {
             timer.post(cbloadmore);
             loadmoresetingswatch++;
