@@ -41,6 +41,8 @@ public class GridLayoutRVTest extends AppCompatActivity {
         return R.layout.floatingbutton_grid_layout;
     }
 
+    protected int total_pages = 4, page = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,20 +70,24 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mGridAdapter.insert(SampleDataboxset.genJRList(5));
-                        afterAdd();
+                        if (page < total_pages) {
+                            mGridAdapter.insert(SampleDataboxset.genJRList(30));
+                            page++;
+                            if (page == total_pages) {
+                                listuv.disableLoadmore();
+                            }
+                            afterAdd();
+                        }
                     }
                 }, 2000);
             }
         });
 
         // listuv.enableLoadmore();
-        //    listuv.disableLoadmore();
+        // listuv.disableLoadmore();
         listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
-
         listuv.setAdapter(mGridAdapter);
         listuv.setItemAnimator(new DefaultItemAnimator());
-
         harness_control();
     }
 
