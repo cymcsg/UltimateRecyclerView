@@ -525,9 +525,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
         }
-        if (lastItemRevealDetection()) {
+        scroll_load_more_detection(mRecyclerView);
+       /* if (lastItemRevealDetection()) {
             mAdapter.executeInternalFootViewActionQueue();
-        }
+        }*/
     }
 
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
