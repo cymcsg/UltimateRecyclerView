@@ -12,13 +12,14 @@
         android:textColor="@android:color/white"
         android:textSize="40sp"/>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image_type1"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:adjustViewBounds="true"
         android:contentDescription="@null"
-        android:scaleType="centerCrop" android:src="@drawable/scn2"
+        android:scaleType="centerCrop"
+        android:src="@drawable/scn2"
         android:layout_margin="12dp"/>
 
     <TextView

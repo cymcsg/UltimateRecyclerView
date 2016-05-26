@@ -16,7 +16,7 @@
             android:tag="Bottom3"
             android:weightSum="10">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/trash"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

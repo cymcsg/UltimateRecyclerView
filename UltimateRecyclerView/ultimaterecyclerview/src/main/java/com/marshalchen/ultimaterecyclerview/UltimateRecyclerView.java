@@ -80,7 +80,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private int lastVisibleItemPosition;
     protected RecyclerView.OnScrollListener mOnScrollListener;
     protected LAYOUT_MANAGER_TYPE layoutManagerType;
-    private boolean isLoadingMore = false;
+    private boolean automaticLoadMoreEnabled = false;
     protected int mPadding;
     protected int mPaddingTop;
     protected int mPaddingBottom;
@@ -104,7 +104,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private boolean mFirstScroll;
     private boolean mDragging;
     private boolean mIntercepted;
-    private boolean mIsLoadMoreWidgetEnabled;
+    private boolean mIsLoadMoreWidgetEnabled = false;
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
     /**
@@ -459,21 +459,25 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 break;
         }
 
-        if (isLoadingMore) {
-            //todo: there are some bugs needs to be adjusted for admob adapter
+        if (automaticLoadMoreEnabled) {
+
             if (mTotalItemCount > previousTotal) {
-                isLoadingMore = false;
+                automaticLoadMoreEnabled = false;
                 previousTotal = mTotalItemCount;
             }
         }
 
-        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-        if (!isLoadingMore && bottomEdgeHit) {
-            onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
-            isLoadingMore = true;
-            previousTotal = mTotalItemCount;
+        if (lastItemRevealDetection()) {
+            if (mIsLoadMoreWidgetEnabled) {
+                /**auto activate load more**/
+                if (!automaticLoadMoreEnabled) {
+                    onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
+                    automaticLoadMoreEnabled = true;
+                    previousTotal = mTotalItemCount;
+                }
+            }
+            mAdapter.executeInternalFootViewActionQueue();
         }
-
     }
 
     protected void setDefaultScrollListener() {
@@ -488,9 +492,9 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     if (isParallaxHeader)
                         translateHeader(mTotalYScrolled);
                 }
-                if (mIsLoadMoreWidgetEnabled) {
-                    scroll_load_more_detection(recyclerView);
-                }
+
+                scroll_load_more_detection(recyclerView);
+
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
         };
@@ -521,8 +525,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
         }
+        scroll_load_more_detection(mRecyclerView);
+       /* if (lastItemRevealDetection()) {
+            mAdapter.executeInternalFootViewActionQueue();
+        }*/
     }
-
 
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
         if (mCallbacks != null) {
@@ -594,19 +601,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
-//                    if (mFirstScroll) {
-//                        mFirstScroll = false;
-//                    }
-
-//                    if (mPrevScrollY < mScrollY) {
-//                        //down
-//                        mObservableScrollState = ObservableScrollState.UP;
-//                    } else if (mScrollY < mPrevScrollY) {
-//                        //up
-//                        mObservableScrollState = ObservableScrollState.DOWN;
-//                    } else {
-//                        mObservableScrollState = ObservableScrollState.STOP;
-//                    }
 
                     if (mPrevScrollY < mScrollY) {
                         //down
@@ -629,6 +623,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
     }
+
+    private boolean lastItemRevealDetection() {
+        return (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+    }
+
 
     /**
      * Set a listener that will be notified of any changes in scroll state or position.
@@ -852,7 +851,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
 
     private void updateHelperDisplays() {
-        isLoadingMore = false;
+        automaticLoadMoreEnabled = false;
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setRefreshing(false);
         if (mAdapter == null)

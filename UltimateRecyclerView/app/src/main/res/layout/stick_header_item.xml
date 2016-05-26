@@ -6,15 +6,16 @@
     <com.marshalchen.ultimaterecyclerview.demo.modules.CircularImageView
         android:id="@+id/stick_img"
         android:layout_width="48dp"
-        android:layout_marginLeft="20dp"
-        android:layout_height="48dp" android:layout_centerVertical="true"/>
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp" />
 
     <TextView
-        android:layout_toRightOf="@id/stick_img"
-        android:layout_marginLeft="20dp"
         android:id="@+id/stick_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/stick_img"
         android:gravity="start"
         android:padding="16dip"
         android:text="Header Item"

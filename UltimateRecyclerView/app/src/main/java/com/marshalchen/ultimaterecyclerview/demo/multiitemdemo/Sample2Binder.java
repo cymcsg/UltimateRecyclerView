@@ -50,7 +50,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             mTitleText = (TextView) view.findViewById(R.id.textview);
-            mImageView = (ImageView) view.findViewById(R.id.imageview);
+            mImageView = (ImageView) view.findViewById(R.id.str_image_holder);
 
         }
     }

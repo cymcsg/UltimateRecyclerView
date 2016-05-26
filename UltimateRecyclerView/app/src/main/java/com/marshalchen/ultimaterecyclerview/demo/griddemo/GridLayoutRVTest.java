@@ -26,8 +26,8 @@ import java.util.List;
  * Created by hesk on 24/8/15.
  */
 public class GridLayoutRVTest extends AppCompatActivity {
-    private UltimateRecyclerView listuv;
-    private GridJRAdapter mGridAdapter = null;
+    protected UltimateRecyclerView listuv;
+    protected GridJRAdapter mGridAdapter = null;
     private BasicGridLayoutManager mGridLayoutManager;
     private int moreNum = 2, columns = 2;
     private ActionMode actionMode;
@@ -40,6 +40,8 @@ public class GridLayoutRVTest extends AppCompatActivity {
     protected int getMainLayout() {
         return R.layout.floatingbutton_grid_layout;
     }
+
+    protected int total_pages = 4, page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +58,6 @@ public class GridLayoutRVTest extends AppCompatActivity {
         listuv.setHasFixedSize(true);
         listuv.setSaveEnabled(true);
         listuv.setClipToPadding(false);
-        listuv.setAdapter(mGridAdapter);
-        listuv.setItemAnimator(new DefaultItemAnimator());
-
         // mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
         listuv.setNormalHeader(setupHeaderView());
         final Handler f = new Handler();
@@ -69,18 +68,29 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mGridAdapter.insert(SampleDataboxset.genJRList(13));
-                        // listuv.disableLoadmore();
-                        // listuv.disableLoadmore();
+                        if (page < total_pages) {
+                            mGridAdapter.insert(SampleDataboxset.genJRList(30));
+                            page++;
+                            if (page == total_pages) {
+                                listuv.disableLoadmore();
+                            }
+                            afterAdd();
+                        }
                     }
                 }, 2000);
             }
         });
 
         // listuv.enableLoadmore();
-        //    listuv.disableLoadmore();
+        // listuv.disableLoadmore();
         listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
-        harn_controls();
+        listuv.setAdapter(mGridAdapter);
+        listuv.setItemAnimator(new DefaultItemAnimator());
+        harness_control();
+    }
+
+    protected void afterAdd() {
+
     }
 
     private List<JRitem> getJRList() {
@@ -101,13 +111,10 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
 
     private View setupHeaderView() {
-        View custom_header = LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
-
-
-        return custom_header;
+        return LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
     }
 
-    private void harn_controls() {
+    private void harness_control() {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +145,7 @@ public class GridLayoutRVTest extends AppCompatActivity {
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  mGridAdapter.notifyDataSetChanged();
+                listuv.reenableLoadmore();
             }
         });
 

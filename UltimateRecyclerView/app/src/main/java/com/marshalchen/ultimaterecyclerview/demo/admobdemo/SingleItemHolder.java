@@ -27,7 +27,7 @@ public class SingleItemHolder extends AdItemHolder implements
     protected void bindNormal(View view) {
         textViewSample = (TextView) itemView.findViewById(R.id.textview);
         num = (TextView) itemView.findViewById(R.id.numb_coun);
-        imageViewSample = (ImageView) itemView.findViewById(R.id.imageview);
+        imageViewSample = (ImageView) itemView.findViewById(R.id._imimageview);
         progressBarSample = (ProgressBar) itemView.findViewById(R.id.progressbar);
         progressBarSample.setVisibility(View.GONE);
     }

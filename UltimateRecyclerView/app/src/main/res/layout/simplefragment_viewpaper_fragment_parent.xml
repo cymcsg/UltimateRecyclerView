@@ -52,7 +52,7 @@
             android:orientation="vertical">
 
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/header_background"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/header_bar_height"

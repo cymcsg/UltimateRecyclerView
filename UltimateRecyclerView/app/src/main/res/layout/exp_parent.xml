@@ -53,7 +53,7 @@
             android:textSize="@dimen/sectionNotificationSize"
             android:textStyle="bold" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@id/exp_indication_arrow"
             android:layout_width="@dimen/sectionSquareIconSize"
             android:layout_height="@dimen/sectionSquareIconSize"
