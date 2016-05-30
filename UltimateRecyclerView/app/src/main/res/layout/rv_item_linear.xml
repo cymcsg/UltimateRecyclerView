@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@id/str_image_holder"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_below="@id/str_textview_holder"
         android:layout_marginLeft="2dp"
