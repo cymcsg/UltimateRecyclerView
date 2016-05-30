@@ -28,8 +28,8 @@ dependencies{
 
 ``` xml
 <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/ultimate_recycler_view"
 />
 ```
