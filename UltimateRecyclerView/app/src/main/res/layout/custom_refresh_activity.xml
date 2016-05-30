@@ -45,8 +45,8 @@
     </android.support.v7.widget.Toolbar>
 
     <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/custom_ultimate_recycler_view"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewPadding="2dp"
