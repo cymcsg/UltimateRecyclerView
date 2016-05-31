@@ -5,7 +5,7 @@
 
     <ImageView
         android:id="@id/str_sticky_headr_img"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="180dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
