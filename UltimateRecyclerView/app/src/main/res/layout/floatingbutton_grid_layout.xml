@@ -75,8 +75,8 @@
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/ultimate_recycler_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"

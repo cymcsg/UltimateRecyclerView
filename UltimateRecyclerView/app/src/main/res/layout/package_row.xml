@@ -19,12 +19,12 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/back"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:tag="back">
 
@@ -45,7 +45,7 @@
 
     <RelativeLayout
         android:id="@+id/frontItemLayout"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" android:background="@color/bg_item_normal_state"
         android:tag="front">
@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/example_row_tv_title"
 
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/example_row_iv_image" />
 
