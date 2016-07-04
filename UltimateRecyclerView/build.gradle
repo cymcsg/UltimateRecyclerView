@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         // - @ https://oss.sonatype.org/
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
         // - tutorials  @https://github.com/novoda/bintray-release
         classpath 'com.novoda:bintray-release:0.3.4'
     }
