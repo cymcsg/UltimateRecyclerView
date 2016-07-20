@@ -856,6 +856,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          * + getItemCount is zero
          */
         if (!isFirstLoadingOnlineAdapter) {
+            isFirstLoadingOnlineAdapter = false;
             if (mAdapter.getAdapterItemCount() == 0) {
 
                 mEmpty.setVisibility(mEmptyView == null ? View.VISIBLE : View.GONE);
