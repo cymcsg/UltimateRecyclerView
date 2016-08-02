@@ -5,10 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        // - @ https://oss.sonatype.org/
         classpath 'com.android.tools.build:gradle:2.1.2'
-        // - tutorials  @https://github.com/novoda/bintray-release
-        classpath 'com.novoda:bintray-release:0.3.4'
     }
 }
 
@@ -47,9 +44,6 @@ ext {
             rv            : "com.android.support:recyclerview-v7:${SUPPORT_LIBRARY}",
             cv            : "com.android.support:cardview-v7:${SUPPORT_LIBRARY}",
             kitCore       : "com.52inc:52Kit-core:${ftKit}",
-
-
-
             leakcanary    : "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}",
             leakcanarynoop: "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}",
 
