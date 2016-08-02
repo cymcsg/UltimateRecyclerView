@@ -856,6 +856,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          * + getItemCount is zero
          */
         if (!isFirstLoadingOnlineAdapter) {
+            isFirstLoadingOnlineAdapter = true;
             if (mAdapter.getAdapterItemCount() == 0) {
 
                 mEmpty.setVisibility(mEmptyView == null ? View.VISIBLE : View.GONE);
@@ -866,7 +867,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 mEmpty.setVisibility(View.GONE);
             }
         } else {
-            isFirstLoadingOnlineAdapter = false;
+            //isFirstLoadingOnlineAdapter = false;
             setRefreshing(false);
             implementLoadMorebehavior();
         }
