@@ -1,4 +1,6 @@
 language: android
+jdk:
+  - oraclejdk8
 
 # Turning off caching to avoid caching Issues
 # cache: false
@@ -22,13 +24,12 @@ before_install:
 android:
   components:
     # We are using the latest revision of Android SDK Tools
-
+    - tools
+    - platform-tools
     - android-24
     # The BuildTools version we are using for our project
-    - build-tools-24.0.0
-    
-    - platform-tools
-    - tools
+    - build-tools-24.0.1
+  
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
