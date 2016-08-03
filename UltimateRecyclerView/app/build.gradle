@@ -30,19 +30,12 @@ repositories {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile supportDependencies.appCompat
-    compile supportDependencies.annotation
-    compile supportDependencies.cv
-
-    debugCompile supportDependencies.leakcanary
-    releaseCompile supportDependencies.leakcanarynoop
-    testCompile supportDependencies.leakcanarynoop
-
-    //  compile 'com.marshalchen.ultimaterecyclerview:library:0.4.0'
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
+    compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     compile 'com.google.android.gms:play-services:7.3.0'
-    debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
-    releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
-
     compile 'com.hkm.loyalslider:library:1.6.2'
     compile project(':ultimaterecyclerview')
     //used in the gridlayout

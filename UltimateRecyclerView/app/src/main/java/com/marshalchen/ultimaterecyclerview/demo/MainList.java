@@ -55,7 +55,7 @@ public class MainList extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
     public void initList() {
-
+        data.put("LauncherActivity", LauncherActivity.class);
         data.put("Debug Grid Test", GridLayoutRVTest.class);
         data.put("Issue #374, #363 enabled and disable load more off screen", GridTestOnlyOnePage.class);
         data.put("Debug load more", DebugLoadMoreActivity.class);
