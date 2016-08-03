@@ -3,10 +3,13 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.URLogs;
@@ -54,10 +57,12 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.custom_refresh_activity);
+        ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         ultimateRecyclerView.setCustomSwipeToRefresh();
         // refreshingMaterial();
         refreshingString();
