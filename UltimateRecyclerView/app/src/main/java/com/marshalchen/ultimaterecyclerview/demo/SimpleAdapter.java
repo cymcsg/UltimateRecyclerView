@@ -3,6 +3,7 @@ package com.marshalchen.ultimaterecyclerview.demo;
 /**
  * Created by Marshal Chen on 3/8/2016.
  */
+
 import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.rvComponents.itemCommonBinder;
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.ItemTouchHelperViewHolder;
 
 import java.security.SecureRandom;
@@ -66,7 +68,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder newFooterHolder(View view) {
-        return null;
+       // return new itemCommonBinder(view, false);
+        return  new UltimateRecyclerviewViewHolder<>(view);
     }
 
     @Override
@@ -168,7 +171,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     }
 
-    class ViewHolder extends UltimateRecyclerviewViewHolder  {
+    class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         TextView textViewSample;
         ImageView imageViewSample;
