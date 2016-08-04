@@ -984,12 +984,19 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
     }
 
-    private void translateHeader(float of) {
-        float ofCalculated = of * SCROLL_MULTIPLIER;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            //Logs.d("ofCalculated    " + ofCalculated+"   "+mHeader.getHeight());
+
+    private float mScrollMultiplier = 0.5f;
+
+    /**
+     * Translates the adapter in Y
+     *
+     * @param of offset in px
+     */
+    public void translateHeader(float of) {
+        float ofCalculated = of * mScrollMultiplier;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && of < mHeader.getHeight()) {
             mHeader.setTranslationY(ofCalculated);
-        } else {
+        } else if (of < mHeader.getHeight()) {
             TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
             anim.setFillAfter(true);
             anim.setDuration(0);
@@ -997,10 +1004,34 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
         mHeader.setClipY(Math.round(ofCalculated));
         if (mParallaxScroll != null) {
-            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
+            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
+            float left;
+            if (holder != null) {
+                left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * mScrollMultiplier)));
+            }else {
+                left = 1;
+            }
             mParallaxScroll.onParallaxScroll(left, of, mHeader);
         }
     }
+
+    /**
+     * Set parallax scroll multiplier.
+     *
+     * @param mul The multiplier
+     */
+    public void setScrollMultiplier(float mul) {
+        this.mScrollMultiplier = mul;
+    }
+
+    /**
+     * Get the current parallax scroll multiplier.
+     *
+     */
+    public float getScrollMultiplier() {
+        return this.mScrollMultiplier;
+    }
+
 
     public interface OnParallaxScroll {
         void onParallaxScroll(float percentage, float offset, View parallax);
