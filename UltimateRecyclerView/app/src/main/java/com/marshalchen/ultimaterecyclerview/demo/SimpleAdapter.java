@@ -74,7 +74,7 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder newHeaderHolder(View view) {
-        return null;
+        return  new UltimateRecyclerviewViewHolder<>(view);
     }
 
     @Override
@@ -216,7 +216,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
     public String getItem(int position) {
         if (customHeaderView != null)
             position--;
-        if (position < stringList.size())
+        URLogs.d("position----"+position);
+        if (position>=0&& position < stringList.size())
             return stringList.get(position);
         else return "";
     }

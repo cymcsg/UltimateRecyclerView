@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -76,7 +77,7 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
 
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         ultimateRecyclerView.addItemDecoration(headersDecor);
-//        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
+////        ultimateRecyclerView.setEmptyView(getResources().getIdentifier("empty_view","layout",getPackageName()));
 //        ultimateRecyclerView.showEmptyView();
         //  ultimateRecyclerView.enableLoadmore();
         //simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
@@ -84,16 +85,16 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
 
         ultimateRecyclerView.setLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
-//        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
 //        //   ultimateRecyclerView.setNormalHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
-//        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
-//            @Override
-//            public void onParallaxScroll(float percentage, float offset, View parallax) {
-//                Drawable c = toolbar.getBackground();
-//                c.setAlpha(Math.round(127 + percentage * 128));
-//                toolbar.setBackgroundDrawable(c);
-//            }
-//        });
+        ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
+            @Override
+            public void onParallaxScroll(float percentage, float offset, View parallax) {
+                Drawable c = toolbar.getBackground();
+                c.setAlpha(Math.round(127 + percentage * 128));
+                toolbar.setBackgroundDrawable(c);
+            }
+        });
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -179,33 +180,7 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
 //        });
 
         ultimateRecyclerView.showFloatingButtonView();
-//        ultimateRecyclerView.addOnItemTouchListener(new SwipeableRecyclerViewTouchListener(ultimateRecyclerView.mRecyclerView,
-//                new SwipeableRecyclerViewTouchListener.SwipeListener() {
-//                    @Override
-//                    public boolean canSwipe(int position) {
 //
-//                        if (position > 0 && position < stringList.size())
-//                            return true;
-//                        else return false;
-//                    }
-//
-//                    @Override
-//                    public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-//                        for (int position : reverseSortedPositions) {
-//                            simpleRecyclerViewAdapter.remove(position);
-//                        }
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-//                        for (int position : reverseSortedPositions) {
-//                            simpleRecyclerViewAdapter.remove(position);
-//                        }
-//                        simpleRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                }));
-
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -242,39 +217,7 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
             }
         });
 
-//        ultimateRecyclerView.addItemDecoration(
-//                new HorizontalDividerItemDecoration.Builder(this).build());
-
-//        ultimateRecyclerView.setCustomSwipeToRefresh();
-//        final StoreHouseHeader header = new StoreHouseHeader(this);
-//        //   header.setPadding(0, 15, 0, 0);
 //
-//        header.initWithString("Marshal Chen");
-//        //  header.initWithStringArray(R.array.akta);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(header);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(header);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                    }
-//                }, 1800);
-//            }
-//        });
-
     }
 
     private void toggleSelection(int position) {
@@ -343,27 +286,27 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
     }
 
     enum Type {
-        FadeIn(new FadeInAnimator()),
-        FadeInDown(new FadeInDownAnimator()),
-        FadeInUp(new FadeInUpAnimator()),
-        FadeInLeft(new FadeInLeftAnimator()),
-        FadeInRight(new FadeInRightAnimator()),
-        Landing(new LandingAnimator()),
-        ScaleIn(new ScaleInAnimator()),
-        ScaleInTop(new ScaleInTopAnimator()),
-        ScaleInBottom(new ScaleInBottomAnimator()),
-        ScaleInLeft(new ScaleInLeftAnimator()),
-        ScaleInRight(new ScaleInRightAnimator()),
-        FlipInTopX(new FlipInTopXAnimator()),
-        FlipInBottomX(new FlipInBottomXAnimator()),
-        FlipInLeftY(new FlipInLeftYAnimator()),
-        FlipInRightY(new FlipInRightYAnimator()),
-        SlideInLeft(new SlideInLeftAnimator()),
-        SlideInRight(new SlideInRightAnimator()),
-        SlideInDown(new SlideInDownAnimator()),
-        SlideInUp(new SlideInUpAnimator()),
-        OvershootInRight(new OvershootInRightAnimator()),
-        OvershootInLeft(new OvershootInLeftAnimator());
+        FadeIn(new FadeInAnimator(new OvershootInterpolator(1f))),
+        FadeInDown(new FadeInDownAnimator(new OvershootInterpolator(1f))),
+        FadeInUp(new FadeInUpAnimator(new OvershootInterpolator(1f))),
+        FadeInLeft(new FadeInLeftAnimator(new OvershootInterpolator(1f))),
+        FadeInRight(new FadeInRightAnimator(new OvershootInterpolator(1f))),
+        Landing(new LandingAnimator(new OvershootInterpolator(1f))),
+        ScaleIn(new ScaleInAnimator(new OvershootInterpolator(1f))),
+        ScaleInTop(new ScaleInTopAnimator(new OvershootInterpolator(1f))),
+        ScaleInBottom(new ScaleInBottomAnimator(new OvershootInterpolator(1f))),
+        ScaleInLeft(new ScaleInLeftAnimator(new OvershootInterpolator(1f))),
+        ScaleInRight(new ScaleInRightAnimator(new OvershootInterpolator(1f))),
+        FlipInTopX(new FlipInTopXAnimator(new OvershootInterpolator(1f))),
+        FlipInBottomX(new FlipInBottomXAnimator(new OvershootInterpolator(1f))),
+        FlipInLeftY(new FlipInLeftYAnimator(new OvershootInterpolator(1f))),
+        FlipInRightY(new FlipInRightYAnimator(new OvershootInterpolator(1f))),
+        SlideInLeft(new SlideInLeftAnimator(new OvershootInterpolator(1f))),
+        SlideInRight(new SlideInRightAnimator(new OvershootInterpolator(1f))),
+        SlideInDown(new SlideInDownAnimator(new OvershootInterpolator(1f))),
+        SlideInUp(new SlideInUpAnimator(new OvershootInterpolator(1f))),
+        OvershootInRight(new OvershootInRightAnimator(1.0f)),
+        OvershootInLeft(new OvershootInLeftAnimator(1.0f));
 
         private BaseItemAnimator mAnimator;
 
