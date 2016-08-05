@@ -29,8 +29,8 @@ ext {
     //your version
 
     //Application
-    app_demo_versionCode = 23
-    app_demo_versionName = '1.4.0'
+    app_demo_versionCode = 24
+    app_demo_versionName = '1.7.0'
 
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }
