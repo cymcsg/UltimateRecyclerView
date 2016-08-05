@@ -40,9 +40,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     @Override
     protected void onFireRefresh() {
-        simpleRecyclerViewAdapter.insertLast("Refresh things");
+//        simpleRecyclerViewAdapter.insertLast("Refresh things");
         //   ultimateRecyclerView.scrollBy(0, -50);
-        linearLayoutManager.scrollToPosition(0);
+//        linearLayoutManager.scrollToPosition(0);
         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
         changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
     }
@@ -156,9 +156,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+                      //  simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                     //   linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
                         //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
                     }
@@ -257,7 +257,7 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                     @Override
                     public void run() {
                         // frame.refreshComplete();
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+//                        simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();

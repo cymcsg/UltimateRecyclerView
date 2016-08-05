@@ -73,17 +73,17 @@ public abstract class BasicFunctions extends AppCompatActivity {
     protected abstract void onFireRefresh();
 
     protected void enableRefresh() {
-        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onFireRefresh();
-                    }
-                }, 1000);
-            }
-        });
+//        ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        onFireRefresh();
+//                    }
+//                }, 1000);
+//            }
+//        });
         //        ultimateRecyclerView.setDefaultSwipeToRefreshColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
 //                getResources().getColor(android.R.color.holo_green_light),
 //                getResources().getColor(android.R.color.holo_orange_light),
