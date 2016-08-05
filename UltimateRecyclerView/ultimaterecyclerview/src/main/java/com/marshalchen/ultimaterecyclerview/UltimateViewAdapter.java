@@ -84,10 +84,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     }
 
 
-    private class delayenableloadmore implements Runnable {
+    private class delayEnableLoadmore implements Runnable {
         private boolean enabled;
 
-        public delayenableloadmore(final boolean b) {
+        public delayEnableLoadmore(final boolean b) {
             enabled = b;
         }
 
@@ -111,7 +111,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-    public delayenableloadmore cbloadmore;
+    public delayEnableLoadmore cbloadmore;
 
     /**
      * as the set function to switching load more feature
@@ -119,7 +119,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param b bool
      */
     public final void enableLoadMore(final boolean b) {
-        cbloadmore = new delayenableloadmore(b);
+        cbloadmore = new delayEnableLoadmore(b);
     }
 
     public final void internalExecuteLoadingView() {

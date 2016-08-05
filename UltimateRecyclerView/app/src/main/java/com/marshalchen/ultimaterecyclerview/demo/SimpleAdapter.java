@@ -68,13 +68,13 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder newFooterHolder(View view) {
-       // return new itemCommonBinder(view, false);
-        return  new UltimateRecyclerviewViewHolder<>(view);
+        // return new itemCommonBinder(view, false);
+        return new UltimateRecyclerviewViewHolder<>(view);
     }
 
     @Override
     public RecyclerView.ViewHolder newHeaderHolder(View view) {
-        return  new UltimateRecyclerviewViewHolder<>(view);
+        return new UltimateRecyclerviewViewHolder<>(view);
     }
 
     @Override
@@ -146,17 +146,23 @@ public class SimpleAdapter extends UltimateViewAdapter {
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        swapPositions(fromPosition, toPosition);
+        if (fromPosition > 0 && toPosition > 0) {
+            swapPositions(fromPosition, toPosition);
 //        notifyItemMoved(fromPosition, toPosition);
-        super.onItemMove(fromPosition, toPosition);
+            super.onItemMove(fromPosition, toPosition);
+        }
+
     }
 
     @Override
     public void onItemDismiss(int position) {
-        remove(position);
-        // notifyItemRemoved(position);
+        if (position > 0) {
+            remove(position);
+            // notifyItemRemoved(position);
 //        notifyDataSetChanged();
-        super.onItemDismiss(position);
+            super.onItemDismiss(position);
+        }
+
     }
 //
 //    private int getRandomColor() {
@@ -216,8 +222,8 @@ public class SimpleAdapter extends UltimateViewAdapter {
     public String getItem(int position) {
         if (customHeaderView != null)
             position--;
-        URLogs.d("position----"+position);
-        if (position>=0&& position < stringList.size())
+        // URLogs.d("position----"+position);
+        if (position >= 0 && position < stringList.size())
             return stringList.get(position);
         else return "";
     }
