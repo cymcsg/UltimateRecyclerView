@@ -1,4 +1,6 @@
 language: android
+jdk:
+  - oraclejdk8
 
 # Turning off caching to avoid caching Issues
 # cache: false
@@ -12,7 +14,7 @@ env:
     # Amount of memory granted to Gradle JVM
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
     # General Android settings used in builds
-    - ANDROID_TARGET=android-23
+    - ANDROID_TARGET=android-24
 
 before_install:
     # Making sure gradlew has executable permissions
@@ -22,13 +24,12 @@ before_install:
 android:
   components:
     # We are using the latest revision of Android SDK Tools
-
-    - android-23
-    # The BuildTools version we are using for our project
-    - build-tools-23.0.1
-    
-    - platform-tools
     - tools
+    - platform-tools
+    - android-24
+    # The BuildTools version we are using for our project
+    - build-tools-24.0.1
+  
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository

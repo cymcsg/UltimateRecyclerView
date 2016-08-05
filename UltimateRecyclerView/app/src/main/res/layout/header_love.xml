@@ -7,6 +7,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_extension_24dp"
-        android:tint="@color/abc_search_url_text" />
+        android:src="@drawable/jr1"
+        />
 </RelativeLayout>

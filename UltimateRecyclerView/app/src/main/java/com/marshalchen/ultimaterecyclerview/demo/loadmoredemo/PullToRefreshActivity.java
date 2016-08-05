@@ -3,10 +3,13 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.URLogs;
@@ -37,9 +40,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     @Override
     protected void onFireRefresh() {
-        simpleRecyclerViewAdapter.insertLast("Refresh things");
+//        simpleRecyclerViewAdapter.insertLast("Refresh things");
         //   ultimateRecyclerView.scrollBy(0, -50);
-        linearLayoutManager.scrollToPosition(0);
+//        linearLayoutManager.scrollToPosition(0);
         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
         changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
     }
@@ -54,10 +57,12 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.custom_refresh_activity);
+        ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         ultimateRecyclerView.setCustomSwipeToRefresh();
         // refreshingMaterial();
         refreshingString();
@@ -151,9 +156,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+                      //  simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                     //   linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
                         //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
                     }
@@ -252,7 +257,7 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                     @Override
                     public void run() {
                         // frame.refreshComplete();
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+//                        simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
