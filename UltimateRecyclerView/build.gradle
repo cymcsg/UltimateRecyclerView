@@ -24,8 +24,7 @@ ext {
     //Library configurations
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-
-    ARTIFACT_ID = 'urvlib'
+    PUBLISH_VERSION = '0.7.0'
     VERSION_CODE = 23
     //your version
 

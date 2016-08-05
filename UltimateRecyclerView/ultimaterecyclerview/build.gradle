@@ -33,6 +33,6 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
 }
 
-//apply from: 'android-release-aar.gradle'
+apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'
 //apply from: 'bintray-release-aar.gradle'
