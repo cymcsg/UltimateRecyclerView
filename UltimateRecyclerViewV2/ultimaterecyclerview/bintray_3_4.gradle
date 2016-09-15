@@ -1,0 +1,26 @@
+//apply plugin: 'bintray-release'
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'jjhesk'
+    groupId = 'com.hkm.ui'
+    artifactId = 'ultimaterecyclerview'
+    version = project.VERSION_NAME
+    uploadName = 'MenuURV'
+    description = "The super recycler for the menu"
+    website = 'https://github.com/jjhesk/BringItBackAdvanceSlidingMenu'
+    autoPublish = true
+    dryRun = false
+    issueTracker = "${website}/issues"
+    licences = [project.POM_LICENCE_NAME]
+    bintrayUser = userOrg
+}
+
+
+if (hasProperty('APIBKI')) {
+    publish.bintrayKey = property('APIBKI')
+} else {
+    publish.bintrayKey = '17479d176480ed0232fe101b6555654a2624d7a0'
+}
+
+apply plugin: 'maven'

@@ -307,40 +307,23 @@ public class SwipeListView extends RecyclerView {
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
         touchListener.resetItems();
-//        adapter.registerDataSetObserver(new DataSetObserver() {
-//
-//            @Override
-//            public void onChanged() {
-//                super.onChanged();
-//                onListChanged();
-//                touchListener.resetItems();
-//            }
-//        });
-
         adapter.registerAdapterDataObserver(new AdapterDataObserver() {
-
             @Override
             public void onChanged() {
-
                 super.onChanged();
                 onListChanged();
                 touchListener.resetItems();
-
             }
-
         });
     }
 
     @Override
     public void setLayoutManager(LayoutManager layoutManager) {
-
         super.setLayoutManager(layoutManager);
         mLayoutManager = (LinearLayoutManager) layoutManager;
         if (touchListener != null) {
-
             touchListener.setLayoutManager(mLayoutManager);
         }
-
     }
 
     /**
@@ -679,13 +662,10 @@ public class SwipeListView extends RecyclerView {
         int action = MotionEventCompat.getActionMasked(ev);
         final float x = ev.getX();
         final float y = ev.getY();
-
         if (isEnabled() && touchListener.isSwipeEnabled()) {
-
             if (touchState == TOUCH_STATE_SCROLLING_X) {
                 return touchListener.onTouch(this, ev);
             }
-
             switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     checkInMoving(x, y);
@@ -707,7 +687,6 @@ public class SwipeListView extends RecyclerView {
                     break;
             }
         }
-
         return super.onInterceptTouchEvent(ev);
     }
 

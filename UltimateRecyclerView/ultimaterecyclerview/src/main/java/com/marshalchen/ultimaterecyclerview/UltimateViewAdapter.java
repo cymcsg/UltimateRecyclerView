@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * An abstract adapter which can be extended for Recyclerview
  */
-public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
+public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, ItemTouchHelperAdapter {
     protected Handler timer = new Handler();
     protected UltimateRecyclerView.CustomRelativeWrapper customHeaderView = null;
     protected View customLoadMoreView = null;
@@ -84,17 +84,16 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     }
 
 
-    private class delayenableloadmore implements Runnable {
+    private class delayEnableLoadmore implements Runnable {
         private boolean enabled;
 
-        public delayenableloadmore(final boolean b) {
+        public delayEnableLoadmore(final boolean b) {
             enabled = b;
         }
 
         @Override
         public void run() {
-            // if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
-            if (!enabled && customLoadMoreView != null) {
+            if (!enabled && loadmoresetingswatch > 0 && customLoadMoreView != null) {
                 final int displaySize = getItemCount();
                 final int dataSize = getAdapterItemCount();
                 if (dataSize > 0 && customLoadMoreItemView != null) {
@@ -112,7 +111,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-    public delayenableloadmore cbloadmore;
+    public delayEnableLoadmore cbloadmore;
 
     /**
      * as the set function to switching load more feature
@@ -120,10 +119,10 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param b bool
      */
     public final void enableLoadMore(final boolean b) {
-        cbloadmore = new delayenableloadmore(b);
+        cbloadmore = new delayEnableLoadmore(b);
     }
 
-    public final void executeInternalFootViewActionQueue() {
+    public final void internalExecuteLoadingView() {
         if (cbloadmore != null) {
             timer.post(cbloadmore);
             loadmoresetingswatch++;
@@ -159,6 +158,19 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return mEmptyViewOnInitPolicy;
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        int position = holder.getLayoutPosition();
+    }
+
+    private RecyclerView.ViewHolder initNonRecycleableView(View normalView) {
+        RecyclerView.ViewHolder viewHolder = new RecyclerView.ViewHolder(normalView) {
+        };
+        viewHolder.setIsRecyclable(false);
+        return viewHolder;
+    }
 
     /**
      * the basic view holder creation
@@ -168,9 +180,9 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
      * @return expected a typed view holder
      */
     @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPES.FOOTER) {
-            VH viewHolder = newFooterHolder(customLoadMoreView);
+            RecyclerView.ViewHolder viewHolder = initNonRecycleableView(customLoadMoreView);
             /**
              * this is only for the first time rendering of the adapter
              */
@@ -183,7 +195,7 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
             }
             return viewHolder;
         } else if (viewType == VIEW_TYPES.HEADER) {
-            return newHeaderHolder(customHeaderView);
+            return initNonRecycleableView(customHeaderView);
         } else if (viewType == VIEW_TYPES.ADVIEW) {
             return getAdViewHolder(customHeaderView);
         } else if (viewType == VIEW_TYPES.CUSTOMVIEW) {
@@ -224,17 +236,6 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
         return null;
     }
 
-
-    /**
-     * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
-     *
-     * @param view with no binding view of nothing
-     * @return v
-     */
-    public abstract VH newFooterHolder(View view);
-
-
-    public abstract VH newHeaderHolder(View view);
 
     /**
      * for all NORMAL type holder

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/header_padding"
+        android:paddingRight="@dimen/header_padding"
+        android:textColor="@color/grey"
+        android:textStyle="bold" />
+
+</LinearLayout>

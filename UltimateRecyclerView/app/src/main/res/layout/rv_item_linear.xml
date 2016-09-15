@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/str_item_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -14,16 +13,16 @@
         android:text="test2"
         android:textSize="18sp" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@id/str_image_holder"
-        app:srcCompat="@drawable/jr14"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_below="@id/str_textview_holder"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/jr14" />
 
     <ProgressBar
         android:id="@id/str_progress_holder"

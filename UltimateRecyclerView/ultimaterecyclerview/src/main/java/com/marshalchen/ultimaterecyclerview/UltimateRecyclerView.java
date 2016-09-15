@@ -54,6 +54,8 @@ import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActi
 import com.marshalchen.ultimaterecyclerview.uiUtils.RecyclerViewPositionHelper;
 import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 
+import ptr.PtrFrameLayout;
+
 
 /**
  * UltimateRecyclerView is a recyclerview which contains many features like  swipe to dismiss,animations,drag drop etc.
@@ -130,7 +132,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     protected int[] defaultSwipeToDismissColors = null;
     public int showLoadMoreItemNum = 3;
 
-    public VerticalSwipeRefreshLayout mSwipeRefreshLayout;
 
     private RecyclerViewPositionHelper mRecyclerViewHelper;
     private CustomRelativeWrapper mHeader;
@@ -155,7 +156,11 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private int mVisibleItemCount = 0;
     private int mTotalItemCount = 0;
     private int previousTotal = 0;
+    private int refreshType = 0;
     private int mFirstVisibleItem;
+
+    public VerticalSwipeRefreshLayout mSwipeRefreshLayout;
+    public PtrFrameLayout mPtrFrameLayout;
 
     public UltimateRecyclerView(Context context) {
         super(context);
@@ -178,14 +183,60 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mRecyclerView.setBackgroundColor(color);
     }
 
+    private void initDefaultPtrSettings(View view) {
+        mPtrFrameLayout = (PtrFrameLayout) view.findViewById(R.id.store_house_ptr_frame);
+        mPtrFrameLayout.setResistance(1.7f);
+        mPtrFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
+        mPtrFrameLayout.setDurationToClose(200);
+        mPtrFrameLayout.setDurationToCloseHeader(1000);
+        mPtrFrameLayout.setPullToRefresh(false);
+        mPtrFrameLayout.setKeepHeaderWhenRefresh(true);
+    }
+
+    private void initSwipeRefreshLayout(View view) {
+        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    private void initSwipableDismissLayout(View view) {
+       // mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+    }
+
+    private void initFloatingActionButton(View view) {
+        defaultFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.defaultFloatingActionButton);
+    }
+
+    @LayoutRes
+    private int getLayoutId() {
+        if (refreshType == 1) {
+            return R.layout.urv_ptr;
+        } else if (refreshType == 2) {
+            return R.layout.urv_normal;
+        } else if (refreshType == 3) {
+            return R.layout.swipeable_ultimate_recycler_view_layout;
+        } else {
+            return R.layout.urv_normal;
+        }
+    }
+
+    private void initRefresher(View view) {
+        if (refreshType == 1) {
+            initDefaultPtrSettings(view);
+        } else if (refreshType == 2) {
+            initSwipeRefreshLayout(view);
+        } else if (refreshType == 3) {
+           // initSwipeRefreshLayout(view);
+        } else {
+            initSwipeRefreshLayout(view);
+        }
+    }
+
     protected void initViews() {
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.ultimate_recycler_view_layout, this);
+        View view = inflater.inflate(getLayoutId(), this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ultimate_list);
-        mSwipeRefreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        initRefresher(view);
         setScrollbars();
-        mSwipeRefreshLayout.setEnabled(false);
-
         if (mRecyclerView != null) {
             mRecyclerView.setClipToPadding(mClipToPadding);
             if (mPadding != -1.1f) {
@@ -195,9 +246,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
 
-        defaultFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.defaultFloatingActionButton);
         setDefaultScrollListener();
-
         /**
          * empty view setup
          */
@@ -387,6 +436,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mEmptyId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewEmptyView, 0);
             mFloatingButtonId = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewFloatingActionView, 0);
             mScrollbarsStyle = typedArray.getInt(R.styleable.UltimateRecyclerview_recyclerviewScrollbars, SCROLLBARS_NONE);
+            refreshType = typedArray.getInt(R.styleable.UltimateRecyclerview_recyclerviewRefreshType, 2);
             int colorList = typedArray.getResourceId(R.styleable.UltimateRecyclerview_recyclerviewDefaultSwipeColor, 0);
             if (colorList != 0) {
                 defaultSwipeToDismissColors = getResources().getIntArray(colorList);
@@ -467,16 +517,18 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
 
-        if (lastItemRevealDetection()) {
+        boolean bottomEdgeHit = (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
+
+        if (bottomEdgeHit) {
             if (mIsLoadMoreWidgetEnabled) {
                 /**auto activate load more**/
                 if (!automaticLoadMoreEnabled) {
                     onLoadMoreListener.loadMore(mRecyclerView.getAdapter().getItemCount(), lastVisibleItemPosition);
                     automaticLoadMoreEnabled = true;
-                    previousTotal = mTotalItemCount;
                 }
             }
-            mAdapter.executeInternalFootViewActionQueue();
+            mAdapter.internalExecuteLoadingView();
+            previousTotal = mTotalItemCount;
         }
     }
 
@@ -525,11 +577,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mAdapter != null && mLoadMoreView != null) {
             mAdapter.enableLoadMore(false);
         }
-        scroll_load_more_detection(mRecyclerView);
-       /* if (lastItemRevealDetection()) {
-            mAdapter.executeInternalFootViewActionQueue();
-        }*/
     }
+
 
     protected void enableShoworHideToolbarAndFloatingButton(RecyclerView recyclerView) {
         if (mCallbacks != null) {
@@ -623,11 +672,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             }
         }
     }
-
-    private boolean lastItemRevealDetection() {
-        return (mTotalItemCount - mVisibleItemCount) <= mFirstVisibleItem;
-    }
-
 
     /**
      * Set a listener that will be notified of any changes in scroll state or position.
@@ -862,6 +906,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          * + getItemCount is zero
          */
         if (!isFirstLoadingOnlineAdapter) {
+            isFirstLoadingOnlineAdapter = true;
             if (mAdapter.getAdapterItemCount() == 0) {
 
                 mEmpty.setVisibility(mEmptyView == null ? View.VISIBLE : View.GONE);
@@ -872,7 +917,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 mEmpty.setVisibility(View.GONE);
             }
         } else {
-            isFirstLoadingOnlineAdapter = false;
+            //isFirstLoadingOnlineAdapter = false;
             setRefreshing(false);
             implementLoadMorebehavior();
         }
@@ -989,12 +1034,19 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
     }
 
-    private void translateHeader(float of) {
-        float ofCalculated = of * SCROLL_MULTIPLIER;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            //Logs.d("ofCalculated    " + ofCalculated+"   "+mHeader.getHeight());
+
+    private float mScrollMultiplier = 0.5f;
+
+    /**
+     * Translates the adapter in Y
+     *
+     * @param of offset in px
+     */
+    public void translateHeader(float of) {
+        float ofCalculated = of * mScrollMultiplier;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && of < mHeader.getHeight()) {
             mHeader.setTranslationY(ofCalculated);
-        } else {
+        } else if (of < mHeader.getHeight()) {
             TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
             anim.setFillAfter(true);
             anim.setDuration(0);
@@ -1002,10 +1054,33 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
         mHeader.setClipY(Math.round(ofCalculated));
         if (mParallaxScroll != null) {
-            float left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * SCROLL_MULTIPLIER)));
+            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
+            float left;
+            if (holder != null) {
+                left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * mScrollMultiplier)));
+            } else {
+                left = 1;
+            }
             mParallaxScroll.onParallaxScroll(left, of, mHeader);
         }
     }
+
+    /**
+     * Set parallax scroll multiplier.
+     *
+     * @param mul The multiplier
+     */
+    public void setScrollMultiplier(float mul) {
+        this.mScrollMultiplier = mul;
+    }
+
+    /**
+     * Get the current parallax scroll multiplier.
+     */
+    public float getScrollMultiplier() {
+        return this.mScrollMultiplier;
+    }
+
 
     public interface OnParallaxScroll {
         void onParallaxScroll(float percentage, float offset, View parallax);

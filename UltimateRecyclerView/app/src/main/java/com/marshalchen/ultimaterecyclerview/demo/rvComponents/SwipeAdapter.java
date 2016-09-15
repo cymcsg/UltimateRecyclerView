@@ -74,16 +74,6 @@ public class SwipeAdapter extends SwipeableUltimateViewAdapter<String> {
     }
 
     @Override
-    public SVHolder newFooterHolder(View view) {
-        return new SVHolder(view, false);
-    }
-
-    @Override
-    public SVHolder newHeaderHolder(View view) {
-        return new SVHolder(view, false);
-    }
-
-    @Override
     public long generateHeaderId(int position) {
         return 0;
     }

@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff009688">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="Del" />
+
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/del"
+                android:layout_centerInParent="true"
+                android:background="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="Add" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/custom_ultimate_recycler_view"
+        app:recyclerviewClipToPadding="true"
+        app:recyclerviewPadding="2dp"
+        app:recyclerviewEmptyView="@layout/empty_view"
+        app:recyclerviewFloatingActionView="@layout/floating_view"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/custom_urv_add_floating_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        fab:plusIconColor="#808080"
+        fab:urv_fab_colorNormal="#aaffff"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

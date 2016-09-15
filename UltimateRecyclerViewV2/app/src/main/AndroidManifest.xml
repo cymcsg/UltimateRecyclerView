@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.marshalchen.ultimaterecyclerview.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Used to adjust the work load depending on the type of network the device is using. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Used to load images from the gallery content provider. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".modules.MainWatcher"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
+        <activity
+            android:name=".MainList"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".multiitemdemo.MultiViewTypesActivity"
+            android:label="MultiViewTypesActivity" />
+        <activity
+            android:name=".griddemo.GridLayoutRVTest"
+            android:label="GridLayoutRVTest" />
+        <activity
+            android:name=".griddemo.GridTestOnlyOnePage"
+            android:label="GridLayoutRVTest" />
+        <activity
+            android:name=".loadmoredemo.PullToRefreshActivity"
+            android:label="CustomSwipeToRefreshRefreshActivity" />
+        <activity
+            android:name=".loadmoredemo.DebugNoHeaderLoadMoreActivity"
+            android:label="NO Header Load More" />
+        <activity
+            android:name=".loadmoredemo.FirstPageCancelLoadMore"
+            android:label="Stop Loading loadmore" />
+        <activity
+            android:name=".loadmoredemo.LineNodeActivity"
+            android:label="LineNodeActivity" />
+        <activity
+            android:name=".loadmoredemo.SliderHeader"
+            android:label="Slider Header" />
+        <activity
+            android:name=".admobdemo.TestAdMobClassicActivity"
+            android:label="TestAdMob" />
+        <activity
+            android:name=".expandemo.TestExpandableRV"
+            android:label="TestExpandableRV" />
+        <activity
+            android:name=".loadmoredemo.DebugLoadMoreActivity"
+            android:label="DebugLoadMoreActivity" />
+        <activity
+            android:name=".loadmoredemo.StaggerLoadMoreActivity"
+            android:label="StaggerLoadMoreActivity" />
+        <activity
+            android:name=".loadmoredemo.FinalEmptyViewDisplayActivity"
+            android:label="Display Final View" />
+        <activity
+            android:name=".scrollableobservable.ScrollObservablesActivity"
+            android:label="ScrollObservablesActivity" />
+        <activity
+            android:name=".dragdemo.DragActivity"
+            android:label="DragActivity" />
+        <activity
+            android:name=".loadmoredemo.SwipeListViewExampleActivity"
+            android:label="SwipeListViewExampleActivity" />
+        <activity
+            android:name=".admobdemo.TestAdvancedAdmobActivity"
+            android:label="TestAdvancedAdmobActivity" />
+
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <!--This meta-data tag is required to use Google Play Services.-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
+</manifest>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/customfloatingActionMenu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    fab:addButtonColorNormal="#ffffff"
+    fab:addButtonColorPressed="#f1f1f1"
+    fab:addButtonPlusIconColor="#808080"
+    fab:urv_fab_colorPressed="#f1f1f1"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="15dp"
+    android:visibility="gone">
+
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right|bottom"
+        fab:plusIconColor="#808080"
+        fab:urv_fab_colorNormal="#ffffff" />
+
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:icon="@drawable/urv_floating_action_button_ic_fab_star"
+        fab:urv_fab_colorNormal="#ff5f9a"
+        fab:urv_fab_colorPressed="#ec407a" />
+
+</com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionsMenu>

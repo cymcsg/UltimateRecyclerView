@@ -32,6 +32,7 @@ public class UltimateRecyclerviewViewHolder<T> extends RecyclerView.ViewHolder i
         super(itemView);
         swipeLayout = (SwipeLayout) itemView.findViewById(R.id.recyclerview_swipe);
         mView = itemView;
+
     }
 
     /**

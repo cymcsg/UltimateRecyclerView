@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".LauncherActivity"></activity>
         <activity
             android:name=".multiitemdemo.MultiViewTypesActivity"
             android:label="MultiViewTypesActivity" />

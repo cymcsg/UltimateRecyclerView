@@ -160,13 +160,4 @@ public class sectionCommonAdapter extends easyRegularAdapter<String, itemCommonB
 
     }
 
-    @Override
-    public itemCommonBinder newFooterHolder(View view) {
-        return new itemCommonBinder(view, false);
-    }
-
-    @Override
-    public itemCommonBinder newHeaderHolder(View view) {
-        return new itemCommonBinder(view, false);
-    }
 }

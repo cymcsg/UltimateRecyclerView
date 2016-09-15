@@ -20,7 +20,7 @@ Please follow the latest publishing aar on jcenter.
 follow by the gradle code
 ```gradle
 dependencies{
-    compile 'com.hkm.ui:ultimaterecyclerview:0.5.8'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.8.0'
 }
 ```
 

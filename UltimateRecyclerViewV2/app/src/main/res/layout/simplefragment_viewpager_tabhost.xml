@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.marshalchen.ultimaterecyclerview.uiUtils.TouchInterceptionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize">
+
+
+    <FrameLayout
+        android:id="@+id/pager_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/tab_height">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+    </FrameLayout>
+
+    <com.google.samples.apps.iosched.ui.widget.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:background="@color/primary" />
+
+
+</com.marshalchen.ultimaterecyclerview.uiUtils.TouchInterceptionLayout>

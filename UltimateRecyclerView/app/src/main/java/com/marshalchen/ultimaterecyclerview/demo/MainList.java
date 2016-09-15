@@ -55,7 +55,7 @@ public class MainList extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
     public void initList() {
-
+        data.put("LauncherActivity", LauncherActivity.class);
         data.put("Debug Grid Test", GridLayoutRVTest.class);
         data.put("Issue #374, #363 enabled and disable load more off screen", GridTestOnlyOnePage.class);
         data.put("Debug load more", DebugLoadMoreActivity.class);
@@ -70,7 +70,6 @@ public class MainList extends AppCompatActivity implements AdapterView.OnItemCli
         data.put("Debug Stagger Load More", StaggerLoadMoreActivity.class);
         data.put("Debug Swipe List", SwipeListViewExampleActivity.class);
         data.put("Debug expandable", TestExpandableRV.class);
-        data.put("Debug dragging", DragActivity.class);
         data.put("Debug multi view types", MultiViewTypesActivity.class);
     }
 

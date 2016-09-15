@@ -5,10 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        // - @ https://oss.sonatype.org/
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        // - tutorials  @https://github.com/novoda/bintray-release
-        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'com.android.tools.build:gradle:2.1.3'
     }
 }
 
@@ -27,34 +24,13 @@ ext {
     //Library configurations
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-
-    ARTIFACT_ID = 'urvlib'
+    PUBLISH_VERSION = '0.7.0'
     VERSION_CODE = 23
     //your version
 
     //Application
-    app_demo_versionCode = 23
-    app_demo_versionName = '1.4.0'
-    //Support and Build tools version
-    ftKit = '0.4.1'
-
-    //Support Libraries dependencies
-    supportDependencies = [
-            percent       : "com.android.support:percent:${SUPPORT_LIBRARY}",
-            annotation    : "com.android.support:support-annotations:${SUPPORT_LIBRARY}",
-            support       : "com.android.support:support-v13:${SUPPORT_LIBRARY}",
-            appCompat     : "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}",
-            rv            : "com.android.support:recyclerview-v7:${SUPPORT_LIBRARY}",
-            cv            : "com.android.support:cardview-v7:${SUPPORT_LIBRARY}",
-            kitCore       : "com.52inc:52Kit-core:${ftKit}",
-
-
-
-            leakcanary    : "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}",
-            leakcanarynoop: "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}",
-
-
-    ]
+    app_demo_versionCode = 24
+    app_demo_versionName = '1.7.0'
 
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }

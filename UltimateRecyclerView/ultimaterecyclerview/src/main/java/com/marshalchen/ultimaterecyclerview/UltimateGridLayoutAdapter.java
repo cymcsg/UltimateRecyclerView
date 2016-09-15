@@ -29,7 +29,6 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         span_columns = columns;
     }
 
-
     private int normalDataConv(final int rpos) {
         int orgin = rpos;
         int size = getAdapterItemCount();

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">UltimateRecyclerView</string>
+
+    <string name="ptr_frame_layout_content_empty">The content view in PtrFrameLayout is empty. Do you forget to specify its id in xml layout file?</string>
+
+    <string name="app_loading">加载中…</string>
+    <string name="app_loading_more">加载更多…</string>
+    <string name="app_no_more_data">没有更多数据了…</string>
+
 </resources>

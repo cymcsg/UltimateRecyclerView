@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout
+        android:layout_width="fill_parent"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_height="fill_parent">
+
+        <com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView
+            android:id="@+id/ultimate_list"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
+
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/defaultFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:visibility="gone"
+        fab:plusIconColor="#808080"
+        fab:urv_fab_colorNormal="#ffffff" />
+
+    <ViewStub
+        android:id="@+id/floatingActionViewStub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:visibility="gone" />
+
+
+    <ViewStub
+        android:id="@+id/emptyview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

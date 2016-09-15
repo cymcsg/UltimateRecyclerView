@@ -71,13 +71,4 @@ public class GridJRAdapter extends UltimateGridLayoutAdapter<JRitem, itemGridCel
         return new UltimateRecyclerviewViewHolder(parent);
     }
 
-    @Override
-    public itemGridCellBinder newFooterHolder(View view) {
-        return new itemGridCellBinder(view, false);
-    }
-
-    @Override
-    public itemGridCellBinder newHeaderHolder(View view) {
-        return new itemGridCellBinder(view, false);
-    }
 }

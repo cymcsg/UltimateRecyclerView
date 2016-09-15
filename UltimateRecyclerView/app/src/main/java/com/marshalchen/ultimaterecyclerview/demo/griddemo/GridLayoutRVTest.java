@@ -41,8 +41,6 @@ public class GridLayoutRVTest extends AppCompatActivity {
         return R.layout.floatingbutton_grid_layout;
     }
 
-    protected int total_pages = 4, page = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +56,8 @@ public class GridLayoutRVTest extends AppCompatActivity {
         listuv.setHasFixedSize(true);
         listuv.setSaveEnabled(true);
         listuv.setClipToPadding(false);
+
+
         // mGridAdapter.setCustomLoadMoreView(LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
         listuv.setNormalHeader(setupHeaderView());
         final Handler f = new Handler();
@@ -68,24 +68,20 @@ public class GridLayoutRVTest extends AppCompatActivity {
                 f.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (page < total_pages) {
-                            mGridAdapter.insert(SampleDataboxset.genJRList(30));
-                            page++;
-                            if (page == total_pages) {
-                                listuv.disableLoadmore();
-                            }
-                            afterAdd();
-                        }
+                        mGridAdapter.insert(SampleDataboxset.genJRList(5));
+                        afterAdd();
                     }
                 }, 2000);
             }
         });
 
         // listuv.enableLoadmore();
-        // listuv.disableLoadmore();
+        //    listuv.disableLoadmore();
         listuv.setLoadMoreView(R.layout.custom_bottom_progressbar);
+
         listuv.setAdapter(mGridAdapter);
         listuv.setItemAnimator(new DefaultItemAnimator());
+
         harness_control();
     }
 
@@ -111,7 +107,10 @@ public class GridLayoutRVTest extends AppCompatActivity {
 
 
     private View setupHeaderView() {
-        return LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
+        View custom_header = LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
+
+
+        return custom_header;
     }
 
     private void harness_control() {

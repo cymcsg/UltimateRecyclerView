@@ -8,25 +8,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.PtrUIHandler;
-import in.srain.cube.views.ptr.header.MaterialHeader;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import in.srain.cube.views.ptr.indicator.PtrIndicator;
+import ptr.PtrDefaultHandler;
+import ptr.PtrFrameLayout;
+import ptr.PtrHandler;
+import ptr.PtrUIHandler;
+import ptr.header.MaterialHeader;
+import ptr.header.StoreHouseHeader;
+import ptr.indicator.PtrIndicator;
 
 
 public class PullToRefreshActivity extends BasicFunctions implements ActionMode.Callback {
 
-    private CustomUltimateRecyclerview ultimateRecyclerView;
+    private UltimateRecyclerView ultimateRecyclerView;
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
     private View floatingButton = null;
 
@@ -37,9 +36,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     @Override
     protected void onFireRefresh() {
-        simpleRecyclerViewAdapter.insertLast("Refresh things");
-        //   ultimateRecyclerView.scrollBy(0, -50);
-        linearLayoutManager.scrollToPosition(0);
+        //  simpleRecyclerViewAdapter.insertLast("Refresh things");
+        //  ultimateRecyclerView.scrollBy(0, -50);
+        //  linearLayoutManager.scrollToPosition(0);
         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
         changeHeaderHandler.sendEmptyMessageDelayed(0, 500);
     }
@@ -54,11 +53,13 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ultimateRecyclerView = (CustomUltimateRecyclerview) findViewById(R.id.custom_ultimate_recycler_view);
         super.onCreate(savedInstanceState);
-        ultimateRecyclerView.setCustomSwipeToRefresh();
+        setContentView(R.layout.custom_refresh_activity);
+        ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.custom_ultimate_recycler_view);
+        // ultimateRecyclerView.initView();
         // refreshingMaterial();
         refreshingString();
 
@@ -67,7 +68,6 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
     void refreshingString() {
         storeHouseHeader = new StoreHouseHeader(this);
         //   header.setPadding(0, 15, 0, 0);
-
         storeHouseHeader.initWithString("XCode Big Air");
         //  header.initWithStringArray(R.array.akta);
         ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
@@ -151,9 +151,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+                        //  simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                        //   linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
                         //   changeHeaderHandler.sendEmptyMessageDelayed(2, 500);
                     }
@@ -252,12 +252,13 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                     @Override
                     public void run() {
                         // frame.refreshComplete();
-                        simpleRecyclerViewAdapter.insertLast("Refresh things");
+//                        simpleRecyclerViewAdapter.insertLast("Refresh things");
                         //   ultimateRecyclerView.scrollBy(0, -50);
                         linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-                        if (mLoadTime % 2 == 0)
+                        if (mLoadTime % 2 == 0) {
                             changeHeaderHandler.sendEmptyMessageDelayed(1, 500);
+                        }
                     }
                 }, 2000);
             }

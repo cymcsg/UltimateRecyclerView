@@ -31,15 +31,7 @@ public class staggerAdapter extends easyRegularAdapter<String, itemStaggerCommon
         return new itemStaggerCommonBinder(view, VIEW_TYPES.NORMAL);
     }
 
-    @Override
-    public itemStaggerCommonBinder newFooterHolder(View view) {
-        return new itemStaggerCommonBinder(view, VIEW_TYPES.FOOTER);
-    }
 
-    @Override
-    public itemStaggerCommonBinder newHeaderHolder(View view) {
-        return new itemStaggerCommonBinder(view, VIEW_TYPES.HEADER);
-    }
 
     @Override
     protected void withBindHolder(itemStaggerCommonBinder holder, String data, int position) {

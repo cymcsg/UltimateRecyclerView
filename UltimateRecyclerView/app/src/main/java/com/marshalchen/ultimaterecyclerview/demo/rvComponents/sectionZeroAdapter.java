@@ -35,15 +35,6 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, itemCommonBin
 
 
 
-    @Override
-    public itemCommonBinder newFooterHolder(View view) {
-        return new itemCommonBinder(view, false);
-    }
-
-    @Override
-    public itemCommonBinder newHeaderHolder(View view) {
-        return new itemCommonBinder(view, false);
-    }
 
 
   /*  @Override

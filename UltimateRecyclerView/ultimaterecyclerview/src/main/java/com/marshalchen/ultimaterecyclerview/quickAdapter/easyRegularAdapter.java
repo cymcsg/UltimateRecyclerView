@@ -60,15 +60,6 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
      */
     protected abstract BINDHOLDER newViewHolder(View view);
 
-    @Override
-    public BINDHOLDER newFooterHolder(View view) {
-        return null;
-    }
-
-    @Override
-    public BINDHOLDER newHeaderHolder(View view) {
-        return null;
-    }
 
     /**
      * this MUST BE USING THE NORMAL VIEW

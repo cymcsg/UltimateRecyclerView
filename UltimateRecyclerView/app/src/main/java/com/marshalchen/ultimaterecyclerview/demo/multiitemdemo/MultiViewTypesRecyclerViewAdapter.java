@@ -59,22 +59,6 @@ public class MultiViewTypesRecyclerViewAdapter extends UltimateDifferentViewType
     }
 
 
-    /**
-     * requirement: FOOTER, HEADER. it does not bind and need to do that in the header binding
-     *
-     * @param view with no binding view of nothing
-     * @return v
-     */
-    @Override
-    public RecyclerView.ViewHolder newFooterHolder(View view) {
-        return new UltimateRecyclerviewViewHolder<>(view);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder newHeaderHolder(View view) {
-        return new UltimateRecyclerviewViewHolder<>(view);
-    }
-
     @Override
     public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())

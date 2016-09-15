@@ -69,13 +69,5 @@ public class ExpCustomAdapter extends customizedAdapter<Category, SubCategory> {
     }
 
 
-    @Override
-    public RecyclerView.ViewHolder newFooterHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
-    }
 
-    @Override
-    public RecyclerView.ViewHolder newHeaderHolder(View view) {
-        return new UltimateRecyclerviewViewHolder(view);
-    }
 }

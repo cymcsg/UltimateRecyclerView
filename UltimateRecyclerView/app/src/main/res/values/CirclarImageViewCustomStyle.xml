@@ -5,7 +5,7 @@
     </declare-styleable>
 
 
-    <!-- Circularandroid.support.v7.widget.AppCompatImageView Custom Styling -->
+    <!-- CircularImageView Custom Styling -->
     <declare-styleable name="CircularImageView">
 
         <!-- Whether or not to draw a circular border around the image. -->

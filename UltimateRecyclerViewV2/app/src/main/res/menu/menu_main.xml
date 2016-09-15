@@ -1,0 +1,52 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_bottom"
+        android:orderInCategory="100"
+        android:title="MultiViewType"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_custom"
+        android:title="CustomRefreshActivity" />
+    <item
+        android:id="@+id/admob"
+        android:orderInCategory="100"
+        android:title="ADMob ListView Test"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/adv_admob"
+        android:orderInCategory="105"
+        android:title="Switchable Admob Test"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/scrollactivity"
+        android:orderInCategory="100"
+        android:title="Scroll observables"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/swipe_and_drag"
+        android:orderInCategory="105"
+        android:title="Swipe Drag Activity"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/debug_load_more"
+        android:orderInCategory="105"
+        android:title="Load More Test"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/expandmenu"
+        android:orderInCategory="105"
+        android:title="expX Test"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/gridlayoutperformance"
+        android:orderInCategory="105"
+        android:title="Grid Layout"
+        app:showAsAction="never" />
+
+
+</menu>

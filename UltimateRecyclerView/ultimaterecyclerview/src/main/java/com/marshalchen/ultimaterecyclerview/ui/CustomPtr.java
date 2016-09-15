@@ -4,7 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import in.srain.cube.views.ptr.PtrFrameLayout;
+import ptr.PtrFrameLayout;
+
 
 /**
  * Created by cym on 15/3/21.

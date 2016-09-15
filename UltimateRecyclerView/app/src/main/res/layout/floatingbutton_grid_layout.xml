@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    app:srcCompat="@drawable/ic_autorenew_24dp" />
+                    android:src="@drawable/ic_autorenew_24dp" />
 
                 <ImageButton
                     android:id="@+id/delall"
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    app:srcCompat="@drawable/ic_blur_linear_24dp" />
+                    android:src="@drawable/ic_blur_linear_24dp" />
 
                 <ImageButton
                     android:id="@+id/del"
@@ -47,9 +47,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    app:srcCompat="@drawable/ic_remove_24dp"
-
-                    />
+                    android:src="@drawable/ic_remove_24dp" />
 
                 <ImageButton
                     android:id="@+id/add"
@@ -57,9 +55,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    app:srcCompat="@drawable/ic_add_24dp"
-
-                    />
+                    android:src="@drawable/ic_add_24dp" />
 
                 <ImageButton
                     android:id="@+id/add_one"
@@ -67,9 +63,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="13dp"
-                    app:srcCompat="@drawable/ic_exposure_plus_1_24dp"
-
-                    />
+                    android:src="@drawable/ic_exposure_plus_1_24dp" />
 
 
             </LinearLayout>
@@ -81,8 +75,8 @@
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/ultimate_recycler_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
