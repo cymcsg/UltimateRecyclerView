@@ -124,10 +124,10 @@ public abstract class BasicFunctions extends AppCompatActivity {
                 URLogs.d("onUpOrCancelMotionEvent");
                 if (observableScrollState == ObservableScrollState.UP) {
                     ultimateRecyclerView.hideToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.hideFloatingActionMenu();
+                    // ultimateRecyclerView.hideFloatingActionMenu();
                 } else if (observableScrollState == ObservableScrollState.DOWN) {
                     ultimateRecyclerView.showToolbar(toolbar, ultimateRecyclerView, getScreenHeight());
-                    ultimateRecyclerView.showFloatingActionMenu();
+                    // ultimateRecyclerView.showFloatingActionMenu();
                 }
             }
         });

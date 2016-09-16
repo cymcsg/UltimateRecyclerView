@@ -37,8 +37,6 @@ public abstract class UltimateGridLayoutAdapter<DATA, BINDER extends UltimateRec
         return out;
     }
 
-
-
     protected View getViewById(@LayoutRes final int layoutId, ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return view;

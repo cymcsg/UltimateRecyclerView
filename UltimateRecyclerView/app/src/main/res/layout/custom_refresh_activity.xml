@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -50,12 +51,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         app:recyclerviewClipToPadding="true"
-        app:recyclerviewRefreshType="ptr"
         app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewFloatingActionView="@layout/floating_view"
-        app:recyclerviewPadding="2dp" />
+        app:recyclerviewPadding="2dp"
+        app:recyclerviewRefreshType="ptr" />
 
-    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+
+
         android:id="@+id/custom_urv_add_floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

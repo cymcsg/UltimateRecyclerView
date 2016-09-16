@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.marshalchen.ultimaterecyclerview.demo.FragmentTest.FragmentGridHeader;
 import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdMobClassicActivity;
 import com.marshalchen.ultimaterecyclerview.demo.admobdemo.TestAdvancedAdmobActivity;
 import com.marshalchen.ultimaterecyclerview.demo.dragdemo.DragActivity;
@@ -71,6 +72,7 @@ public class MainList extends AppCompatActivity implements AdapterView.OnItemCli
         data.put("Debug Swipe List", SwipeListViewExampleActivity.class);
         data.put("Debug expandable", TestExpandableRV.class);
         data.put("Debug multi view types", MultiViewTypesActivity.class);
+        data.put("Fragment Grid Header", FragmentGridHeader.class);
     }
 
     @Override

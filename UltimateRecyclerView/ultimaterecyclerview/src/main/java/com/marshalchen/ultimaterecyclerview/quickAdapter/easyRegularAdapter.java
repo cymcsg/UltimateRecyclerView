@@ -34,7 +34,6 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         source = list;
     }
 
-
     /**
      * Constructor
      *
@@ -44,6 +43,9 @@ public abstract class easyRegularAdapter<T, BINDHOLDER extends UltimateRecyclerv
         this(new ArrayList<T>(Arrays.asList(objects)));
     }
 
+    public easyRegularAdapter() {
+        this(new ArrayList<T>());
+    }
 
     /**
      * the layout id for the normal data

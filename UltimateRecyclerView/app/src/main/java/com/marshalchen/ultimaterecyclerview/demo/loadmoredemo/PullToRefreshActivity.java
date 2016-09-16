@@ -3,16 +3,26 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.URLogs;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.R;
+import com.marshalchen.ultimaterecyclerview.demo.griddemo.TypedAdapter;
+import com.marshalchen.ultimaterecyclerview.demo.modules.JRitem;
+import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
 import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ptr.PtrDefaultHandler;
 import ptr.PtrFrameLayout;
@@ -22,12 +32,15 @@ import ptr.header.MaterialHeader;
 import ptr.header.StoreHouseHeader;
 import ptr.indicator.PtrIndicator;
 
+import static com.marshalchen.ultimaterecyclerview.demo.R.id.header;
+
 
 public class PullToRefreshActivity extends BasicFunctions implements ActionMode.Callback {
 
     private UltimateRecyclerView ultimateRecyclerView;
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
-    private View floatingButton = null;
+    private TypedAdapter mGridAdapter;
+    private GridLayoutManager mGridLayoutManager;
 
     @Override
     protected void onLoadmore() {
@@ -53,28 +66,81 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
     }
 
+    private void setup() {
+        mGridAdapter = new TypedAdapter();
+        mGridLayoutManager = new GridLayoutManager(this, 3);
+        mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (mGridAdapter.getItemViewType(position) == UltimateViewAdapter.VIEW_TYPES.NORMAL) {
+                    return 1;
+                } else {
+                    return mGridLayoutManager.getSpanCount();
+                }
+            }
+        });
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
+        ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMore(int itemsCount, int maxLastVisiblePosition) {
+                //   Log.d(TAG, itemsCount + " :: " + itemsCount);
+                ultimateRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mGridAdapter.insert(SampleDataboxset.genJRList(5));
+                    }
+                }, 2000);
+            }
+        });
+        ultimateRecyclerView.setHasFixedSize(true);
+        ultimateRecyclerView.setSaveEnabled(true);
+        ultimateRecyclerView.setClipToPadding(true);
+        ultimateRecyclerView.setNormalHeader(setupHeaderView());
+        ultimateRecyclerView.setLayoutManager(mGridLayoutManager);
+        ultimateRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mGridAdapter.insert(getJRList());
+            }
+        }, 3300);
+        ultimateRecyclerView.setAdapter(mGridAdapter);
+        ultimateRecyclerView.setRefreshing(true);
+        ultimateRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+    private List<JRitem> getJRList() {
+        List<JRitem> team = new ArrayList<>();
+        //you can make your own test for starting-zero-data
+        team = SampleDataboxset.genJRList(4);
+        return team;
+    }
+
+    private View setupHeaderView() {
+        return LayoutInflater.from(this).inflate(R.layout.header_love, null, false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_refresh_activity);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.custom_ultimate_recycler_view);
-        // ultimateRecyclerView.initView();
-        // refreshingMaterial();
+        refreshingMaterial();
+        setup();
         refreshingString();
-
     }
 
     void refreshingString() {
         storeHouseHeader = new StoreHouseHeader(this);
-        //   header.setPadding(0, 15, 0, 0);
-        storeHouseHeader.initWithString("XCode Big Air");
-        //  header.initWithStringArray(R.array.akta);
+        storeHouseHeader.setPadding(0, 150, 0, 150);
+        // storeHouseHeader.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
+        storeHouseHeader.initWithString("BIG SEXY MAMA");
+        //storeHouseHeader.initWithStringArray(R.array.akta);
         ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
         ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(storeHouseHeader);
         ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
-        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+        ultimateRecyclerView.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
                 boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
@@ -162,7 +228,7 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         });
     }
 
-    Handler changeHeaderHandler = new Handler() {
+    final Handler changeHeaderHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -187,8 +253,8 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         }
     };
     private int mLoadTime = 0;
-    StoreHouseHeader storeHouseHeader;
-    MaterialHeader materialHeader;
+    private StoreHouseHeader storeHouseHeader;
+    private MaterialHeader materialHeader;
     //  RentalsSunHeaderView rentalsSunHeaderView;
 
     private void refreshingStringArray() {
@@ -205,8 +271,6 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
 
         // change header after loaded
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(new PtrUIHandler() {
-
-
             @Override
             public void onUIReset(PtrFrameLayout frame) {
                 mLoadTime++;
@@ -252,9 +316,9 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                     @Override
                     public void run() {
                         // frame.refreshComplete();
-//                        simpleRecyclerViewAdapter.insertLast("Refresh things");
-                        //   ultimateRecyclerView.scrollBy(0, -50);
-                        linearLayoutManager.scrollToPosition(0);
+                        //  simpleRecyclerViewAdapter.insertLast("Refresh things");
+                        // ultimateRecyclerView.scrollBy(0, -50);
+                        //   linearLayoutManager.scrollToPosition(0);
                         ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
                         if (mLoadTime % 2 == 0) {
                             changeHeaderHandler.sendEmptyMessageDelayed(1, 500);
@@ -273,8 +337,6 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
     }
 
     public int getScreenHeight() {

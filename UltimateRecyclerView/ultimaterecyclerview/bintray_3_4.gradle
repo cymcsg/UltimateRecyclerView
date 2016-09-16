@@ -8,14 +8,13 @@ publish {
     version = project.VERSION_NAME
     uploadName = 'MenuURV'
     description = "The super recycler for the menu"
-    website = 'https://github.com/jjhesk/BringItBackAdvanceSlidingMenu'
+    website = 'https://github.com/cymcsg/UltimateRecyclerView'
     autoPublish = true
     dryRun = false
     issueTracker = "${website}/issues"
     licences = [project.POM_LICENCE_NAME]
     bintrayUser = userOrg
 }
-
 
 if (hasProperty('APIBKI')) {
     publish.bintrayKey = property('APIBKI')

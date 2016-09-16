@@ -32,10 +32,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
     compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
+    compile 'com.google.android.gms:play-services:7.3.0'
     debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
-    compile 'com.google.android.gms:play-services:7.3.0'
     compile 'com.hkm.loyalslider:library:1.6.2'
     compile project(':ultimaterecyclerview')
     //used in the gridlayout

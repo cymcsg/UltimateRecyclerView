@@ -52,7 +52,7 @@ public class PtrFrameLayout extends ViewGroup {
     private static final boolean DEBUG_LAYOUT = true;
     public static boolean DEBUG = false;
     private static int ID = 1;
-    protected final String LOG_TAG = "in.srain.cube.views.ptr-frame-" + ++ID;
+    protected final String LOG_TAG = "ptr-frame-" + ++ID;
     // auto refresh status
     private final static byte FLAG_AUTO_REFRESH_AT_ONCE = 0x01;
     private final static byte FLAG_AUTO_REFRESH_BUT_LATER = 0x01 << 1;
@@ -73,6 +73,7 @@ public class PtrFrameLayout extends ViewGroup {
     private PtrHandler mPtrHandler;
     // working parameters
     private ScrollChecker mScrollChecker;
+    private int mPagingTouchSlop;
     private int mHeaderHeight;
     private boolean mDisableWhenHorizontalMove = false;
     private int mFlag = 0x00;
@@ -133,6 +134,7 @@ public class PtrFrameLayout extends ViewGroup {
         mScrollChecker = new ScrollChecker();
 
         final ViewConfiguration conf = ViewConfiguration.get(getContext());
+        mPagingTouchSlop = conf.getScaledTouchSlop() * 2;
     }
 
     @Override
@@ -183,7 +185,7 @@ public class PtrFrameLayout extends ViewGroup {
             errorView.setTextColor(0xffff6600);
             errorView.setGravity(Gravity.CENTER);
             errorView.setTextSize(20);
-            errorView.setText(R.string.ptr_frame_layout_content_empty);
+            errorView.setText("The content view in PtrFrameLayout is empty. Do you forget to specify its id in xml layout file?");
             mContent = errorView;
             addView(mContent);
         }
@@ -226,7 +228,7 @@ public class PtrFrameLayout extends ViewGroup {
         if (mContent != null) {
             measureContentView(mContent, widthMeasureSpec, heightMeasureSpec);
             if (isDebug()) {
-                MarginLayoutParams lp = (MarginLayoutParams) mContent.getLayoutParams();
+                ViewGroup.MarginLayoutParams lp = (MarginLayoutParams) mContent.getLayoutParams();
                 PtrCLog.d(LOG_TAG, "onMeasure content, width: %s, height: %s, margin: %s %s %s %s",
                         getMeasuredWidth(), getMeasuredHeight(),
                         lp.leftMargin, lp.topMargin, lp.rightMargin, lp.bottomMargin);
@@ -262,6 +264,7 @@ public class PtrFrameLayout extends ViewGroup {
         if (mHeaderView != null) {
             MarginLayoutParams lp = (MarginLayoutParams) mHeaderView.getLayoutParams();
             final int left = paddingLeft + lp.leftMargin;
+            // enhance readability(header is layout above screen when first init)
             final int top = -(mHeaderHeight - paddingTop - lp.topMargin - offset);
             final int right = left + mHeaderView.getMeasuredWidth();
             final int bottom = top + mHeaderView.getMeasuredHeight();
@@ -334,13 +337,11 @@ public class PtrFrameLayout extends ViewGroup {
 
             case MotionEvent.ACTION_MOVE:
                 mLastMoveEvent = e;
-                float x = e.getX();
-                float y = e.getY();
-                mPtrIndicator.onMove(x, y);
+                mPtrIndicator.onMove(e.getX(), e.getY());
                 float offsetX = mPtrIndicator.getOffsetX();
                 float offsetY = mPtrIndicator.getOffsetY();
 
-                if (isHorizontalMoveArea(x, y) && !mPreventForHorizontal && (Math.abs(offsetX) > 0 && (Math.abs(offsetX) - Math.abs(offsetY) > 0.4))) {
+                if (mDisableWhenHorizontalMove && !mPreventForHorizontal && (Math.abs(offsetX) > mPagingTouchSlop && Math.abs(offsetX) > Math.abs(offsetY))) {
                     if (mPtrIndicator.isInStartPosition()) {
                         mPreventForHorizontal = true;
                     }
@@ -1011,10 +1012,6 @@ public class PtrFrameLayout extends ViewGroup {
                 movePos(deltaY);
                 post(this);
             } else {
-                // fix https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh/issues/239
-                if (mPtrIndicator.getCurrentPosY() != mTo) {
-                    movePos(mTo - mPtrIndicator.getCurrentPosY());
-                }
                 finish();
             }
         }
@@ -1073,22 +1070,4 @@ public class PtrFrameLayout extends ViewGroup {
             mIsRunning = true;
         }
     }
-
-    //For Horizontal Move Area
-    private HorizontalMoveArea mHorizontalMoveArea;
-    private boolean isHorizontalMoveArea(float x, float y){
-        return mDisableWhenHorizontalMove && (mHorizontalMoveArea == null || mHorizontalMoveArea.isHorizontalMoveArea(x, y));
-    }
-
-    public void setHorizontalMoveArea(HorizontalMoveArea horizontalMoveArea) {
-        if(horizontalMoveArea != null) {
-            mHorizontalMoveArea = horizontalMoveArea;
-            mDisableWhenHorizontalMove = true;
-        }
-    }
-
-    public interface HorizontalMoveArea {
-        boolean isHorizontalMoveArea(float x, float y);
-    }
-
 }

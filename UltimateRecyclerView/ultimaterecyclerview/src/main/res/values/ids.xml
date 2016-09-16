@@ -11,5 +11,9 @@
 
     <item name="urv_main_list" type="id" />
     <item name="urv_main_progress_bar" type="id" />
+    <item name="urv_empty_view_loc" type="id" />
+    <item name="urv_core" type="id" />
+    <item name="urv_vertical_swiperefresher" type="id" />
+    <item name="urv_ptr_module" type="id" />
 
 </resources>

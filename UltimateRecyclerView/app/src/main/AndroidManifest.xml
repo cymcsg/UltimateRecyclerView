@@ -76,6 +76,9 @@
             android:name=".loadmoredemo.SwipeListViewExampleActivity"
             android:label="SwipeListViewExampleActivity" />
         <activity
+            android:name=".FragmentTest.FragmentGridHeader"
+            android:label="SupportFragmentGridHeader" />
+        <activity
             android:name=".admobdemo.TestAdvancedAdmobActivity"
             android:label="TestAdvancedAdmobActivity" />
 

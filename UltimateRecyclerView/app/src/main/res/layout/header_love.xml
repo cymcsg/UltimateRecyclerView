@@ -7,6 +7,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/jr1"
-        />
+        android:scaleType="centerCrop"
+        android:src="@drawable/jr1" />
 </RelativeLayout>
