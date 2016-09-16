@@ -926,11 +926,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 }
             });
         }
-        if (mPtrFrameLayout != null && refreshing) {
-            mPtrFrameLayout.setPullToRefresh(true);
-
-        }
+      //  if (mPtrFrameLayout != null && refreshing)
+           // mPtrFrameLayout.autoRefresh(true);
         if (mPtrFrameLayout != null && !refreshing) {
+            mPtrFrameLayout.setPullToRefresh(false);
             mPtrFrameLayout.refreshComplete();
         }
     }

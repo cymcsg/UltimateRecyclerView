@@ -97,12 +97,6 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         ultimateRecyclerView.setClipToPadding(true);
         ultimateRecyclerView.setNormalHeader(setupHeaderView());
         ultimateRecyclerView.setLayoutManager(mGridLayoutManager);
-        ultimateRecyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mGridAdapter.insert(getJRList());
-            }
-        }, 3300);
         ultimateRecyclerView.setAdapter(mGridAdapter);
         ultimateRecyclerView.setRefreshing(true);
         ultimateRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -125,7 +119,7 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_refresh_activity);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.custom_ultimate_recycler_view);
-        refreshingMaterial();
+        //refreshingMaterial();
         setup();
         refreshingString();
     }
@@ -136,11 +130,47 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         // storeHouseHeader.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
         storeHouseHeader.initWithString("BIG SEXY MAMA");
         //storeHouseHeader.initWithStringArray(R.array.akta);
-        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+        // ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
         ultimateRecyclerView.mPtrFrameLayout.setHeaderView(storeHouseHeader);
         ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(storeHouseHeader);
-        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+       // ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
         ultimateRecyclerView.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
+                // return true;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mGridAdapter.insert(getJRList());
+                        //ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                        // onFireRefresh();
+                    }
+                }, 2000);
+            }
+        });
+        ultimateRecyclerView.mPtrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ultimateRecyclerView.mPtrFrameLayout.autoRefresh();
+            }
+        }, 100);
+    }
+/*
+
+    void refreshingRental() {
+        rentalsSunHeaderView = new RentalsSunHeaderView(this);
+        rentalsSunHeaderView.setUp(ultimateRecyclerView.mPtrFrameLayout);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
+        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
+        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(rentalsSunHeaderView);
+        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(rentalsSunHeaderView);
+        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
+        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
                 boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
@@ -152,49 +182,20 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onFireRefresh();
+                        linearLayoutManager.scrollToPosition(0);
+                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
+                        changeHeaderHandler.sendEmptyMessageDelayed(3, 500);
                     }
-                }, 1800);
+                },
+
+                1800);
             }
         });
 
     }
+*/
 
-
-//    void refreshingRental() {
-//        rentalsSunHeaderView = new RentalsSunHeaderView(this);
-//        rentalsSunHeaderView.setUp(ultimateRecyclerView.mPtrFrameLayout);
-//
-//        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(materialHeader);
-//        ultimateRecyclerView.mPtrFrameLayout.removePtrUIHandler(storeHouseHeader);
-//        ultimateRecyclerView.mPtrFrameLayout.setHeaderView(rentalsSunHeaderView);
-//        ultimateRecyclerView.mPtrFrameLayout.addPtrUIHandler(rentalsSunHeaderView);
-//        ultimateRecyclerView.mPtrFrameLayout.autoRefresh(false);
-//        ultimateRecyclerView.mPtrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-//                boolean canbePullDown = PtrDefaultHandler.checkContentCanBePulledDown(ptrFrameLayout, view, view2);
-//                return canbePullDown;
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        simpleRecyclerViewAdapter.insert("Refresh things", 0);
-//                        //   ultimateRecyclerView.scrollBy(0, -50);
-//                        linearLayoutManager.scrollToPosition(0);
-//                        ultimateRecyclerView.mPtrFrameLayout.refreshComplete();
-//                        changeHeaderHandler.sendEmptyMessageDelayed(3, 500);
-//                    }
-//                }, 1800);
-//            }
-//        });
-//
-//    }
-
-    void refreshingMaterial() {
+    private void refreshingMaterial() {
         materialHeader = new MaterialHeader(this);
         int[] colors = getResources().getIntArray(R.array.google_colors);
         materialHeader.setColorSchemeColors(colors);
@@ -396,49 +397,6 @@ public class PullToRefreshActivity extends BasicFunctions implements ActionMode.
         FastBinding.startactivity(this, item.getItemId());
         return super.onOptionsItemSelected(item);
     }
-
-/*
-
-    enum Type {
-        FadeIn("FadeIn", new FadeInAnimator()),
-        FadeInDown("FadeInDown", new FadeInDownAnimator()),
-        FadeInUp("FadeInUp", new FadeInUpAnimator()),
-        FadeInLeft("FadeInLeft", new FadeInLeftAnimator()),
-        FadeInRight("FadeInRight", new FadeInRightAnimator()),
-        Landing("Landing", new LandingAnimator()),
-        ScaleIn("ScaleIn", new ScaleInAnimator()),
-        ScaleInTop("ScaleInTop", new ScaleInTopAnimator()),
-        ScaleInBottom("ScaleInBottom", new ScaleInBottomAnimator()),
-        ScaleInLeft("ScaleInLeft", new ScaleInLeftAnimator()),
-        ScaleInRight("ScaleInRight", new ScaleInRightAnimator()),
-        FlipInTopX("FlipInTopX", new FlipInTopXAnimator()),
-        FlipInBottomX("FlipInBottomX", new FlipInBottomXAnimator()),
-        FlipInLeftY("FlipInLeftY", new FlipInLeftYAnimator()),
-        FlipInRightY("FlipInRightY", new FlipInRightYAnimator()),
-        SlideInLeft("SlideInLeft", new SlideInLeftAnimator()),
-        SlideInRight("SlideInRight", new SlideInRightAnimator()),
-        SlideInDown("SlideInDown", new SlideInDownAnimator()),
-        SlideInUp("SlideInUp", new SlideInUpAnimator()),
-        OvershootInRight("OvershootInRight", new OvershootInRightAnimator()),
-        OvershootInLeft("OvershootInLeft", new OvershootInLeftAnimator());
-
-        private String mTitle;
-        private BaseItemAnimator mAnimator;
-
-        Type(String title, BaseItemAnimator animator) {
-            mTitle = title;
-            mAnimator = animator;
-        }
-
-        public BaseItemAnimator getAnimator() {
-            return mAnimator;
-        }
-
-        public String getTitle() {
-            return mTitle;
-        }
-    }
-*/
 
 
 }
