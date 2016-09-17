@@ -61,7 +61,13 @@
             android:name=".loadmoredemo.DebugLoadMoreActivity"
             android:label="DebugLoadMoreActivity" />
         <activity
+            android:name=".loadmoredemo.Stagger2ColumnLoadTest"
+            android:label="StaggerLoadMore" />
+        <activity
             android:name=".loadmoredemo.StaggerLoadMoreActivity"
+            android:label="StaggerLoadMoreActivity" />
+        <activity
+            android:name=".loadmoredemo.StaggerHeaderCol2Test"
             android:label="StaggerLoadMoreActivity" />
         <activity
             android:name=".loadmoredemo.FinalEmptyViewDisplayActivity"

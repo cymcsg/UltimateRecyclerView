@@ -20,8 +20,6 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
@@ -40,18 +38,22 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
-import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
-import com.marshalchen.ultimaterecyclerview.ui.emptyview.emptyViewOnShownListener;
+import com.marshalchen.ultimaterecyclerview.expanx.LinearExpanxURVAdapter;
+import com.marshalchen.ultimaterecyclerview.gridSection.SectionedRecyclerViewAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
+import com.ml93.captainmiaoUtil.ui.DividerItemDecoration;
+import com.ml93.captainmiaoUtil.ui.VerticalSwipeRefreshLayout;
+import com.ml93.captainmiaoUtil.ui.emptyview.emptyViewOnShownListener;
 import com.marshalchen.ultimaterecyclerview.uiUtils.RecyclerViewPositionHelper;
 import com.marshalchen.ultimaterecyclerview.uiUtils.SavedStateScrolling;
 
-import ptr.PtrFrameLayout;
-import ptr.PtrHandler;
+import com.ml93.captainmiaoUtil.common.CustomRelativeWrapper;
+import com.insraincubeptr.PtrFrameLayout;
+import com.insraincubeptr.PtrHandler;
 
 
 /**
@@ -109,7 +111,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * custom load more progress bar
      */
-    private View mLoadMoreView;
+    @LayoutRes
+    private int mLoadMoreView;
     /**
      * empty view group
      */
@@ -131,11 +134,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     private RecyclerViewPositionHelper mRecyclerViewHelper;
     private CustomRelativeWrapper mHeader;
-    private int mTotalYScrolled;
+
 
     private final float SCROLL_MULTIPLIER = 0.5f;
     private OnParallaxScroll mParallaxScroll;
-    private static boolean isParallaxHeader = false;
     private LayoutInflater inflater;
 
     /**
@@ -242,25 +244,12 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 mRecyclerView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
             }
         }
-
         setDefaultScrollListener();
         /**
          * empty view setup
          */
         mEmptyViewContainer = (RelativeLayout) view.findViewById(R.id.urv_empty_view_loc);
-        if (mEmptyId != 0) {
-            //  mEmpty.setLayoutResource(mEmptyId);
-            //  mEmptyView = mEmpty.inflate();
-            //  mEmpty.setVisibility(View.GONE);
-        }
-
-        /**
-         * floating button setup
-         */
-        //mFloatingButtonViewStub = (ViewStub) view.findViewById(R.id.floatingActionViewStub);
-        // mFloatingButtonViewStub.setLayoutResource(mFloatingButtonId);
     }
-
 
     private void setPolicies(final int policyEmtpyView, final int policyInitialization) {
         //  setPolices(policyEmtpyView, policyInitialization);
@@ -275,41 +264,28 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     private void setEmptyView(@LayoutRes final int emptyResourceId) {
         if (mEmptyView == null && emptyResourceId > 0) {
             View container = inflater.inflate(emptyResourceId, null, false);
+            mEmptyView = container;
             mEmptyViewContainer.addView(container);
         } else {
             Log.d(VIEW_LOG_TAG, "unabled to set empty view because the empty has been set");
         }
     }
 
-    /**
-     * Set custom empty view.The view will be shown if the adapter is null or the size of the adapter is zero.
-     * You can customize it as loading view.
-     *
-     * @param emptyResourceId the Resource Id from the empty view
-     * @param emptyViewPolicy the Resource Id from the empty view
-     */
     public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy) {
-        //  mEmptyViewPolicy = emptyViewPolicy;
-        //  setEmptyView(emptyResourceId);
-        //  setPolicies(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
-        //  mEmpty.setVisibility(View.GONE);
-    }
-
-    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int mEmptyViewInitPolicy) {
-        setEmptyView(emptyResourceId);
-        setPolicies(emptyViewPolicy, mEmptyViewInitPolicy);
-    }
-
-    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final emptyViewOnShownListener listener) {
         setEmptyView(emptyResourceId);
         setPolicies(emptyViewPolicy, UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS);
-        mEmptyViewListener = listener;
     }
 
-    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int emptyViewInitPolicy, final emptyViewOnShownListener listener) {
+    public final void setEmptyView(@LayoutRes int emptyResourceId, final int emptyViewPolicy, final int emptyViewInitPolicy) {
         setEmptyView(emptyResourceId);
         setPolicies(emptyViewPolicy, emptyViewInitPolicy);
-        mEmptyViewListener = listener;
+    }
+
+    public void setOnBindEmptyView(final emptyViewOnShownListener onbind) {
+        mEmptyViewListener = onbind;
+        if (mEmptyView != null) {
+            onbind.onEmptyViewShow(mEmptyView);
+        }
     }
 
     /**
@@ -318,57 +294,38 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      *
      * @return is the empty shown
      */
-    public boolean showEmptyView() {
-       /* if (mEmpty != null && mEmptyView != null && mAdapter != null) {
-            if (mAdapter.getEmptyViewPolicy() == EMPTY_CLEAR_ALL || mAdapter.getEmptyViewPolicy() == EMPTY_KEEP_HEADER) {
-                mEmpty.setVisibility(View.VISIBLE);
-                if (mEmptyViewListener != null) {
-                    mEmptyViewListener.onEmptyViewShow(mEmptyView);
-                }
-            }
-            return true;
-        } else {
-            Log.d(VIEW_LOG_TAG, "it is unable to show empty view");
-            return false;
-        }*/
-        return false;
+    public View showEmptyView() {
+        mEmptyViewContainer.setVisibility(VISIBLE);
+        return mEmptyView;
     }
 
     /**
      * Hide the custom or default empty view
      */
     public void hideEmptyView() {
-       /* if (mEmpty != null && mEmptyView != null) {
-            mEmpty.setVisibility(View.GONE);
-        } else {
-            Log.d(VIEW_LOG_TAG, "there is no such empty view");
-        }*/
-    }
-
-    public void setLoadMoreView(View mlayoutView) {
-        if (mLoadMoreView != null) {
-            Log.d(VIEW_LOG_TAG, "The loading more layout has already been initiated.");
-            return;
-        }
-        if (mlayoutView == null) {
-            mLoadMoreView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_progressbar, null);
-            Log.d(VIEW_LOG_TAG, "Layout Resource view is null. This system will use the default loading view instead.");
-        } else {
-            mLoadMoreView = mlayoutView;
+        if (mEmptyViewContainer.getVisibility() != View.GONE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mEmptyViewContainer.animate().alpha(0).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        mEmptyViewContainer.setVisibility(View.GONE);
+                        mEmptyViewContainer.setOnClickListener(null);
+                    }
+                });
+            } else {
+                mEmptyViewContainer.setVisibility(View.GONE);
+                mEmptyViewContainer.setOnClickListener(null);
+            }
         }
     }
 
     /**
      * setting up the loading more layout
      *
-     * @param layout the res layout
+     * @param layout_id the res layout
      */
-    public void setLoadMoreView(@LayoutRes final int layout) {
-        if (layout > 0) {
-            mLoadMoreView = LayoutInflater.from(getContext()).inflate(layout, null);
-        } else {
-            Log.d(VIEW_LOG_TAG, "Layout Resource Id is not found for load more view for ulitmaterecyclerview");
-        }
+    public void setLoadMoreView(@LayoutRes final int layout_id) {
+        mLoadMoreView = layout_id;
     }
 
     /**
@@ -465,6 +422,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 mFirstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition();
                 lastVisibleItemPosition = mRecyclerViewHelper.findLastVisibleItemPosition();
                 break;
+
             case GRID:
                 if (layoutManager instanceof GridLayoutManager) {
                     GridLayoutManager ly = (GridLayoutManager) layoutManager;
@@ -472,6 +430,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                     mFirstVisibleItem = ly.findFirstVisibleItemPosition();
                 }
                 break;
+
             case STAGGERED_GRID:
                 if (layoutManager instanceof StaggeredGridLayoutManager) {
                     StaggeredGridLayoutManager sy = (StaggeredGridLayoutManager) layoutManager;
@@ -489,7 +448,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         }
 
         if (automaticLoadMoreEnabled) {
-
             if (mTotalItemCount > previousTotal) {
                 automaticLoadMoreEnabled = false;
                 previousTotal = mTotalItemCount;
@@ -514,31 +472,51 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     protected void setDefaultScrollListener() {
         mRecyclerView.removeOnScrollListener(mOnScrollListener);
         mOnScrollListener = new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mHeader != null) {
-                    mTotalYScrolled += dy;
-                    if (isParallaxHeader)
-                        translateHeader(mTotalYScrolled);
+                    switch (mScrollbarsStyle) {
+                        case SCROLLBARS_VERTICAL:
+                            mTotalScrolledOffset = mRecyclerView.computeVerticalScrollOffset();
+                            break;
+                        case SCROLLBARS_HORIZONTAL:
+                            mTotalScrolledOffset = mRecyclerView.computeHorizontalScrollOffset();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (mHeader.isParallaxHeader()) {
+                        if (mUpdateScroll != null) {
+                            mUpdateScroll.update(mTotalScrolledOffset);
+                        }
+                        mHeader.translateHeader(mTotalScrolledOffset, mParallaxScroll, recyclerView.findViewHolderForAdapterPosition(0));
+                    }
                 }
-
                 scroll_load_more_detection(recyclerView);
-
                 enableShoworHideToolbarAndFloatingButton(recyclerView);
             }
         };
 
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
+    private int mTotalScrolledOffset;
+    private updateScroll mUpdateScroll;
 
+    public interface updateScroll {
+        void update(int local);
+    }
+
+    public final void setUpdateScrollLocation(updateScroll e) {
+        mUpdateScroll = e;
+    }
 
     /**
      * If you have used {@link #disableLoadmore()} and want to enable loading more again,you can use this method.
      */
     public void reenableLoadmore() {
-        if (mAdapter != null && mLoadMoreView != null) {
+        if (mAdapter != null && mLoadMoreView > 0) {
             mAdapter.enableLoadMore(true);
         }
         mIsLoadMoreWidgetEnabled = true;
@@ -553,7 +531,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      */
     public void disableLoadmore() {
         mIsLoadMoreWidgetEnabled = false;
-        if (mAdapter != null && mLoadMoreView != null) {
+        if (mAdapter != null && mLoadMoreView > 0) {
             mAdapter.enableLoadMore(false);
         }
     }
@@ -850,16 +828,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mAdapter.setEmptyViewPolicy(policy_empty);
         mAdapter.setEmptyViewOnInitPolicy(policy_init);
 
-        if (mAdapter.getAdapterItemCount() == 0 && policy_init == UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS) {
-            // showEmptyView();
-        }
-
-        if (policy_init == UltimateRecyclerView.STARTWITH_ONLINE_ITEMS) {
-            // hideEmptyView();
-        }
-
-        if (mAdapter.getCustomLoadMoreView() == null && mLoadMoreView != null) {
-            mAdapter.setCustomLoadMoreView(mLoadMoreView);
+        if (mAdapter.getCustomLoadMoreView() == null && mLoadMoreView > 0) {
+            mAdapter.setCustomLoadMoreView(mLoadMoreView, getContext());
             mAdapter.enableLoadMore(true);
             mAdapter.notifyDataSetChanged();
             mIsLoadMoreWidgetEnabled = true;
@@ -869,6 +839,28 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
             mAdapter.setCustomHeaderView(mHeader);
             //getLayoutManager().ignoreView(mHeader);
         }
+        if (mAdapter instanceof LinearExpanxURVAdapter) {
+            mIsLoadMoreWidgetEnabled = false;
+            mAdapter.enableLoadMore(false);
+        }
+
+        if (mAdapter instanceof easyRegularAdapter) {
+
+        }
+
+        if (mAdapter instanceof UltimateDifferentViewTypeAdapter) {
+
+        }
+
+        if (mAdapter instanceof SwipeableUltimateViewAdapter) {
+
+        }
+
+        if (mAdapter instanceof AdmobAdapter) {
+
+        }
+
+        data_length_check();
     }
 
 
@@ -883,19 +875,30 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
          */
         if (!isFirstLoadingOnlineAdapter) {
             isFirstLoadingOnlineAdapter = true;
-            if (mAdapter.getAdapterItemCount() == 0) {
-                // mEmpty.setVisibility(mEmptyView == null ? View.VISIBLE : View.GONE);
 
-            } else if (mEmptyId != 0) {
-                implementLoadMorebehavior();
-                // mEmpty.setVisibility(View.GONE);
-            }
         } else {
             //isFirstLoadingOnlineAdapter = false;
             setRefreshing(false);
             implementLoadMorebehavior();
         }
+        data_length_check();
+    }
 
+    private void data_length_check() {
+
+        if (mAdapter.getAdapterItemCount() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
+
+        if (mAdapter.getAdapterItemCount() == 0 && policy_init == UltimateRecyclerView.STARTWITH_OFFLINE_ITEMS) {
+            showEmptyView();
+        }
+
+        if (policy_init == UltimateRecyclerView.STARTWITH_ONLINE_ITEMS) {
+            hideEmptyView();
+        }
     }
 
     private void implementLoadMorebehavior() {
@@ -926,8 +929,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 }
             });
         }
-      //  if (mPtrFrameLayout != null && refreshing)
-           // mPtrFrameLayout.autoRefresh(true);
+        //  if (mPtrFrameLayout != null && refreshing)
+        // mPtrFrameLayout.autoRefresh(true);
         if (mPtrFrameLayout != null && !refreshing) {
             mPtrFrameLayout.setPullToRefresh(false);
             mPtrFrameLayout.refreshComplete();
@@ -998,11 +1001,9 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      */
     public void setParallaxHeader(View header) {
         mHeader = new CustomRelativeWrapper(header.getContext());
-        mHeader.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        mHeader.addView(header, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        isParallaxHeader = true;
+        mHeader.setParallax(true);
+        mHeader.embedView(header);
     }
-
 
     /**
      * Set the normal header of the recyclerview
@@ -1010,9 +1011,12 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * @param header na
      */
     public void setNormalHeader(View header) {
-        setParallaxHeader(header);
-        isParallaxHeader = false;
+        mHeader = new CustomRelativeWrapper(header.getContext());
+        mHeader.setParallax(false);
+        mHeader.embedView(header);
     }
+
+    private float mScrollMultiplier = 0.5f;
 
     /**
      * Set the on scroll method of parallax header
@@ -1022,37 +1026,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     public void setOnParallaxScroll(OnParallaxScroll parallaxScroll) {
         mParallaxScroll = parallaxScroll;
         mParallaxScroll.onParallaxScroll(0, 0, mHeader);
-    }
-
-
-    private float mScrollMultiplier = 0.5f;
-
-    /**
-     * Translates the adapter in Y
-     *
-     * @param of offset in px
-     */
-    public void translateHeader(float of) {
-        float ofCalculated = of * mScrollMultiplier;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && of < mHeader.getHeight()) {
-            mHeader.setTranslationY(ofCalculated);
-        } else if (of < mHeader.getHeight()) {
-            TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
-            anim.setFillAfter(true);
-            anim.setDuration(0);
-            mHeader.startAnimation(anim);
-        }
-        mHeader.setClipY(Math.round(ofCalculated));
-        if (mParallaxScroll != null) {
-            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
-            float left;
-            if (holder != null) {
-                left = Math.min(1, ((ofCalculated) / (mHeader.getHeight() * mScrollMultiplier)));
-            } else {
-                left = 1;
-            }
-            mParallaxScroll.onParallaxScroll(left, of, mHeader);
-        }
     }
 
     /**
@@ -1066,6 +1039,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
 
     /**
      * Get the current parallax scroll multiplier.
+     *
+     * @return the value in float
      */
     public float getScrollMultiplier() {
         return this.mScrollMultiplier;
@@ -1080,31 +1055,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         if (mPtrFrameLayout != null) {
             mPtrFrameLayout.setPtrHandler(listen);
         }
-    }
-
-    /**
-     * Custom layout for the Parallax Header.
-     */
-    public static class CustomRelativeWrapper extends RelativeLayout {
-
-        private int mOffset;
-
-        public CustomRelativeWrapper(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void dispatchDraw(Canvas canvas) {
-            if (isParallaxHeader)
-                canvas.clipRect(new Rect(getLeft(), getTop(), getRight(), getBottom() + mOffset));
-            super.dispatchDraw(canvas);
-        }
-
-        public void setClipY(int offset) {
-            mOffset = offset;
-            invalidate();
-        }
-
     }
 
     /**
@@ -1130,7 +1080,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
         mScrollY = ss.scrollY;
         mChildrenHeights = ss.childrenHeights;
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
-
         /**
          * enhanced and store the previous scroll position
          */
@@ -1140,7 +1089,6 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
                 layoutManager.scrollToPosition(mPrevScrollY);
             }
         }
-
         super.onRestoreInstanceState(ss.getSuperState());
     }
 

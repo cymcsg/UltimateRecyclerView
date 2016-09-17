@@ -83,8 +83,7 @@ public class LauncherActivity extends AppCompatActivity implements ActionMode.Ca
         //simpleRecyclerViewAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
         //        .inflate(R.layout.custom_bottom_progressbar, null));
 
-        ultimateRecyclerView.setLoadMoreView(LayoutInflater.from(this)
-                .inflate(R.layout.custom_bottom_progressbar, null));
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
 //        //   ultimateRecyclerView.setNormalHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {

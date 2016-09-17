@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.ui.timelineview.TimelineView;
+import com.ml93.captainmiaoUtil.ui.timelineview.TimelineView;
 
 /**
  * Created by zJJ on 4/27/2016.

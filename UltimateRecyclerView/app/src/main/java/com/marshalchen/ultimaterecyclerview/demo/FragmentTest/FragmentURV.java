@@ -16,7 +16,7 @@ import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.griddemo.TypedAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.JRitem;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
-import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.JellyBeanFloatingActionButton;
+import com.ml93.captainmiaoUtil.ui.floatingactionbutton.JellyBeanFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;

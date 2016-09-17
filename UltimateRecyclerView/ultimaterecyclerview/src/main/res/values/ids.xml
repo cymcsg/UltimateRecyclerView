@@ -16,4 +16,7 @@
     <item name="urv_vertical_swiperefresher" type="id" />
     <item name="urv_ptr_module" type="id" />
 
+    <item name="urv_tv_content" type="id" />
+    <item name="urv_progress_view" type="id" />
+
 </resources>

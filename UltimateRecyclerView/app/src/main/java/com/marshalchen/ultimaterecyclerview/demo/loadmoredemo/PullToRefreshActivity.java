@@ -24,15 +24,13 @@ import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import ptr.PtrDefaultHandler;
-import ptr.PtrFrameLayout;
-import ptr.PtrHandler;
-import ptr.PtrUIHandler;
-import ptr.header.MaterialHeader;
-import ptr.header.StoreHouseHeader;
-import ptr.indicator.PtrIndicator;
-
-import static com.marshalchen.ultimaterecyclerview.demo.R.id.header;
+import com.insraincubeptr.PtrDefaultHandler;
+import com.insraincubeptr.PtrFrameLayout;
+import com.insraincubeptr.PtrHandler;
+import com.insraincubeptr.PtrUIHandler;
+import com.insraincubeptr.header.MaterialHeader;
+import com.insraincubeptr.header.StoreHouseHeader;
+import com.insraincubeptr.indicator.PtrIndicator;
 
 
 public class PullToRefreshActivity extends BasicFunctions implements ActionMode.Callback {

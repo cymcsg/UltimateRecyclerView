@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
+
 
     <TextView
         android:id="@+id/del"
@@ -34,4 +36,11 @@
         android:layout_toLeftOf="@id/add"
         android:src="@drawable/ic_autorenew_24dp" />
 
+    <TextView
+        android:id="@+id/other"
+        style="@style/TextButtonToolBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/toggle"
+        android:text="other" />
 </RelativeLayout>

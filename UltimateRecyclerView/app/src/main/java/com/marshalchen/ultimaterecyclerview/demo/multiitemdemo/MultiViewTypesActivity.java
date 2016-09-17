@@ -9,12 +9,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
-import com.marshalchen.ultimaterecyclerview.ui.divideritemdecoration.HorizontalDividerItemDecoration;
+import com.ml93.captainmiaoUtil.ItemDecoration.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +53,11 @@ public class MultiViewTypesActivity extends AppCompatActivity {
 
 
         simpleRecyclerViewAdapter = new MultiViewTypesRecyclerViewAdapter(stringList);
-        simpleRecyclerViewAdapter.setCustomLoadMoreView(
-                LayoutInflater.from(this).inflate(R.layout.custom_bottom_progressbar, null));
-
 //        stringList.add("66");
 //        stringList.add("11771");
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
+        ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
         // ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

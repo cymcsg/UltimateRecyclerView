@@ -83,7 +83,7 @@
         app:recyclerviewEmptyView="@layout/empty_view"
         app:recyclerviewScrollbars="vertical" />
 
-    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.JellyBeanFloatingActionButton
+    <com.ml93.captainmiaoUtil.ui.floatingactionbutton.JellyBeanFloatingActionButton
         android:id="@+id/custom_urv_add_floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

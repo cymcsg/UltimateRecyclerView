@@ -2,12 +2,12 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 
 import android.graphics.Color;
 
-import com.marshalchen.ultimaterecyclerview.ui.swipe.SwipeableRecyclerViewTouchListener;
+import com.ml93.captainmiaoUtil.ui.swipe.SwipeableRecyclerViewTouchListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
-import com.marshalchen.ultimaterecyclerview.ui.swipe.defaultRegularSwipe;
+import com.ml93.captainmiaoUtil.ui.swipe.defaultRegularSwipe;
 
 import java.util.ArrayList;
 

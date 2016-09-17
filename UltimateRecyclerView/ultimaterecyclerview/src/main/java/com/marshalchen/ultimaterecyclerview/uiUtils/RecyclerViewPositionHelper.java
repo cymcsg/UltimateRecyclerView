@@ -20,7 +20,6 @@ public class RecyclerViewPositionHelper {
     RecyclerViewPositionHelper(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         this.layoutManager = recyclerView.getLayoutManager();
-
     }
 
     public static RecyclerViewPositionHelper createHelper(RecyclerView recyclerView) {
@@ -87,8 +86,7 @@ public class RecyclerViewPositionHelper {
         return child == null ? RecyclerView.NO_POSITION : recyclerView.getChildAdapterPosition(child);
     }
 
-    private View findOneVisibleChild(int fromIndex, int toIndex, boolean completelyVisible,
-                                     boolean acceptPartiallyVisible) {
+    private View findOneVisibleChild(int fromIndex, int toIndex, boolean completelyVisible, boolean acceptPartiallyVisible) {
         OrientationHelper helper;
         if (layoutManager.canScrollVertically()) {
             helper = OrientationHelper.createVerticalHelper(layoutManager);

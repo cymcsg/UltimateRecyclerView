@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.marshalchen.ultimaterecyclerview.ui.timelineview.TimelineView
+    <com.ml93.captainmiaoUtil.ui.timelineview.TimelineView
         android:id="@+id/time_marker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

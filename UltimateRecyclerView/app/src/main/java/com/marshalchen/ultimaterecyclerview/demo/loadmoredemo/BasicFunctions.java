@@ -3,17 +3,18 @@ package com.marshalchen.ultimaterecyclerview.demo.loadmoredemo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.DragDropTouchListener;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
@@ -24,8 +25,11 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.layoutmanagers.ClassicSpanGridLayoutManager;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.marshalchen.ultimaterecyclerview.ui.AnimationType;
+import com.ml93.captainmiaoUtil.ui.AnimationType;
 import com.marshalchen.ultimaterecyclerview.layoutmanagers.ScrollSmoothLineaerLayoutManager;
+import com.ml93.captainmiaoUtil.ui.emptyview.emptyViewOnShownListener;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by hesk on 19/2/16.
@@ -136,10 +140,24 @@ public abstract class BasicFunctions extends AppCompatActivity {
     }
 
     protected void enableEmptyViewPolicy() {
-        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-        //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-        //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
+        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
+        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
+        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
         ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        ultimateRecyclerView.setOnBindEmptyView(new emptyViewOnShownListener() {
+            @Override
+            public void onEmptyViewShow(View mView) {
+                Log.d("empty view", "here is what they are doing now");
+                TextView tv = (TextView) mView.findViewById(R.id.exp_section_title);
+                if (tv != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Your pressed at \"");
+                    sb.append(1);
+                    sb.append("\" and that is not found.");
+                    tv.setText(sb.toString());
+                }
+            }
+        });
     }
 
     protected void enableSwipe() {
@@ -219,7 +237,11 @@ public abstract class BasicFunctions extends AppCompatActivity {
 
     }
 
-    private void bButtons() {
+    private void applySupportToolbar(Toolbar bar) {
+        toolbar = bar;
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,11 +255,18 @@ public abstract class BasicFunctions extends AppCompatActivity {
                 removeButtonTrigger();
             }
         });
-
         findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleButtonTrigger();
+            }
+        });
+
+        final TextView txt = (TextView) findViewById(R.id.other);
+        ultimateRecyclerView.setUpdateScrollLocation(new UltimateRecyclerView.updateScroll() {
+            @Override
+            public void update(int local) {
+                txt.setText(local + ".");
             }
         });
     }
@@ -262,12 +291,9 @@ public abstract class BasicFunctions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loadmore);
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
+        applySupportToolbar((Toolbar) findViewById(R.id.tool_bar));
         doURV(ultimateRecyclerView);
-        bButtons();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         setupSpinnerSelection((Spinner) findViewById(R.id.spinner), spinnerAdapter);
     }

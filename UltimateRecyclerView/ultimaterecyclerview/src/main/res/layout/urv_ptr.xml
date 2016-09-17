@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ptr.PtrFrameLayout
+    <com.insraincubeptr.PtrFrameLayout
         android:id="@id/urv_ptr_module"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +25,7 @@
             android:background="#ffffff"
             android:scrollbars="vertical" />
 
-    </ptr.PtrFrameLayout>
+    </com.insraincubeptr.PtrFrameLayout>
 
     <RelativeLayout
         android:id="@id/urv_empty_view_loc"

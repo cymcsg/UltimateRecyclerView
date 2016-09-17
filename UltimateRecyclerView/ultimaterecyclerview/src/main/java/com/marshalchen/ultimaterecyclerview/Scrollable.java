@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 
 /**
- * Provides common API for observable and scrollable widgets.
+ * Provides com.ml93.kp.common API for observable and scrollable widgets.
  */
 public interface Scrollable {
     /**

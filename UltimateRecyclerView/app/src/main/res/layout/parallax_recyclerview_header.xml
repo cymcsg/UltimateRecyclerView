@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="180dp">
 
     <ImageView
         android:id="@id/str_sticky_headr_img"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/jr15" />
+        app:srcCompat="@drawable/jr6" />
 
     <TextView
         android:id="@id/str_sticky_headr_tv"
@@ -17,7 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="JR"
+        android:layout_margin="10dp"
+        android:text="JR-93"
+        android:background="@drawable/custom_drag_frame"
         android:textColor="@color/bg_item_swiping_state"
         android:textSize="30sp" />
 </RelativeLayout>

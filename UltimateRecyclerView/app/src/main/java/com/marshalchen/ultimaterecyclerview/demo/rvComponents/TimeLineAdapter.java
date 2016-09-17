@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.demo.modules.TimeLineModel;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.marshalchen.ultimaterecyclerview.ui.timelineview.TimelineView;
+import com.ml93.captainmiaoUtil.ui.timelineview.TimelineView;
 
 import java.util.List;
 

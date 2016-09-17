@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout
+    <com.ml93.captainmiaoUtil.ui.VerticalSwipeRefreshLayout
         android:id="@id/urv_vertical_swiperefresher"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:focusableInTouchMode="true" />
 
-    </com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout>
+    </com.ml93.captainmiaoUtil.ui.VerticalSwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@id/urv_empty_view_loc"

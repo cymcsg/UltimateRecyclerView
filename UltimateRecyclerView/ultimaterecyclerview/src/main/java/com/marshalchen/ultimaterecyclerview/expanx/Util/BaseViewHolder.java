@@ -25,6 +25,16 @@ public class BaseViewHolder<T extends ExpandableItemData> extends UltimateRecycl
         getMarginBy();
     }
 
+    @Override
+    public void onViewAttachedToWindow() {
+        super.onViewAttachedToWindow();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow() {
+        super.onViewDetachedFromWindow();
+    }
+
     protected View getView(final Context m, final ViewGroup parent, final @LayoutRes int layout) {
         return LayoutInflater.from(m).inflate(layout, parent, false);
     }

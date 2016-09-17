@@ -1,6 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.expanx;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
     }
 
     private Context mContext;
-    private List<T> mDataSet;
+    private final List<T> mDataSet;
     private List<OnScrollToListener> monScrollToListenerList = new ArrayList<>();
     private OnScrollToListener onScrollToListener;
     public static final String TAG = "expAdapter";
@@ -127,7 +128,6 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
         }
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
@@ -143,7 +143,6 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
                 break;
         }
     }
-
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup) {
@@ -193,7 +192,11 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
 
     @Override
     public long generateHeaderId(int i) {
-        return 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return View.generateViewId();
+        } else {
+            return 0;
+        }
     }
 
     private int getChildrenCount(T item) {
@@ -222,10 +225,15 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
      * @param itemCount 删除的数目
      */
     protected void removeAll(int position, int itemCount) {
-        for (int i = 0; i < itemCount; i++) {
-            mDataSet.remove(position);
+        if (position < getAdapterItemCount()) {
+            notifyItemRangeRemoved(position, itemCount);
+            for (int i = 0; i < itemCount; i++) {
+                mDataSet.remove(position);
+            }
+            int after_count = mDataSet.size();
+            //notifyItemRangeRemoved(position, itemCount);
+            //  notifyItemMoved(position, position + itemCount);
         }
-        notifyItemRangeRemoved(position, itemCount);
     }
 
     /**
@@ -245,7 +253,11 @@ public abstract class LinearExpanxURVAdapter<T extends ExpandableItemData, G ext
 
     @Override
     public int getItemViewType(int position) {
-        return mDataSet.get(position).getType();
+        if (position < mDataSet.size()) {
+            return mDataSet.get(position).getType();
+        } else {
+            return -1;
+        }
     }
 
     public void add(T text, int position) {

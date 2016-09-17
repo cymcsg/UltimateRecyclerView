@@ -56,7 +56,7 @@
         app:recyclerviewPadding="2dp"
         app:recyclerviewRefreshType="ptr" />
 
-    <com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.AddFloatingActionButton
+    <com.ml93.captainmiaoUtil.ui.floatingactionbutton.AddFloatingActionButton
 
 
         android:id="@+id/custom_urv_add_floating_button"

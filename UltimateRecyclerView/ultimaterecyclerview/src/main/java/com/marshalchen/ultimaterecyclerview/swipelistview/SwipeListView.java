@@ -134,7 +134,7 @@ public class SwipeListView extends RecyclerView {
     private LinearLayoutManager mLayoutManager;
 
     /**
-     * Internal listener for common swipe events
+     * Internal listener for com.ml93.kp.common swipe events
      */
     public SwipeListViewListener swipeListViewListener;
 

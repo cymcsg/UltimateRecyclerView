@@ -23,6 +23,8 @@ import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.FirstPageCancelLoa
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.LineNodeActivity;
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.PullToRefreshActivity;
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.SliderHeader;
+import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.Stagger2ColumnLoadTest;
+import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.StaggerHeaderCol2Test;
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.StaggerLoadMoreActivity;
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.SwipeListViewExampleActivity;
 import com.marshalchen.ultimaterecyclerview.demo.multiitemdemo.MultiViewTypesActivity;
@@ -68,7 +70,9 @@ public class MainList extends AppCompatActivity implements AdapterView.OnItemCli
         data.put("Debug Admob classic", TestAdMobClassicActivity.class);
         data.put("Debug Admob advanced", TestAdvancedAdmobActivity.class);
         data.put("Debug Slider Header", SliderHeader.class);
-        data.put("Debug Stagger Load More", StaggerLoadMoreActivity.class);
+        data.put("Stagger, Single Add", StaggerLoadMoreActivity.class);
+        data.put("Stagger, 2 column, Load More", Stagger2ColumnLoadTest.class);
+        data.put("Stagger, 2 column, Header, Load More", StaggerHeaderCol2Test.class);
         data.put("Debug Swipe List", SwipeListViewExampleActivity.class);
         data.put("Debug expandable", TestExpandableRV.class);
         data.put("Debug multi view types", MultiViewTypesActivity.class);

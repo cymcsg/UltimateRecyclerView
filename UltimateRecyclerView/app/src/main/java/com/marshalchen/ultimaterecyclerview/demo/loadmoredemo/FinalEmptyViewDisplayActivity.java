@@ -9,14 +9,14 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.rvComponents.sectionZeroAdapter;
 import com.marshalchen.ultimaterecyclerview.demo.modules.SampleDataboxset;
-import com.marshalchen.ultimaterecyclerview.ui.emptyview.emptyViewOnShownListener;
+import com.ml93.captainmiaoUtil.ui.emptyview.emptyViewOnShownListener;
 
 import java.util.ArrayList;
 
 /**
  * Created by hesk on 25/2/16.
  */
-public class FinalEmptyViewDisplayActivity extends BasicFunctions implements emptyViewOnShownListener {
+public class FinalEmptyViewDisplayActivity extends BasicFunctions {
     private sectionZeroAdapter simpleRecyclerViewAdapter = null;
     private Handler time_count = new Handler();
     private int time = 0;
@@ -45,7 +45,21 @@ public class FinalEmptyViewDisplayActivity extends BasicFunctions implements emp
     protected void enableEmptyViewPolicy() {
         //  ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
         //    ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-        ultimateRecyclerView.setEmptyView(R.layout.empty_view_v2, UltimateRecyclerView.EMPTY_CLEAR_ALL, this);
+        ultimateRecyclerView.setEmptyView(R.layout.empty_view_v2, UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        ultimateRecyclerView.setOnBindEmptyView(new emptyViewOnShownListener() {
+            @Override
+            public void onEmptyViewShow(View mView) {
+                TextView tv = (TextView) mView.findViewById(R.id.exp_section_title);
+                if (tv != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Your pressed at \"");
+                    sb.append(time);
+                    sb.append("\" and that is not found.");
+                    tv.setText(sb.toString());
+                }
+                time++;
+            }
+        });
     }
 
 
@@ -84,16 +98,4 @@ public class FinalEmptyViewDisplayActivity extends BasicFunctions implements emp
 
     }
 
-    @Override
-    public void onEmptyViewShow(View mView) {
-        TextView tv = (TextView) mView.findViewById(R.id.exp_section_title);
-        if (tv != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Your pressed at \"");
-            sb.append(time);
-            sb.append("\" and that is not found.");
-            tv.setText(sb.toString());
-        }
-        time++;
-    }
 }

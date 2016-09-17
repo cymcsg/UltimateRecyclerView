@@ -22,7 +22,6 @@ public class UltimateRecyclerviewViewHolder<T> extends RecyclerView.ViewHolder i
     private View mView;
     private T mObject;
 
-
     public SwipeLayout swipeLayout = null;
     public SwipeLayout.OnLayout onLayoutListener = null;
     public SwipeLayout.SwipeListener swipeMemory = null;
