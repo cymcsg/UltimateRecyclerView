@@ -28,9 +28,6 @@ public class DebugLoadMoreActivity extends BasicFunctions {
 
     @Override
     protected void onLoadmore() {
-
-        //    SampleDataboxset.insertMore(simpleRecyclerViewAdapter, 2);
-
         SampleDataboxset.insertMoreWhole(simpleRecyclerViewAdapter, 2);
 
         //  linearLayoutManager.scrollToPositionWithOffset(maxLastVisiblePosition, -1);
@@ -39,11 +36,11 @@ public class DebugLoadMoreActivity extends BasicFunctions {
         /**
          * this is the example for making the function test for loading more and disable loading more
          */
-                        /* if (isEnableAutoLoadMore) {
+       /* if (isEnableAutoLoadMore) {
                             ultimateRecyclerView.enableLoadmore();
-                        } else {
+    } else {
                             ultimateRecyclerView.disableLoadmore();
-                        }*/
+           }*/
     }
 
     @Override

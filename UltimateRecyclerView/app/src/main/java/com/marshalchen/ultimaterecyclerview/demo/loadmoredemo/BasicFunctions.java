@@ -39,7 +39,7 @@ public abstract class BasicFunctions extends AppCompatActivity {
     protected UltimateRecyclerView ultimateRecyclerView;
 
     protected void enableParallaxHeader() {
-        ultimateRecyclerView.setParallaxHeader(getLayoutInflater().inflate(R.layout.parallax_recyclerview_header, ultimateRecyclerView.mRecyclerView, false));
+        ultimateRecyclerView.setParallaxHeader(R.layout.parallax_recyclerview_header);
         ultimateRecyclerView.setOnParallaxScroll(new UltimateRecyclerView.OnParallaxScroll() {
             @Override
             public void onParallaxScroll(float percentage, float offset, View parallax) {
@@ -54,15 +54,12 @@ public abstract class BasicFunctions extends AppCompatActivity {
         // StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(simpleRecyclerViewAdapter);
         // ultimateRecyclerView.addItemDecoration(headersDecor);
         ultimateRecyclerView.setLoadMoreView(R.layout.custom_bottom_progressbar);
-
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
                 status_progress = true;
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                ultimateRecyclerView.postDelayed(new Runnable() {
                     public void run() {
-
                         onLoadmore();
                         status_progress = false;
                     }
@@ -140,9 +137,6 @@ public abstract class BasicFunctions extends AppCompatActivity {
     }
 
     protected void enableEmptyViewPolicy() {
-        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER);
-        //- ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_SHOW_LOADMORE_ONLY);
         ultimateRecyclerView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
         ultimateRecyclerView.setOnBindEmptyView(new emptyViewOnShownListener() {
             @Override

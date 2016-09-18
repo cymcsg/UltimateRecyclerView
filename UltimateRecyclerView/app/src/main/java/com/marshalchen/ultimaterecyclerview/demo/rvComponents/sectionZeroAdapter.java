@@ -106,7 +106,6 @@ public class sectionZeroAdapter extends easyRegularAdapter<String, itemCommonBin
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         swapPositions(fromPosition, toPosition);
-//        notifyItemMoved(fromPosition, toPosition);
         super.onItemMove(fromPosition, toPosition);
     }
 
