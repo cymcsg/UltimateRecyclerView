@@ -14,7 +14,7 @@ env:
     # Amount of memory granted to Gradle JVM
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
     # General Android settings used in builds
-    - ANDROID_TARGET=android-24
+    - ANDROID_TARGET=android-25
 
 before_install:
     # Making sure gradlew has executable permissions
@@ -26,9 +26,9 @@ android:
     # We are using the latest revision of Android SDK Tools
     - tools
     - platform-tools
-    - android-24
+    - android-25
     # The BuildTools version we are using for our project
-    - build-tools-24.0.1
+    - build-tools-25.0.1
   
     # Additional components
     - extra-google-google_play_services
