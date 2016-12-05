@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
@@ -24,8 +24,8 @@ ext {
     //Library configurations
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.7.0'
-    VERSION_CODE = 23
+    PUBLISH_VERSION = '0.7.1'
+    VERSION_CODE = 24
     //your version
 
     //Application
