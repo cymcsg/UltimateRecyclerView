@@ -47,7 +47,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
 }
 ```
 
@@ -57,7 +57,7 @@ or grab via Maven
 <dependency>
   <groupId>com.marshalchen.ultimaterecyclerview</groupId>
   <artifactId>library</artifactId>
-  <version>0.7.0</version>
+  <version>0.7.2</version>
 </dependency>
 ```
 
