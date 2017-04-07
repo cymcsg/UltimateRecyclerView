@@ -2,8 +2,9 @@ package com.marshalchen.ultimaterecyclerview.demo.admobdemo;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.demo.R;
@@ -13,14 +14,14 @@ import java.util.List;
 /**
  * Created by hesk on 20/5/15.
  */
-public class ZeroStickyAdvertistmentAdapter extends AdmobAdapter<AdView, String, SingleItemCommonLayout> {
+public class ZeroStickyAdvertistmentAdapter extends AdmobAdapter<ViewGroup, String, SingleItemCommonLayout> {
 
 
-    public ZeroStickyAdvertistmentAdapter(AdView v, List<String> f) {
+    public ZeroStickyAdvertistmentAdapter(ViewGroup v, List<String> f) {
         super(v, false, 12, f);
     }
 
-    public ZeroStickyAdvertistmentAdapter(AdView v, int e, List<String> f, AdviewListener listener) {
+    public ZeroStickyAdvertistmentAdapter(ViewGroup v, int e, List<String> f, AdviewListener listener) {
         super(v, false, e, f, listener);
     }
 

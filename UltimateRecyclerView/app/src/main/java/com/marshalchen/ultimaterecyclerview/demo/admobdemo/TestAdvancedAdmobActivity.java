@@ -14,10 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
+/*import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdView;*/
 import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
@@ -102,7 +102,10 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         return R.layout.countable_rv_adp;
     }
 
-    private RelativeLayout createadmob() {
+  /**
+   *
+   *
+   private RelativeLayout createadmob() {
 
         AdSize adSize = AdSize.SMART_BANNER;
 
@@ -138,9 +141,9 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
         final int ad_height = AdGoogleDisplaySupport.defaultHeight(displaymetrics);
         AdGoogleDisplaySupport.panelAdjust(mAdView, (int) (ad_height * ratio));
         // get display info
-        /*  G.display_w = displayMetrics.widthPixels;
-        G.display_h = displayMetrics.heightPixels;
-        G.scale = Math.max(G.display_w/1280.0f, G.display_h/800.0f);*/
+        //  G.display_w = displayMetrics.widthPixels;
+        //  G.display_h = displayMetrics.heightPixels;
+        //  G.scale = Math.max(G.display_w/1280.0f, G.display_h/800.0f);
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -156,16 +159,19 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
     }
 
 
+    */
+
+
     /**
      * example 1 implementation of the switch view
-     */
+
     private BiAdAdapterSwitcher imple_switch_view(final UltimateRecyclerView rv) {
         final adap adp1 = new adap(createadmob(), new ArrayList<String>());
         final regular adp2 = new regular(new ArrayList<String>());
         final BiAdAdapterSwitcher switchable = new BiAdAdapterSwitcher(rv, adp2, adp1);
         return switchable;
     }
-
+     */
     private Handler osh = new Handler();
 
     @Override
@@ -184,7 +190,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
 
         /**
          *  example 2 implementation enhancement of list view
-         */
+
         bi_sw = imple_switch_view(ultimateRecyclerView)
                 .onEnableRefresh(100)
                 .EnableAutoDisableLoadMoreByMaxPages()
@@ -205,7 +211,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
+         */
         TextView b = (TextView) findViewById(R.id.del);
         b.setText("with Ad");
         TextView a = (TextView) findViewById(R.id.add);
@@ -217,7 +223,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                  *  example 2 implementation enhancement of list view
                  *  without advertisement configurations
                  */
-                bi_sw.init(false);
+               // bi_sw.init(false);
             }
 
         });
@@ -228,7 +234,7 @@ public class TestAdvancedAdmobActivity extends AppCompatActivity {
                  *  example 2 implementation enhancement of list view
                  *  with advertisement configuration
                  */
-                bi_sw.init(true);
+             //   bi_sw.init(true);
             }
         });
         setup_spinner();

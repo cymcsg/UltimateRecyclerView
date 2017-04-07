@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.ads.AdRequest;
+/*import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdView;*/
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.demo.R;
 import com.marshalchen.ultimaterecyclerview.demo.modules.FastBinding;
@@ -39,7 +39,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
 
     private boolean admob_test_mode = false;
 
-    private AdView createadmob() {
+   /* private AdView createadmob() {
         AdView mAdView = new AdView(this);
         mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
@@ -52,7 +52,7 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
         // Start loading the ad.
         mAdView.loadAd(adRequestBuilder.build());
         return mAdView;
-    }
+    }*/
 
     private void enableSwipe() {
 
@@ -144,12 +144,12 @@ public class TestAdMobClassicActivity extends AppCompatActivity {
         /**
          * working example 2 with multiple called Adviews
          */
-        simpleRecyclerViewAdapter = new ZeroStickyAdvertistmentAdapter(createadmob(), SampleDataboxset.newListFromGen());
+       /* simpleRecyclerViewAdapter = new ZeroStickyAdvertistmentAdapter(createadmob(), SampleDataboxset.newListFromGen());
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(simpleRecyclerViewAdapter);
         ultimateRecyclerView.setItemViewCacheSize(3);
-        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#f5f5ff"));
+        ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#f5f5ff"));*/
         enableEmptyView();
         enableRefresh();
         enableLoadMore();

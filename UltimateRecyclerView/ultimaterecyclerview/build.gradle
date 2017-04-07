@@ -1,12 +1,49 @@
 apply plugin: 'com.android.library'
 
+def versionMajor = 0;
+def versionMinor = 9;
+def versionPatch = 10;
+def versionBuild = 88;
+def version_code = 89;
+def value = 2;
+def val_minor = 0;
+def final_version_name = "0.9.0"
 android {
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def runTasks = gradle.startParameter.taskNames
+
+        if (runTasks.contains('assemblePlay_store')) {
+            val_minor = 1;
+        }
+
+        /*   versionMinor = Integer.parseInt(versionProps['VERSION_MINOR']) + val_minor
+           versionPatch = Integer.parseInt(versionProps['VERSION_PATCH']) + value
+           versionBuild = Integer.parseInt(versionProps['VERSION_BUILD']) + 1
+           version_code = Integer.parseInt(versionProps['VERSION_CODE']) + value
+
+           versionProps['VERSION_PATCH'] = versionPatch.toString()
+           versionProps['VERSION_BUILD'] = versionBuild.toString()
+           versionProps['VERSION_CODE'] = version_code.toString()
+           versionProps['VERSION_MINOR'] = versionMinor.toString()
+           versionProps['VERSION_NAME'] = "${versionMajor}.${versionMinor}.${versionPatch}"*/
+
+        versionProps.store(versionPropsFile.newWriter(), null)
+        final_version_name = "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+
+
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        versionCode project.VERSION_CODE as int
-        versionName project.VERSION_NAME
+        versionCode versionBuild as int
+        versionName final_version_name
         minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
 
@@ -35,4 +72,30 @@ dependencies {
 
 //apply from: 'android-release-aar.gradle'
 //apply from: 'maven-push.gradle'
-apply from: 'bintray_3_4.gradle'
+//apply from: 'bintray_3_4.gradle'
+
+
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'jjhesk'
+    groupId = 'com.hkm.ui'
+    artifactId = 'ultimaterecyclerview'
+    version = final_version_name
+    uploadName = 'MenuURV'
+    description = "The super recycler for the menu"
+    website = 'https://github.com/HKMOpen/UltimateRecyclerView'
+    autoPublish = true
+    dryRun = false
+    issueTracker = "${website}/issues"
+    licences = [project.POM_LICENCE_NAME]
+    bintrayUser = userOrg
+}
+
+if (hasProperty('APIBKI')) {
+    publish.bintrayKey = property('APIBKI')
+} else {
+    publish.bintrayKey = '17479d176480ed0232fe101b6555654a2624d7a0'
+}
+
+apply plugin: 'maven'

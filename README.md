@@ -20,7 +20,7 @@ Please follow the latest publishing aar on jcenter.
 follow by the gradle code
 ```gradle
 dependencies{
-    compile 'com.hkm.ui:ultimaterecyclerview:0.8.0'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.9.10'
 }
 ```
 
@@ -44,6 +44,7 @@ repositories {
 ```
 
 ### Version Log
+* ***v0.9.10*** Update library to support 25.3.1 and removed support from support `Adview`. Minor bug fixed from `setOnLoadListener`
 * ***v0.5.8*** In this version we are now based on support library 23.4.0. We have fixed the load more and disable load more function from early triggers. There is no need to change anything from their implementations. Please read up on the example code if you have any questions from the implementations.
 
 * ***v0.5.6*** In this version we now have 23.3.0 support library and the min version is supported all the ways to v13. New added feature that allow us to adding have node connector on each item on `linearlayoutmanager`. By extending `TimeLineView` you will now have unlimited builds from the things that connected to each dot.

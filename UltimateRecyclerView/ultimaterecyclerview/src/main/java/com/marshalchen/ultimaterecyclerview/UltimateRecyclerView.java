@@ -756,10 +756,10 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Set the load more listener of recyclerview
      *
-     * @param onLoadMoreListener load listen
+     * @param listenSymbol load listen
      */
-    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
-        this.onLoadMoreListener = onLoadMoreListener;
+    public void setOnLoadMoreListener(OnLoadMoreListener listenSymbol) {
+        onLoadMoreListener = listenSymbol;
     }
 
 

@@ -6,11 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
 
-        versionCode app_demo_versionCode
-        versionName app_demo_versionName
+        versionCode 199
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -32,7 +32,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
     compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
-    compile 'com.google.android.gms:play-services:7.3.0'
+    //compile 'com.google.android.gms:play-services:7.3.0'
     debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
