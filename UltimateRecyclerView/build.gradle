@@ -31,8 +31,6 @@ ext {
     PUBLISH_ARTIFACT_ID = 'library'
     PUBLISH_VERSION = '0.7.3'
     VERSION_CODE = 26
-    //your version
-
     //Application
     app_demo_versionCode = 26
     app_demo_versionName = '1.7.3'
