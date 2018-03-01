@@ -28,7 +28,7 @@ android:
     - platform-tools
     - android-27
     # The BuildTools version we are using for our project
-    - build-tools-26.0.3
+    - build-tools-27.0.3
   
     # Additional components
     - extra-google-google_play_services
