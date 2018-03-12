@@ -29,16 +29,16 @@ repositories {
     maven { url "http://dl.bintray.com/jjhesk/maven" }
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
-    compile "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
-    compile 'com.google.android.gms:play-services:11.8.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY}"
+    implementation "com.android.support:cardview-v7:${SUPPORT_LIBRARY}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
+    implementation 'com.google.android.gms:play-services:11.8.0'
     implementation 'com.android.support:multidex:1.0.3'
-    compile 'com.hkm.loyalslider:library:1.6.2'
-    compile project(':ultimaterecyclerview')
+    implementation 'com.hkm.loyalslider:library:1.6.2'
+    implementation project(':ultimaterecyclerview')
     //used in the gridlayout
     // compile 'com.hkm.loyalslider:library:1.4.5' exclude group: 'android.support.v13'
 
