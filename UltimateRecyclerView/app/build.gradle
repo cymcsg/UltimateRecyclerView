@@ -6,11 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
-
         versionCode app_demo_versionCode
         versionName app_demo_versionName
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,6 +37,7 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     compile 'com.google.android.gms:play-services:11.8.0'
+    implementation 'com.android.support:multidex:1.0.3'
     compile 'com.hkm.loyalslider:library:1.6.2'
     compile project(':ultimaterecyclerview')
     //used in the gridlayout
