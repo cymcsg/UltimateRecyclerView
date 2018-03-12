@@ -28,14 +28,9 @@ android:
     # We are using the latest revision of Android SDK Tools
     - tools
     - platform-tools
-    - android-26
+    - android-27
     # The BuildTools version we are using for our project
-<<<<<<< HEAD
-    - build-tools-27.0.2
-=======
-    - build-tools-27.0.3
->>>>>>> 784db100d38917d4228204193fcc4cc4f4caecbb
-  
+    - build-tools-27.0.3  
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
