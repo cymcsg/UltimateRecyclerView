@@ -20,7 +20,6 @@ android {
     lintOptions {
         abortOnError false
     }
-    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -33,6 +32,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+
 }
 
 //apply from: 'android-release-aar.gradle'
