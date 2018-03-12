@@ -20,15 +20,17 @@ before_install:
     # Making sure gradlew has executable permissions
     - cd UltimateRecyclerView
     - chmod a+x gradlew
+    - yes | sdkmanager "platforms;android-27"
+
 
 android:
   components:
     # We are using the latest revision of Android SDK Tools
     - tools
     - platform-tools
-    - android-27
+    - android-26
     # The BuildTools version we are using for our project
-    - build-tools-26.0.3
+    - build-tools-27.0.2
   
     # Additional components
     - extra-google-google_play_services
