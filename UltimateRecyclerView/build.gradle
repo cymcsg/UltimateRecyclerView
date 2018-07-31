@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
     }
 }
 
@@ -26,7 +26,7 @@ ext {
     //Library configurations
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.7.5'
+    PUBLISH_VERSION = '0.7.6'
     VERSION_CODE = 27
     //Application
     app_demo_versionCode = 27
