@@ -1,7 +1,7 @@
 # Android generated
 bin/
 gen/
-
+.DS_Store
 # Ant
 build.xml
 local.properties
