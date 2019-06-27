@@ -18,7 +18,7 @@
         cube_ptr:ptr_resistance="1.7">
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ultimate_list"
             android:background="#ffffff"
             android:layout_width="match_parent"

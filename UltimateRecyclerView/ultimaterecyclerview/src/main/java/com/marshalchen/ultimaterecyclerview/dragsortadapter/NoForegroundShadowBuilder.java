@@ -3,7 +3,7 @@ package com.marshalchen.ultimaterecyclerview.dragsortadapter;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;

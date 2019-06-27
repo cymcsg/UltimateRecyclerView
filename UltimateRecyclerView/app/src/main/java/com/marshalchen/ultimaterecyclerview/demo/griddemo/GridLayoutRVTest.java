@@ -2,11 +2,11 @@ package com.marshalchen.ultimaterecyclerview.demo.griddemo;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.DisplayMetrics;
 import android.view.ActionMode;
 import android.view.Display;

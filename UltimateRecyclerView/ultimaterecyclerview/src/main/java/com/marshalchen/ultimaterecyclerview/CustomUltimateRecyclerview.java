@@ -1,13 +1,12 @@
 package com.marshalchen.ultimaterecyclerview;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 
-import com.marshalchen.ultimaterecyclerview.ui.VerticalSwipeRefreshLayout;
 import com.marshalchen.ultimaterecyclerview.ui.floatingactionbutton.FloatingActionButton;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;

@@ -1,10 +1,8 @@
 package com.marshalchen.ultimaterecyclerview.ui.swipe;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.marshalchen.ultimaterecyclerview.swipe.SimpleSwipeListener;
 
 /**
  * Created by hesk on 19/2/16.

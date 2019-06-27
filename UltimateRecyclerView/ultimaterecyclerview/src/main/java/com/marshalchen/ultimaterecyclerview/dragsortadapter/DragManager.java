@@ -1,8 +1,8 @@
 package com.marshalchen.ultimaterecyclerview.dragsortadapter;
 
 import android.graphics.PointF;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.DragEvent;
 import android.view.View;
 import java.lang.ref.WeakReference;

@@ -1,6 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.gridSection;
 
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
  * Created by hesk on 5/1/16.

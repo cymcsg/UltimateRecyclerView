@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.expanx;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import java.util.List;
 import java.util.UUID;

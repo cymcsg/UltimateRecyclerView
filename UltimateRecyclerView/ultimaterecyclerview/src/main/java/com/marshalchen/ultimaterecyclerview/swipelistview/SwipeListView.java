@@ -20,10 +20,10 @@ package com.marshalchen.ultimaterecyclerview.swipelistview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewConfigurationCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.marshalchen.ultimaterecyclerview.R;
-import com.marshalchen.ultimaterecyclerview.URLogs;
 
 import java.util.List;
 

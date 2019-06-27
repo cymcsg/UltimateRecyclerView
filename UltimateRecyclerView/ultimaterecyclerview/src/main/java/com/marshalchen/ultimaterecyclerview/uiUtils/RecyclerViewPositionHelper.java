@@ -5,8 +5,8 @@ package com.marshalchen.ultimaterecyclerview.uiUtils;
  * compile 'com.android.support:recyclerview-v7:22.0.0'
  */
 
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 /**

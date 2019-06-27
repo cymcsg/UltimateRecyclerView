@@ -1,12 +1,10 @@
 package com.marshalchen.ultimaterecyclerview.demo.admobdemo;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.google.android.gms.ads.AdView;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.AdmobAdapter;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.marshalchen.ultimaterecyclerview.demo.R;
 
 import java.util.List;
 

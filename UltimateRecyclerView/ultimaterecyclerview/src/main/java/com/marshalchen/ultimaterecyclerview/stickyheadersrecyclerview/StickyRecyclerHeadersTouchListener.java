@@ -1,13 +1,10 @@
 package com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
-
-import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.*;
-import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 public class StickyRecyclerHeadersTouchListener implements RecyclerView.OnItemTouchListener {
   private final GestureDetector mTapDetector;

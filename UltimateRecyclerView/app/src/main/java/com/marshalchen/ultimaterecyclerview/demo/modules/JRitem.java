@@ -1,6 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo.modules;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * Created by hesk on 3/2/16.
