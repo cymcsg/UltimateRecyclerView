@@ -2,7 +2,7 @@ package com.marshalchen.ultimaterecyclerview.demo.modules;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 import com.marshalchen.ultimaterecyclerview.demo.loadmoredemo.PullToRefreshActivity;
 import com.marshalchen.ultimaterecyclerview.demo.griddemo.GridLayoutRVTest;

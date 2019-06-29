@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:text="Add" />
         </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview
         android:layout_width="match_parent"

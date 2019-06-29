@@ -1,7 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.demo.rvComponents;
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.marshalchen.ultimaterecyclerview.demo.R;

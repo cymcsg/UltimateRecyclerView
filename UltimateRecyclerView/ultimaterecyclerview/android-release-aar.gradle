@@ -40,7 +40,7 @@ task zipRelease(type: Zip) {
     archiveName "release-${version}.zip"
 }
 
-task generateRelease << {
+task generateRelease {
     println "Release ${version} can be found at ${localReleaseDest}/"
     println "Release ${version} zipped can be found ${buildDir}/release-${version}.zip"
 }

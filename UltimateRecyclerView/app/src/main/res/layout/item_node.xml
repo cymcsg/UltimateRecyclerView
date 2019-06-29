@@ -17,7 +17,7 @@
         app:tls_line_size="2dp"
         app:tls_marker_size="25dp" />
 
-    <android.support.v7.widget.CardView
+    <androidx.appcompat.widget.CardView
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical">
@@ -30,6 +30,6 @@
             android:layout_marginLeft="20dp"
             android:text="Random" />
 
-    </android.support.v7.widget.CardView>
+    </androidx.appcompat.widget.CardView>
 
 </LinearLayout>

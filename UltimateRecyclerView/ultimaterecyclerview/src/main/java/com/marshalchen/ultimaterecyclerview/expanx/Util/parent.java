@@ -3,7 +3,7 @@ package com.marshalchen.ultimaterecyclerview.expanx.Util;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
 import android.widget.TextView;
 

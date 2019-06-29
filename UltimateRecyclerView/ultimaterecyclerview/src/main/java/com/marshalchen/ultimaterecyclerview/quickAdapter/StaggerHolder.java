@@ -1,6 +1,6 @@
 package com.marshalchen.ultimaterecyclerview.quickAdapter;
 
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 

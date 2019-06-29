@@ -2,9 +2,9 @@ package com.marshalchen.ultimaterecyclerview.appPaginator.v4;
 
 
 import android.os.Build;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
 

@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.ui;
 
 import android.app.Activity;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;

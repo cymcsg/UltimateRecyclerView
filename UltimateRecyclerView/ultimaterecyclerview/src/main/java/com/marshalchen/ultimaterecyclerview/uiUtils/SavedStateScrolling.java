@@ -2,7 +2,7 @@ package com.marshalchen.ultimaterecyclerview.uiUtils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseIntArray;
 
 /**

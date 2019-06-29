@@ -17,8 +17,8 @@
 package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 
 import android.content.res.TypedArray;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;

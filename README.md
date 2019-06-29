@@ -47,7 +47,7 @@ repositories {
     }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.6'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.8.0'
 }
 ```
 
@@ -57,7 +57,7 @@ or grab via Maven
 <dependency>
   <groupId>com.marshalchen.ultimaterecyclerview</groupId>
   <artifactId>library</artifactId>
-  <version>0.7.6</version>
+  <version>0.8.8</version>
 </dependency>
 ```
 
@@ -76,7 +76,7 @@ For more details, you can read the Wiki and the demo of the project.
 
 
 ### Version Log
-
+* ***v0.8.0*** Migrate to AndroidX
 * ***v0.7.0*** Support most features in Recyclerview 24.0.0. Improve the UltimateAdapter. Reduce the size of the library. Fix some bugs.
 
 * ***v0.5.8*** In this version we are now based on support library 23.4.0. We have fixed the load more and disable load more function from early triggers. There is no need to change anything from their implementations. Please read up on the example code if you have any questions from the implementations.

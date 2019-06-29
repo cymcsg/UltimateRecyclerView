@@ -24,16 +24,17 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.ColorInt;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -691,8 +692,8 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
     /**
      * Sets the {@link RecyclerView.ItemAnimator} that will handle animations involving changes
      * to the items in this RecyclerView. By default, RecyclerView instantiates and
-     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}. Whether item animations are enabled for the RecyclerView depends on the ItemAnimator and whether
-     * the LayoutManager {@link android.support.v7.widget.RecyclerView.LayoutManager#supportsPredictiveItemAnimations()
+     * uses an instance of {@link DefaultItemAnimator}. Whether item animations are enabled for the RecyclerView depends on the ItemAnimator and whether
+     * the LayoutManager {@link RecyclerView.LayoutManager#supportsPredictiveItemAnimations()
      * supports item animations}.
      *
      * @param animator The ItemAnimator being set. If null, no animations will occur
@@ -706,7 +707,7 @@ public class UltimateRecyclerView extends FrameLayout implements Scrollable {
      * Gets the current ItemAnimator for this RecyclerView. A null return value
      * indicates that there is no animator and that item changes will happen without
      * any animations. By default, RecyclerView instantiates and
-     * uses an instance of {@link android.support.v7.widget.DefaultItemAnimator}.
+     * uses an instance of {@link DefaultItemAnimator}.
      *
      * @return ItemAnimator The current ItemAnimator. If null, no animations will occur
      * when changes occur to the items in this RecyclerView.

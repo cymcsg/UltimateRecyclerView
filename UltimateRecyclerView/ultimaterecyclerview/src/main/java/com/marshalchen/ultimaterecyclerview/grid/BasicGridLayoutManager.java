@@ -1,7 +1,7 @@
 package com.marshalchen.ultimaterecyclerview.grid;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 

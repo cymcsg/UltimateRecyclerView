@@ -1,20 +1,13 @@
 package com.marshalchen.ultimaterecyclerview;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerImpl;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeItemManagerInterface;
 import com.marshalchen.ultimaterecyclerview.swipe.SwipeLayout;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

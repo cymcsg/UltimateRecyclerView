@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.marshalchen.ultimaterecyclerview.demo"
@@ -33,11 +32,11 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY}"
-    implementation 'com.google.android.gms:play-services:11.8.0'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-ads:12.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.hkm.loyalslider:library:1.6.2'
     implementation 'jp.wasabeef:recyclerview-animators:2.2.3'
-    //compile 'com.marshalchen.ultimaterecyclerview:library:0.7.6'
+    //compile 'com.marshalchen.ultimaterecyclerview:library:0.8.0'
     api project(':ultimaterecyclerview')
     //used in the gridlayout
     // compile 'com.hkm.loyalslider:library:1.4.5' exclude group: 'android.support.v13'

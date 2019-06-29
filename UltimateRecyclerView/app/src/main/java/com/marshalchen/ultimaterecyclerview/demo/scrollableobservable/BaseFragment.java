@@ -18,8 +18,8 @@ package com.marshalchen.ultimaterecyclerview.demo.scrollableobservable;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
