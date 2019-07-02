@@ -29,8 +29,8 @@ ext {
     //Library configurations
     PUBLISH_GROUP_ID = 'com.marshalchen.ultimaterecyclerview'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '0.8.0'
-    VERSION_CODE = 28
+    PUBLISH_VERSION = '0.9.0'
+    VERSION_CODE = 30
 
     //Application
     app_demo_versionCode = 28
