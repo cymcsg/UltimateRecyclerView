@@ -14,13 +14,13 @@ env:
     # Amount of memory granted to Gradle JVM
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
     # General Android settings used in builds
-    - ANDROID_TARGET=android-28
+    - ANDROID_TARGET=android-30
 
 before_install:
     # Making sure gradlew has executable permissions
     - cd UltimateRecyclerView
     - chmod a+x gradlew
-    - yes | sdkmanager "platforms;android-28"
+    - yes | sdkmanager "platforms;android-30"
 
 
 android:
@@ -28,9 +28,9 @@ android:
     # We are using the latest revision of Android SDK Tools
     - tools
     - platform-tools
-    - android-28
+    - android-30
     # The BuildTools version we are using for our project
-    - build-tools-28.0.3
+    - build-tools-29.0.2
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
