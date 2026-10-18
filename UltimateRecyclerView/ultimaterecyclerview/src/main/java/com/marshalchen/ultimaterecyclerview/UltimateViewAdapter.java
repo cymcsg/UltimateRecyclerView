@@ -446,11 +446,11 @@ public abstract class UltimateViewAdapter<VH extends RecyclerView.ViewHolder> ex
     }
 
     public final <T> void removeFirstInternal(List<T> list) {
-        removeInternal(list, 0);
+        removeInternal(list, hasHeaderView() ? 1 : 0);
     }
 
     public final <T> void removeLastInternal(List<T> list) {
-        removeInternal(list, getAdapterItemCount() - 1);
+        removeInternal(list, getAdapterItemCount() - 1 + (hasHeaderView() ? 1 : 0));
     }
 
     /**
